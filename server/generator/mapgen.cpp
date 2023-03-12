@@ -2290,7 +2290,7 @@ static void mapgenerator2()
 
   fc_assert_action(!placed_map_is_initialized(),
                    wld.map.server.generator = MAPGEN_RANDOM;
-                   return );
+                   return);
 
   while (!done && bigfrac > midfrac) {
     done = true;
