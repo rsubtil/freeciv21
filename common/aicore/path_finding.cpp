@@ -938,7 +938,7 @@ struct pf_danger_node {
     signed short cost;      // See comment above.
     unsigned extra_cost;    // See comment above.
     signed dir_to_here : 4; // See comment above.
-  } * danger_segment;
+  } *danger_segment;
 };
 
 // Derived structure of struct pf_map.
@@ -2234,7 +2234,7 @@ pf_fuel_map_fill_cost_for_full_moves(const struct pf_parameter *param,
 #ifdef PF_DEBUG
   fc_assert(0 < param->move_rate);
 #endif // PF_DEBUG
-  return cost + moves_left % param->move_rate;
+  return cost + moves_left % int(param->move_rate);
 }
 
 /**
@@ -2524,7 +2524,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       int loc_moves_left = node->moves_left;
 
       if (0 == node->moves_left_req && 0 < params->move_rate
-          && 0 == loc_moves_left % params->move_rate
+          && 0 == loc_moves_left % int(params->move_rate)
           && loc_cost >= params->moves_left_initially) {
         /* We have implicitly refueled at the end of the turn. Update also
          * 'node->moves_left' to ensure to wait there in paths. */
@@ -2748,7 +2748,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 #ifdef PF_DEBUG
                && (fc_assert(0 < params->move_rate), 0 < params->move_rate)
 #endif
-               && (0 != node->moves_left % params->move_rate
+               && (0 != node->moves_left % int(params->move_rate)
                    || node->cost < params->moves_left_initially)) {
       /* Consider waiting at this node. To do it, put it back into queue.
        * Node status final step D. to E. */

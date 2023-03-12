@@ -2006,8 +2006,8 @@ static bool load_ruleset_units(struct section_file *file,
                                  sec_name)
           || !secfile_lookup_int(file, &u->defense_strength, "%s.defense",
                                  sec_name)
-          || !secfile_lookup_int(file, &u->move_rate, "%s.move_rate",
-                                 sec_name)
+          || !secfile_lookup_float(file, &u->move_rate, "%s.move_rate",
+                                   sec_name)
           || !secfile_lookup_int(file, &u->vision_radius_sq,
                                  "%s.vision_radius_sq", sec_name)
           || !secfile_lookup_int(file, &u->transport_capacity,

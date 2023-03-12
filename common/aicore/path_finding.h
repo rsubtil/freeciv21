@@ -349,8 +349,8 @@ struct pf_parameter {
   // All cargo unit types.
   bv_unit_types cargo_types;
 
-  int move_rate; // Move rate of the virtual unit
-  int fuel;      // Should be 1 for units without fuel.
+  float move_rate; // Move rate of the virtual unit
+  int fuel;        // Should be 1 for units without fuel.
 
   const struct unit_type *utype;
   const struct player *owner;
