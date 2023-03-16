@@ -213,9 +213,11 @@ struct named_sprites {
   struct {
     struct {
       QPixmap *specific;
-      QPixmap *turns[NUM_TILES_DIGITS];
-      QPixmap *turns_tens[NUM_TILES_DIGITS];
-      QPixmap *turns_hundreds[NUM_TILES_DIGITS];
+      QPixmap *turn_min, *turn_hour;
+      QPixmap *turns_min[NUM_TILES_DIGITS];
+      QPixmap *turns_min_tens[NUM_TILES_DIGITS];
+      QPixmap *turns_hour[NUM_TILES_DIGITS];
+      QPixmap *turns_hour_tens[NUM_TILES_DIGITS];
     } s[GTS_COUNT];
     QPixmap *waypoint;
   } path;
@@ -2484,7 +2486,7 @@ static city_sprite load_city_sprite(struct tileset *t, const QString &tag)
  */
 static void tileset_lookup_sprite_tags(struct tileset *t)
 {
-  QString buffer, buffer2;
+  QString buffer, buffer2, buffer3;
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   int i, j, f;
 
@@ -2680,33 +2682,44 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
         t->sprites.path.s[GTS_MP_LEFT].turns##factor_name[i];               \
   }
 
+  SET_SPRITE(path.s[GTS_MP_LEFT].turn_min, "turn_min");
+  SET_SPRITE(path.s[GTS_TURN_STEP].turn_min, "turn_min");
+  SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turn_min, "turn_min");
+
+  SET_SPRITE(path.s[GTS_MP_LEFT].turn_hour, "turn_hour");
+  SET_SPRITE(path.s[GTS_TURN_STEP].turn_hour, "turn_hour");
+  SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turn_hour, "turn_hour");
+
   for (i = 0; i < NUM_TILES_DIGITS; i++) {
     buffer = QStringLiteral("city.size_%1").arg(QString::number(i));
     SET_SPRITE(city.size[i], buffer);
-    buffer2 = QStringLiteral("path.turns_%1").arg(QString::number(i));
-    SET_SPRITE_ALT(path.s[GTS_MP_LEFT].turns[i], buffer2, buffer);
-    SET_GOTO_TURN_SPRITE(GTS_TURN_STEP, "step", , );
-    SET_GOTO_TURN_SPRITE(GTS_EXHAUSTED_MP, "exhausted_mp", , );
+    buffer2 = QStringLiteral("turn.min_%1").arg(QString::number(i));
+    SET_SPRITE(path.s[GTS_MP_LEFT].turns_min[i], buffer2);
+    SET_SPRITE(path.s[GTS_TURN_STEP].turns_min[i], buffer2);
+    SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turns_min[i], buffer2);
+    buffer3 = QStringLiteral("turn.hour_%1").arg(QString::number(i));
+    SET_SPRITE(path.s[GTS_MP_LEFT].turns_hour[i], buffer3);
+    SET_SPRITE(path.s[GTS_TURN_STEP].turns_hour[i], buffer3);
+    SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turns_hour[i], buffer3);
 
     // using old buffer doesnt work, mb something wiped it
     buffer = QStringLiteral("city.size_%1").arg(QString::number(i));
     buffer += "0";
     SET_SPRITE(city.size_tens[i], buffer);
-    buffer2 = QStringLiteral("path.turns_%1").arg(QString::number(i));
+    buffer2 = QStringLiteral("turn.min_%1").arg(QString::number(i));
     buffer2 += "0";
-    SET_SPRITE_ALT(path.s[GTS_MP_LEFT].turns_tens[i], buffer2, buffer);
-    SET_GOTO_TURN_SPRITE(GTS_TURN_STEP, "step", 0, _tens);
-    SET_GOTO_TURN_SPRITE(GTS_EXHAUSTED_MP, "exhausted_mp", 0, _tens);
+    SET_SPRITE(path.s[GTS_MP_LEFT].turns_min_tens[i], buffer2);
+    SET_SPRITE(path.s[GTS_TURN_STEP].turns_min_tens[i], buffer2);
+    SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turns_min_tens[i], buffer2);
+    buffer3 = QStringLiteral("turn.hour_%1").arg(QString::number(i));
+    buffer3 += "0";
+    SET_SPRITE(path.s[GTS_MP_LEFT].turns_hour_tens[i], buffer3);
+    SET_SPRITE(path.s[GTS_TURN_STEP].turns_hour_tens[i], buffer3);
+    SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turns_hour_tens[i], buffer3);
 
     buffer = QStringLiteral("city.size_%1").arg(QString::number(i));
     buffer += "00";
     SET_SPRITE_OPT(city.size_hundreds[i], buffer);
-    buffer2 = QStringLiteral("path.turns_%1").arg(QString::number(i));
-    buffer2 += "00";
-    SET_SPRITE_ALT_OPT(path.s[GTS_MP_LEFT].turns_hundreds[i], buffer2,
-                       buffer);
-    SET_GOTO_TURN_SPRITE(GTS_TURN_STEP, "step", 00, _hundreds);
-    SET_GOTO_TURN_SPRITE(GTS_EXHAUSTED_MP, "exhausted_mp", 00, _hundreds);
   }
   for (int i = 0;; ++i) {
     buffer = QStringLiteral("city.t_food_%1").arg(QString::number(i));
@@ -4374,23 +4387,33 @@ static void fill_goto_sprite_array(const struct tileset *t,
         sprs.emplace_back(t, sprite, false, 0, 0);
       }
 
-      sprite = t->sprites.path.s[state].turns[length % 10];
-      sprs.emplace_back(t, sprite);
-      if (length >= 10) {
-        sprite = t->sprites.path.s[state].turns_tens[(length / 10) % 10];
-        sprs.emplace_back(t, sprite);
-        if (length >= 100) {
-          sprite =
-              t->sprites.path.s[state].turns_hundreds[(length / 100) % 10];
+      // Debug: Make length multiples of 23 minutes.
+      length *= 23;
 
-          if (sprite != nullptr) {
-            sprs.emplace_back(t, sprite);
-            if (length >= 1000) {
-              warn = true;
-            }
-          } else {
-            warn = true;
-          }
+      // Separate in minutes and hours
+      int length_mins = length % 60;
+      length /= 60;
+
+      sprite = t->sprites.path.s[state].turn_min;
+      sprs.emplace_back(t, sprite);
+      sprite = t->sprites.path.s[state].turns_min[length_mins % 10];
+      sprs.emplace_back(t, sprite);
+      if (length_mins >= 10) {
+        sprite = t->sprites.path.s[state].turns_min_tens[(length_mins / 10) % 10];
+        sprs.emplace_back(t, sprite);
+      }
+      if (length > 0) {
+        sprite = t->sprites.path.s[state].turn_hour;
+        sprs.emplace_back(t, sprite);
+        if (length_mins < 10) {
+          sprite = t->sprites.path.s[state].turns_min_tens[0];
+          sprs.emplace_back(t, sprite);
+        }
+        sprite = t->sprites.path.s[state].turns_hour[length % 10];
+        sprs.emplace_back(t, sprite);
+        if (length >= 10) {
+          sprite = t->sprites.path.s[state].turns_hour_tens[(length / 10) % 10];
+          sprs.emplace_back(t, sprite);
         }
       }
     }

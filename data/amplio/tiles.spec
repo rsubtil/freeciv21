@@ -63,6 +63,55 @@ tiles = { "row", "column", "tag"
   7,  9, "unit.hp_10"
   7, 10, "unit.hp_0"
 
+; Turn minutes and hours
+
+  4, 0, "turn_min"
+  4, 0, "turn_hour"
+
+  4, 0, "turn.min_00"
+  4, 0, "turn.min_10"
+  4, 0, "turn.min_20"
+  4, 0, "turn.min_30"
+  4, 0, "turn.min_40"
+  4, 0, "turn.min_50"
+  4, 0, "turn.min_60"
+  4, 0, "turn.min_70"
+  4, 0, "turn.min_80"
+  4, 0, "turn.min_90"
+
+  4,  0, "turn.min_0"
+  4,  0, "turn.min_1"
+  4,  0, "turn.min_2"
+  4,  0, "turn.min_3"
+  4,  0, "turn.min_4"
+  4,  0, "turn.min_5"
+  4,  0, "turn.min_6"
+  4,  0, "turn.min_7"
+  4,  0, "turn.min_8"
+  4,  0, "turn.min_9"
+
+  4,  0, "turn.hour_00"
+  4,  0, "turn.hour_10"
+  4,  0, "turn.hour_20"
+  4,  0, "turn.hour_30"
+  4,  0, "turn.hour_40"
+  4,  0, "turn.hour_50"
+  4,  0, "turn.hour_60"
+  4,  0, "turn.hour_70"
+  4,  0, "turn.hour_80"
+  4,  0, "turn.hour_90"
+
+  4,  0, "turn.hour_0"
+  4,  0, "turn.hour_1"
+  4,  0, "turn.hour_2"
+  4,  0, "turn.hour_3"
+  4,  0, "turn.hour_4"
+  4,  0, "turn.hour_5"
+  4,  0, "turn.hour_6"
+  4,  0, "turn.hour_7"
+  4,  0, "turn.hour_8"
+  4,  0, "turn.hour_9"
+
 ; Numbers: city size: (also used for goto)
 
   5,  0, "city.size_0"
@@ -142,7 +191,7 @@ tiles = { "row", "column", "tag"
 ;  7, 18, "upkeep.unhappy2"
 ;  7, 19, "upkeep.shield"
 
-; Nuclear explosion: this could maybe now be handled as one 
+; Nuclear explosion: this could maybe now be handled as one
 ; big graphic (?), but for now is done old way as 3 by 3:
 
   0,  0, "explode.nuke_00"
