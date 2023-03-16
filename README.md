@@ -1,3 +1,8 @@
+This is a fork for Freeciv21 for a masther thesis project. It will be modified to fit an experimental gamemode heavily focused on social interactions.
+
+The original README.md is below.
+
+
 Freeciv21
 =========
 
