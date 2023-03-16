@@ -23,6 +23,55 @@ pixel_border = 1
 
 tiles = { "row", "column", "tag"
 
+; Turn minutes and hours
+
+  0, 9, "turn_min"
+  0, 9, "turn_hour"
+
+  0, 9, "turn.min_00"
+  0, 9, "turn.min_10"
+  0, 9, "turn.min_20"
+  0, 9, "turn.min_30"
+  0, 9, "turn.min_40"
+  0, 9, "turn.min_50"
+  0, 9, "turn.min_60"
+  0, 9, "turn.min_70"
+  0, 9, "turn.min_80"
+  0, 9, "turn.min_90"
+
+  0,  9, "turn.min_0"
+  0,  9, "turn.min_1"
+  0,  9, "turn.min_2"
+  0,  9, "turn.min_3"
+  0,  9, "turn.min_4"
+  0,  9, "turn.min_5"
+  0,  9, "turn.min_6"
+  0,  9, "turn.min_7"
+  0,  9, "turn.min_8"
+  0,  9, "turn.min_9"
+
+  0,  9, "turn.hour_00"
+  0,  9, "turn.hour_10"
+  0,  9, "turn.hour_20"
+  0,  9, "turn.hour_30"
+  0,  9, "turn.hour_40"
+  0,  9, "turn.hour_50"
+  0,  9, "turn.hour_60"
+  0,  9, "turn.hour_70"
+  0,  9, "turn.hour_80"
+  0,  9, "turn.hour_90"
+
+  0,  9, "turn.hour_0"
+  0,  9, "turn.hour_1"
+  0,  9, "turn.hour_2"
+  0,  9, "turn.hour_3"
+  0,  9, "turn.hour_4"
+  0,  9, "turn.hour_5"
+  0,  9, "turn.hour_6"
+  0,  9, "turn.hour_7"
+  0,  9, "turn.hour_8"
+  0,  9, "turn.hour_9"
+
 ; Numbers: city size: (also used for goto)
 
   2,  0, "city.size_0"
