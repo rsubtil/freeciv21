@@ -4,6 +4,11 @@
 		"string_view": "cpp",
 		"*.tcc": "cpp",
 		"deque": "cpp",
-		"vector": "cpp"
+		"vector": "cpp",
+		"complex": "cpp",
+		"array": "cpp",
+		"hash_map": "cpp",
+		"hash_set": "cpp",
+		"any": "cpp"
 	}
 }

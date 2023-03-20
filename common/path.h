@@ -28,7 +28,7 @@ public:
 
     // Cost of the path to come here
     int turns;      ///< How many turns it takes to get there
-    int moves_left; ///< How many move fragments the unit has left
+    float moves_left; ///< How many move fragments the unit has left
     int health;     ///< How many HP the unit has left
     int fuel_left;  ///< How much fuel the unit has left
 

@@ -369,8 +369,8 @@ static void occupy_move(unit *punit, tile *def_tile)
   /* Hack: make sure the unit has enough moves_left for the move to
   succeed, and adjust moves_left to afterward (if successful). */
 
-  int old_moves = punit->moves_left;
-  int full_moves = unit_move_rate(punit);
+  float old_moves = punit->moves_left;
+  float full_moves = unit_move_rate(punit);
 
   punit->moves_left = full_moves;
   auto pcity = tile_city(def_tile);
@@ -394,7 +394,7 @@ static void occupy_move(unit *punit, tile *def_tile)
                                  tile_index(def_tile), 0, "",
                                  ACTION_TRANSPORT_DISEMBARK2, ACT_REQ_RULES))
       || (unit_move_handling(punit, def_tile, false, true))) {
-    int mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
+    float mcost = MAX(0, full_moves - punit->moves_left - SINGLE_MOVE);
 
     /* Move cost is bigger of attack (SINGLE_MOVE) and occupying move
      * costs. Attack SINGLE_COST is already calculated in to old_moves. */
@@ -3916,7 +3916,7 @@ static bool do_attack(struct unit *punit, struct tile *def_tile,
   char attacker_fp[MAX_LEN_LINK], defender_fp[MAX_LEN_LINK];
   char attacker_tired[MAX_LEN_LINK];
   struct unit *ploser, *pwinner;
-  int moves_used, def_moves_used;
+  float moves_used, def_moves_used;
   int old_unit_vet, old_defender_vet, vet;
   int winner_id;
   struct player *pplayer = unit_owner(punit);

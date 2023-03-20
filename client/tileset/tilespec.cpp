@@ -4388,7 +4388,7 @@ static void fill_goto_sprite_array(const struct tileset *t,
       }
 
       // Debug: Make length multiples of 23 minutes.
-      length *= 23;
+      // length *= 23;
 
       // Separate in minutes and hours
       int length_mins = length % 60;

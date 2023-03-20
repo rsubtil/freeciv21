@@ -802,7 +802,7 @@ bool can_utype_do_act_if_tgt_diplrel(const struct unit_type *punit_type,
  */
 bool utype_may_act_move_frags(const struct unit_type *punit_type,
                               const action_id act_id,
-                              const int move_fragments)
+                              const float move_fragments)
 {
   struct range *ml_range;
 

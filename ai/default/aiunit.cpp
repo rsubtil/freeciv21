@@ -797,7 +797,7 @@ int look_for_charge(struct ai_type *ait, struct player *pplayer,
         continue;
       }
       // Reduce want based on move cost.
-      def >>= move_cost / (2 * unit_move_rate(punit));
+      def >>= move_cost / int(2 * unit_move_rate(punit));
       if (def > best_def && ai_fuzzy(pplayer, true)) {
         *acity = pcity;
         *aunit = nullptr;
@@ -2965,7 +2965,7 @@ static void dai_manage_barbarian_leader(struct ai_type *ait,
   do {
     safest_tile = leader_tile;
 
-    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: moves left: %d.",
+    UNIT_LOG(LOG_DEBUG, leader, "Barbarian leader: moves left: %f.",
              leader->moves_left);
 
     adjc_iterate(&(wld.map), leader_tile, near_tile)

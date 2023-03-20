@@ -1658,7 +1658,7 @@ void transform_unit(struct unit *punit, const struct unit_type *to_unit,
 {
   struct player *pplayer = unit_owner(punit);
   const struct unit_type *old_type = punit->utype;
-  int old_mr = unit_move_rate(punit);
+  float old_mr = unit_move_rate(punit);
   int old_hp = unit_type_get(punit)->hp;
   bv_player can_see_unit;
 

@@ -557,7 +557,7 @@ int aiferry_find_boat(struct ai_type *ait, struct unit *punit, int cap,
 
           if (turns < best_turns) {
             UNIT_LOG(LOGLEVEL_FINDFERRY, punit,
-                     "Found a potential boat %s[%d](%d,%d)(moves left: %d)",
+                     "Found a potential boat %s[%d](%d,%d)(moves left: %f)",
                      unit_rule_name(aunit), aunit->id,
                      TILE_XY(unit_tile(aunit)), aunit->moves_left);
             *path = pf_map_iter_path(search_map);
@@ -681,7 +681,7 @@ bool dai_amphibious_goto_constrained(struct ai_type *ait, struct unit *ferry,
 
         UNIT_LOG(LOG_DEBUG, passenger,
                  "Our boat has arrived "
-                 "[%d](moves left: %d)",
+                 "[%d](moves left: %f)",
                  ferry->id, ferry->moves_left);
         UNIT_LOG(LOG_DEBUG, passenger, "Disembarking to (%d,%d)",
                  TILE_XY(next_tile));
@@ -846,7 +846,7 @@ bool aiferry_gobyboat(struct ai_type *ait, struct player *pplayer,
       struct unit *bodyguard = aiguard_guard_of(ait, punit);
 
       UNIT_LOG(LOGLEVEL_GOBYBOAT, punit,
-               "got boat[%d](moves left: %d), going (%d,%d)", ferryboat->id,
+               "got boat[%d](moves left: %f), going (%d,%d)", ferryboat->id,
                ferryboat->moves_left, TILE_XY(dest_tile));
       aiferry_psngr_meet_boat(ait, punit, ferryboat);
 
@@ -1225,7 +1225,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
 
   UNIT_LOG(LOGLEVEL_FERRY, punit,
            "Ferryboat is not carrying anyone "
-           "(moves left: %d).",
+           "(moves left: %f).",
            punit->moves_left);
   aiferry_make_available(ait, punit);
   unit_activity_handling(punit, ACTIVITY_IDLE);
@@ -1234,7 +1234,7 @@ void dai_manage_ferryboat(struct ai_type *ait, struct player *pplayer,
 
   // Try to find passengers
   if (aiferry_findcargo(ait, punit)) {
-    UNIT_LOG(LOGLEVEL_FERRY, punit, "picking up cargo (moves left: %d)",
+    UNIT_LOG(LOGLEVEL_FERRY, punit, "picking up cargo (moves left: %f)",
              punit->moves_left);
     if (dai_unit_goto(ait, punit, punit->goto_tile)) {
       if (is_tiles_adjacent(unit_tile(punit), punit->goto_tile)

@@ -286,7 +286,7 @@ void path_finder::path_finder_private::attempt_move(detail::vertex &source)
   adjc_dir_iterate(&(wld.map), source.location, target, dir)
   {
     bool can_move;
-    int move_cost;
+    float move_cost;
     if (tile_get_known(target, unit_owner(&probe)) == TILE_UNKNOWN) {
       // Try to move into the unknown
       can_move = true;
