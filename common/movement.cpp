@@ -35,13 +35,13 @@ received a copy of the GNU General Public License along with Freeciv21.
 
    'utype' and 'pplayer' must be set. 'ptile' can be nullptr.
  */
-int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
+float utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
                     const struct player *pplayer, int veteran_level,
                     int hitpoints)
 {
   const struct unit_class *uclass;
   const struct veteran_level *vlevel;
-  int base_move_rate, move_rate;
+  float base_move_rate, move_rate;
 
   fc_assert_ret_val(nullptr != utype, 0);
   fc_assert_ret_val(nullptr != pplayer, 0);
@@ -75,7 +75,7 @@ int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
    This function calculates the move rate of the unit. See utype_move_rate()
    for further details.
  */
-int unit_move_rate(const struct unit *punit)
+float unit_move_rate(const struct unit *punit)
 {
   fc_assert_ret_val(nullptr != punit, 0);
 
@@ -794,7 +794,7 @@ void init_move_fragments()
      padding spaces will be included to make all such strings line up when
      right-aligned.
  */
-const char *move_points_text_full(int mp, bool reduce, const char *prefix,
+const char *move_points_text_full(float mp, bool reduce, const char *prefix,
                                   const char *none, bool align)
 {
   QString str;
@@ -802,13 +802,15 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
   if (!prefix) {
     prefix = "";
   }
+  // TODO: Check condition
   if ((mp == 0 && none) || SINGLE_MOVE == 0) {
     // No movement points, and we have a special representation to use
     /* (Also used when SINGLE_MOVE == 0, to avoid dividing by zero, which is
      * important for client before ruleset has been received. Doesn't much
      * matter what we print in this case.) */
     str = QStringLiteral("%1").arg(none ? none : "");
-  } else if ((mp % SINGLE_MOVE) == 0) {
+  // TODO: Check condition
+  } else if ((int(mp) % SINGLE_MOVE) == 0) {
     // Integer move points
     str = QStringLiteral("%1%2%3").arg(
         prefix, QString::number(mp / SINGLE_MOVE), "");
@@ -819,7 +821,7 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
     fc_assert(SINGLE_MOVE > 1);
     if (reduce) {
       // Reduce to lowest terms
-      int gcd = mp;
+      int gcd = int(mp);
       // Calculate greatest common divisor with Euclid's algorithm
       int b = SINGLE_MOVE;
 
@@ -836,13 +838,13 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
     if (mp < SINGLE_MOVE) {
       // Fractional move points
       str += QStringLiteral("%1%2/%3").arg(
-          prefix, QString::number((mp % SINGLE_MOVE) / cancel),
+          prefix, QString::number((int(mp) % SINGLE_MOVE) / cancel),
           QString::number(SINGLE_MOVE / cancel));
     } else {
       // Integer + fractional move points
       str += QStringLiteral("%1%2 %3/%4")
                  .arg(prefix, QString::number(mp / SINGLE_MOVE),
-                      QString::number((mp % SINGLE_MOVE) / cancel),
+                      QString::number((int(mp) % SINGLE_MOVE) / cancel),
                       QString::number(SINGLE_MOVE / cancel));
     }
   }
@@ -853,7 +855,7 @@ const char *move_points_text_full(int mp, bool reduce, const char *prefix,
    Simple version of move_points_text_full() -- render positive movement
    points as text without any prefix or alignment.
  */
-const char *move_points_text(int mp, bool reduce)
+const char *move_points_text(float mp, bool reduce)
 {
   return move_points_text_full(mp, reduce, nullptr, nullptr, false);
 }

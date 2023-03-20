@@ -1032,7 +1032,7 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
   SINT8 carrying;
-  MOVEFRAGS movesleft;
+  UFLOAT movesleft;
   UINT8 hp, fuel;
   /* UINT16 size for activity_count assumed in checks in ruleset.c */
   UINT16 activity_count, changed_from_count;
@@ -1387,7 +1387,7 @@ PACKET_RULESET_UNIT = 140; sc, lsend
   UINT8 pop_cost;
   UINT8 attack_strength;
   UINT8 defense_strength;
-  MOVEFRAGS move_rate;
+  UFLOAT move_rate;
   TECH tech_requirement;
   UINT8 build_reqs_count;
   REQUIREMENT build_reqs[MAX_NUM_REQS:build_reqs_count];
@@ -2216,7 +2216,7 @@ PACKET_EDIT_UNIT = 210; cs, handle-per-conn, handle-via-packet
   UNIT_TYPE utype;
   PLAYER owner;
   CITY homecity;
-  MOVEFRAGS moves_left;
+  UFLOAT moves_left;
   UINT8 hp;
   UINT8 veteran;
   UINT8 fuel;

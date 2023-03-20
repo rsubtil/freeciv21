@@ -42,10 +42,10 @@ enum unit_move_result {
   MR_NOT_ALLOWED
 };
 
-int utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
+float utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
                     const struct player *pplayer, int veteran_level,
                     int hitpoints);
-int unit_move_rate(const struct unit *punit);
+float unit_move_rate(const struct unit *punit);
 int utype_unknown_move_cost(const struct unit_type *utype);
 
 bool unit_can_defend_here(const struct civ_map *nmap,
@@ -120,6 +120,6 @@ bool is_airunit_refuel_point(const struct tile *ptile,
                              const struct unit *punit);
 
 void init_move_fragments();
-const char *move_points_text_full(int mp, bool reduce, const char *prefix,
+const char *move_points_text_full(float mp, bool reduce, const char *prefix,
                                   const char *none, bool align);
-const char *move_points_text(int mp, bool reduce);
+const char *move_points_text(float mp, bool reduce);

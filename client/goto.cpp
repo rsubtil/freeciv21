@@ -329,6 +329,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
       // Initial tile
       const auto unit = game_unit_by_number(unit_id);
       int last_turns = 0;
+      // TODO: Check condition
       if (unit->moves_left == 0) {
         last_turns = 1;
         if (ptile == unit->tile) {

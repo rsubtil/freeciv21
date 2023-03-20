@@ -3786,7 +3786,7 @@ static bool sg_load_player_unit(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->homecity,
                                      "%s.homecity", unitstr),
                   false, "%s", secfile_error());
-  sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->moves_left,
+  sg_warn_ret_val(secfile_lookup_float(loading->file, &punit->moves_left,
                                      "%s.moves", unitstr),
                   false, "%s", secfile_error());
   sg_warn_ret_val(

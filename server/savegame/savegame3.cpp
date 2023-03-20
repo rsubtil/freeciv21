@@ -5670,7 +5670,7 @@ static bool sg_load_player_unit(struct loaddata *loading, struct player *plr,
     punit->name = QString::fromUtf8(name);
   }
 
-  sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->moves_left,
+  sg_warn_ret_val(secfile_lookup_float(loading->file, &punit->moves_left,
                                      "%s.moves", unitstr),
                   false, "%s", secfile_error());
   sg_warn_ret_val(
@@ -6240,7 +6240,7 @@ static void sg_save_player_units(struct savedata *saving, struct player *plr)
 
     secfile_insert_bool(saving->file, punit->done_moving, "%s.done_moving",
                         buf);
-    secfile_insert_int(saving->file, punit->moves_left, "%s.moves", buf);
+    secfile_insert_float(saving->file, punit->moves_left, "%s.moves", buf);
     secfile_insert_int(saving->file, punit->fuel, "%s.fuel", buf);
     secfile_insert_int(saving->file, punit->server.birth_turn, "%s.born",
                        buf);
