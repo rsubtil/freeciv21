@@ -2672,6 +2672,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->veteran = punit->veteran;
   packet->type = utype_number(unit_type_get(punit));
   packet->movesleft = punit->moves_left;
+  packet->moveacc = punit->move_acc;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
   packet->activity_count = punit->activity_count;
@@ -4383,15 +4384,17 @@ bool execute_orders(struct unit *punit, const bool fresh)
   struct player *pplayer = unit_owner(punit);
   int moves_made = 0;
 
+  log_warning( "starting order");
   fc_assert_ret_val(unit_has_orders(punit), true);
 
   if (punit->activity != ACTIVITY_IDLE) {
     // Unit's in the middle of an activity; wait for it to finish.
+    log_warning( "wait to finish");
     punit->done_moving = true;
     return true;
   }
 
-  log_debug("Executing orders for %s %d", unit_rule_name(punit), punit->id);
+  log_warning("Executing orders for %s %d", unit_rule_name(punit), punit->id);
 
   // Any time the orders are canceled we should give the player a message.
 
@@ -4408,7 +4411,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
     struct extra_type *pextra;
 
     if (punit->done_moving) {
-      log_debug("  stopping because we're done this turn");
+      log_warning("  stopping because we're done this turn");
       return true;
     }
 
@@ -4423,7 +4426,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
     if (moves_made == punit->orders.length) {
       // For repeating orders, don't repeat more than once per turn.
-      log_debug("  stopping because we ran a round");
+      log_warning("  stopping because we ran a round");
       punit->done_moving = true;
       send_unit_info(nullptr, punit);
       return true;
@@ -4438,18 +4441,19 @@ bool execute_orders(struct unit *punit, const bool fresh)
                       || action_id_exists(order.action)),
                      continue);
 
+    log_warning("  order %d", order.order);
     switch (order.order) {
     case ORDER_MOVE:
     case ORDER_ACTION_MOVE:
     case ORDER_FULL_MP:
       if (0 == punit->moves_left) {
-        log_debug("  stopping because of no more move points");
+        log_warning("  stopping because of no more move points");
         return true;
       }
       break;
     case ORDER_PERFORM_ACTION:
       if (action_mp_full_makes_legal(punit, order.action)) {
-        log_debug("  stopping. Not enough move points this turn");
+        log_warning("  stopping. Not enough move points this turn");
         return true;
       }
       break;
@@ -4459,14 +4463,19 @@ bool execute_orders(struct unit *punit, const bool fresh)
       break;
     }
 
+    log_warning("repeat: %d, index: %d, length: %d", punit->orders.repeat,
+                punit->orders.index, punit->orders.length);
     last_order = (!punit->orders.repeat
                   && punit->orders.index + 1 == punit->orders.length);
 
-    if (last_order) {
+    if ((last_order && punit->move_subdivisions <= 1) ||
+        (last_order && order.order == ORDER_MOVE && punit->move_subdivisions > 1
+        && punit->move_acc == punit->move_subdivisions)) {
       /* Clear the orders before we engage in the move.  That way any
        * has_orders checks will yield FALSE and this will be treated as
        * a normal move.  This is important: for instance a caravan goto
        * will popup the caravan dialog on the last move only. */
+      log_warning("  clearing");
       free_unit_orders(punit);
     }
 
@@ -4474,7 +4483,8 @@ bool execute_orders(struct unit *punit, const bool fresh)
      * updates sent to the client as a result of the action should include
      * the new index value.  Note that we have to send_unit_info somewhere
      * after this point so that the client is properly updated. */
-    punit->orders.index++;
+    if (order.order != ORDER_MOVE)
+      punit->orders.index++;
 
     switch (order.order) {
     case ORDER_FULL_MP:
@@ -4483,7 +4493,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
          * next turn.  We assume that the next turn it will have full MP
          * (there's no check for that). */
         punit->done_moving = true;
-        log_debug("  waiting this turn");
+        log_warning("  waiting this turn");
         send_unit_info(nullptr, punit);
       }
       break;
@@ -4530,18 +4540,32 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return true;
       }
 
-      log_debug("  moving to %d,%d", TILE_XY(dst_tile));
+      log_warning("  moving to %d,%d", TILE_XY(dst_tile));
+      if (punit->move_subdivisions > 1) {
+        if (fresh)
+          // Move on next passive turn
+          return true;
+        punit->move_acc += 1;
+        log_warning("  move_acc=%d", punit->move_acc);
+        if (punit->move_acc < punit->move_subdivisions) {
+          // We're not moving this turn.
+          return true;
+        }
+        log_warning("  will move");
+        punit->move_acc = 0;
+      }
+      punit->orders.index++;
       res = unit_move_handling(punit, dst_tile, false,
                                order.order != ORDER_ACTION_MOVE);
       if (!player_unit_by_number(pplayer, unitid)) {
-        log_debug("  unit died while moving.");
+        log_warning("  unit died while moving.");
         // A player notification should already have been sent.
         return false;
       }
 
       if (res && !same_pos(dst_tile, unit_tile(punit))) {
         // Movement succeeded but unit didn't move.
-        log_debug("  orders resulted in combat.");
+        log_warning("  orders resulted in combat.");
         send_unit_info(nullptr, punit);
         return true;
       }
@@ -4580,7 +4604,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
       // Checked in unit_order_list_is_sane()
       fc_assert_action(oaction != nullptr, continue);
 
-      log_debug("  orders: doing action %s", action_rule_name(oaction));
+      log_warning("  orders: doing action %s", action_rule_name(oaction));
 
       dst_tile = index_to_tile(&(wld.map), order.target);
 
@@ -4760,14 +4784,14 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
     if (last_order) {
       fc_assert(punit->has_orders == false);
-      log_debug("  stopping because orders are complete");
+      log_warning("  stopping because orders are complete");
       return true;
     }
 
     if (punit->orders.index == punit->orders.length) {
       fc_assert(punit->orders.repeat);
       // Start over.
-      log_debug("  repeating orders.");
+      log_warning("  repeating orders.");
       punit->orders.index = 0;
     }
   } // end while

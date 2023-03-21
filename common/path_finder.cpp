@@ -178,7 +178,9 @@ void path_finder::path_finder_private::maybe_insert_vertex(
 
     // FIXME The order could be important here: fuel before HP or HP before
     // fuel?
-    insert.turns++;
+    insert.turns += unit.move_subdivisions > 1
+                        ? unit.move_subdivisions - unit.move_acc
+                        : 1;
     insert.moves_left = unit_move_rate(&probe);
 
     // Fuel

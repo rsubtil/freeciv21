@@ -1525,6 +1525,8 @@ struct unit *unit_virtual_create(struct player *pplayer, struct city *pcity,
   punit->fuel = utype_fuel(unit_type_get(punit));
   punit->hp = unit_type_get(punit)->hp;
   punit->moves_left = unit_move_rate(punit);
+  punit->move_subdivisions = std::max(1, int(1.0 / punit->moves_left));
+  punit->move_acc = 0;
   punit->moved = false;
 
   punit->ssa_controller = SSA_NONE;
