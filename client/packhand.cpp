@@ -205,6 +205,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
   output_type_iterate(o) { punit->upkeep[o] = packet->upkeep[o]; }
   output_type_iterate_end;
   punit->moves_left = packet->movesleft;
+  punit->move_acc = packet->moveacc;
   punit->hp = packet->hp;
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
@@ -1827,6 +1828,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     punit->nationality = packet_unit->nationality;
     punit->veteran = packet_unit->veteran;
     punit->moves_left = packet_unit->moves_left;
+    punit->move_subdivisions = packet_unit->move_subdivisions;
+    punit->move_acc = packet_unit->move_acc;
     punit->fuel = packet_unit->fuel;
     punit->goto_tile = packet_unit->goto_tile;
     punit->paradropped = packet_unit->paradropped;

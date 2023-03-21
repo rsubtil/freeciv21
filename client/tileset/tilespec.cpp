@@ -4421,18 +4421,6 @@ static void fill_goto_sprite_array(const struct tileset *t,
     if (waypoint) {
       sprs.emplace_back(t, t->sprites.path.waypoint, false, 0, 0);
     }
-
-    if (warn) {
-      // Warn only once by tileset.
-      static char last_reported[256] = "";
-
-      if (0 != strcmp(last_reported, t->name)) {
-        qInfo(_("Tileset \"%s\" doesn't support long goto paths, "
-                "such as %d. Path not displayed as expected."),
-              t->name, length);
-        sz_strlcpy(last_reported, t->name);
-      }
-    }
   }
 }
 

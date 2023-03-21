@@ -145,6 +145,8 @@ struct unit {
   int upkeep[O_LAST]; // unit upkeep with regards to the homecity
 
   float moves_left;
+  int move_subdivisions;
+  int move_acc;
   int hp;
   int veteran;
   int fuel;
