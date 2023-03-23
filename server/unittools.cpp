@@ -4470,7 +4470,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
 
     if ((last_order && punit->move_subdivisions <= 1) ||
         (last_order && order.order == ORDER_MOVE && punit->move_subdivisions > 1
-        && punit->move_acc == punit->move_subdivisions)) {
+        && punit->move_acc + 1 == punit->move_subdivisions && !fresh)) {
       /* Clear the orders before we engage in the move.  That way any
        * has_orders checks will yield FALSE and this will be treated as
        * a normal move.  This is important: for instance a caravan goto
@@ -4518,7 +4518,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
                     unit_link(punit));
       return true;
     case ORDER_MOVE:
-    case ORDER_ACTION_MOVE:
+    case ORDER_ACTION_MOVE: {
       // Move unit
       if (!(dst_tile = mapstep(&(wld.map), unit_tile(punit), order.dir))) {
         cancel_orders(punit, "  move order sent us to invalid location");
@@ -4555,8 +4555,12 @@ bool execute_orders(struct unit *punit, const bool fresh)
         punit->move_acc = 0;
       }
       punit->orders.index++;
+      float _old_mv = punit->moves_left;
       res = unit_move_handling(punit, dst_tile, false,
                                order.order != ORDER_ACTION_MOVE);
+      if (punit->move_subdivisions > 1 and last_order) {
+        punit->moves_left = _old_mv;
+      }
       if (!player_unit_by_number(pplayer, unitid)) {
         log_warning("  unit died while moving.");
         // A player notification should already have been sent.
@@ -4598,6 +4602,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return true;
       }
       break;
+    }
     case ORDER_PERFORM_ACTION:
       oaction = action_by_number(order.action);
 

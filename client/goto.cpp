@@ -334,7 +334,7 @@ bool goto_tile_state(const struct tile *ptile, enum goto_tile_state *state,
         last_turns = 1;
         if (ptile == unit->tile) {
           *state = GTS_TURN_STEP;
-          *turns = 1;
+          *turns = unit->move_subdivisions;
         }
       }
 
