@@ -1259,6 +1259,16 @@ static void package_player_info(struct player *plr,
   } else {
     packet->gold = 0;
   }
+  if (BV_ISSET(packet->visible, NI_SCIENCE_ACC)) {
+    packet->science_acc = plr->economic.science_acc;
+  } else {
+    packet->science_acc = 0;
+  }
+  if (BV_ISSET(packet->visible, NI_PRODUCTION)) {
+    packet->production = plr->economic.production;
+  } else {
+    packet->production = 0;
+  }
 
   {
     const government *pgov, *ptargetgov;
