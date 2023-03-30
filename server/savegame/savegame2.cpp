@@ -3001,6 +3001,12 @@ static void sg_load_player_main(struct loaddata *loading, struct player *plr)
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.gold,
                                     "player%d.gold", plrno),
                  "%s", secfile_error());
+  sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.science_acc,
+                                    "player%d.science_acc", plrno),
+                  "%s", secfile_error());
+  sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.production,
+                                    "player%d.production", plrno),
+                  "%s", secfile_error());
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.tax,
                                     "player%d.rates.tax", plrno),
                  "%s", secfile_error());

@@ -754,6 +754,22 @@ static int get_gold(const struct player *pplayer)
 }
 
 /**
+   Amount of science (acc).
+ */
+static int get_science_acc(const struct player *pplayer)
+{
+  return pplayer->economic.science_acc;
+}
+
+/**
+   Amount of production.
+ */
+static int get_production_acc(const struct player *pplayer)
+{
+  return pplayer->economic.production;
+}
+
+/**
    Tax rate
  */
 static int get_taxrate(const struct player *pplayer)
@@ -1531,6 +1547,8 @@ void log_civ_score_now()
       {"spaceship", get_spaceship}, // new 1.8.2 tags end here
 
       {"gold", get_gold},
+      {"science_acc", get_science_acc},
+      {"production", get_production_acc},
       {"taxrate", get_taxrate},
       {"scirate", get_scirate},
       {"luxrate", get_luxrate},

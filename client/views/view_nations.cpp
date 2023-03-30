@@ -445,7 +445,7 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   char tbuf[256];
   QString res;
   QString sp = QStringLiteral(" ");
-  QString etax, esci, elux, egold, egov;
+  QString etax, esci, elux, egold, esci_acc, eprod, egov;
   QString cult;
   QString nl = QStringLiteral("<br>");
   QStringList sorted_list_a;
@@ -517,6 +517,16 @@ void plr_widget::nation_selected(const QItemSelection &sl,
   } else {
     egold = _("(Unknown)");
   }
+  if (BV_ISSET(pplayer->client.visible, NI_SCIENCE_ACC)) {
+    esci_acc = QString::number(pplayer->economic.science_acc);
+  } else {
+    esci_acc = _("(Unknown)");
+  }
+  if (BV_ISSET(pplayer->client.visible, NI_PRODUCTION)) {
+    eprod = QString::number(pplayer->economic.production);
+  } else {
+    eprod = _("(Unknown)");
+  }
   if (BV_ISSET(pplayer->client.visible, NI_GOVERNMENT)) {
     egov = QString(government_name_for_player(pplayer));
   } else {
@@ -540,6 +550,8 @@ void plr_widget::nation_selected(const QItemSelection &sl,
           .arg(QString(((!pcity) ? _("(Unknown)") : city_name_get(pcity)))
                    .toHtmlEscaped());
   intel_str += line.arg(_("Gold:")).arg(egold.toHtmlEscaped());
+  intel_str += line.arg(_("Science:")).arg(esci_acc.toHtmlEscaped());
+  intel_str += line.arg(_("Production:")).arg(eprod.toHtmlEscaped());
   intel_str += line.arg(_("Tax:")).arg(etax.toHtmlEscaped());
   intel_str += line.arg(_("Science:")).arg(esci.toHtmlEscaped());
   intel_str += line.arg(_("Luxury:")).arg(elux.toHtmlEscaped());

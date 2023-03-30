@@ -653,6 +653,8 @@ city_info::city_info(QWidget *parent) : QWidget(parent)
   std::tie(dummy, m_trade) = create_labels(_("<B>Trade:</B>"));
   std::tie(dummy, m_corruption) = create_labels(_("Corruption:"));
   std::tie(dummy, m_gold) = create_labels(_("Gold:"));
+  std::tie(dummy, m_science_acc) = create_labels(_("Science (acc):"));
+  std::tie(dummy, m_production) = create_labels(_("Production:"));
   std::tie(dummy, m_science) = create_labels(_("Science:"));
   std::tie(dummy, m_luxury) = create_labels(_("Luxury:"));
 
@@ -694,6 +696,16 @@ void city_info::update_labels(struct city *pcity)
       "%3d (%+4d)", pcity->prod[O_GOLD] + pcity->waste[O_GOLD],
       pcity->surplus[O_GOLD]));
   m_gold->setToolTip(get_city_dialog_output_text(pcity, O_GOLD));
+
+  m_science_acc->setText(QString::asprintf(
+      "%3d (%+4d)", pcity->prod[O_SCIENCE_ACC] + pcity->waste[O_SCIENCE_ACC],
+      pcity->surplus[O_SCIENCE_ACC]));
+  m_science_acc->setToolTip(get_city_dialog_output_text(pcity, O_SCIENCE_ACC));
+
+  m_production->setText(QString::asprintf(
+      "%3d (%+4d)", pcity->prod[O_PRODUCTION] + pcity->waste[O_PRODUCTION],
+      pcity->surplus[O_PRODUCTION]));
+  m_production->setToolTip(get_city_dialog_output_text(pcity, O_PRODUCTION));
 
   m_luxury->setText(QString::asprintf(
       "%3d (%+4d)", pcity->prod[O_LUXURY] + pcity->waste[O_LUXURY],

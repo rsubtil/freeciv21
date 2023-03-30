@@ -4372,7 +4372,6 @@ static void fill_goto_sprite_array(const struct tileset *t,
                                    const struct tile_corner *pcorner)
 {
   QPixmap *sprite;
-  bool warn = false;
   enum goto_tile_state state;
   int length;
   bool waypoint;
@@ -5202,6 +5201,9 @@ const QPixmap *get_tax_sprite(const struct tileset *t, Output_type_id otype)
     return t->sprites.tax_gold;
   case O_LUXURY:
     return t->sprites.tax_luxury;
+  // TODO: Change displayed sprites to science/production
+  case O_SCIENCE_ACC:
+  case O_PRODUCTION:
   case O_TRADE:
   case O_FOOD:
   case O_SHIELD:

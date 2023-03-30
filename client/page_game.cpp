@@ -321,6 +321,7 @@ void pageGame::updateInfoLabelTimeout()
 
   if (client.conn.playing != nullptr) {
     sw_economy->set_gold(client.conn.playing->economic.gold);
+    // TODO: Add science/production to economy
     sw_economy->set_income(player_get_expected_income(client.conn.playing));
     sw_economy->setEnabled(true);
   } else {
