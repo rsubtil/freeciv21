@@ -2568,6 +2568,9 @@ void handle_research_info(const struct packet_research_info *packet)
         // If we got a new tech the tech tree news an update.
         science_report_dialog_redraw();
       }
+      if (gained_techs_num > 0) {
+        client_player()->economic.science_acc = presearch->bulbs_researched;
+      }
       for (i = 0; i < gained_techs_num; i++) {
         show_tech_gained_dialog(gained_techs[i]);
       }
