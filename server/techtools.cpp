@@ -658,7 +658,8 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
 
   // count our research contribution this turn
   pplayer->server.bulbs_last_turn += bulbs;
-  research->bulbs_researched += bulbs;
+  //research->bulbs_researched += bulbs;
+  pplayer->economic.science_acc += bulbs;
   advance_index_iterate(A_FIRST, j)
   {
     if (j == research->researching) {
@@ -1367,6 +1368,14 @@ void handle_player_research(struct player *pplayer, int tech)
   }
 
   choose_tech(research, tech);
+
+  // If player has accumulated enough science for this tech, research it.
+  if (pplayer->economic.science_acc
+    >= research_total_bulbs_required(research, tech, false)) {
+    research->bulbs_researched += pplayer->economic.science_acc;
+    pplayer->economic.science_acc -= research_total_bulbs_required(research, tech, false);
+    tech_researched(research);
+  }
 
   // Notify players sharing the same research.
   send_research_info(research, nullptr);

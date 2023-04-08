@@ -577,10 +577,10 @@ void real_science_report_dialog_update(void *unused)
                    .arg(when);
       } else {
         // TRANS: current(+surplus)/total  (number of turns)
-        str += QString(_("%1(+%2)/%3  (never)"))
-                   .arg(research->bulbs_researched)
-                   .arg(per_turn)
-                   .arg(research->client.researching_cost);
+        str += QString(_("%1 (+%2)"))
+                   .arg(client_player()->economic.science_acc)
+                   //.arg(research->bulbs_researched)
+                   .arg(per_turn);
       }
     }
     if (research->researching == A_UNSET && research->tech_goal == A_UNSET

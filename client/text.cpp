@@ -750,13 +750,14 @@ int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
  */
 int turns_to_research_done(const struct research *presearch, int per_turn)
 {
-  if (per_turn > 0) {
+  /*if (per_turn > 0) {
     return ceil(static_cast<double>(presearch->client.researching_cost
                                     - presearch->bulbs_researched)
                 / per_turn);
   } else {
     return -1;
-  }
+  }*/
+  return -1;
 }
 
 /**
