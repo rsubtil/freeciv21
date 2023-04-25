@@ -5680,9 +5680,18 @@ static bool sg_load_player_unit(struct loaddata *loading, struct player *plr,
     punit->name = QString::fromUtf8(name);
   }
 
-  sg_warn_ret_val(secfile_lookup_float(loading->file, &punit->moves_left,
-                                     "%s.moves", unitstr),
-                  false, "%s", secfile_error());
+  // Moves might be an int from old saves, convert it
+  if (!secfile_lookup_float(loading->file, &punit->moves_left, "%s.moves", unitstr)) {
+    qWarning("moves field not found, might be old savefile...");
+    int tmp = 0;
+    sg_warn_ret_val(secfile_lookup_int(loading->file,
+                                       &tmp,
+                                       "%s.moves", unitstr),
+                    false, "%s", secfile_error());
+    punit->moves_left = (float)tmp;
+  }
+
+
   sg_warn_ret_val(
       secfile_lookup_int(loading->file, &punit->fuel, "%s.fuel", unitstr),
       false, "%s", secfile_error());

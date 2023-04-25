@@ -558,7 +558,7 @@ static int target_get_section(struct universal target)
     }
   } else {
     if (improvement_has_flag(target.value.building, IF_GOLD) || improvement_has_flag(target.value.building, IF_NOTHING)) {
-      return 1;
+      return 10;
     } else if (is_small_wonder(target.value.building)) {
       return 4;
     } else if (is_great_wonder(target.value.building)) {
