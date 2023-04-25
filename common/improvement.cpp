@@ -282,7 +282,7 @@ int impr_buy_gold_cost(const struct city *pcity,
   const int missing =
       impr_build_shield_cost(pcity, pimprove) - shields_in_stock;
 
-  if (improvement_has_flag(pimprove, IF_GOLD)) {
+  if (improvement_has_flag(pimprove, IF_GOLD) || improvement_has_flag(pimprove, IF_NOTHING)) {
     // Can't buy capitalization.
     return 0;
   }
@@ -584,6 +584,7 @@ bool is_improvement_productive(const struct city *pcity,
       obsolete (and thus assumed to have no effect); and
     - it's not enabling the city to build some kind of units; and
     - it's not Coinage (IF_GOLD).
+    - it's Nothing (IF_NOTHING)
    (Note that it's not impossible that this improvement could become useful
    if circumstances changed, say if a new government enabled the building
    of its special units.)
@@ -593,6 +594,13 @@ bool is_improvement_redundant(const struct city *pcity,
 {
   // A capitalization production is never redundant.
   if (improvement_has_flag(pimprove, IF_GOLD)) {
+    return false;
+  }
+
+  // Producing nothing is always redundant.
+  if (improvement_has_flag(pimprove, IF_NOTHING)) {
+    // FIXME: Set to false because true render a cross at the building selection dialog.
+    // Need to check if this affects other parts of gameplay.
     return false;
   }
 

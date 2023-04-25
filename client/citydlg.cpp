@@ -2359,11 +2359,12 @@ void city_production_delegate::paint(QPainter *painter,
   target = reinterpret_cast<universal *>(qvar.value<void *>());
 
   if (target == nullptr) {
-    free_sprite = new QPixmap;
+    return;
+    /*free_sprite = new QPixmap;
     *free_sprite = icon.pixmap(100, 100);
     sprite = free_sprite;
     name = _("Cancel");
-    is_unit = false;
+    is_unit = false;*/
   } else if (VUT_UTYPE == target->kind) {
     name = utype_name_translation(target->value.utype);
     is_neutral = utype_has_flag(target->value.utype, UTYF_CIVILIAN);

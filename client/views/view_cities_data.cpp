@@ -555,6 +555,9 @@ static QString cr_entry_building(const struct city *pcity, const void *data)
     fc_snprintf(buf, sizeof(buf), "%s (%d)%s",
                 city_production_name_translation(pcity),
                 MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
+  } else if (city_production_has_flag(pcity, IF_NOTHING)) {
+    fc_snprintf(buf, sizeof(buf), "%s",
+                city_production_name_translation(pcity));
   } else {
     fc_snprintf(buf, sizeof(buf), "%s (%d/%s)%s",
                 city_production_name_translation(pcity), pcity->shield_stock,
@@ -579,7 +582,8 @@ static QString cr_entry_build_cost(const struct city *pcity,
   int price;
   int turns;
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD) ||
+      city_production_has_flag(pcity, IF_NOTHING)) {
     fc_snprintf(buf, sizeof(buf), "*");
     return buf;
   }
@@ -613,7 +617,8 @@ static QString cr_entry_build_cost_gold(const struct city *pcity,
   static char buf[32];
   int price;
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD) ||
+      city_production_has_flag(pcity, IF_NOTHING)) {
     fc_snprintf(buf, sizeof(buf), "*");
     return buf;
   }

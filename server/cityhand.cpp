@@ -295,7 +295,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     return;
   }
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD) || city_production_has_flag(pcity, IF_NOTHING)) {
     notify_player(
         pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,
         _("You don't buy %s!"),

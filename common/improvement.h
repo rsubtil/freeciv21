@@ -48,6 +48,9 @@
 // Never destroyed by disasters
 #define SPECENUM_VALUE3 IF_DISASTER_PROOF
 #define SPECENUM_VALUE3NAME "DisasterProof"
+// Does nothing
+#define SPECENUM_VALUE4 IF_NOTHING
+#define SPECENUM_VALUE4NAME "Nothing"
 #define SPECENUM_COUNT IF_COUNT
 #define SPECENUM_BITVECTOR bv_impr_flags
 #include "specenum_gen.h"

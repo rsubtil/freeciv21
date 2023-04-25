@@ -37,6 +37,7 @@ sprites = {
   "b.merchant_tent", "tilesets/buildings/merchant_tent"
   "b.mass_transit", "tilesets/buildings/mass_transit"
   "b.mfg_plant", "tilesets/buildings/mfg_plant"
+  "b.nothing", "tilesets/buildings/nothing"
   "b.nuclear_plant", "tilesets/buildings/nuclear_plant"
   "b.occupationgov", "tilesets/buildings/occupationgov"
   "b.offshore_platform", "tilesets/buildings/offshore_platform"

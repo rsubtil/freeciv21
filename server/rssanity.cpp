@@ -662,6 +662,16 @@ static bool rs_buildings()
 
       return false;
     }
+
+    if (improvement_has_flag(pimprove, IF_NOTHING)
+        && pimprove->genus != IG_SPECIAL) {
+      qCCritical(
+          ruleset_category,
+          "Nothing producing improvement with genus other than \"Special\"");
+
+      return false;
+    }
+
     if (improvement_has_flag(pimprove, IF_DISASTER_PROOF)
         && pimprove->genus != IG_IMPROVEMENT) {
       qCCritical(

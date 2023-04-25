@@ -230,7 +230,7 @@ QString get_tooltip(const QVariant &qvar)
     str = helptext_unit(buffer, sizeof(buffer), client.conn.playing, buf2,
                         target->value.utype, client_current_nation_set());
   } else {
-    if (!improvement_has_flag(target->value.building, IF_GOLD)) {
+    if (!improvement_has_flag(target->value.building, IF_GOLD) && !improvement_has_flag(target->value.building, IF_NOTHING)) {
       def_str = get_tooltip_improvement(target->value.building);
     }
 

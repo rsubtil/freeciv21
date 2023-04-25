@@ -2329,6 +2329,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
     choose_build_target(pplayer, pcity);
     return true;
   }
+
+  if (city_production_has_flag(pcity, IF_NOTHING)) {
+    return true;
+  }
+
   upgrade_building_prod(pcity);
 
   if (!can_city_build_improvement_now(pcity, pimprove)) {

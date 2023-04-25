@@ -1755,8 +1755,8 @@ sound_alt	= "w_generic"
 helptext	= _("\
 All your units regain two extra hitpoints per turn.\
 ")
-; NOTE: 
-; This does not match Civ1 or Civ2, but diplomatic effects are 
+; NOTE:
+; This does not match Civ1 or Civ2, but diplomatic effects are
 ; not very effective in multiplayer, and hitpoints effects do not
 ; apply for Civ1.  Note in Civ1 Pyramids have a gov-change effect,
 ; but become obsolete, and the Statue of Liberty does not exist.
@@ -1821,4 +1821,24 @@ helptext	= _("\
 This is not a normal improvement.  Instead, setting a city's\
  production to Coinage means its shield production is\
  converted to tax output (money, coins!).\
+")
+
+[building_none]
+name		= _("Nothing")
+genus		= "Special"
+flags		= "Nothing"
+reqs	=
+    { "type", "name", "range"
+
+    }
+graphic	= "b.nothing"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 999
+upkeep		= 0
+sabotage	= 0
+helptext	= _("\
+The city will produce nothing.\
 ")

@@ -915,8 +915,8 @@ void city_widget::select_building_something()
       if (str == QLatin1String("impr")
           && VUT_IMPROVEMENT == pcity->production.kind
           && !is_wonder(pcity->production.value.building)
-          && !improvement_has_flag(pcity->production.value.building,
-                                   IF_GOLD)) {
+          && !improvement_has_flag(pcity->production.value.building, IF_GOLD)
+          && !improvement_has_flag(pcity->production.value.building, IF_NOTHING)) {
         selection.append(QItemSelectionRange(i));
       } else if (str == QLatin1String("unit")
                  && VUT_UTYPE == pcity->production.kind) {

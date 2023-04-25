@@ -1777,7 +1777,7 @@ void get_city_mapview_production(const city *pcity, char *buffer,
 
   universal_name_translation(&pcity->production, buffer, buffer_len);
 
-  if (city_production_has_flag(pcity, IF_GOLD)) {
+  if (city_production_has_flag(pcity, IF_GOLD) || city_production_has_flag(pcity, IF_NOTHING)) {
     return;
   }
   turns = city_production_turns_to_build(pcity, true);

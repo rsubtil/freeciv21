@@ -1029,6 +1029,18 @@ void city_choose_build_default(struct city *pcity)
     pcity->production.kind = VUT_UTYPE;
     pcity->production.value.utype = utype_by_number(0);
   } else {
+    // Start by building nothing
+    improvement_iterate(pimprove)
+    {
+      if(improvement_has_flag(pimprove, IF_NOTHING)) {
+        pcity->production.kind = VUT_IMPROVEMENT;
+        pcity->production.value.building = pimprove;
+        return;
+      }
+    }
+    improvement_iterate_end;
+
+
     struct unit_type *u = best_role_unit(pcity, L_FIRSTBUILD);
 
     if (u) {

@@ -148,6 +148,11 @@ void get_city_dialog_production(struct city *pcity, char *buffer,
     return;
   }
 
+  if (city_production_has_flag(pcity, IF_NOTHING)) {
+    fc_snprintf(buffer, buffer_len, "%s", _("Nothing"));
+    return;
+  }
+
   turns = city_production_turns_to_build(pcity, true);
   stock = pcity->shield_stock;
   cost_str = city_production_cost_str(pcity);
@@ -1187,8 +1192,8 @@ bool city_can_buy(const struct city *pcity)
           && city_owner(pcity) == client.conn.playing
           && pcity->turn_founded != game.info.turn && !pcity->did_buy
           && (VUT_UTYPE == pcity->production.kind
-              || !improvement_has_flag(pcity->production.value.building,
-                                       IF_GOLD))
+              || !improvement_has_flag(pcity->production.value.building, IF_GOLD)
+              || !improvement_has_flag(pcity->production.value.building, IF_NOTHING))
           && !(VUT_UTYPE == pcity->production.kind && pcity->anarchy != 0)
           && pcity->client.buy_cost > 0);
 }
