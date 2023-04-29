@@ -114,50 +114,50 @@ void map_view::keyPressEvent(QKeyEvent *event)
     case Qt::Key_Up:
     case Qt::Key_8:
       if (is_shift) {
-        recenter_button_pressed(width() / 2 / scale(), 0);
-      } else {
         key_unit_move(DIR8_NORTH);
+      } else {
+        recenter_button_pressed(width() / 2 / scale(), (height() / 2 - 100) / scale());
       }
       return;
     case Qt::Key_Left:
     case Qt::Key_4:
       if (is_shift) {
-        recenter_button_pressed(0, height() / 2 / scale());
-      } else {
         key_unit_move(DIR8_WEST);
+      } else {
+        recenter_button_pressed((width() / 2 - 100) / scale(), height() / 2 / scale());
       }
       return;
     case Qt::Key_Right:
     case Qt::Key_6:
       if (is_shift) {
-        recenter_button_pressed(width() / scale(), height() / 2 / scale());
-      } else {
         key_unit_move(DIR8_EAST);
+      } else {
+        recenter_button_pressed((width() / 2 + 100) / scale(), height() / 2 / scale());
       }
       return;
     case Qt::Key_Down:
     case Qt::Key_2:
       if (is_shift) {
-        recenter_button_pressed(width() / 2 / scale(), height() / scale());
-      } else {
         key_unit_move(DIR8_SOUTH);
+      } else {
+        recenter_button_pressed(width() / 2 / scale(), (height() / 2 + 100) / scale());
       }
       return;
     case Qt::Key_PageUp:
     case Qt::Key_9:
-      key_unit_move(DIR8_NORTHEAST);
+      //key_unit_move(DIR8_NORTHEAST);
       return;
     case Qt::Key_PageDown:
     case Qt::Key_3:
-      key_unit_move(DIR8_SOUTHEAST);
+      //key_unit_move(DIR8_SOUTHEAST);
       return;
     case Qt::Key_Home:
     case Qt::Key_7:
-      key_unit_move(DIR8_NORTHWEST);
+      //key_unit_move(DIR8_NORTHWEST);
       return;
     case Qt::Key_End:
     case Qt::Key_1:
-      key_unit_move(DIR8_SOUTHWEST);
+      //key_unit_move(DIR8_SOUTHWEST);
       return;
     case Qt::Key_5:
     case Qt::Key_Clear:
