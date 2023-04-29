@@ -384,18 +384,20 @@ void map_view::wheelEvent(QWheelEvent *event)
   }
 
   if (event->modifiers() == Qt::NoModifier) {
-    // Scrolling
-    m_renderer->set_origin(m_renderer->origin() - delta);
-  } else if (event->modifiers() == Qt::ShiftModifier) {
-    // Horizontal scrolling
-    std::swap(delta.rx(), delta.ry()); // FIXME Qt 6 QPoint::transposed()
-    m_renderer->set_origin(m_renderer->origin() - delta);
-  } else if (event->modifiers() == Qt::ControlModifier) {
     // Zooming
     if (delta.y() > 0) {
       zoom_in();
     } else if (delta.y() < 0) {
       zoom_out();
+    }
+  } else if (event->modifiers() & Qt::ControlModifier) {
+    if (event->modifiers() & Qt::ShiftModifier) {
+      // Horizontal scrolling
+      std::swap(delta.rx(), delta.ry()); // FIXME Qt 6 QPoint::transposed()
+      m_renderer->set_origin(m_renderer->origin() - delta);
+    } else {
+      // Scrolling
+      m_renderer->set_origin(m_renderer->origin() - delta);
     }
   }
 }
