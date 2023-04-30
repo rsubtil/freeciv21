@@ -268,6 +268,14 @@ void map_view::shortcut_pressed(shortcut_id id)
     }
     break;
 
+  case SC_GOTO_MOUSE:
+    if (!goto_is_active()) {
+      set_auto_center_enabled(false);
+      action_button_pressed(pos.x(), pos.y(), SELECT_GOTO);
+      return;
+    }
+    break;
+
   case SC_QUICK_SELECT:
     if (pcity != nullptr && !king()->menu_bar->delayed_order) {
       auto pw = new production_widget(this, pcity, false, 0, 0, true);
@@ -394,6 +402,13 @@ void map_view::shortcut_released(Qt::MouseButton bt)
       action_button_pressed(pos.x(), pos.y(), SELECT_POPUP);
     }
     set_auto_center_enabled(true);
+    return;
+  }
+  sc = fc_shortcuts::sc()->get_shortcut(SC_GOTO_MOUSE);
+  if (bt == sc.buttons && md == sc.modifiers) {
+    if (!keyboardless_goto_active || goto_is_active()) {
+      action_button_pressed(pos.x(), pos.y(), SELECT_GOTO);
+    }
     release_goto_button(pos.x(), pos.y());
     return;
   }

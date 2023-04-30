@@ -52,8 +52,6 @@ enum {
 static std::vector<fc_shortcut> default_shortcuts()
 {
   return {
-      {SC_SCROLL_MAP, fc_shortcut::mouse, QKeySequence(), Qt::RightButton,
-       Qt::NoModifier, _("Scroll map")},
       {SC_CENTER_VIEW, fc_shortcut::keyboard, Qt::Key_C, Qt::AllButtons,
        Qt::NoModifier, _("Center View")},
       {SC_FULLSCREEN, fc_shortcut::keyboard,
@@ -75,6 +73,8 @@ static std::vector<fc_shortcut> default_shortcuts()
        Qt::ControlModifier, _("Quick production select from map")},
       {SC_SELECT_BUTTON, fc_shortcut::mouse, QKeySequence(), Qt::LeftButton,
        Qt::NoModifier, _("Select button")},
+      {SC_GOTO_MOUSE, fc_shortcut::mouse, QKeySequence(), Qt::RightButton,
+       Qt::NoModifier, _("Go to tile (mouse)")},
       {SC_ADJUST_WORKERS, fc_shortcut::mouse, QKeySequence(), Qt::LeftButton,
        Qt::MetaModifier | Qt::ControlModifier, _("Adjust workers")},
       {SC_APPEND_FOCUS, fc_shortcut::mouse, QKeySequence(), Qt::LeftButton,

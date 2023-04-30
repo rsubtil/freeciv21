@@ -2578,9 +2578,11 @@ void do_map_click(struct tile *ptile, enum quickselect_type qtype)
   }
 
   // See mapctrl_common.c
-  keyboardless_goto_start_tile = maybe_goto ? ptile : nullptr;
-  keyboardless_goto_button_down = maybe_goto;
-  keyboardless_goto_active = false;
+  if(qtype == SELECT_GOTO) {
+    keyboardless_goto_start_tile = maybe_goto ? ptile : nullptr;
+    keyboardless_goto_button_down = maybe_goto;
+    keyboardless_goto_active = false;
+  }
 }
 
 /**
@@ -2599,7 +2601,7 @@ static struct unit *quickselect(struct tile *ptile,
 
   fc_assert_ret_val(qtype > SELECT_POPUP, nullptr);
 
-  if (qtype == SELECT_FOCUS) {
+  if (qtype == SELECT_FOCUS || qtype == SELECT_GOTO) {
     return head_of_units_in_focus();
   }
 

@@ -32,7 +32,8 @@ enum quickselect_type {
   SELECT_SEA,
   SELECT_LAND,
   SELECT_APPEND,
-  SELECT_FOCUS
+  SELECT_FOCUS,
+  SELECT_GOTO
 };
 
 void control_init();
