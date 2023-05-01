@@ -1702,7 +1702,7 @@ static void init_client_options()
              "<space> once will clear their orders and leave them "
              "selected, and pressing <space> a second time will "
              "dismiss them."),
-          COC_INTERFACE, true, nullptr),
+          COC_INTERFACE, false, nullptr),
       GEN_BOOL_OPTION(voteinfo_bar_use, N_("Enable vote bar"),
                       N_("If this option is turned on, the vote bar will be "
                          "displayed to show vote information."),
