@@ -50,6 +50,8 @@ protected:
   void paintEvent(QPaintEvent *event) override;
   void resizeEvent(QResizeEvent *event) override;
   void mousePressEvent(QMouseEvent *event) override;
+  void mouseReleaseEvent(QMouseEvent *event) override;
+  void mouseMoveEvent(QMouseEvent *event) override;
   void moveEvent(QMoveEvent *event) override;
   void showEvent(QShowEvent *event) override;
 
@@ -60,4 +62,5 @@ private:
   QPixmap *pix;
   QPoint cursor;
   QPoint position;
+  bool moving = false;
 };

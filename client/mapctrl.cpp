@@ -369,6 +369,13 @@ void map_view::shortcut_pressed(shortcut_id id)
     wakeup_button_pressed(pos.x(), pos.y());
     break;
 
+  case SC_VIEW_DRAG:
+    dragging_view = true;
+    dragging_offset_x = pos.x();
+    dragging_offset_y = pos.y();
+    dragging_origin = m_renderer->origin();
+    break;
+
   default:
     // Many actions aren't handled here
     break;
@@ -412,6 +419,11 @@ void map_view::shortcut_released(Qt::MouseButton bt)
     release_goto_button(pos.x(), pos.y());
     return;
   }
+  sc = fc_shortcuts::sc()->get_shortcut(SC_VIEW_DRAG);
+  if (bt == sc.buttons && md == sc.modifiers) {
+    dragging_view = false;
+    return;
+  }
 }
 
 /**
@@ -442,4 +454,10 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
   }
   control_mouse_cursor(canvas_pos_to_tile(event->pos().x() / scale(),
                                           event->pos().y() / scale()));
+  if(dragging_view) {
+    int deltax = event->pos().x() - dragging_offset_x;
+    int deltay = event->pos().y() - dragging_offset_y;
+    QPointF new_origin = dragging_origin - QPointF(deltax, deltay);
+    m_renderer->set_origin(new_origin);
+  }
 }

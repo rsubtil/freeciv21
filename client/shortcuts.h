@@ -92,6 +92,7 @@ enum shortcut_id {
   SC_GOJOINCITY = 58,
   SC_PILLAGE = 59,
   SC_GOTO_MOUSE = 60,
+  SC_VIEW_DRAG = 61,
 };
 
 /**************************************************************************

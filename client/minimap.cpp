@@ -259,7 +259,23 @@ void minimap_view::resizeEvent(QResizeEvent *event)
  */
 void minimap_view::mousePressEvent(QMouseEvent *event)
 {
-  if (event->button() == Qt::RightButton) {
+  if (event->button() == Qt::LeftButton) {
+    moving = true;
+    mouseMoveEvent(event);
+  }
+  event->setAccepted(true);
+}
+
+void minimap_view::mouseReleaseEvent(QMouseEvent *event)
+{
+  if (event->button() == Qt::LeftButton) {
+    moving = false;
+  }
+  event->setAccepted(true);
+}
+
+void minimap_view::mouseMoveEvent(QMouseEvent *event) {
+  if(moving) {
     cursor = event->pos();
     auto fx = event->pos().x();
     auto fy = event->pos().y();
@@ -273,10 +289,9 @@ void minimap_view::mousePressEvent(QMouseEvent *event)
     overview_to_map_pos(&x, &y, fx, fy);
     auto *ptile = map_pos_to_tile(&(wld.map), x, y);
     fc_assert_ret(ptile);
-    queen()->mapview_wdg->center_on_tile(ptile);
+    queen()->mapview_wdg->center_on_tile(ptile, false);
     update_image();
   }
-  event->setAccepted(true);
 }
 
 /**

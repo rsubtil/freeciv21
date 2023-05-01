@@ -22,6 +22,7 @@
 #include "shortcuts.h"
 #include "tileset/tilespec.h"
 #include "tileset_debugger.h"
+#include "renderer.h"
 
 class QEvent;
 class QFocusEvent;

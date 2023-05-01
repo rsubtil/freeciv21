@@ -94,6 +94,11 @@ int goto_last_tgt;
 int goto_last_sub_tgt;
 enum unit_orders goto_last_order; // Last order for goto
 
+bool dragging_view = false;
+int dragging_offset_x;
+int dragging_offset_y;
+QPointF dragging_origin;
+
 static struct tile *hover_tile = nullptr;
 static struct unit_list *battlegroups[MAX_NUM_BATTLEGROUPS];
 
