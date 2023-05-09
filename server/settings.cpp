@@ -1942,6 +1942,15 @@ static struct setting settings[] = {
             nullptr, nullptr, nullptr, GAME_MIN_DIPLGOLDCOST,
             GAME_MAX_DIPLGOLDCOST, GAME_DEFAULT_DIPLGOLDCOST),
 
+    GEN_INT("diplsciencecost", game.server.diplsciencecost, SSET_RULES,
+            SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+            N_("Penalty when getting science from treaty"),
+            N_("When transferring science in diplomatic treaties, this "
+               "percentage of the agreed sum is lost to both parties; it is "
+               "deducted from the donor but not received by the recipient."),
+            nullptr, nullptr, nullptr, GAME_MIN_DIPLSCIENCECOST,
+            GAME_MAX_DIPLSCIENCECOST, GAME_DEFAULT_DIPLSCIENCECOST),
+
     GEN_INT("incite_gold_loss_chance", game.server.incite_gold_loss_chance,
             SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
             N_("Probability of gold loss during inciting revolt"),
@@ -2117,6 +2126,13 @@ static struct setting settings[] = {
              N_("If turned off, trading cities in the diplomacy dialog is "
                 "not allowed."),
              nullptr, nullptr, GAME_DEFAULT_TRADING_CITY),
+
+    GEN_BOOL("trading_science", game.info.trading_science, SSET_RULES,
+             SSET_SOCIOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+             N_("Science trading"),
+             N_("If turned off, trading science in the diplomacy dialog is not "
+                "allowed."),
+             nullptr, nullptr, GAME_DEFAULT_TRADING_SCIENCE),
 
     GEN_ENUM("caravan_bonus_style", game.info.caravan_bonus_style,
              SSET_RULES, SSET_ECONOMICS, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,

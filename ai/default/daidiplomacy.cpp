@@ -460,6 +460,14 @@ static int dai_goldequiv_clause(struct ai_type *ait, struct player *pplayer,
     }
     break;
 
+  case CLAUSE_SCIENCE:
+    if (give) {
+      worth -= pclause->value;
+    } else {
+      worth += pclause->value * (100 - game.server.diplsciencecost) / 100;
+    }
+    break;
+
   case CLAUSE_SEAMAP:
     if (!give || ds_after == DS_ALLIANCE) {
       // Useless to us - we're omniscient! And allies get it for free!

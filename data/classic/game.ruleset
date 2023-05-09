@@ -1530,6 +1530,9 @@ type = "Advance"
 [clause_gold]
 type = "Gold"
 
+[clause_science]
+type = "Science"
+
 [clause_map]
 type = "Map"
 

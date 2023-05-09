@@ -585,6 +585,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL trading_city;
   BOOL trading_gold;
   BOOL trading_tech;
+  BOOL trading_science;
   TURN turn;
   UINT32 warminglevel;
   YEAR year;

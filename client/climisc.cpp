@@ -241,6 +241,12 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
         PL_("The %s give %d gold", "The %s give %d gold", pclause->value),
         nation_plural_for_player(pclause->from), pclause->value);
     break;
+  case CLAUSE_SCIENCE:
+    fc_snprintf(
+        buf, bufsiz,
+        PL_("The %s give %d science", "The %s give %d science", pclause->value),
+        nation_plural_for_player(pclause->from), pclause->value);
+    break;
   case CLAUSE_MAP:
     fc_snprintf(buf, bufsiz, _("The %s give their worldmap"),
                 nation_plural_for_player(pclause->from));

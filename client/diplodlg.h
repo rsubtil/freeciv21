@@ -36,6 +36,8 @@ class diplo_wdg : public QWidget {
   QPushButton *cancel_treaty;
   QSpinBox *gold_edit1;
   QSpinBox *gold_edit2;
+  QSpinBox *science_edit1;
+  QSpinBox *science_edit2;
   QTableWidget *text_edit;
 
 public:
@@ -55,6 +57,8 @@ private slots:
   void give_shared_vision();
   void gold_changed1(int val);
   void gold_changed2(int val);
+  void science_changed1(int val);
+  void science_changed2(int val);
   void pact_allianze();
   void pact_ceasfire();
   void pact_peace();

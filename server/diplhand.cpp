@@ -293,6 +293,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
             return;
           }
           break;
+        case CLAUSE_SCIENCE:
+          if (pplayer->economic.science_acc < pclause->value) {
+            notify_player(pplayer, nullptr, E_DIPLOMACY, ftc_server,
+                          _("You don't have enough science, "
+                            "you can't accept treaty."));
+            return;
+          }
         default:; // nothing
         }
       }
@@ -426,6 +433,19 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
             goto cleanup;
           }
           break;
+        case CLAUSE_SCIENCE:
+          if (pother->economic.science_acc < pclause->value) {
+            notify_player(pplayer, nullptr, E_DIPLOMACY, ftc_server,
+                          _("The %s don't have the promised amount "
+                            "of science! Treaty canceled!"),
+                          nation_plural_for_player(pother));
+            notify_player(pother, nullptr, E_DIPLOMACY, ftc_server,
+                          _("The %s don't have the promised amount "
+                            "of science! Treaty canceled!"),
+                          nation_plural_for_player(pother));
+            goto cleanup;
+          }
+          break;
         default:; // nothing
         }
       }
@@ -508,6 +528,15 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         pdest->economic.gold += received;
         notify_player(pdest, nullptr, E_DIPLOMACY, ftc_server,
                       PL_("You get %d gold.", "You get %d gold.", received),
+                      received);
+      } break;
+      case CLAUSE_SCIENCE: {
+        int received =
+            pclause->value * (100 - game.server.diplsciencecost) / 100;
+        pgiver->economic.science_acc -= pclause->value;
+        pdest->economic.science_acc += received;
+        notify_player(pdest, nullptr, E_DIPLOMACY, ftc_server,
+                      PL_("You get %d science.", "You get %d science.", received),
                       received);
       } break;
       case CLAUSE_MAP:
