@@ -575,7 +575,7 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
   const struct player *puowner = unit_owner(punit);
 
   // 1)
-  if (activity != ACTIVITY_IDLE && activity != ACTIVITY_GOTO) {
+  if (/*activity != ACTIVITY_IDLE && activity != ACTIVITY_GOTO*/false) {
     // For other activities the unit must be stationary.
     return MR_BAD_ACTIVITY;
   }
