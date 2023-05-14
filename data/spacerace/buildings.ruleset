@@ -1,0 +1,124 @@
+
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
+
+; Note that the freeciv AI may not cope well with anything more
+; than minor changes.
+
+[datafile]
+description="Space Race gamemode ruleset [buildings]"
+options="+Freeciv-ruleset-Devel-2017.Jan.02"
+format_version=20
+
+; /* <-- avoid gettext warnings
+;
+; Below: The individual buildings, one per section.
+; (Buildings = City Improvements and Wonders)
+;
+; The actual tag used (the * in [building_*]) does not matter, except
+; it must be unique within this file, and it may be used in debug
+; output when reading this file.
+;
+; Notes:
+;
+; name          = translatable name as seen by user
+; rule_name     = (optional) internal name for savegames, rulesets etc; if
+;                 not present, "name" is used for this purpose too. Since
+;                 the name used in savegames must not change, if you want
+;                 to rename an item after a ruleset has been released, you
+;                 should set "rule_name" to the original value of "name".
+; genus	        = genus; one of:
+;                 "GreatWonder", "SmallWonder", "Improvement", "Special".
+; reqs		= requirements to build the building (see effects.ruleset
+;		  and README.effects for help on requirements)
+; graphic	= icon of improvement (used in city dialog)
+; graphic_alt	= alternate icon of improvement
+; obsolete_by	= requirements for the building to become obsolete
+; build_cost	= production shields required to build
+; upkeep	= monetary upkeep value
+; sabotage	= percent chance of diplomat sabotage being successful
+; flags         = special flag strings
+;
+; ** Building flags **
+; "VisibleByOthers"  = Anyone who can see your city knows whether it has
+;                      this improvement. (Great and small wonders are
+;                      always visible.)
+; "SaveSmallWonder"  = If you lose the city with this building in, and the
+;                      "savepalace" server setting is enabled, another will
+;                      be built for free in a random city.
+;                      Should only be used with genus "SmallWonder".
+; "Gold"             = Not a real building; production turned into gold
+;                      indefinitely (capitalization/coinage).
+;                      Genus should be "Special".
+; "DisasterProof"    = Disasters never destroy this building. Is meaningful
+;                      only for genus "Improvement" buildings as others are
+;                      automatically disaster proof.
+;
+; */ <-- avoid gettext warnings
+
+[building_palace]
+name		= _("Palace")
+genus		= "SmallWonder"
+flags		= "SaveSmallWonder"
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 70
+upkeep		= 0
+sabotage	= 0
+sound		= "b_palace"
+sound_alt	= "b_generic"
+helptext	= _("\
+Makes a city the capital and the center of your government.\
+ Corruption in other cities is related to how far away from the\
+ capital they are, except when the government is Democracy or\
+ Communism. On top of this, corruption in your capital itself is\
+ half of what it would otherwise be (as if it had a Courthouse).\
+"), _("\
+The cost to enemy Diplomats and Spies of inciting a revolt in a\
+ city also depends upon the city's distance from the capital\
+ (under all forms of government). Your capital city itself cannot\
+ be incited to revolt, and enjoys a bonus when enemy agents try\
+ to evade your own agents stationed in the city, or sabotage your\
+ buildings.\
+"), _("\
+Take good care of your capital, as its loss may result in your\
+ empire plunging into civil war. Losing your current palace also\
+ results in losing whatever spaceship you might have.\
+"), _("\
+If the capital is in a dangerous location, or a more central capital\
+ would give a better corruption distribution, you can move your palace\
+ by rebuilding it in another city.\
+"),
+; /* xgettext:no-c-format */
+_("\
+Under Despotism the city containing the palace gains a +75%\
+ production bonus, and under Monarchy a +50% production bonus.\
+")
+
+[building_none]
+name		= _("Nothing")
+genus		= "Special"
+flags		= "Nothing"
+reqs	=
+    { "type", "name", "range"
+
+    }
+graphic	= "b.nothing"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 999
+upkeep		= 0
+sabotage	= 0
+helptext	= _("\
+The city will produce nothing.\
+")

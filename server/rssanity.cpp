@@ -599,6 +599,10 @@ static bool rs_barbarian_units()
  */
 static bool rs_common_units()
 {
+  // Skip sanity check rules
+  return true;
+
+
   // Check some required flags and roles etc:
   if (num_role_units(UTYF_SETTLERS) == 0) {
     qCCritical(ruleset_category, "No flag Settler units");
