@@ -152,7 +152,7 @@ path_finder::path_finder_private::path_finder_private(
  */
 void path_finder::path_finder_private::insert_initial_vertex()
 {
-  maybe_insert_vertex(initial_vertex);
+  maybe_insert_vertex(initial_vertex, true);
 }
 
 /**
@@ -160,7 +160,7 @@ void path_finder::path_finder_private::insert_initial_vertex()
  * vertex at the same location.
  */
 void path_finder::path_finder_private::maybe_insert_vertex(
-    const detail::vertex &v)
+    const detail::vertex &v, const bool &use_acc)
 {
   // Handle any constraint.
   if (constraint && !constraint->is_allowed(v)) {
@@ -179,7 +179,7 @@ void path_finder::path_finder_private::maybe_insert_vertex(
     // FIXME The order could be important here: fuel before HP or HP before
     // fuel?
     insert.turns += unit.move_subdivisions > 1
-                        ? unit.move_subdivisions - unit.move_acc
+                        ? (use_acc ? unit.move_subdivisions - unit.move_acc : unit.move_subdivisions)
                         : 1;
     insert.moves_left = unit_move_rate(&probe);
 
@@ -309,7 +309,7 @@ void path_finder::path_finder_private::attempt_move(detail::vertex &source)
       next.parent = &source;
       next.order.order = ORDER_MOVE;
       next.order.dir = dir;
-      maybe_insert_vertex(next);
+      maybe_insert_vertex(next, source == initial_vertex);
     }
   }
   adjc_dir_iterate_end;
@@ -327,7 +327,7 @@ void path_finder::path_finder_private::attempt_full_mp(
   next.moves_left = 0; // Trigger end-of-turn logic
   next.parent = &source;
   next.order.order = ORDER_FULL_MP;
-  maybe_insert_vertex(next);
+  maybe_insert_vertex(next, source == initial_vertex);
 }
 
 /**
@@ -349,7 +349,7 @@ void path_finder::path_finder_private::attempt_load(detail::vertex &source)
     auto next =
         source.child_for_action(ACTION_TRANSPORT_BOARD, probe, probe.tile);
     next.loaded = transport;
-    maybe_insert_vertex(next);
+    maybe_insert_vertex(next, source == initial_vertex);
   }
 
   // Nearby tiles
@@ -369,7 +369,7 @@ void path_finder::path_finder_private::attempt_load(detail::vertex &source)
       next.moves_left -= map_move_cost_unit(&(wld.map), &probe, target);
       next.moved = true;
       next.loaded = transport;
-      maybe_insert_vertex(next);
+      maybe_insert_vertex(next, source == initial_vertex);
     }
   }
   adjc_iterate_end;
@@ -393,7 +393,7 @@ void path_finder::path_finder_private::attempt_unload(detail::vertex &source)
       auto next = source.child_for_action(ACTION_TRANSPORT_ALIGHT, probe,
                                           probe.tile);
       next.loaded = nullptr;
-      maybe_insert_vertex(next);
+      maybe_insert_vertex(next, source == initial_vertex);
     }
 
     // Nearby tiles
@@ -407,7 +407,7 @@ void path_finder::path_finder_private::attempt_unload(detail::vertex &source)
         next.loaded = nullptr;
         // See unithand.cpp:do_disembark
         next.moves_left -= map_move_cost_unit(&(wld.map), &probe, target);
-        maybe_insert_vertex(next);
+        maybe_insert_vertex(next, source == initial_vertex);
       }
       // Thanks sveinung
       if (is_action_enabled_unit_on_tile(ACTION_TRANSPORT_DISEMBARK2, &probe,
@@ -418,7 +418,7 @@ void path_finder::path_finder_private::attempt_unload(detail::vertex &source)
         next.loaded = nullptr;
         // See unithand.cpp:do_disembark
         next.moves_left -= map_move_cost_unit(&(wld.map), &probe, target);
-        maybe_insert_vertex(next);
+        maybe_insert_vertex(next, source == initial_vertex);
       }
     }
     adjc_iterate_end;
@@ -498,7 +498,7 @@ void path_finder::path_finder_private::attempt_paradrop(
         next.paradropped = true;
         next.moved = true;
         next.loaded = nullptr;
-        maybe_insert_vertex(next);
+        maybe_insert_vertex(next, source == initial_vertex);
       }
     }
     circle_dxyr_iterate_end;
@@ -554,7 +554,7 @@ void path_finder::path_finder_private::attempt_action_move(
       next.parent = &source;
       next.order.order = ORDER_ACTION_MOVE;
       next.order.dir = dir;
-      maybe_insert_vertex(next);
+      maybe_insert_vertex(next, source == initial_vertex);
     }
   }
   adjc_dir_iterate_end;

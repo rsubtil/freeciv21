@@ -91,7 +91,7 @@ private:
     std::vector<const tile *> waypoints;
 
     void insert_initial_vertex();
-    void maybe_insert_vertex(const detail::vertex &v);
+    void maybe_insert_vertex(const detail::vertex &v, const bool &use_acc);
 
     bool is_reached(const destination &destination,
                     const detail::vertex &v) const;
