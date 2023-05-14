@@ -3175,6 +3175,11 @@ void key_unit_cultivate()
 void key_unit_mine() { key_unit_extra(ACTIVITY_MINE, EC_MINE); }
 
 /**
+   Handle user 'transport' input
+ */
+void key_unit_transport() { key_unit_extra(ACTIVITY_TRANSPORT, EC_TRANSPORT); }
+
+/**
    Handle user 'plant' input
  */
 void key_unit_plant()

@@ -963,6 +963,12 @@ int unit_actions::update_actions()
         SC_BUILDMINE));
   }
 
+  if (can_unit_do_activity(current_unit, ACTIVITY_TRANSPORT)) {
+    actions.append(new hud_action(
+        this, fcIcons::instance()->getIcon(QStringLiteral("transport")),
+        SC_TRANSPORT));
+  }
+
   if (can_unit_do_activity(current_unit, ACTIVITY_PLANT)) {
     actions.append(new hud_action(
         this, fcIcons::instance()->getIcon(QStringLiteral("plantforest")),

@@ -44,7 +44,7 @@ This was the default ruleset until Freeciv 2.6.\
 
 ; Detailed description
 ; When updating this, update also desciption_file in [ruledit] section to match
-description = *classic/README.classic*
+description = *default/README.spacerace*
 
 ; What capabilities ruleset provides for the scenarios.
 ; See doc/README.rulesets for definitions of official capabilities
@@ -542,6 +542,17 @@ quiet_actions = "Transport Disembark 2", "Conquer City 2"
 ; satisfied.
 ;
 ; */ <-- avoid gettext warnings
+
+[actionenabler_transport]
+action        = "Transport"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "Extra",        "Transport",    "Local", TRUE
+    }
 
 [actionenabler_sabotage_city]
 action = "Sabotage City"

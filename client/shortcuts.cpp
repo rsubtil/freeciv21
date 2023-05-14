@@ -123,6 +123,8 @@ static std::vector<fc_shortcut> default_shortcuts()
        Qt::NoModifier, _("Set Home City")},
       {SC_BUILDMINE, fc_shortcut::keyboard, Qt::Key_M, Qt::AllButtons,
        Qt::NoModifier, _("Build Mine")},
+      {SC_TRANSPORT, fc_shortcut::keyboard, Qt::Key_T, Qt::AllButtons,
+       Qt::ShiftModifier, _("Transport")},
       {SC_PLANT, fc_shortcut::keyboard, Qt::Key_M | Qt::ShiftModifier,
        Qt::AllButtons, Qt::NoModifier, _("Plant")},
       {SC_BUILDIRRIGATION, fc_shortcut::keyboard, Qt::Key_I, Qt::AllButtons,

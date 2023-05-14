@@ -829,6 +829,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
+  case ACTRES_TRANSPORT:
     // No special help.
     break;
   }
@@ -3198,6 +3199,9 @@ bool unit_perform_action(struct player *pplayer, const int actor_id,
     ACTION_STARTED_UNIT_TILE(
         action_type, actor_unit, target_tile,
         do_action_activity_targeted(actor_unit, paction, &target_extra));
+    break;
+  case ACTRES_TRANSPORT:
+    // TODO: Implement
     break;
   case ACTRES_NONE:
     // 100% ruleset defined.

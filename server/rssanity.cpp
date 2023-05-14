@@ -1133,6 +1133,12 @@ bool sanity_check_ruleset_data(bool ignore_retired)
   {
     struct action *paction = action_by_number(act);
 
+    if (!paction) {
+      qCCritical(ruleset_category, "Action %s: not found.",
+                 action_id_rule_name(act));
+      continue;
+    }
+
     if (paction->min_distance < 0) {
       qCCritical(ruleset_category, "Action %s: negative min distance (%d).",
                  action_id_rule_name(act), paction->min_distance);

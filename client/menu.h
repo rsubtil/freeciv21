@@ -64,7 +64,8 @@ enum munit {
   NOT_4_OBS,
   MULTIPLIERS,
   ENDGAME,
-  SAVE
+  SAVE,
+  TRANSPORT
 };
 
 enum delay_order { D_GOTO, D_NUKE, D_PARADROP, D_FORT };
@@ -225,6 +226,7 @@ private slots:
   void slot_transform();
   void slot_clean_pollution();
   void slot_clean_fallout();
+  void slot_transport();
 
   /*used by unit menu */
   void slot_unit_sentry();

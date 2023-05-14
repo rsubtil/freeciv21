@@ -2077,6 +2077,7 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_TRANSPORT_BOARD:
     case ACTRES_TRANSPORT_EMBARK:
     case ACTRES_NONE:
+    case ACTRES_TRANSPORT:
       // Various
       dai_incident_simple(receiver, violator, victim, scope, 1);
       break;

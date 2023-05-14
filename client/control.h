@@ -206,6 +206,7 @@ void key_unit_homecity();
 void key_unit_irrigate();
 void key_unit_cultivate();
 void key_unit_mine();
+void key_unit_transport();
 void key_unit_plant();
 void key_unit_patrol();
 void key_unit_paradrop();

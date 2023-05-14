@@ -145,6 +145,8 @@ enum output_type_id {
 #define SPECENUM_VALUE21NAME N_("Cultivate")
 #define SPECENUM_VALUE22 ACTIVITY_PLANT
 #define SPECENUM_VALUE22NAME N_("Plant")
+#define SPECENUM_VALUE23 ACTIVITY_TRANSPORT
+#define SPECENUM_VALUE23NAME N_("Transport")
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
 
@@ -262,6 +264,8 @@ enum output_type_id {
 #define SPECENUM_VALUE54NAME "Spread Plague"
 #define SPECENUM_VALUE55 ACTRES_SPY_ATTACK
 #define SPECENUM_VALUE55NAME "Spy Attack"
+#define SPECENUM_VALUE56 ACTRES_TRANSPORT
+#define SPECENUM_VALUE56NAME "Transport"
 // All consequences are handled as (ruleset) action data.
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"
@@ -938,6 +942,8 @@ typedef int server_setting_id;
 #define SPECENUM_VALUE7NAME "Appear"
 #define SPECENUM_VALUE8 EC_RESOURCE
 #define SPECENUM_VALUE8NAME "Resource"
+#define SPECENUM_VALUE9 EC_TRANSPORT
+#define SPECENUM_VALUE9NAME "Transport"
 #define SPECENUM_COUNT EC_COUNT
 #define SPECENUM_BITVECTOR bv_causes
 #include "specenum_gen.h"

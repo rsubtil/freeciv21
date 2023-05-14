@@ -120,6 +120,7 @@ static void clean_fallout(QVariant data1, QVariant data2);
 static void road(QVariant data1, QVariant data2);
 static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
+static void transport(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
@@ -247,6 +248,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_ROAD] = road;
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
+  action_function[ACTION_TRANSPORT] = transport;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
@@ -2422,6 +2424,25 @@ static void mine(QVariant data1, QVariant data2)
       && nullptr != index_to_tile(&(wld.map), target_id)
       && nullptr != extra_by_number(action_selection_target_extra())) {
     request_do_action(ACTION_MINE, actor_id, target_id,
+                      /* FIXME: will cause problems if more than
+                       * one action selection dialog at a time
+                       * becomes supported. */
+                      action_selection_target_extra(), "");
+  }
+}
+
+/**
+    Action "Transport" for choice dialog
+ */
+static void transport(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int target_id = data2.toInt();
+
+  if (nullptr != game_unit_by_number(actor_id)
+      && nullptr != index_to_tile(&(wld.map), target_id)
+      && nullptr != extra_by_number(action_selection_target_extra())) {
+    request_do_action(ACTION_TRANSPORT, actor_id, target_id,
                       /* FIXME: will cause problems if more than
                        * one action selection dialog at a time
                        * becomes supported. */

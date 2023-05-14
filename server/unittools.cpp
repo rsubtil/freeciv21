@@ -817,6 +817,11 @@ static void unit_activity_complete(struct unit *punit)
     // no default, ensure all handled
     break;
 
+  case ACTIVITY_TRANSPORT:
+    // TODO: Implement
+    unit_activity_done = true;
+    break;
+
   case ACTIVITY_EXPLORE:
     do_explore(punit);
     return;
@@ -1006,6 +1011,7 @@ static void update_unit_activity(struct unit *punit, time_t now)
   case ACTIVITY_PATROL_UNUSED:
   case ACTIVITY_UNKNOWN:
   case ACTIVITY_LAST:
+  case ACTIVITY_TRANSPORT:
     // These activities do not do anything interesting at turn change.
     break;
 
@@ -3737,6 +3743,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_SENTRY:
   case ACTIVITY_EXPLORE:
   case ACTIVITY_GOTO:
+  case ACTIVITY_TRANSPORT:
     break;
   case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
@@ -4973,6 +4980,9 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
           return false;
         }
         break;
+      case ACTIVITY_TRANSPORT:
+        // TODO: Implement
+        return true;
       // Replaced by action orders
       case ACTIVITY_BASE:
       case ACTIVITY_GEN_ROAD:

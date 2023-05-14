@@ -1611,6 +1611,7 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_PATROL_UNUSED:
     case ACTIVITY_LAST:
     case ACTIVITY_UNKNOWN:
+    case ACTIVITY_TRANSPORT:
       qCritical("Activity %d is not supposed to appear in unit orders",
                 order->activity);
       break;

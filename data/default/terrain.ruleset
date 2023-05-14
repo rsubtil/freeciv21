@@ -1223,9 +1223,9 @@ Building a mine on an irrigated tile will destroy the irrigation.\
 ")
 
 [extra_station]
-name           = _("Train Station")
+name           = _("Transport")
 category       = "Infra"
-causes         = "Mine"
+causes         = "Transport"
 rmcauses       = "Pillage"
 graphic        = "tx.mine"
 graphic_alt    = "-"
@@ -1234,10 +1234,6 @@ act_gfx_alt    = "unit.plant"
 act_gfx_alt2   = "-"
 rmact_gfx      = "None"
 rmact_gfx_alt  = "-"
-reqs           =
-    { "type", "name", "range", "present", "quiet"
-      "TerrainFlag", "Oil", "Local", FALSE, TRUE
-    }
 build_time     = 0
 removal_time   = 0
 helptext       = _("\

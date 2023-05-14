@@ -586,6 +586,8 @@ static char activity2char(enum unit_activity activity)
     return 'r';
   case ACTIVITY_MINE:
     return 'm';
+  case ACTIVITY_TRANSPORT:
+    return 'T';
   case ACTIVITY_IRRIGATE:
     return 'i';
   case ACTIVITY_FORTIFIED:

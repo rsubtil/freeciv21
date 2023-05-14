@@ -884,6 +884,10 @@ void mr_menu::setup_menus()
   shortcuts->link_action(SC_BUILDMINE, act);
   menu_list.insert(MINE, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_build_mine);
+  act = menu->addAction(_("Transport"));
+  shortcuts->link_action(SC_TRANSPORT, act);
+  menu_list.insert(TRANSPORT, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
   act = menu->addAction(_("Plant"));
   shortcuts->link_action(SC_PLANT, act);
   menu_list.insert(PLANT, act);
@@ -1608,6 +1612,19 @@ void mr_menu::menus_sensitive()
         }
         break;
 
+      case TRANSPORT: {
+        if (can_units_do_activity(punits, ACTIVITY_TRANSPORT)) {
+          i.value()->setEnabled(true);
+        }
+
+        struct extra_type *pextra = next_extra(punits, EC_ROAD);
+
+        if (pextra != nullptr) {
+          i.value()->setText(
+              QString(_("Transport")).arg(extra_name_translation(pextra)));
+        }
+       } break;
+
       case IRRIGATION:
         if (can_units_do_activity(punits, ACTIVITY_IRRIGATE)) {
           i.value()->setEnabled(true);
@@ -2080,6 +2097,11 @@ void mr_menu::slot_cultivate() { key_unit_cultivate(); }
    Action "BUILD_MINE"
  */
 void mr_menu::slot_build_mine() { key_unit_mine(); }
+
+/**
+   Action "TRANSPORT"
+*/
+void mr_menu::slot_transport() { key_unit_transport(); }
 
 /**
    Action "PLANT"

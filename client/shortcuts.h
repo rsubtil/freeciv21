@@ -93,6 +93,7 @@ enum shortcut_id {
   SC_PILLAGE = 59,
   SC_GOTO_MOUSE = 60,
   SC_VIEW_DRAG = 61,
+  SC_TRANSPORT = 62
 };
 
 /**************************************************************************
