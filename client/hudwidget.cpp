@@ -965,7 +965,7 @@ int unit_actions::update_actions()
 
   if (can_unit_do_activity(current_unit, ACTIVITY_TRANSPORT)) {
     actions.append(new hud_action(
-        this, fcIcons::instance()->getIcon(QStringLiteral("transport")),
+        this, fcIcons::instance()->getIcon(QStringLiteral("set_homecity")),
         SC_TRANSPORT));
   }
 

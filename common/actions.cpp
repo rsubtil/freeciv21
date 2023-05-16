@@ -881,7 +881,7 @@ static void hard_code_actions()
       ACT_TGT_COMPL_MANDATORY, true, false, MAK_STAYS, 0, 0, false);
   actions[ACTION_TRANSPORT] = unit_action_new(
       ACTION_TRANSPORT, ACTRES_TRANSPORT, ATK_TILE, ASTK_EXTRA,
-      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 1, 255, false);
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
   actions[ACTION_IRRIGATE] = unit_action_new(
       ACTION_IRRIGATE, ACTRES_IRRIGATE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
       ACT_TGT_COMPL_MANDATORY, true, false, MAK_STAYS, 0, 0, false);
@@ -3022,6 +3022,10 @@ static enum fc_tristate is_action_possible(
   can_see_tgt_tile =
       (omniscient || plr_sees_tile(actor_player, target_tile));
 
+  if (wanted_action == ACTION_TRANSPORT) {
+    log_warning("");
+  }
+
   // Info leak: The player knows where his unit is.
   if (action_get_target_kind(paction) != ATK_SELF
       && !action_distance_accepted(
@@ -3792,7 +3796,6 @@ static enum fc_tristate is_action_possible(
   } break;
 
   case ACTRES_TRANSPORT:
-    // TODO: Implement
     break;
 
   case ACTRES_SPY_SPREAD_PLAGUE:

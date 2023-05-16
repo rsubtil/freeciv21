@@ -547,7 +547,7 @@ quiet_actions = "Transport Disembark 2", "Conquer City 2"
 action        = "Transport"
 actor_reqs    =
     { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
+      "UnitFlag",      "Spy",          "Local"
     }
 target_reqs    =
     { "type",         "name",         "range", "present"
