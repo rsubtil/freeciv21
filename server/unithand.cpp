@@ -115,6 +115,9 @@ static bool city_add_unit(struct player *pplayer, struct unit *punit,
 static bool city_build(struct player *pplayer, struct unit *punit,
                        struct tile *ptile, const char *name,
                        const struct action *paction);
+static bool do_transport(struct player *pplayer, struct unit *punit,
+                         struct tile *ptile, const char *name,
+                         const struct action *paction);
 static bool do_unit_establish_trade(struct player *pplayer,
                                     struct unit *punit,
                                     struct city *pcity_dest,
@@ -3201,7 +3204,9 @@ bool unit_perform_action(struct player *pplayer, const int actor_id,
         do_action_activity_targeted(actor_unit, paction, &target_extra));
     break;
   case ACTRES_TRANSPORT:
-    // TODO: Implement
+    ACTION_STARTED_UNIT_TILE(
+        action_type, actor_unit, target_tile,
+        do_transport(pplayer, actor_unit, target_tile, name, paction));
     break;
   case ACTRES_NONE:
     // 100% ruleset defined.
@@ -3463,6 +3468,28 @@ static bool city_build(struct player *pplayer, struct unit *punit,
    * table. (See also Voluntary Human Extinction Movement) */
   action_consequence_success(paction, pplayer, towner, ptile,
                              tile_link(ptile));
+
+  return true;
+}
+
+static bool do_transport(struct player *pplayer, struct unit *punit,
+                       struct tile *ptile, const char *name,
+                       const struct action *paction)
+{
+  // Sanity check: The actor still exists.
+  fc_assert_ret_val(pplayer, false);
+  fc_assert_ret_val(punit, false);
+  fc_assert_ret_val(ptile, false);
+  fc_assert_ret_val(name, false);
+
+  QString s_transport_from(punit->tile->label);
+  QString s_transport_to(name);
+
+  tile* transport_from = ptile;
+  tile* transport_to = map_transports_get(s_transport_to);
+
+  // TODO: Register this info properly for spies to get
+  unit_move(punit, transport_to, 100, nullptr, false, false);
 
   return true;
 }

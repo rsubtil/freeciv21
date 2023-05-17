@@ -881,7 +881,7 @@ static void hard_code_actions()
       ACT_TGT_COMPL_MANDATORY, true, false, MAK_STAYS, 0, 0, false);
   actions[ACTION_TRANSPORT] = unit_action_new(
       ACTION_TRANSPORT, ACTRES_TRANSPORT, ATK_TILE, ASTK_EXTRA,
-      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
   actions[ACTION_IRRIGATE] = unit_action_new(
       ACTION_IRRIGATE, ACTRES_IRRIGATE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
       ACT_TGT_COMPL_MANDATORY, true, false, MAK_STAYS, 0, 0, false);
@@ -3796,6 +3796,10 @@ static enum fc_tristate is_action_possible(
   } break;
 
   case ACTRES_TRANSPORT:
+    // Only if unit has move points available
+    if (actor_unit->moves_left <= 0) {
+      return TRI_NO;
+    }
     break;
 
   case ACTRES_SPY_SPREAD_PLAGUE:
