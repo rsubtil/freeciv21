@@ -2101,7 +2101,18 @@ void mr_menu::slot_build_mine() { key_unit_mine(); }
 /**
    Action "TRANSPORT"
 */
-void mr_menu::slot_transport() { key_unit_transport(); }
+void mr_menu::slot_transport() {
+  for (const auto punit : get_units_in_focus()) {
+    /* FIXME: this can provide different actions for different units...
+     * not good! */
+    /* Enable the button for adding to a city in all cases, so we
+       get an eventual error message from the server if we try. */
+    if (utype_can_do_action(unit_type_get(punit),
+                                   ACTION_TRANSPORT)) {
+      dsend_packet_transport_req(&client.conn, punit->id);
+    }
+  }
+}
 
 /**
    Action "PLANT"

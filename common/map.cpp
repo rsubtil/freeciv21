@@ -133,6 +133,7 @@ void map_init(struct civ_map *imap, bool server_side)
   imap->num_oceans = 0;
   imap->tiles = nullptr;
   imap->startpos_table = nullptr;
+  imap->transport_tiles = nullptr;
   imap->iterate_outwards_indices = nullptr;
 
   /* The [xy]size values are set in map_init_topology.  It is initialized
@@ -479,6 +480,9 @@ void map_allocate(struct civ_map *amap)
   whole_map_iterate_end;
   delete amap->startpos_table;
   amap->startpos_table = new QHash<struct tile *, struct startpos *>;
+  delete amap->transport_tiles;
+  amap->transport_tiles = new QHash<QString, struct tile *>;
+
 }
 
 /**
@@ -512,6 +516,11 @@ void map_free(struct civ_map *fmap)
       }
       delete fmap->startpos_table;
       fmap->startpos_table = nullptr;
+    }
+
+    if (fmap->transport_tiles) {
+      delete fmap->transport_tiles;
+      fmap->transport_tiles = nullptr;
     }
 
     delete[] fmap->iterate_outwards_indices;
@@ -1583,6 +1592,47 @@ bool map_startpos_remove(struct tile *ptile)
   }
 
   return ret;
+}
+
+int map_transports_count()
+{
+  if (nullptr != wld.map.transport_tiles) {
+    return wld.map.transport_tiles->size();
+  } else {
+    return 0;
+  }
+}
+
+void map_transports_add(QString name, struct tile *transport)
+{
+  fc_assert(nullptr != transport);
+  fc_assert(nullptr != wld.map.transport_tiles);
+
+  wld.map.transport_tiles->insert(name, transport);
+}
+
+struct tile *map_transports_get(QString name)
+{
+  fc_assert_ret_val(name.size() != 0, nullptr);
+  fc_assert_ret_val(nullptr != wld.map.startpos_table, nullptr);
+
+  return wld.map.transport_tiles->value(name, nullptr);
+}
+
+QVector<QString>* map_transports_get_names(struct player *pplayer, struct tile *ptile)
+{
+  fc_assert_ret_val(nullptr != wld.map.transport_tiles, nullptr);
+  fc_assert_ret_val(nullptr != ptile && nullptr != pplayer,
+                    nullptr);
+  fc_assert_ret_val(nullptr != ptile->label, nullptr);
+
+  QString existing(ptile->label);
+  QList<QString> names = wld.map.transport_tiles->keys();
+  names.removeOne(existing);
+  QVector<QString> *pnames = new QVector<QString>();
+  *pnames = QVector<QString>::fromList(names);
+
+  return pnames;
 }
 
 /**

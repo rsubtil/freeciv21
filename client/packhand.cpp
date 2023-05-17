@@ -278,6 +278,7 @@ static struct unit *unpackage_unit(const struct packet_unit_info *packet)
       index_to_tile(&(wld.map), packet->action_decision_tile);
 
   punit->client.asking_city_name = false;
+  punit->client.asking_transport = false;
 
   return punit;
 }
@@ -4643,6 +4644,40 @@ void handle_city_name_suggestion_info(int unit_id, const char *name)
     } else {
       request_do_action(ACTION_FOUND_CITY, unit_id,
                         tile_index(unit_tile(punit)), 0, name);
+    }
+  }
+}
+
+/**
+   Handle reply to our transport request.
+ */
+void handle_transport_info(int unit_id, const char* names)
+{
+  struct unit *punit = player_unit_by_number(client_player(), unit_id);
+
+  if (!can_client_issue_orders()) {
+    return;
+  }
+
+  if (punit) {
+    bool other_asking = false;
+    unit_list_iterate(unit_tile(punit)->units, other)
+    {
+      if (other->client.asking_transport) {
+        other_asking = true;
+      }
+    }
+    unit_list_iterate_end;
+    punit->client.asking_transport = true;
+
+    if (!other_asking) {
+      // Convert our char array to a more friendly format
+      QVector<QString>* transports = packet_strvec_extract(names);
+      for(auto &transport : *transports) {
+        log_warning("Transport: %s", transport.toUtf8().data());
+      }
+      // TODO: Implement
+      popup_transport_dialog(punit, transports);
     }
   }
 }

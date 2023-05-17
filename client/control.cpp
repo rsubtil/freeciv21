@@ -3311,3 +3311,28 @@ void cancel_city(struct tile *ptile)
   }
   unit_list_iterate_end;
 }
+
+void finish_transport(struct tile *ptile, QString to)
+{
+  unit_list_iterate(ptile->units, punit)
+  {
+    if (punit->client.asking_transport) {
+      /* Unit will disappear only in case city building still success.
+       * Cancel city building status just in case something has changed
+       * to prevent city building in the meanwhile and unit will remain
+       * alive. */
+      punit->client.asking_transport = false;
+      request_do_action(ACTION_TRANSPORT, punit->id, ptile->index, 0, to.toUtf8().data());
+    }
+  }
+  unit_list_iterate_end;
+}
+
+void cancel_transport(struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit)
+  {
+    punit->client.asking_transport = false;
+  }
+  unit_list_iterate_end;
+}

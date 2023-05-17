@@ -75,6 +75,7 @@ struct civ_map {
   int num_oceans; // not updated at the client
   struct tile *tiles;
   QHash<struct tile *, struct startpos *> *startpos_table;
+  QHash<QString, struct tile *> *transport_tiles;
 
   union {
     struct {

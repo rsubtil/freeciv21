@@ -2437,17 +2437,8 @@ static void mine(QVariant data1, QVariant data2)
 static void transport(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
-  int target_id = data2.toInt();
 
-  if (nullptr != game_unit_by_number(actor_id)
-      && nullptr != index_to_tile(&(wld.map), target_id)
-      && nullptr != extra_by_number(action_selection_target_extra())) {
-    request_do_action(ACTION_TRANSPORT, actor_id, target_id,
-                      /* FIXME: will cause problems if more than
-                       * one action selection dialog at a time
-                       * becomes supported. */
-                      action_selection_target_extra(), "");
-  }
+  dsend_packet_transport_req(&client.conn, actor_id);
 }
 
 /**

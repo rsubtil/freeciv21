@@ -220,6 +220,7 @@ struct unit {
       int color_index;
 
       bool asking_city_name;
+      bool asking_transport;
 
       // Used in a follow up question about a selected action.
       struct act_prob *act_prob_cache;

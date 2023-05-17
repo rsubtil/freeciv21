@@ -496,6 +496,174 @@ void hud_input_box::paintEvent(QPaintEvent *event)
 }
 
 /**
+   Custom multiple selection box constructor
+ */
+hud_multiple_selection_box::hud_multiple_selection_box(QWidget *parent) : QDialog(parent)
+{
+  int size;
+
+  setWindowFlags(Qt::WindowStaysOnTopHint | Qt::Dialog
+                 | Qt::FramelessWindowHint);
+
+  f_text = fcFont::instance()->getFont(fonts::default_font);
+  f_title = fcFont::instance()->getFont(fonts::default_font);
+
+  size = f_text.pointSize();
+  if (size > 0) {
+    f_text.setPointSize(size * 4 / 3);
+    f_title.setPointSize(size * 3 / 2);
+  } else {
+    size = f_text.pixelSize();
+    f_text.setPixelSize(size * 4 / 3);
+    f_title.setPointSize(size * 3 / 2);
+  }
+  f_title.setBold(true);
+  f_title.setCapitalization(QFont::SmallCaps);
+  fm_text = new QFontMetrics(f_text);
+  fm_title = new QFontMetrics(f_title);
+  top = 0;
+  m_animate_step = 0;
+  hide();
+  mult = 1;
+}
+
+/**
+   Custom multiple selection box destructor
+ */
+hud_multiple_selection_box::~hud_multiple_selection_box()
+{
+  delete fm_text;
+  delete fm_title;
+}
+
+/**
+   Sets text, title and options and shows multiple selection box
+ */
+void hud_multiple_selection_box::set_text_title_options(
+    const QString &s1, const QString &s2, const QVector<QString> &options)
+{
+  QSpacerItem *spacer;
+  QVBoxLayout *layout;
+  int w, w2, h;
+  QDialogButtonBox *button_box;
+  QPoint p;
+
+  button_box = new QDialogButtonBox(
+      QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
+  layout = new QVBoxLayout;
+  if (s1.contains('\n')) {
+    int i;
+    i = s1.indexOf('\n');
+    cs1 = s1.left(i);
+    cs2 = s1.right(s1.count() - i);
+    mult = 2;
+    w2 = qMax(fm_text->horizontalAdvance(cs1),
+              fm_text->horizontalAdvance(cs2));
+    w = qMax(w2, fm_title->horizontalAdvance(s2));
+  } else {
+    w = qMax(fm_text->horizontalAdvance(s1),
+             fm_title->horizontalAdvance(s2));
+  }
+  w = w + 20;
+  h = mult * (fm_text->height() * 3 / 2) + 2 * fm_title->height();
+  top = 2 * fm_title->height();
+
+  for(auto& option : options) {
+    new QListWidgetItem(option, &option_list);
+  }
+
+  spacer =
+      new QSpacerItem(w, h, QSizePolicy::Expanding, QSizePolicy::Minimum);
+  layout->addItem(spacer);
+  layout->addWidget(&option_list);
+  layout->addWidget(button_box);
+  setLayout(layout);
+  QObject::connect(button_box, &QDialogButtonBox::accepted, this,
+                   &QDialog::accept);
+  QObject::connect(button_box, &QDialogButtonBox::rejected, this,
+                   &QDialog::reject);
+
+  text = s1;
+  title = s2;
+  p = QPoint((parentWidget()->width() - w) / 2,
+             (parentWidget()->height() - h) / 2);
+  p = parentWidget()->mapToGlobal(p);
+  move(p);
+  m_timer.start();
+  startTimer(41);
+  show();
+  update();
+}
+
+/**
+   Timer event used to animate multiple selection box
+ */
+void hud_multiple_selection_box::timerEvent(QTimerEvent *event)
+{
+  m_animate_step = m_timer.elapsed() / 40;
+  update();
+}
+
+/**
+   Paint event for custom multiple selection box
+ */
+void hud_multiple_selection_box::paintEvent(QPaintEvent *event)
+{
+  QPainter p;
+  QRect rx, ry;
+  QLinearGradient g;
+  QColor c1;
+  QColor c2;
+  QColor c3;
+  int step;
+  float fstep;
+
+  step = m_animate_step % 300;
+  if (step > 150) {
+    step = step - 150;
+    step = 150 - step;
+  }
+  step = step + 10;
+  rx = QRect(2, 2, width() - 4, top);
+  ry = QRect(2, top, width() - 4, height() - top - 4);
+
+  c1 = QColor(palette().color(QPalette::Highlight));
+  c2 = QColor(Qt::transparent);
+  c3 = QColor(palette().color(QPalette::Highlight)).lighter(145);
+  step = qMax(0, step);
+  step = qMin(255, step);
+  c1.setAlpha(step);
+  c2.setAlpha(step);
+  c3.setAlpha(step);
+
+  fstep = static_cast<float>(step) / 400;
+  g = QLinearGradient(0, 0, width(), height());
+  g.setColorAt(0, c2);
+  g.setColorAt(fstep, c3);
+  g.setColorAt(1, c2);
+
+  p.begin(this);
+  p.fillRect(rx, QColor(palette().color(QPalette::Highlight)));
+  p.fillRect(ry, QColor(palette().color(QPalette::AlternateBase)));
+  p.fillRect(rx, g);
+  p.setFont(f_title);
+  p.drawText((width() - fm_title->horizontalAdvance(title)) / 2,
+             fm_title->height() * 4 / 3, title);
+  p.setFont(f_text);
+  if (mult == 1) {
+    p.drawText((width() - fm_text->horizontalAdvance(text)) / 2,
+               2 * fm_title->height() + fm_text->height() * 4 / 3, text);
+  } else {
+    p.drawText((width() - fm_text->horizontalAdvance(cs1)) / 2,
+               2 * fm_title->height() + fm_text->height() * 4 / 3, cs1);
+    p.drawText((width() - fm_text->horizontalAdvance(cs2)) / 2,
+               2 * fm_title->height() + fm_text->height() * 8 / 3, cs2);
+  }
+  p.end();
+  event->accept();
+}
+
+/**
    Constructor for hud_units (holds layout for whole uunits info)
  */
 hud_units::hud_units(QWidget *parent)

@@ -220,6 +220,9 @@ void key_unit_wakeup_others();
 void finish_city(struct tile *ptile, const char *name);
 void cancel_city(struct tile *ptile);
 
+void finish_transport(struct tile *ptile, QString to);
+void cancel_transport(struct tile *ptile);
+
 /* don't change this unless you also put more entries in data/Freeciv */
 #define MAX_NUM_UNITS_BELOW 4
 

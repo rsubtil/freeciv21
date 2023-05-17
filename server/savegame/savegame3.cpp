@@ -2666,6 +2666,15 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
       || game.scenario.have_resources) {
     whole_map_iterate(&(wld.map), ptile)
     {
+      extra_type_by_cause_iterate(EC_TRANSPORT, pres)
+      {
+        if (tile_has_extra(ptile, pres) && ptile->label) {
+          log_warning("Transport named %s", ptile->label);
+          map_transports_add(QString(ptile->label), ptile);
+        }
+      }
+      extra_type_by_cause_iterate_end;
+
       extra_type_by_cause_iterate(EC_RESOURCE, pres)
       {
         if (tile_has_extra(ptile, pres)) {

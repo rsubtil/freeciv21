@@ -77,6 +77,42 @@ void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 }
 
 /**
+   Send transport_info packet back to requesting conn, with
+   all available transports, not accounting for the unit's
+   current location.
+ */
+void handle_transport_req(struct player *pplayer, int unit_id)
+{
+  struct unit *punit = player_unit_by_number(pplayer, unit_id);
+
+  if (nullptr == punit) {
+    // Probably died or bribed.
+    qDebug("handle_transport_req() invalid unit %d", unit_id);
+    return;
+  }
+
+  if (action_prob_possible(action_prob_vs_tile(punit, ACTION_TRANSPORT,
+                                               unit_tile(punit), nullptr))) {
+    qDebug("handle_transport_req(unit_pos (%d, %d))",
+           TILE_XY(unit_tile(punit)));
+    packet_transport_info p;
+    p.unit_id = unit_id;
+    packet_strvec_compute(p.names, map_transports_get_names(pplayer, unit_tile(punit)));
+    send_packet_transport_info(pplayer->current_conn, &p);
+
+    // The rest of this function is error handling.
+    return;
+  }
+
+  qDebug("handle_transport_req(unit_pos (%d, %d)): "
+         "cannot transport from that tile.",
+         TILE_XY(unit_tile(punit)));
+
+  illegal_action_msg(pplayer, E_BAD_COMMAND, punit, ACTION_TRANSPORT,
+                     unit_tile(punit), nullptr, nullptr);
+}
+
+/**
    Handle request to change specialist type
  */
 void handle_city_change_specialist(struct player *pplayer, int city_id,

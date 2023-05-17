@@ -87,6 +87,12 @@ struct startpos *map_startpos_new(struct tile *ptile);
 struct startpos *map_startpos_get(const struct tile *ptile);
 bool map_startpos_remove(struct tile *ptile);
 
+int map_transports_count();
+void map_transports_add(QString name, struct tile *transport);
+struct tile * map_transports_get(QString name);
+QVector<QString>* map_transports_get_names(struct player *pplayer,
+                                           struct tile *ptile);
+
 // Number of index coordinates (for sanity checks and allocations)
 #define MAP_INDEX_SIZE (wld.map.xsize * wld.map.ysize)
 

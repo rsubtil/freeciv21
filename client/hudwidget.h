@@ -17,6 +17,7 @@
 #include <QMessageBox>
 #include <QRubberBand>
 #include <QTableWidget>
+#include <QListWidget>
 // utility
 #include "fc_types.h"
 // gui-qt
@@ -117,6 +118,37 @@ public:
   void set_text_title_definput(const QString &s1, const QString &s2,
                                const QString &def_input);
   QLineEdit input_edit;
+
+protected:
+  void paintEvent(QPaintEvent *event) override;
+  void timerEvent(QTimerEvent *event) override;
+
+private:
+  int m_animate_step;
+  QString text;
+  QString title;
+  QFontMetrics *fm_text;
+  QFontMetrics *fm_title;
+  QFont f_text;
+  QString cs1, cs2;
+  QFont f_title;
+  int top;
+  int mult;
+};
+
+/****************************************************************************
+  Custom multiple selection box with animated background
+****************************************************************************/
+class hud_multiple_selection_box : public QDialog {
+  Q_OBJECT
+  QElapsedTimer m_timer;
+
+public:
+  hud_multiple_selection_box(QWidget *parent);
+  ~hud_multiple_selection_box() override;
+  void set_text_title_options(const QString &s1, const QString &s2,
+                               const QVector<QString> &options);
+  QListWidget option_list;
 
 protected:
   void paintEvent(QPaintEvent *event) override;

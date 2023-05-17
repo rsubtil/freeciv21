@@ -64,6 +64,37 @@ void popup_newcity_dialog(struct unit *punit, const char *suggestname)
 }
 
 /**
+   Popup a dialog to ask for transport to travel to.
+ */
+void popup_transport_dialog(struct unit *punit, QVector<QString> *pnames)
+{
+  hud_multiple_selection_box *ask = new hud_multiple_selection_box(king()->central_wdg);
+  int index = tile_index(unit_tile(punit));
+
+  ask->set_text_title_options(_("Where do you want to travel to?"),
+                               _("Transport"), *pnames);
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  QObject::connect(ask, &hud_input_box::finished, [=](int result) {
+    if (result == QDialog::Accepted) {
+      QByteArray ask_bytes;
+
+      QList<QListWidgetItem *> selected_items = ask->option_list.selectedItems();
+      if (selected_items.size() == 0) {
+        cancel_transport(index_to_tile(&(wld.map), index));
+        return;
+      }
+
+      ask_bytes = selected_items[0]->text().toLocal8Bit();
+      log_warning("Travelling to %s", ask_bytes.data());
+      finish_transport(index_to_tile(&(wld.map), index), ask_bytes.data());
+    } else {
+      cancel_transport(index_to_tile(&(wld.map), index));
+    }
+  });
+  ask->show();
+}
+
+/**
    Draw a goto or patrol line at the current mouse position.
  */
 void create_line_at_mouse_pos(void)
