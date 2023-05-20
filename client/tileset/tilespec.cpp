@@ -3652,6 +3652,13 @@ void fill_unit_sprite_array(const struct tileset *t,
     }
   }
 
+  if (unit_has_type_flag(punit, UTYF_SPY) && punit->owner != client_player()
+      && !client_is_observer()) {
+    // Foreign spy, change type to unknown
+    ptype = unit_type_by_rule_name("Unknown Spy");
+    fc_assert(ptype);
+  }
+
   // Add the sprite for the unit type.
   const auto rgb = punit->owner ? punit->owner->rgb : nullptr;
   const auto color = rgb ? QColor(rgb->r, rgb->g, rgb->b) : QColor();

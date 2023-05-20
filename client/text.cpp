@@ -356,6 +356,12 @@ const QString popup_info_text(struct tile *ptile)
       str += _("Can move in ") + QString(buf) + qendl();
     }
 
+    if (unit_has_type_flag(punit, UTYF_SPY)
+        && punit->owner != client_player() && !client_is_observer()) {
+      str += QString(_("Unit: Unknown Spy")) + qendl();
+      return str.trimmed();
+    }
+
     auto unit_description = QString();
     if (punit->name.isEmpty()) {
       // TRANS: "Unit: <unit type> #<unit id>
