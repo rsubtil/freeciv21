@@ -3023,7 +3023,8 @@ static enum fc_tristate is_action_possible(
       (omniscient || plr_sees_tile(actor_player, target_tile));
 
   if (wanted_action == ACTION_TRANSPORT) {
-    log_warning("");
+    // DEBUG
+    //log_warning("");
   }
 
   // Info leak: The player knows where his unit is.

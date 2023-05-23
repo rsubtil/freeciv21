@@ -2387,7 +2387,7 @@ static struct setting settings[] = {
             nullptr, nullptr, nullptr, GAME_MIN_REVOLUTION_LENGTH,
             GAME_MAX_REVOLUTION_LENGTH, GAME_DEFAULT_REVOLUTION_LENGTH),
 
-    GEN_BOOL("fogofwar", game.info.fogofwar, SSET_RULES, SSET_MILITARY,
+    GEN_BOOL("fogofwar", game.info.fogofwar, SSET_RULES_FLEXIBLE, SSET_MILITARY,
              SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
              N_("Whether to enable fog of war"),
              N_("If this is enabled, only those units and cities within the "

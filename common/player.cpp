@@ -997,6 +997,12 @@ bool can_player_see_unit_at(const struct player *pplayer,
     extra_type_list_iterate_end;
   }
 
+  // If unit is spy and is not actively moving, they become invisible, even if inside visible area.
+  if (unit_has_type_flag(punit, UTYF_SPY) && punit->owner != pplayer) {
+    return punit->has_orders
+           && punit->orders.list[punit->orders.index].order == ORDER_MOVE;
+  }
+
   // Allied or non-hiding units are always seen.
   if (pplayers_allied(unit_owner(punit), pplayer)
       || !is_hiding_unit(punit)) {
