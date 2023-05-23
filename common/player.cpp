@@ -964,6 +964,9 @@ bool can_player_see_unit_at(const struct player *pplayer,
 {
   struct city *pcity;
 
+  // TODO: Any scientist, banker and engineer must be visible. Check must be here before tile knowns
+  // are checked.
+
   // If the player can't even see the tile...
   if (TILE_KNOWN_SEEN != tile_get_known(ptile, pplayer)) {
     return false;

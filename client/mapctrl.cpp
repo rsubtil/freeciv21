@@ -214,6 +214,7 @@ void map_view::keyPressEvent(QKeyEvent *event)
 void map_view::shortcut_pressed(shortcut_id id)
 {
   // FIXME mouse handling
+  auto unscaled_pos = mapFromGlobal(QCursor::pos());
   auto pos = mapFromGlobal(QCursor::pos()) / scale();
 
   auto ptile = canvas_pos_to_tile(pos.x(), pos.y());
@@ -402,8 +403,8 @@ void map_view::shortcut_pressed(shortcut_id id)
 
   case SC_VIEW_DRAG:
     dragging_view = true;
-    dragging_offset_x = pos.x();
-    dragging_offset_y = pos.y();
+    dragging_offset_x = unscaled_pos.x();
+    dragging_offset_y = unscaled_pos.y();
     dragging_origin = m_renderer->origin();
     break;
 
@@ -488,7 +489,7 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
   if(dragging_view) {
     int deltax = event->pos().x() - dragging_offset_x;
     int deltay = event->pos().y() - dragging_offset_y;
-    QPointF new_origin = dragging_origin - QPointF(deltax, deltay);
+    QPointF new_origin = dragging_origin - QPointF(deltax, deltay) / scale();
     m_renderer->set_origin(new_origin);
   }
 }
