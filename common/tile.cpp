@@ -398,6 +398,14 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
 enum known_type tile_get_known(const struct tile *ptile,
                                const struct player *pplayer)
 {
+  extra_type_by_cause_iterate(EC_BUILDING, pextra)
+  {
+    if (tile_has_extra(ptile, pextra)) {
+      return TILE_KNOWN_SEEN;
+    }
+  }
+  extra_type_by_cause_iterate_end;
+
   if (tile_virtual_check(ptile)) {
     return TILE_KNOWN_SEEN;
   }
