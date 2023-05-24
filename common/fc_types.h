@@ -945,6 +945,8 @@ typedef int server_setting_id;
 #define SPECENUM_VALUE8NAME "Resource"
 #define SPECENUM_VALUE9 EC_TRANSPORT
 #define SPECENUM_VALUE9NAME "Transport"
+#define SPECENUM_VALUE10 EC_BUILDING
+#define SPECENUM_VALUE10NAME "Building"
 #define SPECENUM_COUNT EC_COUNT
 #define SPECENUM_BITVECTOR bv_causes
 #include "specenum_gen.h"

@@ -3256,6 +3256,69 @@ static void unit_enter_hut(struct unit *punit)
   }
 }
 
+static bool building_belongs_to(const struct extra_type *pextra,
+                                const struct player *pplayer)
+{
+  if (!strcmp(pplayer->username, "yellow") && !strcmp(extra_rule_name(pextra), "building_y"))
+    return true;
+  else if (!strcmp(pplayer->username, "purple") && !strcmp(extra_rule_name(pextra), "building_p"))
+    return true;
+  else if (!strcmp(pplayer->username, "blue") && !strcmp(extra_rule_name(pextra), "building_b"))
+    return true;
+  else if (!strcmp(pplayer->username, "green") && !strcmp(extra_rule_name(pextra), "building_g"))
+    return true;
+  return false;
+}
+
+static std::string building_to_player(const struct player *pplayer)
+{
+  // TODO: This is generic buiding; we later need to convert to
+  // university/back/factory according to current unit
+  if (!strcmp(pplayer->username, "yellow"))
+    return "building_y";
+  else if (!strcmp(pplayer->username, "purple"))
+    return "building_p";
+  else if (!strcmp(pplayer->username, "blue"))
+    return "building_b";
+  else if (!strcmp(pplayer->username, "green"))
+    return "building_g";
+  return "building_u";
+}
+
+static void unit_enter_building(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  int id = punit->id;
+  struct tile *ptile = unit_tile(punit);
+
+  extra_type_by_cause_iterate(EC_BUILDING, pextra)
+  {
+    if (tile_has_extra(ptile, pextra)
+        && are_reqs_active(pplayer, tile_owner(ptile), nullptr, nullptr,
+                           ptile, nullptr, nullptr, nullptr, nullptr,
+                           nullptr, &pextra->rmreqs, RPT_CERTAIN)) {
+      // Do not remove buildings already belonging to that player
+      if (building_belongs_to(pextra, pplayer)) {
+        log_warning("Here");
+        continue;
+      }
+
+      // Destroy building and change it to player color
+      destroy_extra(ptile, pextra);
+      std::string name = building_to_player(pplayer).c_str();
+      extra_type *new_extra = extra_type_by_rule_name(name.c_str());
+      create_extra(ptile, new_extra, pplayer);
+      if (name == "building_u") {
+        // No owner
+        ptile->extras_owner = nullptr;
+      }
+
+      update_tile_knowledge(unit_tile(punit));
+    }
+  }
+  extra_type_by_cause_iterate_end;
+}
+
 /**
    Put the unit onto the transporter, and tell everyone.
  */
@@ -4294,6 +4357,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   if (unit_lives) {
     // Is there a hut?
     unit_enter_hut(punit);
+    unit_lives = unit_is_alive(saved_id);
+  }
+
+  if (unit_lives) {
+    // Is there a building?
+    unit_enter_building(punit);
     unit_lives = unit_is_alive(saved_id);
   }
 
