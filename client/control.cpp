@@ -213,6 +213,8 @@ static void focus_units_changed()
 {
   update_unit_info_label(get_units_in_focus());
   menus_update();
+  mapdeco_clear_gotoroutes();
+  draw_focus_unit_goto();
   // Notify the GUI
   real_focus_units_changed();
 }
@@ -437,6 +439,19 @@ void auto_center_on_focus_unit()
   if (ptile && gui_options->auto_center_on_unit && auto_center_enabled
       && !tile_visible_and_not_on_border_mapcanvas(ptile)) {
     queen()->mapview_wdg->center_on_tile(ptile);
+  }
+}
+
+void draw_focus_unit_goto()
+{
+  if (get_num_units_in_focus() <= 0) {
+    return;
+  }
+
+  struct unit *punit = head_of_units_in_focus();
+  if(punit->goto_tile) {
+    enter_goto_state(get_units_in_focus());
+    is_valid_goto_draw_line(punit->goto_tile);
   }
 }
 

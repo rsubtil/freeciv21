@@ -301,12 +301,9 @@ void map_view::shortcut_pressed(shortcut_id id)
     break;
 
   case SC_GOTO_MOUSE:
-    if (!goto_is_active()) {
-      set_auto_center_enabled(false);
-      action_button_pressed(pos.x(), pos.y(), SELECT_GOTO);
-      return;
-    }
-    break;
+    set_auto_center_enabled(false);
+    action_button_pressed(pos.x(), pos.y(), SELECT_GOTO);
+    return;
 
   case SC_QUICK_SELECT:
     if (pcity != nullptr && !king()->menu_bar->delayed_order) {

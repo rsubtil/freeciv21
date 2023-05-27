@@ -161,6 +161,7 @@ void unit_focus_update();
 
 void set_auto_center_enabled(bool enabled);
 void auto_center_on_focus_unit();
+void draw_focus_unit_goto();
 
 void update_unit_pix_label(const std::vector<unit *> &units);
 
