@@ -559,6 +559,99 @@ Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
 ")
 
+[unit_scientist]
+name          = _("Scientist")
+class         = "Land"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.explorer"
+graphic_alt   = "-"
+sound_move    = "m_explorer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_explorer"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1.0
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil", "HasNoZOC"
+helptext      = _("\
+Explorers are brave individuals that are very useful for\
+ mapping unknown territory.\
+")
+
+[unit_banker]
+name          = _("Banker")
+class         = "Land"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.explorer"
+graphic_alt   = "-"
+sound_move    = "m_explorer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_explorer"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1.0
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil", "HasNoZOC"
+helptext      = _("\
+Explorers are brave individuals that are very useful for\
+ mapping unknown territory.\
+")
+
+[unit_engineer]
+name          = _("Engineer")
+class         = "Land"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.explorer"
+graphic_alt   = "-"
+sound_move    = "m_explorer"
+sound_move_alt = "m_generic"
+sound_fight   = "f_explorer"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 1.0
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "IgZOC", "NonMil", "HasNoZOC"
+helptext      = _("\
+Explorers are brave individuals that are very useful for\
+ mapping unknown territory.\
+")
+
 [unit_spy]
 name          = _("Spy")
 class         = "Land"

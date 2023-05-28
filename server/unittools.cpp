@@ -3259,36 +3259,115 @@ static void unit_enter_hut(struct unit *punit)
 static bool building_belongs_to(const struct extra_type *pextra,
                                 const struct player *pplayer)
 {
-  if (!strcmp(pplayer->username, "yellow") && !strcmp(extra_rule_name(pextra), "building_y"))
+  if (!strcmp(pplayer->username, "yellow") &&
+      (
+      !strcmp(extra_rule_name(pextra), "building_y_u") ||
+      !strcmp(extra_rule_name(pextra), "building_y_b") ||
+      !strcmp(extra_rule_name(pextra), "building_y_f")
+      )
+    )
     return true;
-  else if (!strcmp(pplayer->username, "purple") && !strcmp(extra_rule_name(pextra), "building_p"))
+  else if (!strcmp(pplayer->username, "purple") &&
+      (
+      !strcmp(extra_rule_name(pextra), "building_p_u") ||
+      !strcmp(extra_rule_name(pextra), "building_p_b") ||
+      !strcmp(extra_rule_name(pextra), "building_p_f")
+      )
+    )
     return true;
-  else if (!strcmp(pplayer->username, "blue") && !strcmp(extra_rule_name(pextra), "building_b"))
+  else if (!strcmp(pplayer->username, "blue") &&
+      (
+      !strcmp(extra_rule_name(pextra), "building_b_u") ||
+      !strcmp(extra_rule_name(pextra), "building_b_b") ||
+      !strcmp(extra_rule_name(pextra), "building_b_f")
+      )
+    )
     return true;
-  else if (!strcmp(pplayer->username, "green") && !strcmp(extra_rule_name(pextra), "building_g"))
+  else if (!strcmp(pplayer->username, "green") &&
+      (
+      !strcmp(extra_rule_name(pextra), "building_g_u") ||
+      !strcmp(extra_rule_name(pextra), "building_g_b") ||
+      !strcmp(extra_rule_name(pextra), "building_g_f")
+      )
+    )
     return true;
   return false;
 }
 
-static std::string building_to_player(const struct player *pplayer)
+static bool building_belongs_to_unit(const struct extra_type *pextra,
+                                     const struct unit *punit)
 {
-  // TODO: This is generic buiding; we later need to convert to
-  // university/back/factory according to current unit
-  if (!strcmp(pplayer->username, "yellow"))
-    return "building_y";
-  else if (!strcmp(pplayer->username, "purple"))
-    return "building_p";
-  else if (!strcmp(pplayer->username, "blue"))
-    return "building_b";
-  else if (!strcmp(pplayer->username, "green"))
-    return "building_g";
-  return "building_u";
+  if (punit->utype == unit_type_by_rule_name("unit_scientist") && (
+      !strcmp(extra_rule_name(pextra), "building_y_u") ||
+      !strcmp(extra_rule_name(pextra), "building_p_u") ||
+      !strcmp(extra_rule_name(pextra), "building_b_u") ||
+      !strcmp(extra_rule_name(pextra), "building_g_u")
+      )
+    )
+    return true;
+  else if (punit->utype == unit_type_by_rule_name("unit_banker") && (
+      !strcmp(extra_rule_name(pextra), "building_y_b") ||
+      !strcmp(extra_rule_name(pextra), "building_p_b") ||
+      !strcmp(extra_rule_name(pextra), "building_b_b") ||
+      !strcmp(extra_rule_name(pextra), "building_g_b")
+      )
+    )
+    return true;
+  else if (punit->utype == unit_type_by_rule_name("unit_engineer") && (
+      !strcmp(extra_rule_name(pextra), "building_y_f") ||
+      !strcmp(extra_rule_name(pextra), "building_p_f") ||
+      !strcmp(extra_rule_name(pextra), "building_b_f") ||
+      !strcmp(extra_rule_name(pextra), "building_g_f")
+      )
+    )
+    return true;
+  return false;
+}
+
+static bool building_cannot_be_removed_by(const struct extra_type *pextra,
+                                          const struct unit *punit)
+{
+  if (punit->utype == unit_type_by_rule_name("unit_scientist"))
+    return true;
+  else if (punit->utype == unit_type_by_rule_name("unit_banker"))
+    return true;
+  else if (punit->utype == unit_type_by_rule_name("unit_engineer"))
+    return true;
+  return false;
+}
+
+  static std::string building_to_player(const struct player *pplayer,
+                                        const struct unit *punit)
+  {
+    // TODO: This is generic buiding; we later need to convert to
+    // university/back/factory according to current unit
+    std::string value;
+
+    if (!strcmp(pplayer->username, "yellow"))
+      value += "building_y";
+    else if (!strcmp(pplayer->username, "purple"))
+      value += "building_p";
+    else if (!strcmp(pplayer->username, "blue"))
+      value += "building_b";
+    else if (!strcmp(pplayer->username, "green"))
+      value += "building_g";
+    else {
+      value += "building_u";
+      return value;
+    }
+
+    if (punit->utype == unit_type_by_rule_name("Scientist"))
+      value += "_u";
+    else if (punit->utype == unit_type_by_rule_name("Banker"))
+      value += "_b";
+    else if (punit->utype == unit_type_by_rule_name("Engineer"))
+      value += "_f";
+    return value;
 }
 
 static void unit_enter_building(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
-  int id = punit->id;
   struct tile *ptile = unit_tile(punit);
 
   extra_type_by_cause_iterate(EC_BUILDING, pextra)
@@ -3298,14 +3377,21 @@ static void unit_enter_building(struct unit *punit)
                            ptile, nullptr, nullptr, nullptr, nullptr,
                            nullptr, &pextra->rmreqs, RPT_CERTAIN)) {
       // Do not remove buildings already belonging to that player
-      if (building_belongs_to(pextra, pplayer)) {
+      if (building_belongs_to(pextra, pplayer)
+          && building_belongs_to_unit(pextra, punit)) {
         log_warning("Here");
+        continue;
+      }
+
+      // Do not remove buildings if unit cannot even do that
+      if (building_cannot_be_removed_by(pextra, punit)) {
+        log_warning("Here2");
         continue;
       }
 
       // Destroy building and change it to player color
       destroy_extra(ptile, pextra);
-      std::string name = building_to_player(pplayer).c_str();
+      std::string name = building_to_player(pplayer, punit).c_str();
       extra_type *new_extra = extra_type_by_rule_name(name.c_str());
       create_extra(ptile, new_extra, pplayer);
       if (name == "building_u") {

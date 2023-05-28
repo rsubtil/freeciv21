@@ -2052,9 +2052,9 @@ Later in the game, helicopters may also enter villages, but overflight \
 by other aircraft will cause the villagers to take fright and disband.\
 ")
 
-[extra_building_yellow]
-name           = _("Building (Yellow)")
-rule_name      = "building_y"
+[extra_building_yellow_university]
+name           = _("University (Yellow)")
+rule_name      = "building_y_u"
 category       = "Infra"
 causes         = "Building"
 ;rmcauses       = "Enter"
@@ -2083,9 +2083,9 @@ Later in the game, helicopters may also enter villages, but overflight \
 by other aircraft will cause the villagers to take fright and disband.\
 ")
 
-[extra_building_blue]
-name           = _("Building (Blue)")
-rule_name      = "building_b"
+[extra_building_yellow_bank]
+name           = _("Bank (Yellow)")
+rule_name      = "building_y_b"
 category       = "Infra"
 causes         = "Building"
 ;rmcauses       = "Enter"
@@ -2114,9 +2114,9 @@ Later in the game, helicopters may also enter villages, but overflight \
 by other aircraft will cause the villagers to take fright and disband.\
 ")
 
-[extra_building_green]
-name           = _("Building (Green)")
-rule_name      = "building_g"
+[extra_building_yellow_factory]
+name           = _("Factory (Yellow)")
+rule_name      = "building_y_f"
 category       = "Infra"
 causes         = "Building"
 ;rmcauses       = "Enter"
@@ -2145,12 +2145,260 @@ Later in the game, helicopters may also enter villages, but overflight \
 by other aircraft will cause the villagers to take fright and disband.\
 ")
 
-[extra_building_purple]
-name           = _("Building (Purple)")
-rule_name      = "building_p"
+[extra_building_blue_university]
+name           = _("University (Blue)")
+rule_name      = "building_b_u"
 category       = "Infra"
 causes         = "Building"
-;;rmcauses       = "Enter"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_blue_bank]
+name           = _("Bank (Blue)")
+rule_name      = "building_b_b"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_blue_factory]
+name           = _("Factory (Blue)")
+rule_name      = "building_b_f"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_green_university]
+name           = _("University (Green)")
+rule_name      = "building_g_u"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_green_bank]
+name           = _("Bank (Green)")
+rule_name      = "building_g_b"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_green_factory]
+name           = _("Factory (Green)")
+rule_name      = "building_g_f"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_purple_university]
+name           = _("University (Purple)")
+rule_name      = "building_p_u"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_purple_bank]
+name           = _("Bank (Purple)")
+rule_name      = "building_p_b"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
+graphic        = "tx.village"
+graphic_alt    = "-"
+activity_gfx   = "None"
+act_gfx_alt    = "-"
+act_gfx_alt2   = "-"
+rmact_gfx      = "None"
+rmact_gfx_alt  = "-"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
+helptext = _("\
+Villages (also called \"huts\") are primitive communities spread \
+across the world at the beginning of the game. Any land unit can enter \
+a village, making the village disappear and deliver a random response. \
+If the village proves hostile, it could produce barbarians or the unit \
+entering may simply be destroyed. If they are friendly, the player \
+could receive gold, a new technology, a military unit (occasionally a \
+settler; and sometimes a unit that the player cannot yet create), or \
+even a new city.\
+"), _("\
+Later in the game, helicopters may also enter villages, but overflight \
+by other aircraft will cause the villagers to take fright and disband.\
+")
+
+[extra_building_purple_factory]
+name           = _("Factory (Purple)")
+rule_name      = "building_p_f"
+category       = "Infra"
+causes         = "Building"
+;rmcauses       = "Enter"
 graphic        = "tx.village"
 graphic_alt    = "-"
 activity_gfx   = "None"
