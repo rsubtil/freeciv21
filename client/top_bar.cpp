@@ -49,86 +49,6 @@
 /**
  * Constructor
  */
-national_budget_widget::national_budget_widget()
-{
-  setToolButtonStyle(Qt::ToolButtonIconOnly);
-  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-}
-
-/**
- * Destructor
- */
-national_budget_widget::~national_budget_widget() {}
-
-/**
- * Size hint
- */
-QSize national_budget_widget::sizeHint() const
-{
-  if (client_is_global_observer()) {
-    // Nothing to show
-    return QSize();
-  }
-
-  // Assume that all icons have the same size
-  auto content_size = get_tax_sprite(tileset, O_GOLD)->size();
-  content_size.setWidth(10 * content_size.width());
-
-  // See QToolButton::sizeHint
-  ensurePolished();
-
-  QStyleOptionToolButton opt;
-  initStyleOption(&opt);
-
-  return style()->sizeFromContents(QStyle::CT_ToolButton, &opt, content_size,
-                                   this);
-}
-
-/**
- * Renders the national budget widget
- */
-void national_budget_widget::paintEvent(QPaintEvent *event)
-{
-  if (client_is_global_observer()) {
-    // Nothing to show
-    return;
-  }
-
-  // Draw a button without contents
-  QToolButton::paintEvent(event);
-
-  // Draw the tax icons on top (centered; the style might expect something
-  // else but screw it)
-  auto tax = get_tax_sprite(tileset, O_GOLD);
-  auto sci = get_tax_sprite(tileset, O_SCIENCE);
-  auto lux = get_tax_sprite(tileset, O_LUXURY);
-
-  // Assume that they have the same size
-  auto icon_size = tax->size();
-  auto center = size() / 2;
-
-  auto x = center.width() - 5 * icon_size.width();
-  auto y = center.height() - icon_size.height() / 2;
-
-  QPainter p(this);
-  for (int i = 0; i < 10; ++i) {
-    if (i < client.conn.playing->economic.tax / 10) {
-      p.drawPixmap(QPointF(x, y), *tax);
-    } else if (i < (client.conn.playing->economic.tax
-                    + client.conn.playing->economic.science)
-                       / 10) {
-      p.drawPixmap(QPointF(x, y), *sci);
-    } else {
-      p.drawPixmap(QPointF(x, y), *lux);
-    }
-
-    x += icon_size.width();
-  }
-}
-
-/**
- * Constructor
- */
 indicators_widget::indicators_widget()
 {
   setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -602,6 +522,11 @@ void top_bar_left_click_science()
     sci_rep = reinterpret_cast<science_report *>(w);
     queen()->game_tab_widget->setCurrentWidget(sci_rep);
   }
+}
+
+void top_bar_left_click_gov()
+{
+  top_bar_left_click_science();
 }
 
 /**

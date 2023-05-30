@@ -128,10 +128,12 @@ pageGame::pageGame(QWidget *parent)
   sw_science->setCheckable(true);
   sw_science->setRightClick(top_bar_right_click_science);
 
-  // National budget widget
-  sw_tax = new national_budget_widget();
-  connect(sw_tax, &QAbstractButton::clicked, this,
-          &pageGame::popup_budget_dialog);
+  // Government view (F7)
+  sw_gov = new top_bar_widget(_("Government"), QStringLiteral("GOV"),
+                                  top_bar_left_click_gov);
+  sw_gov->setIcon(
+      fcIcons::instance()->getIcon(QStringLiteral("government")));
+  sw_gov->setCheckable(true);
 
   // National status
   sw_indicators = new indicators_widget();
@@ -202,7 +204,7 @@ pageGame::pageGame(QWidget *parent)
   top_bar_wdg->addWidget(sw_cities);  // F4
   top_bar_wdg->addWidget(sw_economy); // F5
   top_bar_wdg->addWidget(sw_science); // F6
-  top_bar_wdg->addWidget(sw_tax);
+  top_bar_wdg->addWidget(sw_gov);
   top_bar_wdg->addWidget(sw_indicators);
   top_bar_wdg->addWidget(sw_message);
 
@@ -290,7 +292,7 @@ void pageGame::popup_budget_dialog()
   budget_dialog->refresh();
 
   const auto rect = screen()->geometry();
-  auto p = sw_tax->mapToGlobal(QPoint(0, sw_tax->height()));
+  auto p = sw_gov->mapToGlobal(QPoint(0, sw_gov->height()));
   if (p.y() + budget_dialog->height() > rect.bottom()) {
     p.setY(rect.bottom() - budget_dialog->height());
   }
@@ -331,7 +333,7 @@ void pageGame::updateInfoLabelTimeout()
   }
 
   sw_indicators->update();
-  sw_tax->update();
+  sw_gov->update();
   sw_economy->update();
   delete update_info_timer;
   update_info_timer = nullptr;

@@ -28,7 +28,6 @@ class hud_battle_log;
 class gold_widget;
 class goto_dialog;
 class national_budget_dialog;
-class national_budget_widget;
 class top_bar;
 class top_bar_widget;
 class units_select;
@@ -98,7 +97,7 @@ private:
   gold_widget *sw_economy;
   top_bar_widget *sw_map;
   national_budget_dialog *budget_dialog;
-  national_budget_widget *sw_tax;
+  top_bar_widget *sw_gov;
 };
 
 /**
