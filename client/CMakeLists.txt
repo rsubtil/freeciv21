@@ -127,6 +127,7 @@ target_sources(
   views/view_cities.cpp
   views/view_cities_data.cpp
   views/view_economics.cpp
+  views/view_government.cpp
   views/view_map.cpp
   views/view_map_common.cpp
   views/view_map_geometry.cpp

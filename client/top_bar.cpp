@@ -44,6 +44,7 @@
 #include "views/view_map.h"
 #include "views/view_nations.h"
 #include "views/view_research.h"
+#include "views/view_government.h"
 #include "views/view_units.h"
 
 /**
@@ -526,7 +527,26 @@ void top_bar_left_click_science()
 
 void top_bar_left_click_gov()
 {
-  top_bar_left_click_science();
+  government_report *gov_rep;
+  int i;
+  QWidget *w;
+
+  if (client_is_global_observer()) {
+    return;
+  }
+  if (!queen()->isRepoDlgOpen(QStringLiteral("GOV"))) {
+    gov_rep = new government_report;
+    gov_rep->init(true);
+  } else {
+    i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
+    w = queen()->game_tab_widget->widget(i);
+    if (w->isVisible()) {
+      top_bar_show_map();
+      return;
+    }
+    gov_rep = reinterpret_cast<government_report *>(w);
+    queen()->game_tab_widget->setCurrentWidget(gov_rep);
+  }
 }
 
 /**
