@@ -70,6 +70,7 @@
 #define MAX_LEN_STARTUNIT (20 + 1)
 #define MAX_LEN_ENUM 64
 #define MAX_LEN_TRANSPORT_NAME (MAX_LEN_NAME * 10) // Max of 10 stations
+#define MAX_AUDIT_NUM 3
 
 /* Line breaks after this number of characters; be carefull and use only 70
  */

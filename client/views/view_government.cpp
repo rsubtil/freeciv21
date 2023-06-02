@@ -39,6 +39,16 @@
 #include "top_bar.h"
 #include "views/view_government.h"
 
+government_report* government_report::_instance = nullptr;
+
+government_report *government_report::instance()
+{
+  if (!_instance) {
+    _instance = new government_report();
+  }
+  return _instance;
+}
+
 /**
    Consctructor for government_report
  */
@@ -66,6 +76,9 @@ government_report::government_report() : QWidget()
 
   m_recent_decisions_scroll = new QScrollArea();
   m_recent_decisions_scroll->setSizePolicy(size_expand_policy);
+  QBoxLayout *m_recent_decisions_layout = new QBoxLayout(QBoxLayout::TopToBottom);
+  m_recent_decisions_layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  m_recent_decisions_scroll->setLayout(m_recent_decisions_layout);
   m_layout->addWidget(m_recent_decisions_scroll, 1, 4, 7, -1);
 
   QLabel *m_auditing_label = new QLabel(_("Auditing:"));
@@ -87,7 +100,6 @@ government_report::government_report() : QWidget()
   for(int i = 0; i < m_auditing_count; i++) {
     m_auditing_buttons[i] = new QPushButton();
     m_auditing_buttons[i]->setSizePolicy(size_expand_policy);
-    m_auditing_buttons[i]->setText(_("No auditing occuring\nin this slot"));
     m_auditing_layout->addWidget(m_auditing_buttons[i]);
     if(i != m_auditing_count - 1) {
       m_auditing_layout->addSpacing(45);
@@ -136,7 +148,6 @@ void government_report::init(bool raise)
   queen()->gimmePlace(this, QStringLiteral("GOV"));
   index = queen()->addGameTab(this);
   queen()->game_tab_widget->setCurrentIndex(index);
-  update_report();
 }
 
 /**
@@ -144,93 +155,43 @@ void government_report::init(bool raise)
  */
 void government_report::redraw() { update(); }
 
-/**
-   Updates all important widgets on government_report
- */
-void government_report::update_report()
+void government_report::update_info()
 {
+  if(g_info.last_message_id == cached_last_message_id) {
+    // TODO: Make requests for missing ids
+  }
 
-}
+  if(g_info.last_audit_id == cached_last_audit_id) {
+    // TODO: Make requests for missing ids
+  }
 
-/**
-   Update the government report.
- */
-void real_government_report_dialog_update(void *unused)
-{
-  Q_UNUSED(unused)
-  int i;
-  government_report *gov_rep;
-  QWidget *w;
-  QString str;
-
-  if (queen()->isRepoDlgOpen(QStringLiteral("GOV"))
-      && !client_is_global_observer()) {
-    i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
-    fc_assert(i != -1);
-    w = queen()->game_tab_widget->widget(i);
-    gov_rep = reinterpret_cast<government_report *>(w);
-    gov_rep->update_report();
+    for (int i = 0; i < MAX_AUDIT_NUM; i++) {
+      int id = g_info.curr_audits[i];
+      if (id > -1) {
+        m_auditing_buttons[i]->setText(QString::number(id));
+        m_auditing_buttons[i]->setEnabled(true);
+      } else {
+        m_auditing_buttons[i]->setText(
+            _("No auditing occuring\nin this slot"));
+        m_auditing_buttons[i]->setEnabled(false);
+      }
   }
 }
 
-/**
-   Closes government report
- */
-void popdown_government_report()
+void government_report::update_news(int id, int turn, const QString &news)
 {
-  int i;
-  government_report *gov_rep;
-  QWidget *w;
-
-  if (queen()->isRepoDlgOpen(QStringLiteral("GOV"))) {
-    i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
-    fc_assert(i != -1);
-    w = queen()->game_tab_widget->widget(i);
-    gov_rep = reinterpret_cast<government_report *>(w);
-    gov_rep->deleteLater();
-  }
+  cached_last_message_id = MAX(cached_last_message_id, id);
+  QLabel* news_label = new QLabel();
+  news_label->setText(QString::number(turn) + ": " + news);
+  m_recent_decisions_scroll->layout()->addWidget(news_label);
 }
 
-/**
-   Resize and redraw the requirement tree.
- */
-void government_report_dialog_redraw(void)
+void update_government_info()
 {
-  int i;
-  government_report *gov_rep;
-  QWidget *w;
-
-  if (queen()->isRepoDlgOpen(QStringLiteral("GOV"))) {
-    i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
-    if (queen()->game_tab_widget->currentIndex() == i) {
-      w = queen()->game_tab_widget->widget(i);
-      gov_rep = reinterpret_cast<government_report *>(w);
-      gov_rep->redraw();
-    }
-  }
+  government_report::instance()->update_info();
 }
 
-/**
-   Display the government report.  Optionally raise it.
-   Typically triggered by F7.
- */
-void government_report_dialog_popup(bool raise)
+void update_government_news(int id, int turn, const char *news)
 {
-  government_report *gov_rep;
-  int i;
-  QWidget *w;
-
-  if (!queen()->isRepoDlgOpen(QStringLiteral("GOV"))) {
-    gov_rep = new government_report;
-    gov_rep->init(raise);
-  } else {
-    i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
-    w = queen()->game_tab_widget->widget(i);
-    gov_rep = reinterpret_cast<government_report *>(w);
-    if (queen()->game_tab_widget->currentIndex() == i) {
-      gov_rep->redraw();
-    } else if (raise) {
-      queen()->game_tab_widget->setCurrentWidget(gov_rep);
-    }
-  }
+  government_report::instance()->update_news(id, turn, QString(news));
 }

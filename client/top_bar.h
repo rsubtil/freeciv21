@@ -12,6 +12,9 @@
 // Qt
 #include <QToolButton>
 #include <QWidget>
+// client
+#include "views/view_government.h"
+
 
 class QHBoxLayout;
 class QPixmap;

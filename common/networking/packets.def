@@ -2370,25 +2370,47 @@ PACKET_PLAY_MUSIC = 245; sc, lsend
   STRING tag[MAX_LEN_NAME];
 end
 
-/************* Packets reserved for freeciv-web ***************/
-/* Not supported. They use range 256:511 */
-/*
-PACKET_WEB_CITY_INFO_ADDITION = 256; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_INFO)
-  CITY id; key
+/************* Packets reserved for space race ***************/
+/* They use range 256:511 */
 
-  UINT16 granary_size;
-  TURN granary_turns;
+PACKET_GOVERNMENT_INFO_REQ = 256; cs
 end
 
-PACKET_WEB_PLAYER_INFO_ADDITION = 257; sc, is-info
-  PLAYER playerno; key
-
-  UINT32 expected_income;
+PACKET_GOVERNMENT_INFO = 257; sc, handle-via-packet
+  UINT32 last_message_id;
+  UINT32 last_audit_id;
+  SINT32 curr_audits[MAX_AUDIT_NUM];
 end
 
-PACKET_WEB_RULESET_UNIT_ADDITION = 258; sc, lsend
-  UNIT_TYPE id; key
-
-  BV_ACTIONS utype_actions;
+PACKET_GOVERNMENT_NEWS_REQ = 258; cs
+  UINT32 id;
 end
-*/
+
+PACKET_GOVERNMENT_NEWS = 259; sc
+  UINT32 id;
+  UINT32 turn;
+  STRING news[MAX_LEN_CONTENT];
+end
+
+PACKET_GOVERNMENT_NEWS_NEW = 260; sc, lsend
+  UINT32 id;
+end
+
+PACKET_GOVERNMENT_AUDIT_INFO_REQ = 261; cs
+  UINT32 id;
+end
+
+PACKET_GOVERNMENT_AUDIT_INFO = 262; sc
+  UINT32 id;
+  UINT8 accuser_id;
+  UINT8 accused_id;
+  UINT8 jury_1_vote;
+  UINT8 jury_2_vote;
+  UINT16 consequence;
+  UINT32 start_turn;
+  UINT32 end_turn;
+end
+
+PACKET_GOVERNMENT_AUDIT_INFO_NEW = 263; sc, lsend
+  UINT32 id;
+end

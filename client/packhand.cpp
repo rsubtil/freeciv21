@@ -97,6 +97,7 @@
 #include "views/view_map.h"
 #include "views/view_map_common.h"
 #include "views/view_nations_data.h"
+#include "views/view_government.h"
 #include "voteinfo.h"
 
 // gui-qt
@@ -177,6 +178,9 @@ static void packhand_init()
   invisible.placeholder->unassigned_user = true;
   sz_strlcpy(invisible.placeholder->ranked_username, ANON_USER_NAME);
   invisible.placeholder->unassigned_ranked = true;
+
+  // Request government info
+  send_packet_government_info_req(&client.conn);
 }
 
 /**
@@ -5371,3 +5375,50 @@ void handle_vote_resolve(int vote_no, bool passed)
    Play suitable music
  */
 void handle_play_music(const char *tag) { play_single_track(tag); }
+
+void handle_government_info(const struct packet_government_info *packet)
+{
+  log_warning("Got info!");
+  log_warning("last_message_id: %d", packet->last_message_id);
+  log_warning("last_audit_id: %d", packet->last_audit_id);
+  log_warning("curr_audits: %d %d %d", packet->curr_audits[0],
+              packet->curr_audits[1], packet->curr_audits[2]);
+
+  g_info.last_message_id = packet->last_message_id;
+  g_info.last_audit_id = packet->last_audit_id;
+  g_info.curr_audits[0] = packet->curr_audits[0];
+  g_info.curr_audits[1] = packet->curr_audits[1];
+  g_info.curr_audits[2] = packet->curr_audits[2];
+
+  government_report::instance()->update_info();
+
+  // DEBUG: Make request for news
+  handle_government_news_new(packet->last_message_id);
+}
+
+void handle_government_news(int id, int turn, const char *news)
+{
+  government_report::instance()->update_news(id, turn, news);
+}
+
+void handle_government_news_new(int id) {
+  struct packet_government_news_req *packet = new packet_government_news_req();
+
+  packet->id = id;
+
+  send_packet_government_news_req(&client.conn, packet);
+}
+
+void handle_government_audit_info(const struct packet_government_audit_info *packet)
+{
+  // TODO
+}
+
+void handle_government_audit_info_new(int id)
+{
+  struct packet_government_audit_info_req *packet = new packet_government_audit_info_req();
+
+  packet->id = id;
+
+  send_packet_government_audit_info_req(&client.conn, packet);
+}

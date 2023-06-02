@@ -51,6 +51,16 @@ struct government {
   ~government();
 };
 
+struct government_info {
+  int last_message_id;
+  int last_audit_id;
+  int curr_audits[MAX_AUDIT_NUM];
+
+  std::vector<QString> cached_news;
+};
+
+extern struct government_info g_info;
+
 extern std::vector<government> governments;
 // General government accessor functions.
 Government_type_id government_count();

@@ -25,6 +25,7 @@ add_library(
   STATIC
   # The generated code calls these directly
   cityhand.cpp
+  govhand.cpp
   handchat.cpp
   infrapts.cpp
   # Generated

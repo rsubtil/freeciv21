@@ -527,25 +527,10 @@ void top_bar_left_click_science()
 
 void top_bar_left_click_gov()
 {
-  government_report *gov_rep;
-  int i;
-  QWidget *w;
-
-  if (client_is_global_observer()) {
-    return;
-  }
   if (!queen()->isRepoDlgOpen(QStringLiteral("GOV"))) {
-    gov_rep = new government_report;
-    gov_rep->init(true);
+    government_report::instance()->init(true);
   } else {
-    i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
-    w = queen()->game_tab_widget->widget(i);
-    if (w->isVisible()) {
-      top_bar_show_map();
-      return;
-    }
-    gov_rep = reinterpret_cast<government_report *>(w);
-    queen()->game_tab_widget->setCurrentWidget(gov_rep);
+    queen()->game_tab_widget->setCurrentWidget(government_report::instance());
   }
 }
 

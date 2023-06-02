@@ -25,6 +25,7 @@
 
 #include "government.h"
 
+struct government_info g_info;
 std::vector<government> governments;
 /**
    Returns the government that has the given (translated) name.

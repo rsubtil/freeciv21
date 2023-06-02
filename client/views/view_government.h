@@ -11,6 +11,8 @@
 
 // utility
 #include "fc_types.h"
+// common
+#include "government.h"
 // client
 #include "repodlgs_g.h"
 
@@ -34,15 +36,32 @@ class government_report : public QWidget {
 
   QStackedLayout *layout;
   QScrollArea *m_recent_decisions_scroll;
-  int m_auditing_count = 3;
+  int m_auditing_count = MAX_AUDIT_NUM;
   QPushButton **m_auditing_buttons;
 
-      public : government_report();
-  ~government_report() override;
-  void update_report();
+  int cached_last_message_id = -1;
+  int cached_last_audit_id = -1;
+
+public:
   void init(bool raise);
   void redraw();
 
+protected:
+  static government_report *_instance;
+
+public:
+  static government_report *instance();
+
+  void update_info();
+  void update_news(int id, int turn, const QString &news);
+
 private:
+  government_report();
+  ~government_report();
+  government_report(const government_report &other) = delete;
+  government_report &operator=(const government_report &other) = delete;
   int index{0};
 };
+
+void update_government_info();
+void update_government_news(int id, int turn, const char *news);
