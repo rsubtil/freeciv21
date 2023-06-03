@@ -26,6 +26,22 @@ class QPaintEvent;
 class QScrollArea;
 class progress_bar;
 
+class audit_button : public QPushButton {
+  Q_OBJECT
+
+public:
+  audit_button();
+  int get_audit_id() const;
+  void set_audit_id(int id);
+  void set_audit_info(const struct packet_government_audit_info *info);
+
+signals:
+  void audit_selected(int id);
+
+private:
+  int audit_id = -1;
+};
+
 /****************************************************************************
   Widget embedded as tab on game view (F7 default)
   Uses string "GOV" to mark it as opened
@@ -37,7 +53,7 @@ class government_report : public QWidget {
   QStackedLayout *layout;
   QScrollArea *m_recent_decisions_scroll;
   int m_auditing_count = MAX_AUDIT_NUM;
-  QPushButton **m_auditing_buttons;
+  audit_button **m_auditing_buttons;
 
   int cached_last_message_id = -1;
   int cached_last_audit_id = -1;
@@ -49,11 +65,14 @@ public:
 protected:
   static government_report *_instance;
 
+  void show_audit_screen(int id);
+
 public:
   static government_report *instance();
 
   void update_info();
   void update_news(int id, int turn, const QString &news);
+  void update_audit_info(const struct packet_government_audit_info *info);
 
 private:
   government_report();
@@ -62,6 +81,3 @@ private:
   government_report &operator=(const government_report &other) = delete;
   int index{0};
 };
-
-void update_government_info();
-void update_government_news(int id, int turn, const char *news);

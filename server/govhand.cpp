@@ -41,18 +41,19 @@ void handle_government_info_req(struct player *pplayer)
 {
   // DEBUG: Bogus info
   struct packet_government_info info;
-  info.last_message_id = 1;
-  info.last_audit_id = 0;
+  info.last_message_id = 0;
+  info.last_audit_id = -1;
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
     info.curr_audits[i] = -1;
   }
+  info.curr_audits[0] = 0;
 
   send_packet_government_info(pplayer->current_conn, &info);
 }
 
 void handle_government_news_req(struct player *pplayer, int id)
 {
-  if(id != 1) return;
+  if(id != 0) return;
 
   struct packet_government_news news;
   news.id = id;
@@ -63,6 +64,33 @@ void handle_government_news_req(struct player *pplayer, int id)
 }
 
 void handle_government_audit_info_req(struct player *pplayer, int id)
+{
+  if(id != 0) return;
+
+  struct packet_government_audit_info info;
+  info.id = id;
+  info.accuser_id = 0;
+  info.accused_id = 2;
+  info.jury_1_vote = 0;
+  info.jury_2_vote = 0;
+  info.consequence = 0;
+  info.start_turn = 1;
+  info.end_turn = 852;
+
+  lsend_packet_government_audit_info(pplayer->connections, &info);
+}
+
+void handle_government_audit_submit_vote(struct player *pplayer, int id, int vote)
+{
+  // TODO
+}
+
+void handle_government_audit_start(struct player *pplayer, int sabotage_id, int accused_id)
+{
+  // TODO
+}
+
+void handle_government_audit_begin_req(struct player *pplayer)
 {
   // TODO
 }

@@ -39,6 +39,16 @@
 #include "top_bar.h"
 #include "views/view_government.h"
 
+std::string minutes_to_time_str(int minutes)
+{
+  int hours = minutes / 60;
+  if(hours == 0) {
+    return std::to_string(minutes) + "m";
+  }
+  minutes = minutes % 60;
+  return std::to_string(hours) + "h" + std::to_string(minutes) + "m";
+}
+
 government_report* government_report::_instance = nullptr;
 
 government_report *government_report::instance()
@@ -47,6 +57,48 @@ government_report *government_report::instance()
     _instance = new government_report();
   }
   return _instance;
+}
+
+audit_button::audit_button() : QPushButton()
+{
+  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+  set_audit_id(-1);
+  connect(this, &QPushButton::clicked, this, [this]() {
+    emit audit_selected(audit_id);
+  });
+}
+
+int audit_button::get_audit_id() const { return audit_id; }
+
+void audit_button::set_audit_id(int id)
+{
+  audit_id = id;
+  if(audit_id == -1) {
+    setText(_("No auditing occuring\nin this slot"));
+    setEnabled(false);
+  } else {
+    // TODO: Make request for audit info, then fill it up here
+    setText(_("Loading..."));
+    setEnabled(true);
+
+    struct packet_government_audit_info_req *req =
+        new packet_government_audit_info_req();
+
+    req->id = audit_id;
+    send_packet_government_audit_info_req(&client.conn, req);
+  }
+}
+
+void audit_button::set_audit_info(const struct packet_government_audit_info *info)
+{
+  std::string accuser_name = player_id_to_string((player_id)info->accuser_id);
+  std::string accused_name = player_id_to_string((player_id)info->accused_id);
+  std::string time_left = minutes_to_time_str(info->end_turn - info->start_turn);
+  setText(QString("%1 vs %2\n%3 remaining")
+    .arg(accuser_name.c_str())
+    .arg(accused_name.c_str())
+    .arg(time_left.c_str())
+  );
 }
 
 /**
@@ -96,11 +148,11 @@ government_report::government_report() : QWidget()
   m_auditing_widget->setLayout(m_auditing_layout);
   m_layout->addWidget(m_auditing_widget, 10, 4, 7, -1);
 
-  m_auditing_buttons = new QPushButton*[m_auditing_count];
+  m_auditing_buttons = new audit_button*[m_auditing_count];
   for(int i = 0; i < m_auditing_count; i++) {
-    m_auditing_buttons[i] = new QPushButton();
-    m_auditing_buttons[i]->setSizePolicy(size_expand_policy);
+    m_auditing_buttons[i] = new audit_button();
     m_auditing_layout->addWidget(m_auditing_buttons[i]);
+    QObject::connect(m_auditing_buttons[i], &audit_button::audit_selected, this, &government_report::show_audit_screen);
     if(i != m_auditing_count - 1) {
       m_auditing_layout->addSpacing(45);
     }
@@ -155,26 +207,39 @@ void government_report::init(bool raise)
  */
 void government_report::redraw() { update(); }
 
+void government_report::show_audit_screen(int id)
+{
+  Q_UNUSED(id)
+  layout->setCurrentIndex(1);
+}
+
 void government_report::update_info()
 {
-  if(g_info.last_message_id == cached_last_message_id) {
-    // TODO: Make requests for missing ids
+  if(g_info.last_message_id != cached_last_message_id) {
+    for(int i = cached_last_message_id + 1; i <= g_info.last_message_id; i++) {
+    struct packet_government_news_req *req =
+        new packet_government_news_req();
+    req->id = i;
+
+    send_packet_government_news_req(&client.conn, req);
+    }
+    cached_last_message_id = g_info.last_message_id;
   }
 
   if(g_info.last_audit_id == cached_last_audit_id) {
-    // TODO: Make requests for missing ids
+    for (int i = cached_last_audit_id + 1; i <= g_info.last_audit_id;
+         i++) {
+    struct packet_government_audit_info_req *req =
+        new packet_government_audit_info_req();
+    req->id = i;
+
+    send_packet_government_audit_info_req(&client.conn, req);
+    }
+    cached_last_audit_id = g_info.last_audit_id;
   }
 
-    for (int i = 0; i < MAX_AUDIT_NUM; i++) {
-      int id = g_info.curr_audits[i];
-      if (id > -1) {
-        m_auditing_buttons[i]->setText(QString::number(id));
-        m_auditing_buttons[i]->setEnabled(true);
-      } else {
-        m_auditing_buttons[i]->setText(
-            _("No auditing occuring\nin this slot"));
-        m_auditing_buttons[i]->setEnabled(false);
-      }
+  for (int i = 0; i < MAX_AUDIT_NUM; i++) {
+    m_auditing_buttons[i]->set_audit_id(g_info.curr_audits[i]);
   }
 }
 
@@ -186,12 +251,11 @@ void government_report::update_news(int id, int turn, const QString &news)
   m_recent_decisions_scroll->layout()->addWidget(news_label);
 }
 
-void update_government_info()
+void government_report::update_audit_info(const struct packet_government_audit_info *info)
 {
-  government_report::instance()->update_info();
-}
-
-void update_government_news(int id, int turn, const char *news)
-{
-  government_report::instance()->update_news(id, turn, QString(news));
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    if(g_info.curr_audits[i] == info->id) {
+      m_auditing_buttons[i]->set_audit_info(info);
+    }
+  }
 }

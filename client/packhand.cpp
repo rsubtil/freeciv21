@@ -5391,9 +5391,6 @@ void handle_government_info(const struct packet_government_info *packet)
   g_info.curr_audits[2] = packet->curr_audits[2];
 
   government_report::instance()->update_info();
-
-  // DEBUG: Make request for news
-  handle_government_news_new(packet->last_message_id);
 }
 
 void handle_government_news(int id, int turn, const char *news)
@@ -5401,24 +5398,12 @@ void handle_government_news(int id, int turn, const char *news)
   government_report::instance()->update_news(id, turn, news);
 }
 
-void handle_government_news_new(int id) {
-  struct packet_government_news_req *packet = new packet_government_news_req();
-
-  packet->id = id;
-
-  send_packet_government_news_req(&client.conn, packet);
-}
-
 void handle_government_audit_info(const struct packet_government_audit_info *packet)
 {
-  // TODO
+  government_report::instance()->update_audit_info(packet);
 }
 
-void handle_government_audit_info_new(int id)
+void handle_government_audit_begin(int errcode, const int *sabotage_id)
 {
-  struct packet_government_audit_info_req *packet = new packet_government_audit_info_req();
-
-  packet->id = id;
-
-  send_packet_government_audit_info_req(&client.conn, packet);
+  // TODO: Implement
 }

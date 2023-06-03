@@ -13,6 +13,7 @@
 #pragma once
 
 #include <QHash>
+#include <string>
 // utility
 #include "iterator.h"
 #include "shared.h"
@@ -29,6 +30,16 @@ struct ruler_title; // Opaque type.
  * it is sometimes used as a sentinel value (but not in the network
  * protocol, which generally uses government_count()). */
 #define G_LAST (127)
+
+enum player_id : int {
+  PLAYER_PURPLE = 0,
+  PLAYER_BLUE = 1,
+  PLAYER_GREEN = 2,
+  PLAYER_YELLOW = 3,
+};
+
+std::string player_id_to_string(player_id id);
+player_id player_id_from_string(const std::string &str);
 
 /* This is struct government itself.  All information about a form of
  * government is contained inhere. -- SKi */

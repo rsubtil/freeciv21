@@ -27,6 +27,38 @@
 
 struct government_info g_info;
 std::vector<government> governments;
+
+std::string player_id_to_string(player_id id)
+{
+  switch (id) {
+    case PLAYER_PURPLE:
+      return "Purple";
+    case PLAYER_BLUE:
+      return "Blue";
+    case PLAYER_GREEN:
+      return "Green";
+    case PLAYER_YELLOW:
+      return "Yellow";
+  }
+  return "Purple";
+}
+
+player_id player_id_from_string(const std::string &str)
+{
+  if (str == "Purple") {
+    return PLAYER_PURPLE;
+  } else if (str == "Blue") {
+    return PLAYER_BLUE;
+  } else if (str == "Green") {
+    return PLAYER_GREEN;
+  } else if (str == "Yellow") {
+    return PLAYER_YELLOW;
+  } else {
+    return PLAYER_PURPLE;
+  }
+}
+
+
 /**
    Returns the government that has the given (translated) name.
    Returns nullptr if none match.
