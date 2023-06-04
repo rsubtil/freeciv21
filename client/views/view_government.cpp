@@ -161,12 +161,59 @@ government_report::government_report() : QWidget()
   main_screen->setSizePolicy(size_expand_policy);
   main_screen->setLayout(m_layout);
 
-  // Auditing screen
+  // Auditing screen (accuser/accused)
   QWidget *auditing_screen = new QWidget();
   QGridLayout *a_layout = new QGridLayout();
-  QLabel *a_gov_label = new QLabel(_("Auditing"));
-  a_gov_label->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_gov_label, 0, 0, -1, -1);
+
+  a_description = new QLabel(_("Description"));
+  a_description->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_description, 0, 0, -1, 1);
+
+  a_player_description = new QLabel(_("Player description"));
+  a_player_description->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_player_description, 1, 0, -1, 1);
+
+  a_accuser_pixmap = new QPixmap();
+  //a_accuser_pixmap->setSizePolicy(size_minimum_policy);
+  //a_layout->addWidget(a_accuser_pixmap, 2, 0, 3, 3);
+
+  a_accused_pixmap = new QPixmap();
+  //a_accused_pixmap->setSizePolicy(size_minimum_policy);
+  //a_layout->addWidget(a_accused_pixmap, 2, 3, 3, 3);
+
+  a_jury_1_pixmap = new QPixmap();
+  //a_jury_1_pixmap->setSizePolicy(size_minimum_policy);
+  //a_layout->addWidget(a_jury_1_pixmap, 5, 0, 3, 3);
+
+  a_jury_2_pixmap = new QPixmap();
+  //a_jury_2_pixmap->setSizePolicy(size_minimum_policy);
+  //a_layout->addWidget(a_jury_2_pixmap, 5, 3, 3, 3);
+
+  a_decision_time = new QLabel(_("Decision time"));
+  a_decision_time->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_decision_time, 8, 0, -1, 1);
+
+  QLabel* a_public_chat_lbl = new QLabel(_("Public chat"));
+  a_public_chat_lbl->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_public_chat_lbl, 0, 6, -1, 4);
+  // TODO: Add public chat
+
+  QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));
+  a_consequence_good_label->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_consequence_good_label, 0, 11, 1, -1);
+
+  a_consequence_good = new QLabel();
+  a_consequence_good->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_consequence_good, 1, 11, 5, -1);
+
+  QLabel* a_consequence_bad_label = new QLabel(_("Consequence if false:"));
+  a_consequence_bad_label->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_consequence_bad_label, 6, 11, 1, -1);
+
+  a_consequence_bad = new QLabel();
+  a_consequence_bad->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_consequence_bad, 7, 11, 5, -1);
+
   auditing_screen->setSizePolicy(size_expand_policy);
   auditing_screen->setLayout(a_layout);
 
@@ -174,9 +221,6 @@ government_report::government_report() : QWidget()
   layout->addWidget(main_screen);
   layout->addWidget(auditing_screen);
   setLayout(layout);
-
-  // DEBUG
-  //layout->setCurrentIndex(1);
 }
 
 /**

@@ -51,9 +51,15 @@ class government_report : public QWidget {
   Q_OBJECT
 
   QStackedLayout *layout;
+
   QScrollArea *m_recent_decisions_scroll;
   int m_auditing_count = MAX_AUDIT_NUM;
   audit_button **m_auditing_buttons;
+
+  QLabel *a_description, *a_player_description;
+  QPixmap *a_accuser_pixmap, *a_accused_pixmap, *a_jury_1_pixmap, *a_jury_2_pixmap;
+  QLabel *a_decision_time;
+  QLabel *a_consequence_good, *a_consequence_bad;
 
   int cached_last_message_id = -1;
   int cached_last_audit_id = -1;
