@@ -160,7 +160,8 @@ struct named_sprites {
 
       // The panel sprites for showing tax % allocations.
       *tax_luxury, *tax_science, *tax_gold,
-      *dither_tile; // only used for isometric view
+      *dither_tile, // only used for isometric view
+      *player_thumb[4];
 
   struct {
     QPixmap *tile, *worked_tile, *unworked_tile;
@@ -2494,6 +2495,11 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
   SET_SPRITE(treaty_thumb[0], "treaty.disagree_thumb_down");
   SET_SPRITE(treaty_thumb[1], "treaty.agree_thumb_up");
+
+  SET_SPRITE(player_thumb[PLAYER_PURPLE], "player.purple");
+  SET_SPRITE(player_thumb[PLAYER_GREEN], "player.green");
+  SET_SPRITE(player_thumb[PLAYER_YELLOW], "player.yellow");
+  SET_SPRITE(player_thumb[PLAYER_BLUE], "player.blue");
 
   for (j = 0; j < INDICATOR_COUNT; j++) {
     const char *names[] = {"science_bulb", "warming_sun", "cooling_flake"};
@@ -5252,6 +5258,11 @@ const QPixmap *get_mask_sprite(const struct tileset *t)
 const QPixmap *get_treaty_thumb_sprite(const struct tileset *t, bool on_off)
 {
   return t->sprites.treaty_thumb[on_off ? 1 : 0];
+}
+
+QPixmap *get_player_thumb_sprite(const struct tileset *t, const int &player_id)
+{
+  return t->sprites.player_thumb[player_id];
 }
 
 /**

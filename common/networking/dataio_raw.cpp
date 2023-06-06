@@ -231,6 +231,10 @@ void dio_put_uint8_raw(struct raw_data_out *dout, int value)
   uint8_t x = value;
   FC_STATIC_ASSERT(sizeof(x) == 1, uint8_not_1_byte);
 
+  if(x != value) {
+    log_warning("a");
+  }
+
   FIELD_RANGE_TEST((int) x != value, ,
                    "Trying to put %d into 8 bits; "
                    "it will result %d at receiving side.",

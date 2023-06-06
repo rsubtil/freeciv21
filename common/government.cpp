@@ -28,6 +28,20 @@
 struct government_info g_info;
 std::vector<government> governments;
 
+player_id get_player_id(const struct player *pplayer)
+{
+  if(!strcmp(pplayer->username, "purple")) {
+    return PLAYER_PURPLE;
+  } else if(!strcmp(pplayer->username, "blue")) {
+    return PLAYER_BLUE;
+  } else if(!strcmp(pplayer->username, "green")) {
+    return PLAYER_GREEN;
+  } else if(!strcmp(pplayer->username, "yellow")) {
+    return PLAYER_YELLOW;
+  }
+  return PLAYER_PURPLE;
+}
+
 std::string player_id_to_string(player_id id)
 {
   switch (id) {
@@ -58,6 +72,30 @@ player_id player_id_from_string(const std::string &str)
   }
 }
 
+struct government_news* government_news_new(const struct packet_government_news* news)
+{
+  struct government_news *pnews = new government_news;
+  pnews->id = news->id;
+  pnews->turn = news->turn;
+  pnews->news = QString(news->news);
+
+  return pnews;
+};
+
+struct government_audit_info *government_audit_info_new(const struct packet_government_audit_info* audit)
+{
+  struct government_audit_info *paudit = new government_audit_info;
+  paudit->id = audit->id;
+  paudit->accused_id = (player_id)audit->accused_id;
+  paudit->accuser_id = (player_id)audit->accuser_id;
+  paudit->jury_1_vote = audit->jury_1_vote;
+  paudit->jury_2_vote = audit->jury_2_vote;
+  paudit->consequence = audit->consequence;
+  paudit->start_turn = audit->start_turn;
+  paudit->end_turn = audit->end_turn;
+
+  return paudit;
+};
 
 /**
    Returns the government that has the given (translated) name.

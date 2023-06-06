@@ -14,6 +14,7 @@
 
 #include <QHash>
 #include <string>
+#include <algorithm>
 // utility
 #include "iterator.h"
 #include "shared.h"
@@ -21,6 +22,7 @@
 #include "fc_types.h"
 #include "name_translation.h"
 #include "requirements.h"
+#include "networking/packets.h"
 
 struct ruler_title; // Opaque type.
 
@@ -38,6 +40,7 @@ enum player_id : int {
   PLAYER_YELLOW = 3,
 };
 
+player_id get_player_id(const struct player *pplayer);
 std::string player_id_to_string(player_id id);
 player_id player_id_from_string(const std::string &str);
 
@@ -62,12 +65,66 @@ struct government {
   ~government();
 };
 
+struct government_news {
+  int id;
+  int turn;
+  QString news;
+};
+
+struct government_news* government_news_new(const struct packet_government_news* news);
+
+struct government_audit_info {
+  int id;
+  player_id accuser_id;
+  player_id accused_id;
+  int jury_1_vote;
+  int jury_2_vote;
+  int consequence;
+  int start_turn;
+  int end_turn;
+};
+
+struct government_audit_info* government_audit_info_new(const struct packet_government_audit_info* audit);
+
 struct government_info {
   int last_message_id;
   int last_audit_id;
   int curr_audits[MAX_AUDIT_NUM];
 
-  std::vector<QString> cached_news;
+  std::vector<struct government_news*> cached_news;
+  std::vector<struct government_audit_info*> cached_audits;
+
+  void reset() {
+    last_message_id = -1;
+    last_audit_id = -1;
+    for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+      curr_audits[i] = -1;
+    }
+    cached_news.clear();
+    cached_audits.clear();
+  }
+
+  struct government_news* find_cached_news(int id) {
+    auto iter = std::find_if(cached_news.begin(), cached_news.end(), [id](struct government_news* news) {
+      return news->id == id;
+    });
+    if(iter != cached_news.end()) {
+      return *iter;
+    } else {
+      return nullptr;
+    }
+  }
+
+  struct government_audit_info* find_cached_audit(int id) {
+    auto iter = std::find_if(cached_audits.begin(), cached_audits.end(), [id](struct government_audit_info* audit) {
+      return audit->id == id;
+    });
+    if(iter != cached_audits.end()) {
+      return *iter;
+    } else {
+      return nullptr;
+    }
+  }
 };
 
 extern struct government_info g_info;

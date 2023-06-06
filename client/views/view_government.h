@@ -33,7 +33,7 @@ public:
   audit_button();
   int get_audit_id() const;
   void set_audit_id(int id);
-  void set_audit_info(const struct packet_government_audit_info *info);
+  void set_audit_info(struct government_audit_info *info);
 
 signals:
   void audit_selected(int id);
@@ -57,12 +57,15 @@ class government_report : public QWidget {
   audit_button **m_auditing_buttons;
 
   QLabel *a_description, *a_player_description;
+  QLabel *a_accuser_pixmap_cont, *a_accused_pixmap_cont, *a_jury_1_pixmap_cont, *a_jury_2_pixmap_cont;
   QPixmap *a_accuser_pixmap, *a_accused_pixmap, *a_jury_1_pixmap, *a_jury_2_pixmap;
   QLabel *a_decision_time;
   QLabel *a_consequence_good, *a_consequence_bad;
 
   int cached_last_message_id = -1;
   int cached_last_audit_id = -1;
+
+  struct government_audit_info *curr_audit = nullptr;
 
 public:
   void init(bool raise);
@@ -77,8 +80,9 @@ public:
   static government_report *instance();
 
   void update_info();
-  void update_news(int id, int turn, const QString &news);
-  void update_audit_info(const struct packet_government_audit_info *info);
+  void update_news(struct government_news *news);
+  void update_audit_info(struct government_audit_info *info);
+  void update_time_labels();
 
 private:
   government_report();

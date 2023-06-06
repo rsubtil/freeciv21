@@ -31,6 +31,7 @@
 #include "helpdlg.h"
 #include "text.h"
 #include "tileset/sprite.h"
+#include "tileset/tilespec.h"
 // gui-qt
 #include "citydlg.h"
 #include "fc_client.h"
@@ -89,11 +90,11 @@ void audit_button::set_audit_id(int id)
   }
 }
 
-void audit_button::set_audit_info(const struct packet_government_audit_info *info)
+void audit_button::set_audit_info(struct government_audit_info *info)
 {
   std::string accuser_name = player_id_to_string((player_id)info->accuser_id);
   std::string accused_name = player_id_to_string((player_id)info->accused_id);
-  std::string time_left = minutes_to_time_str(info->end_turn - info->start_turn);
+  std::string time_left = minutes_to_time_str(info->end_turn - game.info.turn);
   setText(QString("%1 vs %2\n%3 remaining")
     .arg(accuser_name.c_str())
     .arg(accused_name.c_str())
@@ -165,54 +166,63 @@ government_report::government_report() : QWidget()
   QWidget *auditing_screen = new QWidget();
   QGridLayout *a_layout = new QGridLayout();
 
+  QPushButton *a_go_back = new QPushButton();
+  a_go_back->setSizePolicy(size_fixed_policy);
+  a_go_back->setText(_("Go back"));
+  a_go_back->connect(a_go_back, &QPushButton::clicked, this, [this]() {
+    layout->setCurrentIndex(0);
+  });
+  a_layout->addWidget(a_go_back, 0, 0, 1, 1);
+
   a_description = new QLabel(_("Description"));
   a_description->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_description, 0, 0, -1, 1);
+  a_layout->addWidget(a_description, 1, 0);//, -1, 1);
 
   a_player_description = new QLabel(_("Player description"));
+  a_player_description->setWordWrap(true);
   a_player_description->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_player_description, 1, 0, -1, 1);
+  a_layout->addWidget(a_player_description, 2, 0);//, -1, 1);
 
-  a_accuser_pixmap = new QPixmap();
-  //a_accuser_pixmap->setSizePolicy(size_minimum_policy);
-  //a_layout->addWidget(a_accuser_pixmap, 2, 0, 3, 3);
+  a_accuser_pixmap_cont = new QLabel();
+  a_accuser_pixmap_cont->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_accuser_pixmap_cont, 3, 0);//, 3, 3);
 
-  a_accused_pixmap = new QPixmap();
-  //a_accused_pixmap->setSizePolicy(size_minimum_policy);
-  //a_layout->addWidget(a_accused_pixmap, 2, 3, 3, 3);
+  a_accused_pixmap_cont = new QLabel();
+  a_accused_pixmap_cont->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_accused_pixmap_cont, 3, 3);//, 3, 3);
 
-  a_jury_1_pixmap = new QPixmap();
-  //a_jury_1_pixmap->setSizePolicy(size_minimum_policy);
-  //a_layout->addWidget(a_jury_1_pixmap, 5, 0, 3, 3);
+  a_jury_1_pixmap_cont = new QLabel();
+  a_jury_1_pixmap_cont->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_jury_1_pixmap_cont, 6, 0);//, 3, 3);
 
-  a_jury_2_pixmap = new QPixmap();
-  //a_jury_2_pixmap->setSizePolicy(size_minimum_policy);
-  //a_layout->addWidget(a_jury_2_pixmap, 5, 3, 3, 3);
+  a_jury_2_pixmap_cont = new QLabel();
+  a_jury_2_pixmap_cont->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_jury_2_pixmap_cont, 6, 3);//, 3, 3);
 
   a_decision_time = new QLabel(_("Decision time"));
   a_decision_time->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_decision_time, 8, 0, -1, 1);
+  a_layout->addWidget(a_decision_time, 9, 0);//, -1, 1);
 
   QLabel* a_public_chat_lbl = new QLabel(_("Public chat"));
   a_public_chat_lbl->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_public_chat_lbl, 0, 6, -1, 4);
+  a_layout->addWidget(a_public_chat_lbl, 0, 6);//, -1, 4);
   // TODO: Add public chat
 
   QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));
   a_consequence_good_label->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_consequence_good_label, 0, 11, 1, -1);
+  a_layout->addWidget(a_consequence_good_label, 0, 11);//, 1, -1);
 
   a_consequence_good = new QLabel();
   a_consequence_good->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_consequence_good, 1, 11, 5, -1);
+  a_layout->addWidget(a_consequence_good, 1, 11);//, 5, -1);
 
   QLabel* a_consequence_bad_label = new QLabel(_("Consequence if false:"));
   a_consequence_bad_label->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_consequence_bad_label, 6, 11, 1, -1);
+  a_layout->addWidget(a_consequence_bad_label, 6, 11);//, 1, -1);
 
   a_consequence_bad = new QLabel();
   a_consequence_bad->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_consequence_bad, 7, 11, 5, -1);
+  a_layout->addWidget(a_consequence_bad, 7, 11);//, 5, -1);
 
   auditing_screen->setSizePolicy(size_expand_policy);
   auditing_screen->setLayout(a_layout);
@@ -249,12 +259,87 @@ void government_report::init(bool raise)
 /**
    Schedules paint event in some qt queue
  */
-void government_report::redraw() { update(); }
+void government_report::redraw() { update(); update_time_labels(); }
 
-void government_report::show_audit_screen(int id)
+void government_report::update_time_labels()
 {
-  Q_UNUSED(id)
-  layout->setCurrentIndex(1);
+  // Update audit buttons
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    if(g_info.curr_audits[i] != -1) {
+      struct government_audit_info* info = g_info.find_cached_audit(g_info.curr_audits[i]);
+      if(info) {
+        m_auditing_buttons[i]->set_audit_info(info);
+      }
+    }
+  }
+
+  // Update audit screen
+  if(curr_audit) {
+  a_decision_time->setText(
+      QString(
+          _("Time left: %1\n(or sooner if jury reaches a decision already)"))
+          .arg(
+              minutes_to_time_str(curr_audit->end_turn - game.info.turn).c_str()));
+  }
+}
+
+  void government_report::show_audit_screen(int id)
+  {
+    layout->setCurrentIndex(1);
+    struct government_audit_info *info = g_info.find_cached_audit(id);
+    if (!info) {
+      log_warning("info is null");
+      return;
+    }
+
+    curr_audit = info;
+
+    log_warning("accuser %d accused %d me %d", info->accuser_id,
+                info->accused_id, get_player_id(client.conn.playing));
+
+    std::string accuser_name =
+        player_id_to_string((player_id) info->accuser_id);
+    std::string accused_name =
+        player_id_to_string((player_id) info->accused_id);
+
+    a_description->setText(QString(_("%1 vs %2"))
+                               .arg(accuser_name.c_str())
+                               .arg(accused_name.c_str()));
+
+    // TODO: Info about sabotage type
+    player_id my_id = get_player_id(client.conn.playing);
+    if (my_id == info->accuser_id) {
+      a_player_description->setText(
+          QString(_("You are accusing %1 of %2. Convice the jury to rule in "
+                    "your favor!"))
+              .arg(accused_name.c_str())
+              .arg("sabotage"));
+    } else if (my_id == info->accused_id) {
+      a_player_description->setText(
+          QString(_("You are being accused of %1 by %2. You must convince "
+                    "the jury that you're innocent!"))
+              .arg("sabotage")
+              .arg(accuser_name.c_str()));
+    } else {
+      a_player_description->setText(
+          QString(_("You are a jury member in the trial of %1 vs %2. Seek "
+                    "the truth from both players and determine who is "
+                    "innocent and who will be penalized!"))
+              .arg(accuser_name.c_str())
+              .arg(accused_name.c_str()));
+    }
+
+    a_accuser_pixmap = get_player_thumb_sprite(tileset, info->accuser_id);
+    a_accuser_pixmap_cont->setPixmap(*a_accuser_pixmap);
+
+    a_accused_pixmap = get_player_thumb_sprite(tileset, info->accused_id);
+    a_accused_pixmap_cont->setPixmap(*a_accused_pixmap);
+
+    a_decision_time->setText(
+        QString(_("Time left: %1\n(or sooner if jury reaches a decision "
+                  "already)"))
+            .arg(minutes_to_time_str(info->end_turn - game.info.turn)
+                     .c_str()));
 }
 
 void government_report::update_info()
@@ -287,15 +372,15 @@ void government_report::update_info()
   }
 }
 
-void government_report::update_news(int id, int turn, const QString &news)
+void government_report::update_news(struct government_news *news)
 {
-  cached_last_message_id = MAX(cached_last_message_id, id);
+  cached_last_message_id = MAX(cached_last_message_id, news->id);
   QLabel* news_label = new QLabel();
-  news_label->setText(QString::number(turn) + ": " + news);
+  news_label->setText(QString::number(news->turn) + ": " + QString(news->news));
   m_recent_decisions_scroll->layout()->addWidget(news_label);
 }
 
-void government_report::update_audit_info(const struct packet_government_audit_info *info)
+void government_report::update_audit_info(struct government_audit_info *info)
 {
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
     if(g_info.curr_audits[i] == info->id) {

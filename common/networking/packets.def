@@ -490,7 +490,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT16 culture_migration_pml;
   UINT16 history_interest_pml;
   /* size limit for cities before they can celebrate */
-  UINT8 celebratesize;
+  UINT16 celebratesize;
   BOOL changeable_budget;
   UINT8 pop_report_zeroes;
   BOOL citizen_nationality;
@@ -2386,7 +2386,7 @@ PACKET_GOVERNMENT_NEWS_REQ = 258; cs
   UINT32 id;
 end
 
-PACKET_GOVERNMENT_NEWS = 259; sc, lsend
+PACKET_GOVERNMENT_NEWS = 259; sc, lsend, handle-via-packet
   UINT32 id;
   UINT32 turn;
   STRING news[MAX_LEN_CONTENT];

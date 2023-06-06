@@ -155,6 +155,7 @@ files =
   "misc/space.spec",
   "misc/techs.spec",
   "misc/treaty.spec",
+  "misc/player.spec",
   "misc/icons.spec",
   "misc/editor.spec",
   "cimpletoon/orient_units.spec",

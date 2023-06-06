@@ -159,6 +159,7 @@ files =
   "misc/treaty.spec",
   "misc/icons.spec",
   "misc/editor.spec",
+  "misc/player.spec",
   "cimpletoon/orient_units.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",

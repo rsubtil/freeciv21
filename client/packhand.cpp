@@ -180,6 +180,7 @@ static void packhand_init()
   invisible.placeholder->unassigned_ranked = true;
 
   // Request government info
+  g_info.reset();
   send_packet_government_info_req(&client.conn);
 }
 
@@ -1379,6 +1380,7 @@ void handle_start_phase(int phase)
   }
 
   update_info_label();
+  government_report::instance()->redraw();
 }
 
 /**
@@ -5393,14 +5395,20 @@ void handle_government_info(const struct packet_government_info *packet)
   government_report::instance()->update_info();
 }
 
-void handle_government_news(int id, int turn, const char *news)
+void handle_government_news(const struct packet_government_news *packet)
 {
-  government_report::instance()->update_news(id, turn, news);
+  g_info.last_message_id = MAX(packet->id, g_info.last_message_id);
+  government_news* news = government_news_new(packet);
+  g_info.cached_news.push_back(news);
+  government_report::instance()->update_news(news);
 }
 
 void handle_government_audit_info(const struct packet_government_audit_info *packet)
 {
-  government_report::instance()->update_audit_info(packet);
+  g_info.last_audit_id = MAX(packet->id, g_info.last_audit_id);
+  government_audit_info* info = government_audit_info_new(packet);
+  g_info.cached_audits.push_back(info);
+  government_report::instance()->update_audit_info(info);
 }
 
 void handle_government_audit_begin(int errcode, const int *sabotage_id)
