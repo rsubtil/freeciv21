@@ -28,6 +28,20 @@
 struct government_info g_info;
 std::vector<government> governments;
 
+player_id determine_jury_id(player_id accuser, player_id accused, int which)
+{
+  for (int id = 0; id < 4; id++) {
+    if (id != accuser && id != accused) {
+      if (which == 1) {
+        return (player_id)id;
+      } else {
+        which--;
+      }
+    }
+  }
+  return PLAYER_PURPLE;
+}
+
 player_id get_player_id(const struct player *pplayer)
 {
   if(!strcmp(pplayer->username, "purple")) {

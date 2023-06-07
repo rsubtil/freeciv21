@@ -26,6 +26,7 @@
 // common
 #include "game.h"
 // client
+#include "chatline.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "helpdlg.h"
@@ -175,7 +176,7 @@ government_report::government_report() : QWidget()
   a_layout->addWidget(a_go_back, 0, 0, 1, 1);
 
   a_description = new QLabel(_("Description"));
-  a_description->setSizePolicy(size_expand_policy);
+  a_description->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_description, 1, 0);//, -1, 1);
 
   a_player_description = new QLabel(_("Player description"));
@@ -184,29 +185,61 @@ government_report::government_report() : QWidget()
   a_layout->addWidget(a_player_description, 2, 0);//, -1, 1);
 
   a_accuser_pixmap_cont = new QLabel();
-  a_accuser_pixmap_cont->setSizePolicy(size_expand_policy);
+  a_accuser_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_accuser_pixmap_cont, 3, 0);//, 3, 3);
 
   a_accused_pixmap_cont = new QLabel();
-  a_accused_pixmap_cont->setSizePolicy(size_expand_policy);
+  a_accused_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_accused_pixmap_cont, 3, 3);//, 3, 3);
-
-  a_jury_1_pixmap_cont = new QLabel();
-  a_jury_1_pixmap_cont->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_jury_1_pixmap_cont, 6, 0);//, 3, 3);
-
-  a_jury_2_pixmap_cont = new QLabel();
-  a_jury_2_pixmap_cont->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_jury_2_pixmap_cont, 6, 3);//, 3, 3);
 
   a_decision_time = new QLabel(_("Decision time"));
   a_decision_time->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_decision_time, 9, 0);//, -1, 1);
+  a_layout->addWidget(a_decision_time, 6, 0);//, -1, 1);
+
+  a_jury_1_pixmap_cont = new QLabel();
+  a_jury_1_pixmap_cont->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_jury_1_pixmap_cont, 7, 0);//, 3, 3);
+
+  a_jury_2_pixmap_cont = new QLabel();
+  a_jury_2_pixmap_cont->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_jury_2_pixmap_cont, 7, 3);//, 3, 3);
+
+  a_vote_confirm = new hud_message_box(this);
+  a_vote_confirm->setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
+  a_vote_confirm->setDefaultButton(QMessageBox::Cancel);
+  // TODO: Connect confirm button to vote
+
+  a_jury_vote_yes = new QPushButton();
+  a_jury_vote_yes->setSizePolicy(size_fixed_policy);
+  a_jury_vote_yes->setText(_("Vote \"true\""));
+  connect(a_jury_vote_yes, &QPushButton::clicked, this, [this]() {
+    confirm_vote(AUDIT_VOTE_YES);
+  });
+  a_layout->addWidget(a_jury_vote_yes, 10, 0, 1, 2);//, 1, 1);
+
+  a_jury_vote_no = new QPushButton();
+  a_jury_vote_no->setSizePolicy(size_fixed_policy);
+  a_jury_vote_no->setText(_("Vote \"false\""));
+  a_jury_vote_no->connect(a_jury_vote_no, &QPushButton::clicked, this, [this]() {
+    confirm_vote(AUDIT_VOTE_NO);
+  });
+  a_layout->addWidget(a_jury_vote_no, 10, 2, 1, 2);//, 1, 1);
+
+  a_jury_vote_abstain = new QPushButton();
+  a_jury_vote_abstain->setSizePolicy(size_fixed_policy);
+  a_jury_vote_abstain->setText(_("Abstain"));
+  a_jury_vote_abstain->connect(a_jury_vote_abstain, &QPushButton::clicked, this, [this]() {
+    confirm_vote(AUDIT_VOTE_ABSTAIN);
+  });
+  a_layout->addWidget(a_jury_vote_abstain, 10, 4, 1, 2);//, 1, 1);
 
   QLabel* a_public_chat_lbl = new QLabel(_("Public chat"));
   a_public_chat_lbl->setSizePolicy(size_expand_policy);
   a_layout->addWidget(a_public_chat_lbl, 0, 6);//, -1, 4);
   // TODO: Add public chat
+  chat_widget *a_public_chat = new chat_widget(this);
+  a_public_chat->setSizePolicy(size_expand_policy);
+  a_layout->addWidget(a_public_chat, 1, 6, -1, 4);//, -1, 4);
 
   QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));
   a_consequence_good_label->setSizePolicy(size_expand_policy);
@@ -283,63 +316,99 @@ void government_report::update_time_labels()
   }
 }
 
-  void government_report::show_audit_screen(int id)
-  {
-    layout->setCurrentIndex(1);
-    struct government_audit_info *info = g_info.find_cached_audit(id);
-    if (!info) {
-      log_warning("info is null");
-      return;
-    }
+void government_report::show_audit_screen(int id)
+{
+  layout->setCurrentIndex(1);
+  struct government_audit_info *info = g_info.find_cached_audit(id);
+  if (!info) {
+    log_warning("info is null");
+    return;
+  }
 
-    curr_audit = info;
+  curr_audit = info;
 
-    log_warning("accuser %d accused %d me %d", info->accuser_id,
-                info->accused_id, get_player_id(client.conn.playing));
+  log_warning("accuser %d accused %d me %d", info->accuser_id,
+              info->accused_id, get_player_id(client.conn.playing));
 
-    std::string accuser_name =
-        player_id_to_string((player_id) info->accuser_id);
-    std::string accused_name =
-        player_id_to_string((player_id) info->accused_id);
+  std::string accuser_name =
+      player_id_to_string((player_id) info->accuser_id);
+  std::string accused_name =
+      player_id_to_string((player_id) info->accused_id);
 
-    a_description->setText(QString(_("%1 vs %2"))
-                               .arg(accuser_name.c_str())
-                               .arg(accused_name.c_str()));
+  a_description->setText(QString(_("%1 vs %2"))
+                              .arg(accuser_name.c_str())
+                              .arg(accused_name.c_str()));
 
-    // TODO: Info about sabotage type
-    player_id my_id = get_player_id(client.conn.playing);
-    if (my_id == info->accuser_id) {
-      a_player_description->setText(
-          QString(_("You are accusing %1 of %2. Convice the jury to rule in "
-                    "your favor!"))
-              .arg(accused_name.c_str())
-              .arg("sabotage"));
-    } else if (my_id == info->accused_id) {
-      a_player_description->setText(
-          QString(_("You are being accused of %1 by %2. You must convince "
-                    "the jury that you're innocent!"))
-              .arg("sabotage")
-              .arg(accuser_name.c_str()));
-    } else {
-      a_player_description->setText(
-          QString(_("You are a jury member in the trial of %1 vs %2. Seek "
-                    "the truth from both players and determine who is "
-                    "innocent and who will be penalized!"))
-              .arg(accuser_name.c_str())
-              .arg(accused_name.c_str()));
-    }
+  // TODO: Info about sabotage type
+  player_id my_id = get_player_id(client.conn.playing);
+  if (my_id == info->accuser_id) {
+    a_player_description->setText(
+        QString(_("You are accusing %1 of %2. Convice the jury to rule in "
+                  "your favor!"))
+            .arg(accused_name.c_str())
+            .arg("sabotage"));
+  } else if (my_id == info->accused_id) {
+    a_player_description->setText(
+        QString(_("You are being accused of %1 by %2. You must convince "
+                  "the jury that you're innocent!"))
+            .arg("sabotage")
+            .arg(accuser_name.c_str()));
+  } else {
+    a_player_description->setText(
+        QString(_("You are a jury member in the trial of %1 vs %2. Seek "
+                  "the truth from both players and determine who is "
+                  "innocent and who will be penalized!"))
+            .arg(accuser_name.c_str())
+            .arg(accused_name.c_str()));
+  }
 
-    a_accuser_pixmap = get_player_thumb_sprite(tileset, info->accuser_id);
-    a_accuser_pixmap_cont->setPixmap(*a_accuser_pixmap);
+  a_accuser_pixmap = get_player_thumb_sprite(tileset, info->accuser_id);
+  a_accuser_pixmap_cont->setPixmap(*a_accuser_pixmap);
 
-    a_accused_pixmap = get_player_thumb_sprite(tileset, info->accused_id);
-    a_accused_pixmap_cont->setPixmap(*a_accused_pixmap);
+  a_accused_pixmap = get_player_thumb_sprite(tileset, info->accused_id);
+  a_accused_pixmap_cont->setPixmap(*a_accused_pixmap);
 
-    a_decision_time->setText(
-        QString(_("Time left: %1\n(or sooner if jury reaches a decision "
-                  "already)"))
-            .arg(minutes_to_time_str(info->end_turn - game.info.turn)
-                     .c_str()));
+  a_jury_1_pixmap = get_player_thumb_sprite(tileset, determine_jury_id(
+                                                        (player_id)info->accuser_id,
+                                                        (player_id)info->accused_id,
+                                                        1));
+  a_jury_1_pixmap_cont->setPixmap(*a_jury_1_pixmap);
+
+  a_jury_2_pixmap = get_player_thumb_sprite(tileset, determine_jury_id(
+                                                        (player_id)info->accuser_id,
+                                                        (player_id)info->accused_id,
+                                                        2));
+  a_jury_2_pixmap_cont->setPixmap(*a_jury_2_pixmap);
+
+  a_decision_time->setText(
+      QString(_("Time left: %1\n(or sooner if jury reaches a decision "
+                "already)"))
+          .arg(minutes_to_time_str(info->end_turn - game.info.turn)
+                    .c_str()));
+}
+
+void government_report::confirm_vote(audit_vote_type intended_vote)
+{
+  this->intended_vote = intended_vote;
+  QString title, text;
+
+  switch(intended_vote) {
+    case AUDIT_VOTE_YES:
+      title = "Vote \"true\"";
+      text = "You're about to vote on the side of the accuser.\n\nYou agree that the accuser is right, and the accused must be penalized.\nIf your rulling is the truth, you'll receive a bonus.\nHowever, if this isn't the truth, you'll be convicting an innocent person, and will thus be penalized.\n\nAre you sure you want to vote \"true\"?";
+      break;
+    case AUDIT_VOTE_NO:
+      title = "Vote \"false\"";
+      text = "You're about to vote on the side of the accused.\n\nYou agree that the accused is innocent, and the accuser must be penalized.\nIf your rulling is the truth, you'll receive a bonus.\nHowever, if this isn't the truth, you'll be forgiving a guilty person, and will thus be penalized.\n\nAre you sure you want to vote \"false\"?";
+      break;
+    case AUDIT_VOTE_ABSTAIN:
+      title = "Abstain";
+      text = "You're about to abstain from voting.\n\nYou're not sure who is guilty, and don't want to risk voting on the wrong side.\nYou won't be penalized, but you'll also not gain anything from this audit.\n\nAre you sure you want to abstain?";
+      break;
+  }
+
+  a_vote_confirm->set_text_title(text, title);
+  a_vote_confirm->show();
 }
 
 void government_report::update_info()

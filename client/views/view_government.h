@@ -15,6 +15,7 @@
 #include "government.h"
 // client
 #include "repodlgs_g.h"
+#include "hudwidget.h"
 
 class QComboBox;
 class QGridLayout;
@@ -60,7 +61,11 @@ class government_report : public QWidget {
   QLabel *a_accuser_pixmap_cont, *a_accused_pixmap_cont, *a_jury_1_pixmap_cont, *a_jury_2_pixmap_cont;
   QPixmap *a_accuser_pixmap, *a_accused_pixmap, *a_jury_1_pixmap, *a_jury_2_pixmap;
   QLabel *a_decision_time;
+  QPushButton *a_jury_vote_yes, *a_jury_vote_no, *a_jury_vote_abstain;
   QLabel *a_consequence_good, *a_consequence_bad;
+  hud_message_box *a_vote_confirm;
+
+  audit_vote_type intended_vote = AUDIT_VOTE_ABSTAIN;
 
   int cached_last_message_id = -1;
   int cached_last_audit_id = -1;
@@ -75,6 +80,7 @@ protected:
   static government_report *_instance;
 
   void show_audit_screen(int id);
+  void confirm_vote(audit_vote_type intended_vote);
 
 public:
   static government_report *instance();

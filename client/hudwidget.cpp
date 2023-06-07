@@ -119,23 +119,27 @@ void hud_message_box::set_text_title(const QString &s1, const QString &s2)
 {
   QSpacerItem *spacer;
   QGridLayout *layout;
-  int w, w2, h;
+  int w = 0, h, newline_count;
 
-  if (s1.contains('\n')) {
+  newline_count = s1.count('\n');
+  QString tmp = s1;
+  while (tmp.contains('\n')) {
     int i;
-    i = s1.indexOf('\n');
-    cs1 = s1.left(i);
-    cs2 = s1.right(s1.count() - i);
-    mult = 2;
-    w2 = qMax(fm_text->horizontalAdvance(cs1),
-              fm_text->horizontalAdvance(cs2));
-    w = qMax(w2, fm_title->horizontalAdvance(s2));
-  } else {
-    w = qMax(fm_text->horizontalAdvance(s1),
-             fm_title->horizontalAdvance(s2));
+    i = tmp.indexOf('\n')+1;
+    cs1 = tmp.left(i);
+    cs2 = tmp.right(tmp.count() - i);
+    tmp = cs2;
+    w = qMax(w, qMax(qMax(fm_text->horizontalAdvance(cs1),
+                          fm_text->horizontalAdvance(cs2)
+                         ),
+                     fm_title->horizontalAdvance(s2)
+                    )
+            );
   }
+  if(w == 0)
+    w = qMax(fm_text->horizontalAdvance(s1), fm_title->horizontalAdvance(s2));
   w = w + 20;
-  h = mult * (fm_text->height() * 3 / 2) + 2 * fm_title->height();
+  h = newline_count * (fm_text->height() * 3 / 2) + 2 * fm_title->height();
   top = 2 * fm_title->height();
   spacer =
       new QSpacerItem(w, 0, QSizePolicy::Minimum, QSizePolicy::Expanding);
@@ -203,7 +207,18 @@ void hud_message_box::paintEvent(QPaintEvent *event)
   p.drawText((width() - fm_title->horizontalAdvance(title)) / 2,
              fm_title->height() * 4 / 3, title);
   p.setFont(f_text);
-  if (mult == 1) {
+  cs2 = text;
+  for(int i = 0; i < text.count('\n'); i++) {
+    cs1 = cs2.left(cs2.indexOf('\n')+1);
+    cs2 = cs2.right(cs2.count() - cs2.indexOf('\n')-1);
+    p.drawText((width() - fm_text->horizontalAdvance(cs1)) / 2,
+               2 * fm_title->height() + fm_text->height() * (4 * (i+1)) / 3, cs1);
+    if(i+1 >= text.count('\n')) {
+      p.drawText((width() - fm_text->horizontalAdvance(cs2)) / 2,
+               2 * fm_title->height() + fm_text->height() * (4 * (i+2)) / 3, cs2);
+    }
+  }
+  /*if (mult == 1) {
     p.drawText((width() - fm_text->horizontalAdvance(text)) / 2,
                2 * fm_title->height() + fm_text->height() * 4 / 3, text);
   } else {
@@ -211,7 +226,7 @@ void hud_message_box::paintEvent(QPaintEvent *event)
                2 * fm_title->height() + fm_text->height() * 4 / 3, cs1);
     p.drawText((width() - fm_text->horizontalAdvance(cs2)) / 2,
                2 * fm_title->height() + fm_text->height() * 8 / 3, cs2);
-  }
+  }*/
   p.end();
   event->accept();
 }

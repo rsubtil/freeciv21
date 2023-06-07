@@ -34,7 +34,7 @@ _   ._       Copyright (c) 1996-2021 Freeciv21 and Freeciv contributors.
 
 #define GUEST_NAME "guest"
 
-#define MIN_PASSWORD_LEN 6 // minimum length of password
+#define MIN_PASSWORD_LEN 1 // minimum length of password
 #define MAX_AUTH_TRIES 3
 #define MAX_WAIT_TIME 300 // max time we'll wait on a password
 

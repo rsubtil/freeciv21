@@ -40,6 +40,13 @@ enum player_id : int {
   PLAYER_YELLOW = 3,
 };
 
+enum audit_vote_type : int {
+  AUDIT_VOTE_YES = 0,
+  AUDIT_VOTE_NO = 1,
+  AUDIT_VOTE_ABSTAIN = 2,
+};
+
+player_id determine_jury_id(player_id accuser, player_id accused, int which);
 player_id get_player_id(const struct player *pplayer);
 std::string player_id_to_string(player_id id);
 player_id player_id_from_string(const std::string &str);
