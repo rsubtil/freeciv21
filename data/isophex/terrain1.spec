@@ -124,7 +124,21 @@ tiles = { "row", "column","tag"
   4,    5, "tx.fallout"
   4,    6, "tx.pollution"
   4,    7, "tx.village"
- 
+
+;spacerace
+ 7,  0, "tx.building_y_f"
+ 7,  0, "tx.building_p_f"
+ 7,  0, "tx.building_g_f"
+ 7,  0, "tx.building_b_f"
+ 7,  1, "tx.building_y_b"
+ 7,  1, "tx.building_p_b"
+ 7,  1, "tx.building_g_b"
+ 7,  1, "tx.building_b_b"
+ 7,  2, "tx.building_y_u"
+ 7,  2, "tx.building_p_u"
+ 7,  2, "tx.building_g_u"
+ 7,  2, "tx.building_b_u"
+
 ; misc
 
   5,    0, "t.coast_color"

@@ -132,6 +132,20 @@ tiles = { "row", "column", "tag"
  15,  4, "user.attention"
  15,  5, "tx.fog"
 
+;spacerace
+ 0,  16, "tx.building_y_f"
+ 0,  16, "tx.building_p_f"
+ 0,  16, "tx.building_g_f"
+ 0,  16, "tx.building_b_f"
+ 1,  16, "tx.building_y_b"
+ 1,  16, "tx.building_p_b"
+ 1,  16, "tx.building_g_b"
+ 1,  16, "tx.building_b_b"
+ 2,  16, "tx.building_y_u"
+ 2,  16, "tx.building_p_u"
+ 2,  16, "tx.building_g_u"
+ 2,  16, "tx.building_b_u"
+
 ;goto path sprites
  14,  7, "path.step"            ; turn boundary within path
  14,  8, "path.exhausted_mp"    ; tip of path, no MP left

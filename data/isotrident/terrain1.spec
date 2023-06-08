@@ -121,6 +121,20 @@ tiles = { "row", "column","tag"
  12, 7, "road.rail_w"
  12, 8, "road.rail_nw"
 
+;spacerace
+ 7,  0, "tx.building_y_f"
+ 7,  0, "tx.building_p_f"
+ 7,  0, "tx.building_g_f"
+ 7,  0, "tx.building_b_f"
+ 7,  1, "tx.building_y_b"
+ 7,  1, "tx.building_p_b"
+ 7,  1, "tx.building_g_b"
+ 7,  1, "tx.building_b_b"
+ 7,  2, "tx.building_y_u"
+ 7,  2, "tx.building_p_u"
+ 7,  2, "tx.building_g_u"
+ 7,  2, "tx.building_b_u"
+
 ;add-ons
  2, 7, "tx.oil_mine"
  2, 8, "tx.oil_rig"
@@ -131,7 +145,6 @@ tiles = { "row", "column","tag"
  8, 7, "tx.village"
  9, 7, "tx.fallout"
 }
-
 
 [grid_extra]
 

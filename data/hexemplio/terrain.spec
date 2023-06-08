@@ -106,6 +106,20 @@ tiles = { "row", "column","tag"
  4, 6, "tx.pollution"										;[?]
  4, 7, "tx.village"											;[BFW][GS]
 
+;spacerace
+ 8,  0, "tx.building_y_f"
+ 8,  3, "tx.building_p_f"
+ 7,  3, "tx.building_g_f"
+ 7,  0, "tx.building_b_f"
+ 8,  1, "tx.building_y_b"
+ 8,  4, "tx.building_p_b"
+ 7,  4, "tx.building_g_b"
+ 7,  1, "tx.building_b_b"
+ 8,  2, "tx.building_y_u"
+ 8,  5, "tx.building_p_u"
+ 7,  5, "tx.building_g_u"
+ 7,  2, "tx.building_b_u"
+
 ;misc
  5, 5, "mask.tile"
  5, 1, "t.dither_tile"
