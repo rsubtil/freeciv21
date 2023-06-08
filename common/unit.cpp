@@ -1337,6 +1337,17 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
   return nullptr;
 }
 
+bool unit_on_tile(const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit)
+  {
+    return true;
+  }
+  unit_list_iterate_end;
+
+  return false;
+}
+
 /**
    Is this square controlled by the pplayer?
 

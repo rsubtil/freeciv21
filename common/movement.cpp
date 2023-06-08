@@ -561,6 +561,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
     11) It is not the territory of a player we are at peace with.
     12) The unit is unable to disembark from current transporter.
     13) The unit is making a non-native move (e.g. lack of road)
+    14) When having the non-stack flag, there's no unit on the destination tile.
  */
 enum unit_move_result
 unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
@@ -673,6 +674,12 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
         // Allow non-native moves into cities or boarding transport.
         || pcity || unit_could_load_at(punit, dst_tile))) {
     return MR_NON_NATIVE_MOVE;
+  }
+
+  // 14)
+  if (utype_has_flag(punittype, UTYF_NON_STACK)
+      && unit_on_tile(dst_tile)) {
+    return MR_NON_STACKABLE;
   }
 
   return MR_OK;

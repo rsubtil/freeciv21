@@ -1840,6 +1840,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                 "game.\n"));
     }
   }
+  if (utype_has_flag(utype, UTYF_NON_STACK)) {
+    CATLSTR(buf, bufsz,
+            _("* May not stack with any other unit.\n"));
+  }
   for (const auto &pnation : nations) {
     int i, count = 0;
 

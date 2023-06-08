@@ -39,7 +39,8 @@ enum unit_move_result {
   MR_NON_NATIVE_MOVE, // Usually RMM_RELAXED road diagonally without link
   MR_ANIMAL_DISALLOWED,
   MR_UNIT_STAY,
-  MR_NOT_ALLOWED
+  MR_NOT_ALLOWED,
+  MR_NON_STACKABLE,
 };
 
 float utype_move_rate(const struct unit_type *utype, const struct tile *ptile,

@@ -387,9 +387,10 @@ struct unit *is_non_attack_unit_tile(const struct tile *ptile,
                                      const struct player *pplayer);
 struct unit *unit_occupies_tile(const struct tile *ptile,
                                 const struct player *pplayer);
+bool unit_on_tile(const struct tile *ptile);
 
-bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile,
-               const struct civ_map *zmap);
+    bool is_my_zoc(const struct player *unit_owner, const struct tile *ptile,
+                   const struct civ_map *zmap);
 bool unit_being_aggressive(const struct unit *punit);
 bool unit_type_really_ignores_zoc(const struct unit_type *punittype);
 
