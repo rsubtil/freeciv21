@@ -4467,6 +4467,9 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
 static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
                                            struct tile *ptile)
 {
+  // If unit it spy, it can always move to enemy places
+  if(unit_has_type_flag(punit, UTYF_SPY))
+    return false;
   return (is_non_allied_unit_tile(ptile, unit_owner(punit))
           || is_non_allied_city_tile(ptile, unit_owner(punit)));
 }

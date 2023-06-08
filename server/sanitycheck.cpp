@@ -222,12 +222,13 @@ static void check_map(const char *file, const char *function, int line)
       SANITY_TILE(ptile, same_pos(unit_tile(punit), ptile));
 
       // Check diplomatic status of stacked units.
-      unit_list_iterate(ptile->units, punit2)
+      // Removed because enemy units can now stack.
+      /*unit_list_iterate(ptile->units, punit2)
       {
         SANITY_TILE(ptile,
                     pplayers_allied(unit_owner(punit), unit_owner(punit2)));
       }
-      unit_list_iterate_end;
+      unit_list_iterate_end;*/
       if (pcity) {
         SANITY_TILE(ptile,
                     pplayers_allied(unit_owner(punit), city_owner(pcity)));

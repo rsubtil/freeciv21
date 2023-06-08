@@ -549,6 +549,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
      2) Unit is not prohibited from moving by scenario
      3) The target location is next to the unit.
      4) There are no non-allied units on the target tile.
+      4.1) Unless it's a spy, and the unit at target belongs to another player
      5) Animals cannot move out from home terrains
      6) Unit can move to a tile where it can't survive on its own if there
         is free transport capacity.
@@ -561,7 +562,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
     11) It is not the territory of a player we are at peace with.
     12) The unit is unable to disembark from current transporter.
     13) The unit is making a non-native move (e.g. lack of road)
-    14) When having the non-stack flag, there's no unit on the destination tile.
+    14) When having the non-stack flag, there's no unit on the destination tile (exception; the spy can stack with enemies; for allies it's handled by 4.1).
  */
 enum unit_move_result
 unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
@@ -596,7 +597,10 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
   if (is_non_allied_unit_tile(dst_tile, puowner)) {
     /* You can't move onto a tile with non-allied units on it (try
      * attacking instead). */
-    return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
+    // 4.1)
+    if(!utype_has_flag(punittype, UTYF_SPY)) {
+      return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
+    }
   }
 
   // 5)
@@ -678,7 +682,7 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
 
   // 14)
   if (utype_has_flag(punittype, UTYF_NON_STACK)
-      && unit_on_tile(dst_tile)) {
+      && unit_on_tile(dst_tile) && !utype_has_flag(punittype, UTYF_SPY)) {
     return MR_NON_STACKABLE;
   }
 
