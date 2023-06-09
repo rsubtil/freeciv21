@@ -52,7 +52,7 @@ struct player_slot;
 struct player_economic {
   int gold;
   int science_acc;
-  int production;
+  int materials;
 
   int tax;
   int science;

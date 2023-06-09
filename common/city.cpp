@@ -1284,7 +1284,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   case O_TRADE:
   case O_GOLD:
   case O_SCIENCE_ACC:
-  case O_PRODUCTION:
+  case O_MATERIALS:
   case O_SCIENCE:
   case O_LUXURY:
   case O_LAST:

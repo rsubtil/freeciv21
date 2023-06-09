@@ -385,24 +385,24 @@ QString col_science_acc(const struct player *them)
 }
 
 /***
-    Compare production of two players in players dialog,
+    Compare materials of two players in players dialog,
     needed to sort column
  */
-static int cmp_production(const struct player *player1,
+static int cmp_materials(const struct player *player1,
                           const struct player *player2)
 {
-  return player1->economic.production - player2->economic.production;
+  return player1->economic.materials - player2->economic.materials;
 }
 
 /**
-    Show player's production to me if I am allowed to know it
+    Show player's materials to me if I am allowed to know it
  */
-QString col_production(const struct player *them)
+QString col_materials(const struct player *them)
 {
   if (them == nullptr || !them->is_alive) {
     return _("-");
-  } else if (BV_ISSET(them->client.visible, NI_PRODUCTION)) {
-    return QString::number(them->economic.production);
+  } else if (BV_ISSET(them->client.visible, NI_MATERIALS)) {
+    return QString::number(them->economic.materials);
   } else {
     return _("?");
   }
@@ -540,7 +540,7 @@ struct player_dlg_column player_dlg_columns[] = {
      "culture"},
     {true, COL_RIGHT_TEXT, N_("Gold"), col_gold, nullptr, cmp_gold, "gold"},
     {true, COL_RIGHT_TEXT, N_("Science (acc)"), col_science_acc, nullptr, cmp_science_acc, "science (acc)"},
-    {true, COL_RIGHT_TEXT, N_("Production"), col_production, nullptr, cmp_production, "production"},
+    {true, COL_RIGHT_TEXT, N_("Materials"), col_materials, nullptr, cmp_materials, "materials"},
     {true, COL_RIGHT_TEXT, N_("Tax"), col_tax, nullptr, cmp_tax, "tax"},
     {true, COL_RIGHT_TEXT, N_("Science"), col_science, nullptr, cmp_science,
      "science"},

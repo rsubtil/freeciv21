@@ -545,7 +545,7 @@ static void player_defaults(struct player *pplayer)
 
   pplayer->economic.gold = 0;
   pplayer->economic.science_acc = 0;
-  pplayer->economic.production = 0;
+  pplayer->economic.materials = 0;
   pplayer->economic.tax = PLAYER_DEFAULT_TAX_RATE;
   pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
   pplayer->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;

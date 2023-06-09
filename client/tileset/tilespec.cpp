@@ -5216,7 +5216,7 @@ const QPixmap *get_tax_sprite(const struct tileset *t, Output_type_id otype)
     return t->sprites.tax_luxury;
   // TODO: Change displayed sprites to science/production
   case O_SCIENCE_ACC:
-  case O_PRODUCTION:
+  case O_MATERIALS:
   case O_TRADE:
   case O_FOOD:
   case O_SHIELD:

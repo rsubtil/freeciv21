@@ -1117,7 +1117,7 @@ static void rscompat_migrate_eft_nation_intelligence()
     case NI_DIPLOMACY:
     case NI_GOLD:
     case NI_SCIENCE_ACC:
-    case NI_PRODUCTION:
+    case NI_MATERIALS:
     case NI_GOVERNMENT:
     case NI_SCORE: {
       auto effect = effect_new(EFT_NATION_INTELLIGENCE, 1, nullptr);

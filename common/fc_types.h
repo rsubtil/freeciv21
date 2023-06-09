@@ -94,7 +94,7 @@ enum output_type_id {
   O_LUXURY,
   O_SCIENCE,
   O_SCIENCE_ACC,
-  O_PRODUCTION,
+  O_MATERIALS,
   O_LAST
 };
 
@@ -565,8 +565,8 @@ typedef int Unit_Class_id;
 #define SPECENUM_VALUE11NAME N_("Infra Points")
 #define SPECENUM_VALUE12 NI_SCIENCE_ACC
 #define SPECENUM_VALUE12NAME N_("Science")
-#define SPECENUM_VALUE13 NI_PRODUCTION
-#define SPECENUM_VALUE13NAME N_("Production")
+#define SPECENUM_VALUE13 NI_MATERIALS
+#define SPECENUM_VALUE13NAME N_("Materials")
 #define SPECENUM_COUNT NI_COUNT
 #include "specenum_gen.h"
 

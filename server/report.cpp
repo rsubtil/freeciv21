@@ -762,11 +762,11 @@ static int get_science_acc(const struct player *pplayer)
 }
 
 /**
-   Amount of production.
+   Amount of materials.
  */
-static int get_production_acc(const struct player *pplayer)
+static int get_materials_acc(const struct player *pplayer)
 {
-  return pplayer->economic.production;
+  return pplayer->economic.materials;
 }
 
 /**
@@ -1548,7 +1548,7 @@ void log_civ_score_now()
 
       {"gold", get_gold},
       {"science_acc", get_science_acc},
-      {"production", get_production_acc},
+      {"materials", get_materials_acc},
       {"taxrate", get_taxrate},
       {"scirate", get_scirate},
       {"luxrate", get_luxrate},

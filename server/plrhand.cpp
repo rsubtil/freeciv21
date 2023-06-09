@@ -1264,10 +1264,10 @@ static void package_player_info(struct player *plr,
   } else {
     packet->science_acc = 0;
   }
-  if (BV_ISSET(packet->visible, NI_PRODUCTION)) {
-    packet->production = plr->economic.production;
+  if (BV_ISSET(packet->visible, NI_MATERIALS)) {
+    packet->materials = plr->economic.materials;
   } else {
-    packet->production = 0;
+    packet->materials = 0;
   }
 
   {

@@ -3007,9 +3007,9 @@ static void sg_load_player_main(struct loaddata *loading, struct player *plr)
                           "player%d.science_acc", plrno)) {
     plr->economic.science_acc = 0;
   }
-  if (!secfile_lookup_int(loading->file, &plr->economic.production,
-                          "player%d.production", plrno)) {
-    plr->economic.production = 0;
+  if (!secfile_lookup_int(loading->file, &plr->economic.materials,
+                          "player%d.materials", plrno)) {
+    plr->economic.materials = 0;
   }
   sg_failure_ret(secfile_lookup_int(loading->file, &plr->economic.tax,
                                     "player%d.rates.tax", plrno),

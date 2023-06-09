@@ -324,7 +324,7 @@ type GOODS              = uint8(Goods_type_id)
 # other typedefs
 type GOLD               = UINT32
 type SCIENCE            = UINT32
-type PRODUCTION         = UINT32
+type MATERIALS          = UINT32
 type HP                 = UINT8
 type PERCENT            = UINT8
 # units of TERRAIN_CONTROL.move_fragments
@@ -923,7 +923,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
 
   GOLD gold;
   SCIENCE science_acc;
-  PRODUCTION production;
+  MATERIALS materials;
 
   PERCENT tax, science,luxury;
   UINT32 infrapoints;
@@ -2318,7 +2318,7 @@ PACKET_EDIT_PLAYER = 216; cs, handle-per-conn, lsend
   BV_PLAYER embassy;
   GOLD gold;
   SCIENCE science_acc;
-  PRODUCTION production;
+  MATERIALS MATERIALS;
 
   PERCENT tax, science, luxury;
 

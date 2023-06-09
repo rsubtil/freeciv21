@@ -978,7 +978,7 @@ const QString get_info_label_text(bool moreinfo)
          + qendl();
 
   if (nullptr != client.conn.playing) {
-    str += QString(_("Gold: %1 (%2) Science: %3 (%4) Production: %5 (%6)"))
+    str += QString(_("Gold: %1 (%2) Science: %3 (%4) Materials: %5 (%6)"))
                .arg(QString::number(client.conn.playing->economic.gold),
                     QString::number(
                         player_get_expected_income(client.conn.playing)),
@@ -988,7 +988,7 @@ const QString get_info_label_text(bool moreinfo)
                     // QString::number(
                     //    player_get_expected_science(client.conn.playing)),
                     QString::number(
-                        client.conn.playing->economic.production),
+                        client.conn.playing->economic.materials),
                     0)
                     // TODO
                     // QString::number(
@@ -1048,10 +1048,10 @@ const QString get_info_label_text_popup()
     int perturn = get_bulbs_per_turn(nullptr, nullptr, nullptr);
     int upkeep = client_player()->client.tech_upkeep;
 
-    str += QString(_("Gold: %1 Science: %2 Production: %3"))
+    str += QString(_("Gold: %1 Science: %2 Materials: %3"))
                .arg(QString::number(client.conn.playing->economic.gold),
                     QString::number(client.conn.playing->economic.science_acc),
-                    QString::number(client.conn.playing->economic.production))
+                    QString::number(client.conn.playing->economic.materials))
            + qendl();
     str += QString(_("Net Income: %1"))
                .arg(QString::number(
