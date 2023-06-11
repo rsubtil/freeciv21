@@ -2675,6 +2675,19 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
       }
       extra_type_by_cause_iterate_end;
 
+      extra_type_by_cause_iterate(EC_BUILDING, pres)
+      {
+        if (tile_has_extra(ptile, pres)) {
+          const char* rulename = rule_name_get(&pres->name);
+          fc_assert(strlen(rulename) >= 9);
+          struct building* pbuilding = map_buildings_add(rulename, ptile);
+          identity_number_reserve(pbuilding->id);
+          idex_register_building(&wld, pbuilding);
+          log_warning("Added building %s on pos %d,%d", rulename, TILE_XY(ptile));
+        }
+      }
+      extra_type_by_cause_iterate_end;
+
       extra_type_by_cause_iterate(EC_RESOURCE, pres)
       {
         if (tile_has_extra(ptile, pres)) {

@@ -542,6 +542,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->music_style = -1; // even getting value 0 triggers change
   pplayer->cities = city_list_new();
   pplayer->units = unit_list_new();
+  pplayer->buildings = building_list_new();
 
   pplayer->economic.gold = 0;
   pplayer->economic.science_acc = 0;
@@ -864,6 +865,19 @@ struct player *player_by_user(const char *name)
   players_iterate(pplayer)
   {
     if (fc_strcasecmp(name, pplayer->username) == 0) {
+      return pplayer;
+    }
+  }
+  players_iterate_end;
+
+  return nullptr;
+}
+
+struct player *player_by_user_char(const char c)
+{
+  players_iterate(pplayer)
+  {
+    if (c == pplayer->username[0]) {
       return pplayer;
     }
   }
@@ -1238,6 +1252,8 @@ int player_get_expected_income(const struct player *pplayer)
     }
   }
   city_list_iterate_end;
+
+  // TODO: Figure out build income, right now code lives on server
 
   return income;
 }

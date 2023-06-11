@@ -265,6 +265,7 @@ struct player {
   int music_style;
   struct city_list *cities;
   struct unit_list *units;
+  struct building_list *buildings;
   struct player_score score;
   struct player_economic economic;
 
@@ -395,6 +396,7 @@ struct player *player_by_name(const char *name);
 struct player *player_by_name_prefix(const char *name,
                                      enum m_pre_result *result);
 struct player *player_by_user(const char *name);
+struct player *player_by_user_char(const char c);
 
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
 

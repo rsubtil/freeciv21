@@ -312,6 +312,8 @@ struct city *game_city_by_number(int id);
 
 struct unit *game_unit_by_number(int id);
 
+struct building *game_building_by_number(int id);
+
 void game_remove_unit(struct world *gworld, struct unit *punit);
 void game_remove_city(struct world *gworld, struct city *pcity);
 void initialize_globals();

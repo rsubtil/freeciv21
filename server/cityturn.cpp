@@ -46,6 +46,7 @@
 #include "traderoutes.h"
 #include "unit.h"
 #include "unitlist.h"
+#include "unittools.h"
 
 /* common/scriptcore */
 #include "luascript_types.h"
@@ -821,7 +822,7 @@ bool city_reduce_size(struct city *pcity, citizens pop_loss,
     return true;
   }
 
-  if (city_size_get(pcity) <= pop_loss) {
+  if (city_size_get(pcity) <= pop_loss /* disable city destruction due to hunger*/) {
     script_server_signal_emit("city_destroyed", pcity, pcity->owner,
                               destroyer);
 
@@ -1172,7 +1173,8 @@ static void city_populate(struct city *pcity, struct player *nationality)
                     city_link(pcity));
     }
     city_reset_foodbox(pcity, city_size_get(pcity) - 1);
-    city_reduce_size(pcity, 1, nullptr, "famine");
+    // Cities now don't disappear due to famine
+    //city_reduce_size(pcity, 1, nullptr, "famine");
   }
 }
 
@@ -4333,3 +4335,75 @@ void city_style_refresh(struct city *pcity)
 {
   pcity->style = city_style(pcity);
 }
+
+void update_buildings(struct player *pplayer)
+{
+  building_list_iterate(pplayer->buildings, pbuilding)
+  {
+    if(building_belongs_to(pbuilding, pplayer)) {
+      // Update player's resources according to building type
+      char type = building_rulename_get(pbuilding)[11];
+      switch (type)
+      {
+      case 'b':
+        pplayer->economic.gold += 1;
+        break;
+      case 'u':
+        pplayer->economic.science_acc += 1;
+        break;
+      case 'f':
+        pplayer->economic.materials += 1;
+        break;
+      }
+    }
+  }
+  building_list_iterate_end;
+}
+
+/*int get_expected_buildings_gold(struct player *pplayer)
+{
+  int i = 0;
+  extra_type_by_cause_iterate(EC_BUILDING, pextra)
+  {
+    if (building_belongs_to(pextra, pplayer)) {
+      // Update player's resources according to building type
+      char type = rule_name_get(&pextra->name)[11];
+      if (type == 'b')
+        i += 1;
+    }
+  }
+  extra_type_by_cause_iterate_end;
+  return i;
+}
+int get_expected_buildings_science(struct player *pplayer)
+{
+  int i = 0;
+  extra_type_by_cause_iterate(EC_BUILDING, pextra)
+  {
+    if (building_belongs_to(pextra, pplayer)) {
+      // Update player's resources according to building type
+      char type = rule_name_get(&pextra->name)[11];
+      if (type == 'u')
+        i += 1;
+    }
+  }
+  extra_type_by_cause_iterate_end;
+  return i;
+}
+
+int get_expected_buildings_materials(struct player *pplayer)
+{
+  int i = 0;
+  extra_type_by_cause_iterate(EC_BUILDING, pextra)
+  {
+    if (building_belongs_to(pextra, pplayer)) {
+      // Update player's resources according to building type
+      char type = rule_name_get(&pextra->name)[11];
+      if (type == 'f')
+        i += 1;
+    }
+  }
+  extra_type_by_cause_iterate_end;
+  return i;
+}
+*/

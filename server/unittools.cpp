@@ -3256,68 +3256,68 @@ static void unit_enter_hut(struct unit *punit)
   }
 }
 
-static bool building_belongs_to(const struct extra_type *pextra,
-                                const struct player *pplayer)
+bool building_belongs_to(const struct building *pbuilding,
+                         const struct player *pplayer)
 {
   if (!strcmp(pplayer->username, "yellow") &&
       (
-      !strcmp(extra_rule_name(pextra), "building_y_u") ||
-      !strcmp(extra_rule_name(pextra), "building_y_b") ||
-      !strcmp(extra_rule_name(pextra), "building_y_f")
+      !strcmp(building_rulename_get(pbuilding), "building_y_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_y_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_y_f")
       )
     )
     return true;
   else if (!strcmp(pplayer->username, "purple") &&
       (
-      !strcmp(extra_rule_name(pextra), "building_p_u") ||
-      !strcmp(extra_rule_name(pextra), "building_p_b") ||
-      !strcmp(extra_rule_name(pextra), "building_p_f")
+      !strcmp(building_rulename_get(pbuilding), "building_p_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_p_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_p_f")
       )
     )
     return true;
   else if (!strcmp(pplayer->username, "blue") &&
       (
-      !strcmp(extra_rule_name(pextra), "building_b_u") ||
-      !strcmp(extra_rule_name(pextra), "building_b_b") ||
-      !strcmp(extra_rule_name(pextra), "building_b_f")
+      !strcmp(building_rulename_get(pbuilding), "building_b_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_b_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_b_f")
       )
     )
     return true;
   else if (!strcmp(pplayer->username, "green") &&
       (
-      !strcmp(extra_rule_name(pextra), "building_g_u") ||
-      !strcmp(extra_rule_name(pextra), "building_g_b") ||
-      !strcmp(extra_rule_name(pextra), "building_g_f")
+      !strcmp(building_rulename_get(pbuilding), "building_g_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_g_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_g_f")
       )
     )
     return true;
   return false;
 }
 
-static bool building_belongs_to_unit(const struct extra_type *pextra,
+static bool building_belongs_to_unit(const struct building *pbuilding,
                                      const struct unit *punit)
 {
   if (punit->utype == unit_type_by_rule_name("unit_scientist") && (
-      !strcmp(extra_rule_name(pextra), "building_y_u") ||
-      !strcmp(extra_rule_name(pextra), "building_p_u") ||
-      !strcmp(extra_rule_name(pextra), "building_b_u") ||
-      !strcmp(extra_rule_name(pextra), "building_g_u")
+      !strcmp(building_rulename_get(pbuilding), "building_y_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_p_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_b_u") ||
+      !strcmp(building_rulename_get(pbuilding), "building_g_u")
       )
     )
     return true;
   else if (punit->utype == unit_type_by_rule_name("unit_banker") && (
-      !strcmp(extra_rule_name(pextra), "building_y_b") ||
-      !strcmp(extra_rule_name(pextra), "building_p_b") ||
-      !strcmp(extra_rule_name(pextra), "building_b_b") ||
-      !strcmp(extra_rule_name(pextra), "building_g_b")
+      !strcmp(building_rulename_get(pbuilding), "building_y_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_p_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_b_b") ||
+      !strcmp(building_rulename_get(pbuilding), "building_g_b")
       )
     )
     return true;
   else if (punit->utype == unit_type_by_rule_name("unit_engineer") && (
-      !strcmp(extra_rule_name(pextra), "building_y_f") ||
-      !strcmp(extra_rule_name(pextra), "building_p_f") ||
-      !strcmp(extra_rule_name(pextra), "building_b_f") ||
-      !strcmp(extra_rule_name(pextra), "building_g_f")
+      !strcmp(building_rulename_get(pbuilding), "building_y_f") ||
+      !strcmp(building_rulename_get(pbuilding), "building_p_f") ||
+      !strcmp(building_rulename_get(pbuilding), "building_b_f") ||
+      !strcmp(building_rulename_get(pbuilding), "building_g_f")
       )
     )
     return true;
@@ -3336,33 +3336,36 @@ static bool building_cannot_be_removed_by(const struct extra_type *pextra,
   return false;
 }
 
-  static std::string building_to_player(const struct player *pplayer,
-                                        const struct unit *punit)
-  {
-    // TODO: This is generic buiding; we later need to convert to
-    // university/back/factory according to current unit
-    std::string value;
+static char player_to_username_char(const struct player *pplayer)
+{
+  if (!strcmp(pplayer->username, "yellow"))
+    return 'y';
+  else if (!strcmp(pplayer->username, "purple"))
+    return 'p';
+  else if (!strcmp(pplayer->username, "blue"))
+    return 'b';
+  else if (!strcmp(pplayer->username, "green"))
+    return 'g';
+  return 'u';
+}
 
-    if (!strcmp(pplayer->username, "yellow"))
-      value += "building_y";
-    else if (!strcmp(pplayer->username, "purple"))
-      value += "building_p";
-    else if (!strcmp(pplayer->username, "blue"))
-      value += "building_b";
-    else if (!strcmp(pplayer->username, "green"))
-      value += "building_g";
-    else {
-      value += "building_u";
-      return value;
-    }
+static std::string building_to_player(const struct player *pplayer,
+                                      const struct unit *punit)
+{
+  // TODO: This is generic buiding; we later need to convert to
+  // university/back/factory according to current unit
+  std::string value = "building_";
+  char username = player_to_username_char(pplayer);
+  value += username;
+  if(username == 'u') return value;
 
-    if (punit->utype == unit_type_by_rule_name("Scientist"))
-      value += "_u";
-    else if (punit->utype == unit_type_by_rule_name("Banker"))
-      value += "_b";
-    else if (punit->utype == unit_type_by_rule_name("Engineer"))
-      value += "_f";
-    return value;
+  if (punit->utype == unit_type_by_rule_name("Scientist"))
+    value += "_u";
+  else if (punit->utype == unit_type_by_rule_name("Banker"))
+    value += "_b";
+  else if (punit->utype == unit_type_by_rule_name("Engineer"))
+    value += "_f";
+  return value;
 }
 
 static void unit_enter_building(struct unit *punit)
@@ -3370,15 +3373,19 @@ static void unit_enter_building(struct unit *punit)
   struct player *pplayer = unit_owner(punit);
   struct tile *ptile = unit_tile(punit);
 
+  struct building *pbuilding = map_buildings_get(ptile);
+  if(!pbuilding)
+    return;
+
   extra_type_by_cause_iterate(EC_BUILDING, pextra)
   {
-    if (tile_has_extra(ptile, pextra)
+    if (!strcmp(rule_name_get(&pextra->name), building_rulename_get(pbuilding))
         && are_reqs_active(pplayer, tile_owner(ptile), nullptr, nullptr,
                            ptile, nullptr, nullptr, nullptr, nullptr,
                            nullptr, &pextra->rmreqs, RPT_CERTAIN)) {
       // Do not remove buildings already belonging to that player
-      if (building_belongs_to(pextra, pplayer)
-          && building_belongs_to_unit(pextra, punit)) {
+      if (building_belongs_to(pbuilding, pplayer)
+          && building_belongs_to_unit(pbuilding, punit)) {
         log_warning("Here");
         continue;
       }
@@ -3398,6 +3405,17 @@ static void unit_enter_building(struct unit *punit)
         // No owner
         ptile->extras_owner = nullptr;
       }
+
+      // Update building struct
+      struct player* old_owner = building_owner(pbuilding);
+      if(old_owner) {
+        building_list_remove(old_owner->buildings, pbuilding);
+        send_building_info(old_owner, pbuilding);
+      }
+      pbuilding->username = player_to_username_char(pplayer);
+      building_list_append(pplayer->buildings, pbuilding);
+      strcpy(pbuilding->rulename, name.c_str());
+      send_building_info(pplayer, pbuilding);
 
       update_tile_knowledge(unit_tile(punit));
     }

@@ -22,6 +22,7 @@
 // common
 #include "game.h"
 #include "map_types.h"
+#include "city.h"
 
 // Parameters for terrain counting functions.
 static const bool C_ADJACENT = false;
@@ -92,6 +93,10 @@ void map_transports_add(QString name, struct tile *transport);
 struct tile * map_transports_get(QString name);
 QVector<QString>* map_transports_get_names(struct player *pplayer,
                                            struct tile *ptile);
+
+int map_buildings_count();
+struct building* map_buildings_add(const char* rulename, struct tile *building);
+struct building* map_buildings_get(struct tile *tile);
 
 // Number of index coordinates (for sanity checks and allocations)
 #define MAP_INDEX_SIZE (wld.map.xsize * wld.map.ysize)

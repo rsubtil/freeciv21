@@ -53,6 +53,9 @@ void send_player_cities(struct player *pplayer);
 void package_city(struct city *pcity, struct packet_city_info *packet,
                   struct traderoute_packet_list *routes, bool dipl_invest);
 
+void send_building_info(struct player *dest, struct building *pbuilding);
+void send_player_buildings(struct player *pplayer);
+
 void reality_check_city(struct player *pplayer, struct tile *ptile);
 bool update_dumb_city(struct player *pplayer, struct city *pcity);
 void refresh_dumb_city(struct city *pcity);

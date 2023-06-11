@@ -41,6 +41,7 @@ void idex_init(struct world *iworld)
 {
   iworld->cities = new QHash<int, const struct city *>;
   iworld->units = new QHash<int, const struct unit *>;
+  iworld->buildings = new QHash<int, const struct building *>;
 }
 
 /**
@@ -50,8 +51,10 @@ void idex_free(struct world *iworld)
 {
   delete iworld->cities;
   delete iworld->units;
+  delete iworld->buildings;
   iworld->cities = nullptr;
   iworld->units = nullptr;
+  iworld->buildings = nullptr;
 }
 
 /**
@@ -88,6 +91,20 @@ void idex_register_unit(struct world *iworld, struct unit *punit)
                       old->id, (void *) old, unit_rule_name(old));
   }
   iworld->units->insert(punit->id, punit);
+}
+
+void idex_register_building(struct world *iworld, struct building *pbuilding)
+{
+  const struct building *old;
+
+  if (iworld->buildings->contains(pbuilding->id)) {
+    old = iworld->buildings->value(pbuilding->id);
+    fc_assert_ret_msg(nullptr == old,
+                      "IDEX: building collision: new %d %p %s, old %d %p %s",
+                      pbuilding->id, (void *) pbuilding, building_rulename_get(pbuilding),
+                      old->id, (void *) old, building_rulename_get(old));
+  }
+  iworld->buildings->insert(pbuilding->id, pbuilding);
 }
 
 /**
@@ -132,6 +149,23 @@ void idex_unregister_unit(struct world *iworld, struct unit *punit)
   iworld->units->remove(punit->id);
 }
 
+void idex_unregister_building(struct world *iworld, struct building *pbuilding)
+{
+  const struct building *old;
+
+  if (!iworld->buildings->contains(pbuilding->id)) {
+    old = pbuilding;
+    fc_assert_ret_msg(nullptr != old, "IDEX: building unreg missing: %d %p %s",
+                      pbuilding->id, (void *) pbuilding, building_rulename_get(pbuilding));
+    fc_assert_ret_msg(old == pbuilding,
+                      "IDEX: building unreg mismatch: "
+                      "unreg %d %p %s, old %d %p %s",
+                      pbuilding->id, (void *) pbuilding, building_rulename_get(pbuilding),
+                      old->id, (void *) old, building_rulename_get(old));
+  }
+  iworld->buildings->remove(pbuilding->id);
+}
+
 /**
     Lookup city with given id.
     Returns nullptr if the city is not registered (which is not an error).
@@ -156,4 +190,13 @@ struct unit *idex_lookup_unit(struct world *iworld, int id)
   punit = iworld->units->value(id);
 
   return const_cast<struct unit *>(punit);
+}
+
+struct building *idex_lookup_building(struct world *iworld, int id)
+{
+  const struct building *pbuilding;
+
+  pbuilding = iworld->buildings->value(id);
+
+  return const_cast<struct building *>(pbuilding);
 }

@@ -2277,6 +2277,31 @@ void send_player_cities(struct player *pplayer)
   city_list_iterate_end;
 }
 
+void send_building_info(struct player *dest, struct building *pbuilding)
+{
+  if (S_S_RUNNING != server_state() && S_S_OVER != server_state()) {
+    return;
+  }
+
+  struct packet_building_info packet;
+  packet.id = pbuilding->id;
+  packet.username = pbuilding->username;
+  strcpy(packet.name, pbuilding->name);
+  strcpy(packet.rulename, pbuilding->rulename);
+  packet.tile = tile_index(pbuilding->tile);
+
+  lsend_packet_building_info(dest->connections, &packet, false);
+
+  // HACK: send also a copy to global observers.
+  conn_list_iterate(game.est_connections, pconn)
+  {
+    if (conn_is_global_observer(pconn)) {
+      send_packet_building_info(pconn, &packet, false);
+    }
+  }
+  conn_list_iterate_end;
+}
+
 /**
    A wrapper, accessing either broadcast_city_info() (dest == nullptr),
    or a convenience case of send_city_info_at_tile().

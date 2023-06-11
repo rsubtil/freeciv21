@@ -21,4 +21,5 @@ struct world {
   struct civ_map map;
   QHash<int, const struct city *> *cities;
   QHash<int, const struct unit *> *units;
+  QHash<int, const struct building *> *buildings;
 };

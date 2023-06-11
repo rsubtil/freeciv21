@@ -779,6 +779,11 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
           send_city_info(pplayer, pcity);
         }
 
+        struct building *pbuilding = map_buildings_get(ptile);
+        if (pbuilding) {
+          send_building_info(pplayer, pbuilding);
+        }
+
         vision_layer_iterate(v)
         {
           if (0 < map_get_seen(pplayer, ptile, v)) {
@@ -1064,6 +1069,11 @@ void map_change_seen(struct player *pplayer, struct tile *ptile,
 
     if (nullptr != (pcity = tile_city(ptile))) {
       send_city_info(pplayer, pcity);
+    }
+
+    struct building *pbuilding = map_buildings_get(ptile);
+    if (pbuilding) {
+      send_building_info(pplayer, pbuilding);
     }
   }
 

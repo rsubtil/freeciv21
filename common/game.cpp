@@ -114,6 +114,11 @@ struct unit *game_unit_by_number(int id)
   return idex_lookup_unit(&wld, id);
 }
 
+struct building *game_building_by_number(int id)
+{
+  return idex_lookup_building(&wld, id);
+}
+
 /**
    In the server call wipe_unit(), and never this function directly.
  */

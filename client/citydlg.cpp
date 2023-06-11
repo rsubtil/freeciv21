@@ -644,7 +644,7 @@ city_info::city_info(QWidget *parent) : QWidget(parent)
   info_grid_layout->addItem(new QSpacerItem(0, 9),
                             info_grid_layout->rowCount(), 0);
 
-  std::tie(dummy, m_materials) = create_labels(_("<B>Materials:</B>"));
+  std::tie(dummy, m_production) = create_labels(_("<B>Production:</B>"));
   std::tie(dummy, m_waste) = create_labels(_("Waste:"));
 
   info_grid_layout->addItem(new QSpacerItem(0, 9),
@@ -680,11 +680,11 @@ void city_info::update_labels(struct city *pcity)
       pcity->prod[O_FOOD] + pcity->waste[O_FOOD], pcity->surplus[O_FOOD]));
   m_food->setToolTip(get_city_dialog_output_text(pcity, O_FOOD));
 
-  m_materials->setText(
+  m_production->setText(
       QString::asprintf("<B style=\"white-space:pre\">%3d (%+4d)</B>",
                         pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD],
                         pcity->surplus[O_SHIELD]));
-  m_materials->setToolTip(get_city_dialog_output_text(pcity, O_SHIELD));
+  m_production->setToolTip(get_city_dialog_output_text(pcity, O_SHIELD));
 
   m_trade->setText(
       QString::asprintf("<B style=\"white-space:pre\">%3d (%+4d)</B>",
@@ -702,10 +702,10 @@ void city_info::update_labels(struct city *pcity)
       pcity->surplus[O_SCIENCE_ACC]));
   m_science_acc->setToolTip(get_city_dialog_output_text(pcity, O_SCIENCE_ACC));
 
-  m_production->setText(QString::asprintf(
+  m_materials->setText(QString::asprintf(
       "%3d (%+4d)", pcity->prod[O_MATERIALS] + pcity->waste[O_MATERIALS],
       pcity->surplus[O_MATERIALS]));
-  m_production->setToolTip(get_city_dialog_output_text(pcity, O_MATERIALS));
+  m_materials->setToolTip(get_city_dialog_output_text(pcity, O_MATERIALS));
 
   m_luxury->setText(QString::asprintf(
       "%3d (%+4d)", pcity->prod[O_LUXURY] + pcity->waste[O_LUXURY],
@@ -2334,7 +2334,6 @@ void city_production_delegate::paint(QPainter *painter,
   QRect rect1;
   QRect rect2;
   const QPixmap *sprite;
-  QPixmap *free_sprite = nullptr;
   bool useless = false;
   bool is_coinage = false;
   bool is_neutral = false;

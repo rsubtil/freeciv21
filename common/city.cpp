@@ -3496,3 +3496,56 @@ void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
 {
   pcity->server.ais[ai_type_number(ai)] = data;
 }
+
+#ifndef building_name_get
+const char *building_name_get(const struct building *pbuilding)
+{
+  return pbuilding->name;
+}
+#endif // building_name_get
+
+const char *building_rulename_get(const struct building *pbuilding)
+{
+  return pbuilding->rulename;
+}
+
+struct player *building_owner(const struct building *pbuilding)
+{
+  char username = pbuilding->username;
+  players_iterate(pplayer)
+  {
+    if (pplayer->username[0] == username) {
+      return pplayer;
+    }
+  }
+  players_iterate_end;
+  return nullptr;
+}
+
+#ifndef building_tile
+struct tile *building_tile(const struct building *pbuilding)
+{
+  return pbuilding->tile;
+}
+#endif // building_tile
+
+struct building *create_building(const char username, struct tile *ptile,
+                                 const char *name, const char *rulename)
+{
+  fc_assert_ret_val(nullptr != rulename, nullptr);    // No missing rulenames!
+
+  struct building *pbuilding = new building[1]();
+  sz_strlcpy(pbuilding->rulename, rulename);
+
+  pbuilding->username = username;
+  pbuilding->tile = ptile;
+
+  return pbuilding;
+}
+
+void destroy_building(struct building *pbuilding)
+{
+  memset(pbuilding, 0, sizeof(*pbuilding)); // ensure no pointers remain
+  delete[] pbuilding;
+  pbuilding = nullptr;
+}

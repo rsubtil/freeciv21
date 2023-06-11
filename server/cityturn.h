@@ -51,3 +51,8 @@ bool check_city_migrations();
 void check_disasters();
 
 void city_style_refresh(struct city *pcity);
+
+void update_buildings(struct player *pplayer);
+int get_expected_buildings_gold(struct player *pplayer);
+int get_expected_buildings_science(struct player *pplayer);
+int get_expected_buildings_materials(struct player *pplayer);

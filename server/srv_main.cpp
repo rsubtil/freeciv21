@@ -1477,6 +1477,7 @@ void end_phase()
     }
 
     update_city_activities(pplayer);
+    update_buildings(pplayer);
     city_thaw_workers_queue();
     pplayer->history += nation_history_gain(pplayer);
     research_get(pplayer)->researching_saved = A_UNKNOWN;

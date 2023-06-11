@@ -5415,3 +5415,49 @@ void handle_government_audit_begin(int errcode, const int *sabotage_id)
 {
   // TODO: Implement
 }
+
+void handle_building_info(const struct packet_building_info *packet)
+{
+  struct building *pbuilding = game_building_by_number(packet->id);
+  struct tile *ptile = index_to_tile(&(wld.map), packet->tile);
+  struct player *powner = player_by_user_char((char)packet->username);
+  struct player *pself = client.conn.playing;
+
+  fc_assert_ret_msg(nullptr != ptile, "Invalid tile index %d.",
+                    packet->tile);
+
+  if(pbuilding) {
+    // If it's an existing building, owner may have changed
+    if (powner != pself) {
+      if (!building_list_remove(pself->buildings, pbuilding)) {
+        qCritical("handle_building_info() attempted to remove building %d we don't have but should.",
+                  packet->id);
+        return;
+      } else {
+        idex_unregister_building(&wld, pbuilding);
+      }
+    }
+    // If we are the same owner, building type may have changed.
+    strcpy(pbuilding->rulename, packet->rulename);
+  }
+
+  // If it's a new building, create it.
+  if(!pbuilding) {
+    pbuilding = create_building(packet->username, ptile,
+                                packet->name, packet->rulename);
+    pbuilding->id = packet->id;
+    idex_register_building(&wld, pbuilding);
+  } else if (pbuilding->id != packet->id) {
+    qCritical("handle_building_info() building id %d != id %d.", pbuilding->id,
+              packet->id);
+    return;
+  } else if (ptile != pbuilding->tile) {
+    qCritical("handle_building_info() building tile (%d, %d) != (%d, %d).",
+              TILE_XY(ptile), TILE_XY(pbuilding->tile));
+    return;
+  }
+
+  // Update the description
+  // TODO: Implement
+  // update_building_description(pcity);
+}

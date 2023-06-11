@@ -482,6 +482,8 @@ void map_allocate(struct civ_map *amap)
   amap->startpos_table = new QHash<struct tile *, struct startpos *>;
   delete amap->transport_tiles;
   amap->transport_tiles = new QHash<QString, struct tile *>;
+  building_list_destroy(amap->buildings);
+  amap->buildings = building_list_new();
 
 }
 
@@ -1633,6 +1635,43 @@ QVector<QString>* map_transports_get_names(struct player *pplayer, struct tile *
   *pnames = QVector<QString>::fromList(names);
 
   return pnames;
+}
+
+int map_buildings_count()
+{
+  if (nullptr != wld.map.buildings) {
+    return building_list_size(wld.map.buildings);
+  } else {
+    return 0;
+  }
+}
+
+struct building* map_buildings_add(const char* rulename, struct tile *building)
+{
+  fc_assert(nullptr != building);
+  fc_assert(nullptr != wld.map.buildings);
+  fc_assert(strlen(rulename) >= 12);
+
+  // Username is extracted from rulename
+  char username = rulename[9];
+  struct building *pbuilding = create_building(username, building,
+                  building->label, rulename);
+
+  building_list_append(wld.map.buildings, pbuilding);
+
+  return pbuilding;
+}
+
+struct building *map_buildings_get(struct tile *tile)
+{
+  building_list_iterate(wld.map.buildings, pbuilding)
+  {
+    if (pbuilding->tile == tile) {
+      return pbuilding;
+    }
+  }
+  building_list_iterate_end;
+  return nullptr;
 }
 
 /**

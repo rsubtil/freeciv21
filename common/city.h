@@ -765,3 +765,46 @@ bool is_free_worked(const struct city *pcity, const struct tile *ptile);
 void *city_ai_data(const struct city *pcity, const struct ai_type *ai);
 void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
                       void *data);
+
+struct building {
+  int id;
+  char name[MAX_LEN_CITYNAME];
+  char rulename[MAX_LEN_NAME];
+  struct tile *tile;    // May be nullptr, should check!
+  char username;
+};
+
+// get 'struct building_list' and related functions:
+#define SPECLIST_TAG building
+#define SPECLIST_TYPE struct building
+#include "speclist.h"
+
+#define building_list_iterate(buildinglist, pbuilding)                                  \
+  TYPED_LIST_ITERATE(struct building, buildinglist, pbuilding)
+#define building_list_iterate_end LIST_ITERATE_END
+
+#define buildings_iterate(pbuilding)                                               \
+  {                                                                         \
+    players_iterate(pbuilding##_player)                                         \
+    {                                                                       \
+      building_list_iterate(pbuilding##_player->buildings, pbuilding)                      \
+      {
+
+#define buildings_iterate_end                                                  \
+  }                                                                         \
+  building_list_iterate_end;                                                    \
+  }                                                                         \
+  players_iterate_end;                                                      \
+  }
+
+// properties
+
+const char *building_name_get(const struct building *pbuilding);
+const char *building_rulename_get(const struct building *pbuilding);
+struct player *building_owner(const struct building *pbuilding);
+struct tile *building_tile(const struct building *pbuilding);
+
+/* building creation / destruction */
+struct building *create_building(const char username, struct tile *ptile,
+                                 const char *name, const char *rulename);
+void destroy_building(struct building *pbuilding);

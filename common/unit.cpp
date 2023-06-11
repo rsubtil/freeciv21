@@ -1339,13 +1339,7 @@ struct unit *unit_occupies_tile(const struct tile *ptile,
 
 bool unit_on_tile(const struct tile *ptile)
 {
-  unit_list_iterate(ptile->units, punit)
-  {
-    return true;
-  }
-  unit_list_iterate_end;
-
-  return false;
+  return unit_list_size(ptile->units) > 0;
 }
 
 /**
