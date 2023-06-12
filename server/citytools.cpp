@@ -2259,6 +2259,33 @@ void send_all_known_cities(struct conn_list *dest)
 }
 
 /**
+   Send to each client information about the buildings it owns.
+   dest may not be nullptr
+ */
+void send_all_known_buildings(struct conn_list *dest)
+{
+  conn_list_do_buffer(dest);
+  conn_list_iterate(dest, pconn)
+  {
+    struct player *pplayer = pconn->playing;
+
+    if (!pplayer && !pconn->observer) {
+      continue;
+    }
+    building_list_iterate(wld.map.buildings, pbuilding)
+    {
+      if (pplayer->username[0] == pbuilding->username) {
+        send_building_info(pplayer, pbuilding);
+      }
+    }
+    building_list_iterate_end;
+  }
+  conn_list_iterate_end;
+  conn_list_do_unbuffer(dest);
+  flush_packets();
+}
+
+/**
    Send information about all his/her cities to player
  */
 void send_player_cities(struct player *pplayer)

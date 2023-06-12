@@ -1253,7 +1253,13 @@ int player_get_expected_income(const struct player *pplayer)
   }
   city_list_iterate_end;
 
-  // TODO: Figure out build income, right now code lives on server
+  building_list_iterate(pplayer->buildings, pbuilding)
+  {
+    if(pbuilding->rulename[11] == 'b') {
+      income += 1;
+    }
+  }
+  building_list_iterate_end;
 
   return income;
 }

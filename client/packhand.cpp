@@ -5447,6 +5447,7 @@ void handle_building_info(const struct packet_building_info *packet)
                                 packet->name, packet->rulename);
     pbuilding->id = packet->id;
     idex_register_building(&wld, pbuilding);
+    building_list_append(powner->buildings, pbuilding);
   } else if (pbuilding->id != packet->id) {
     qCritical("handle_building_info() building id %d != id %d.", pbuilding->id,
               packet->id);

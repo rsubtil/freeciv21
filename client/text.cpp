@@ -734,6 +734,14 @@ int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
   }
   research_players_iterate_end;
 
+  building_list_iterate(client_player()->buildings, pbuilding)
+  {
+    if (pbuilding->rulename[11] == 'u') {
+      ours += 1;
+    }
+  }
+  building_list_iterate_end;
+
   if (team) {
     theirs += presearch->client.total_bulbs_prod - ours;
   }
