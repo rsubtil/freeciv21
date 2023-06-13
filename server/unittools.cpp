@@ -4488,6 +4488,18 @@ static bool maybe_cancel_goto_due_to_enemy(struct unit *punit,
   // If unit it spy, it can always move to enemy places
   if(unit_has_type_flag(punit, UTYF_SPY))
     return false;
+  // Else if there's only spies on the destination, it can move as well
+  bool only_spies = true;
+  unit_list_iterate(ptile->units, punit2) {
+    if(!unit_has_type_flag(punit2, UTYF_SPY)) {
+      only_spies = false;
+      break;
+    }
+  }
+  unit_list_iterate_end;
+  if (only_spies) {
+    return false;
+  }
   return (is_non_allied_unit_tile(ptile, unit_owner(punit))
           || is_non_allied_city_tile(ptile, unit_owner(punit)));
 }

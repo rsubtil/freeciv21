@@ -680,7 +680,7 @@ uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
 flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Spy",
-                "Provoking", "NoVeteran", "NoBuild", "NonStack"
+                "Provoking", "NoVeteran", "NoBuild"
 roles         = "DiplomatStartUnit"
 helptext      = _("\
 A Spy is more skilled in the arts of espionage than her Diplomat predecessor.\

@@ -1342,6 +1342,18 @@ bool unit_on_tile(const struct tile *ptile)
   return unit_list_size(ptile->units) > 0;
 }
 
+bool unit_nonstackable_on_tile(const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, punit)
+  {
+    if (utype_has_flag(unit_type_get(punit), UTYF_NON_STACK)) {
+      return true;
+    }
+  }
+  unit_list_iterate_end;
+  return false;
+}
+
 /**
    Is this square controlled by the pplayer?
 

@@ -599,7 +599,12 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
      * attacking instead). */
     // 4.1)
     if(!utype_has_flag(punittype, UTYF_SPY)) {
-      return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
+        unit_list_iterate(dst_tile->units, punit)
+        {
+          if (!utype_has_flag(unit_type_get(punit), UTYF_SPY))
+            return MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT;
+        }
+        unit_list_iterate_end;
     }
   }
 
@@ -682,7 +687,7 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
 
   // 14)
   if (utype_has_flag(punittype, UTYF_NON_STACK)
-      && unit_on_tile(dst_tile) && !utype_has_flag(punittype, UTYF_SPY)) {
+      && unit_nonstackable_on_tile(dst_tile)) {
     return MR_NON_STACKABLE;
   }
 
