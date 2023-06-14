@@ -133,6 +133,7 @@ tiles = { "row", "column", "tag"
  2,  16, "tx.building_p_u"
  2,  16, "tx.building_g_u"
  2,  16, "tx.building_b_u"
+ 2,  16, "tx.building_u"
 
  15,  0, "t.dither_tile"
  15,  0, "tx.darkness"

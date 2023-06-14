@@ -138,6 +138,7 @@ tiles = { "row", "column","tag"
  7,  2, "tx.building_p_u"
  7,  2, "tx.building_g_u"
  7,  2, "tx.building_b_u"
+ 7,  2, "tx.building_u"
 
 ; misc
 

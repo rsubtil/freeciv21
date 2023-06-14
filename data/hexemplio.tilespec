@@ -344,6 +344,7 @@ styles =
       "tx.building_g_u", "Single1"
       "tx.building_g_b", "Single1"
       "tx.building_g_f", "Single1"
+      "tx.building_u", "Single1"
       "base.outpost",  "3Layer"
       "base.fortress", "3Layer"
       "base.airstrip", "3Layer"
