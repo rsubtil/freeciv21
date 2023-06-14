@@ -70,7 +70,7 @@ ruler_titles = {
  "Despotism",        _("%s"),          _("%s")
 }
 
-flag="aceh"
+flag="purple"
 flag_alt="-"
 style = "european"
 
@@ -96,7 +96,7 @@ ruler_titles = {
  "Despotism",        _("%s"),          _("%s")
 }
 
-flag="aceh"
+flag="blue"
 flag_alt="-"
 style = "european"
 
@@ -122,7 +122,7 @@ ruler_titles = {
  "Despotism",        _("%s"),          _("%s")
 }
 
-flag="aceh"
+flag="green"
 flag_alt="-"
 style = "european"
 
@@ -148,7 +148,7 @@ ruler_titles = {
  "Despotism",        _("%s"),          _("%s")
 }
 
-flag="aceh"
+flag="yellow"
 flag_alt="-"
 style = "european"
 

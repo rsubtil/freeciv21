@@ -8,576 +8,576 @@ options = "+Freeciv-spec-Devel-2019-Jul-03"
 
 artists = "
 
-   Many Public Domain flags from:
-    Sodipodi http://www.sodipodi.com/index.php3?section=clipart/flags
-    Open Clip Art Library http://www.openclipart.org/
+	 Many Public Domain flags from:
+		Sodipodi http://www.sodipodi.com/index.php3?section=clipart/flags
+		Open Clip Art Library http://www.openclipart.org/
 
-   Abkhazia		Reisio (Wikimedia Commons)
-   Aborigines		Brett Roper
-   Acadia		Jean-François Arseneau
-   Aceh			Daniel Markstedt and J.M. Maalderink
-   Acre			J.M. Maalderink
-   Adygea		Conscious (Wikimedia Commons)
-   Afghanistan		Andrew Duhan and Reisio
-   Africa		JesperZedlitz (Wikimedia Commons)
-   Ainu			Daniel Markstedt
-   Akwe			Dan Cottrell and Daniel Markstedt
-   Aland		J.M. Maalderink
-   Albania		TigerTjäder (Wikimedia Commons)
-   Aleut		Daniel Markstedt
-   Algeria 		Lauris Kaplinski
-   Almohad		Ch1902 (Wikimedia Commons)
-   Alsace		Patricia Fidi, Saebhiar (Wikimedia Commons) and J.M. Maalderink
-   Amazigh		Mysid
-   Amazon		Ann Barcomb
-   Andorra		Patricia Fidi
-   Angola		SKopp (Wikimedia Commons)
-   Animals              Jacob Nevins
-   Anhalt		J.M. Maalderink
-   Anishinaabe		Shandris (Wikimedia Commons)
-   Antarctica		Zachary Harden
-   Antarctica (alt)	Tobias Jakobs
-   Antigua and Barbuda	Sigge Kotliar
-   Apache		J.M. Maalderink
-   Arab			Daniel Markstedt and Andrew Duhan
-   Aragon		J.M. Maalderink
-   Aram			Daniel Markstedt
-   Argentina		Sigge Kotliar
-   Armenia		Jason Short
-   Ashanti		Daniel Markstedt
-   Assam		Daniel Markstedt
-   Assyria		Clevelander and Daniel Markstedt
-   Asturias		Banderas (Wikimedia Commons)
-   Atlantis		J.M. Maalderink
-   Australia		Daniel McRae
-   Austria		Christoph Breitler
-   Avar			J.M. Maalderink
-   Aymara		Daniel Markstedt
-   Azerbaijan		Daniel McRae
-   Aztec		Daniel Markstedt
-   Babylon		Daniel Markstedt
-   Baden		David Liuzzo (Wikimedia Commons)
-   Bahamas		J.M. Maalderink
-   Bahrain		J.M. Maalderink
-   Bangladesh		Cezary Biele
-   Barbados		Denelson83 (Wikimedia Commons)
-   Barbarian		Tobias Jakobs
-   Bashkortostan	Conscious (Wikimedia Commons)
-   Bavarian		Jörgen Scheibengruber
-   Belarus		Gregory Maxwell and Zachary Harden
-   Belgic		Andrzej G.
-   Belgium		Daniel McRae
-   Belize		Caleb Moore
-   Bengal		Daniel Markstedt
-   Benin		J.M. Maalderink
-   Benin (ancient)	Orange Tuesday (Wikimedia Commons)
-   Bhutan		Denelson83 and Zachary Harden (Wikimedia Commons)
-   Biafra		J.M. Maalderink
-   Brandenburg		Madden (Wikimedia Commons)
-   Boer			Caleb Moore
-   Boii			Andrzej G.
-   Bolivia		Caleb Moore
-   Bophuthatswana	Washiucho (Wikimedia Commons)
-   Bosnia		Daniel McRae
-   Bosporus		J.M. Maalderink
-   Botswana		SKopp (Wikimedia Commons)
-   Brasil		Cezary Biele
-   Britannia		J.M. Maalderink
-   Brittany		Lexicon
-   Brunei		Gustav Broberg
-   Bulgaria		Daniel McRae
-   Burgundic		Andrzej G.
-   Burgundy		Daniel Markstedt
-   Burkina Faso		Gabbe (Wikimedia Commons)
-   Burundi		Sebastian Koppehel
-   Buryatia		Urmas (Wikimedia Commons)
-   Byzantium		Dragases
-   Caddo		Daniel Markstedt
-   California		Devin Cook (Wikimedia Commons)
-   Cameroon		J.M. Maalderink
-   Canada		James Leigh
-   Canada (old)		Hoshie (Wikimedia Commons)
-   Cañar		J.M. Maalderink
-   Cantonese		Cezary Biele and J.M. Maalderink
-   Cape Verde		Open Clip Art
-   CAR			Vzb83 (Wikimedia Commons)
-   Carantanian		Andrzej M. Gorzym
-   Cartago		Daniel Markstedt and Matt Jecrell
-   Catalan		Xavier Conde Rueda
-   Celtiberian		J.M. Maalderink
-   Celtic		AnonMoos (Wikimedia Commons)
-   Central America	Connormah (Wikimedia Commons) and J.M. Maalderink
-   Central Lithuania	Halibutt (Wikimedia Commons)
-   Chad			J.M. Maalderink
-   Cham			Daniel Markstedt
-   Chananea		Daniel Markstedt
-   Chechnya		Lokal Profil (Wikimedia Commons)
-   Cheyenne		Arturo Espinosa-Aldama
-   Chiapas		Towndown (Wikimedia Commons)
-   Chickasaw		Daniel Markstedt
-   Chile		Mario Fuentes
-   Chimu		J.M. Maalderink
-   China		Stephen Silver
-   Choctaw		Daniel Markstedt
-   Chola		Dan Cottrell and Daniel Markstedt
-   Chrobatian		Andrzej M. Gorzym
-   Chumash		Daniel Markstedt
-   Chuvashia		Urmas (Wikimedia Commons)
-   Clatsop		Euku (Wikimedia Commons)
-   Colombia		Lauris Kaplinski
-   Comanche		Zachary Harden
-   Comoros		Open Clip Art
-   Constantine		Nikos Mavrogiannopoulos
-   Cornwall		Vasco Alexandre Da Silva Costa
-   Corsica		Patricia Fidi
-   Cossack		Alex Tora
-   Costa Rica		Nightstallion (Wikimedia Commons)
-   Crete		J.M. Maalderink
-   Crimean Tatar	J.M. Maalderink
-   Croatia		Frank Zeko
-   Courland		J.M. Maalderink
-   Cuba			Lauris Kaplinski
-   Cuyavia		Lech Tadeusz Karczewski
-   Cyprus		Vzb83 (Wikimedia Commons)
-   Cyrenaica		Daniel Markstedt and J.M. Maalderink
-   Czech		Lauris Kaplinski
-   Czechoslovakia	Tlusťa (Wikimedia Commons)
-   Dacian		Andrzej M. Gorzym
-   Dahomey		Daniel Markstedt
-   Darfur		Daniel Markstedt
-   DDR			Jwnabd (Wikimedia Commons)
-   Denmark		Jens Bech Madsen
-   DGB			Precious alex (Wikimedia Commons)
-   Djibouti		Open Clip Art
-   Dominica		Caleb Moore and Christian Schaller
-   Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
-   DR Congo		Drieskamp (Wikimedia Commons)
-   Dryad		Ivan Alvarado
-   East Timor		SKopp (Wikimedia Commons)
-   Ecuador		Zachary Harden
-   Egypt (ancient)	Daniel Markstedt
-   Egypt		Caleb Moore
-   Elam			Patricia Fidi and J.M. Maalderink
-   El Salvador		Vzb83 (Wikimedia Commons)
-   England		Thom Sanders
-   Epirus		Flanker (Wikimedia Commons) and Daniel Markstedt
-   Equatorial Guinea	Open Clip Art
-   Esperanto		Gabriel Ehrnst Grundin
-   Estonia		Daniel Markstedt
-   Eritrea		Andrew Duhan
-   Ethiopia		Lauris Kaplinski and Christian Schaller
-   Ethiopia (old)	Oren neu dag (Wikimedia Commons)
-   Etruscan		J.M. Maalderink
-   Europe		Lauris Kaplinski
-   Euskadi		Patricia Fidi
-   Evenkia		Mysid (Wikimedia Commons)
-   Faroes		J.M. Maalderink
-   Fiji			Denelson83, Vzb83, Zachary Harden, et al. (Wikimedia Commons)
-   Finland		SKopp (Wikimedia Commons)
-   Flanders		Cedric de Launois (Open Clip Art)
-   Florence		Kanchelskis (Wikimedia Commons)
-   Formosan		resodan
-   France (old)		Patricia Fidi
-   France		Tobias Jakobs
-   Franconia		Andreas Trepte (Wikimedia Commons) and J.M. Maalderink
-   French Polynesia	Tobias Jakobs
-   Frisia		GeeKaa (Wikimedia Commons)
-   Friuli		DieBuche et al. (Wikimedia Commons)
-   Gabon		J.M. Maalderink
-   Gael			Barryob (Wikimedia Commons)
-   Galicia		Miguel Rodríguez
-   Gambia		J.M. Maalderink
-   Gaul			Daniel Markstedt and Kilian Valkhof
-   Georgia		Christian Schaller
-   Gepid		Andrzej G.
-   Germanic		Andrzej G.
-   Germany		Philipp Sadleder
-   Ghana		J.M. Maalderink
-   Ghana (ancient)	J_Alves (Open Clip Art)
-   Ghaznavid		J.M. Maalderink
-   Gokturk		J.M. Maalderink
-   Golden Horde		J.M. Maalderink
-   Gothic		Andzej G.
-   Greater Poland	J.M. Maalderink
-   Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
-   Greece		Daniel McRae
-   Greenland		Daniel McRae
-   Grenada		SKopp (Wikimedia Commons)
-   Grisons		Denelson83 (Wikimedia Commons)
-   Guanche		HansenBCN (Wikimedia Commons)
-   Guarani		Daniel Markstedt
-   Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
-   Guinea		J.M. Maalderink
-   Guinea-Bissau	J.M. Maalderink
-   Gupta		Daniel Markstedt
-   Guyana		SKopp (Wikimedia Commons)
-   Hacker		Daniel Markstedt and Eric S. Raymond
-   Hainan		J.M. Maalderink
-   Haiti		Lokal Profil (Wikimedia Commons)
-   Han			Caleb Moore
-   Hanover		J.M. Maalderink
-   Hansa		J.M. Maalderink
-   Hawaii		Rob Adams
-   Helvetii		J.M. Maalderink and Andrzej G.
-   Hephthalite		J.M. Maalderink
-   Hesse		Madden (Wikimedia Commons)
-   Himyar		Daniel Markstedt
-   Hittite		Daniel Markstedt
-   Honduras		Wikimedia Commons
-   Hopi			Daniel Markstedt
-   HRE			Gryffindor (Wikimedia Commons) and J.M. Maalderink
-   Hungary		Laszlo Dvornik
-   Hunnic		Andrzej G.
-   Iberian		J.M. Maalderink
-   Iceland		Áki G. Karlsson
-   Illyria		William Allen Simpson
-   Inca			Daniel Markstedt
-   India		Lauris Kaplinski
-   Indo-European	AnonMoos (Wikimedia Commons)
-   Indonesia		Kuswanto
-   Innu			Daniel Markstedt
-   Iran (ancient)	Daniel Markstedt
-   Iran			Cezary Biele
-   Iraq (old)		AnonMoos
-   Iraq			Militaryace and Hoshie
-   Ireland		Lauris Kaplinski
-   Iroquois		Daniel Markstedt
-   Israel		John C Meuser
-   Israel (ancient)	Tonyjeff (Wikimedia Commons) and J.M. Maalderink
-   Italian Greek	Andrzej G.
-   Italy		Lauris Kaplinski
-   Ivory Coast		J.M. Maalderink
-   Jaffna		Dysfunctional (Wikimedia Commons)
-   Jamaica		J.M. Maalderink
-   Japan		Lauris Kaplinski
-   Jbonai		Elmo Todurov
-   Jerusalem		Orange Tuesday
-   Jolof		J.M. Maalderink
-   Jordan		Zscout730 (Wikimedia Commons)
-   Kalmykia		Conscious (Wikimedia Commons)
-   Kampuchea		Caleb Moore
-   Kanem-Bornu		Daniel Markstedt
-   Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons)
-   Karen		Daniel Markstedt
-   Kashmir		Nichalp (Wikimedia Commons)
-   Kashubia		Krun (Wikimedia Commons)
-   Katanga		Lexicon and Froztbyte (Wikimedia Commons)
-   Kazakhstan		-xfi-
-   Keetoowah		Daniel Markstedt
-   Kenya		James Ots
-   Khazaria		J.M. Maalderink
-   Khmer		Caleb Moore and Daniel Markstedt
-   Khoisan		resodan
-   Khwarezm		Dan Cottrell and Daniel Markstedt
-   Kiev			Maxim (http://logograd.narod.ru/)
-   Kiribati		Patricia Fidi
-   Komi			J.M. Maalderink
-   Kongo		Daniel Markstedt
-   Korea		Stephen Silver
-   Korea (ancient)	Mysid
-   Kosovo		Cradel (Wikimedia Commons)
-   Kuna Yala		J.M. Maalderink
-   Kurd			Denelson83
-   Kushan		Andrzej G.
-   Kuwait		J.M. Maalderink
-   Kyrgyzstan		-xfi-
-   Labarum		J.M. Maalderink
-   Laos			Sebastian Koppehel
-   Latin Empire		Andrzej G.
-   Latvia		Lauris Bukšis
-   Lebanon		Tobias Jakobs
-   Lendian		J.M. Maalderink
-   Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
-   Lesotho		Zachary Harden
-   Lesotho (old)	Zachary Harden
-   Liberia		J.M. Maalderink
-   Liburnian		J.M. Maalderink
-   Libya		Daniel Markstedt
-   Libya (old)		Cezary Biele
-   Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
-   Liguria		Flanker (Wikimedia Commons)
-   Ligurian		Andrzej G.
-   Lippe		ludger1961 (Wikimedia Commons) and J.M. Maalderink
-   Lipka Tatar		Aotearoa (Wikimedia Commons)
-   Lithuania		Christian Schaller
-   Lombardy		Flanker (Wikimedia Commons)
-   Lorraine		J.M. Maalderink
-   Luna			Daniel Markstedt
-   Lusatia		J.M. Maalderink
-   Luwian		Andrzej G.
-   Luxembourg		J.M. Maalderink
-   Lycian		Andrzej G.
-   Maasai		James Ots and J.M. Maalderink
-   Macedon		Mysid (Wikimedia Commons)
-   Macedonia		Sigge Kotliar
-   Madagascar		Russell Cloran
-   Majapahit		Dan Cottrell and Daniel Markstedt
-   Malawi		Zachary Harden
-   Malaysia		Lauris Kaplinski
-   Maldives		Cezary Biele
-   Mali			J.M. Maalderink
-   Mali (ancient)	Daniel Markstedt
-   Malta		Yaddah and Zachary Harden (Wikimedia Commons)
-   Mamluk		Daniel Markstedt
-   Man			Washiucho (Wikimedia Commons)
-   Manchuria		Zachary Harden
-   Maori		Daniel Markstedt
-   Mapuche		Guillermo Romero
-   Marathi		Sankalp Dravid
-   Mars			Vasco Alexandre Da Silva Costa
-   Marshall Islands	SKopp (Wikimedia Commons)
-   Mauritania		Flad (Wikimedia Commons)
-   Mauritius		J.M. Maalderink
-   Maya			Daniel Markstedt
-   Mazovia		J.M. Maalderink
-   Mecklenburg		Daniel Markstedt
-   Median		Dan Cottrell, Daniel Markstedt and J.M. Maalderink
-   Messapian		Andrzej G.
-   Metis		J.M. Maalderink
-   Mexico		Cezary Biele
-   Micronesia		SKopp (Wikimedia commons)
-   Mikmaq		Daniel Markstedt
-   Milan		Flanker (Wikimedia Commons)
-   Miskito		Daniel Markstedt
-   Mitanni		Snubcube (Wikimedia Commons) and J.M. Maalderink
-   Mixtec		J.M. Maalderink
-   Moldova		Caleb Moore and Reisio
-   Moluccas		J.M. Maalderink
-   Mon			Tonyjeff (Wikimedia Commons) and Daniel Markstedt
-   Monaco (alternative)	Zachary Harden
-   Mongolia		Sebastian Koppehel
-   Montenegro		Bugoslav (Wikimedia Commons)
-   Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
-   Mordovia		Fibonacci (Wikimedia Commons)
-   Morocco		Xiquet, Flad (Wikimedia Commons)
-   Moscow		Oren neu dag (Wikimedia Commons)
-   Mozambique		Tobias Jakobs
-   Mughal		Orange Tuesday (Wikimedia Commons)
-   Muskogee		Daniel Markstedt
-   Mwiska		Daniel Markstedt
-   Myanmar		Zachary Harden
-   Myanmar (old)	Caleb Moore
-   Nagorno Karabakh	J.M. Maalderink
-   Namibia		Vzb83 and Madden (Wikimedia Commons)
-   Naples		J.M. Maalderink
-   NATO			Christian Schaller
-   Nauru		SKopp (Wikimedia Commons)
-   Navajo		Daniel Markstedt and J.M. Maalderink
-   Nenetsia		Conscious (Wikimedia Commons)
-   Nepal		SKopp and Daniel Markstedt
-   Nestoria		J.M. Maalderink
-   Netherlands		Marc Maurer
-   Netherlands Antilles	J.M. Maalderink
-   Newfoundland		J.M. Maalderink
-   New Zealand		Daniel McRae
-   Nez Perce		Daniel Markstedt
-   Nicaragua		Vzb83 (Wikimedia Commons)
-   Niger		J.M. Maalderink
-   Nigeria		Brett Roper
-   Normandy		Syryatsu
-   North Korea		Zachary Harden
-   Northumbria		J.M. Maalderink
-   Norway		Christian Schaller
-   Novgorod		Loginname (Wikimedia Commons)
-   Nubia		Daniel Markstedt
-   Numidia		Lexicon and Dan Cottrell
-   Nunavut		James Leigh
-   Nuu-chah-nulth	Daniel Markstedt
-   Occitania		Mysid
-   Ohlone		J.M. Maalderink
-   Oldenburg		J.M. Maalderink
-   Oman			Open Clip Art
-   Ossetia		J.M. Maalderink
-   Otomi		J.M. Maalderink
-   Ottoman		Daniel Markstedt
-   Oz			Daniel Markstedt
-   Pakistan		Lauris Kaplinski
-   Palatinate		Madden (Wikimedia Commons)
-   Palestine		J.M. Maalderink
-   Palmyra		JB Grout
-   Panama		J.M. Maalderink
-   Paeonia		Andrzej G., J.M. Maalderink and Mysid
-   Papua New Guinea	Tobias Jakobs
-   Paraguay		Vzb83 (Wikimedia Commons)
-   Parthia		Andrzej G.
-   Pashtun		Paul Zastoupil
-   Pelasgian		Andrzej G.
-   Peru			Brett Roper
-   Philippines		Lauris Kaplinski
-   Phoenicia		Vasco Alexandre Da Silva Costa
-   Phrygian		Andrzej G.
-   Pict			J.M. Maalderink
-   Piedmont		Orzetto (Wikimedia Commons)
-   Pirate		Tobias Jakobs
-   Piratini		Felipe Fontoura (Wikimedia Commons)
-   Poland		Cezary Biele
-   Polynesian		Daniel Markstedt
-   Pomerania		N3MO (Wikipedia)
-   Portugal		Diogo Mamede
-   Prusai		Daniel Markstedt
-   Prussia		Daniel Markstedt
-   Puerto Rico		Lauris Kaplinski and J.M. Maalderink
-   Purhepecha		Daniel Markstedt
-   Qatar		J.M. Maalderink
-   Qing			Caleb Moore
-   Quebec		Patrick Guimond
-   Rapa Nui		Mario Fuente Cid
-   Raramuri		J.M. Maalderink
-   Rep. Congo		J.M. Maalderink
-   Rhineland		J.M. Maalderink
-   Rif			Mysid (Wikipedia)
-   Romania		Daniel McRae
-   Rome			Vasco Alexandre Da Silva Costa, Patricia Fidi
-   Russia		Oleg Krivosheev
-   RVN			J.M. Maalderink
-   Rwanda		Cezary Biele
-   Ryukyu		Daniel Markstedt
-   Sabinium		J.M. Maalderink
-   SADR			J.M. Maalderink
-   St. Kitts and Nevis	Denelson83 and Pumbaa80 (Wikimedia Commons)
-   Saint Lucia		Kopp, Denelson83 and Zscout370 (Wikimedia Commons)
-   Saka			Madden, J.M. Maalderink and Andrzej G.
-   Sakha		Zachary Harden
-   Salish		kubble (Open Clip Art)
-   Samnium		Andrzej G.
-   Samoa		Vzb83 (Wikimedia Commons)
-   Samogitia		Daniel Markstedt and Jarno Vasamaa
-   San Marino		Tobias Jakobs
-   S. Tome and Principe	Vzb83 (Wikimedia Commons)
-   Sapmi		Dean Tersigni
-   Sardinia		Patricia Fidi and J.M. Maalderink
-   Sarmatia		Andrzej G.
-   Saudi Arabia		Cezary Biele
-   Savoy		J.M. Maalderink
-   Saxony 		Sir Iain (Wikimedia Commons)
-   Scania		Daniel Markstedt
-   Schleswig-Holstein	Madden and Drbashir117 (Wikimedia Commons)
-   Scotland		Sigge Kotliar
-   Scottish Gaelic	Oxenhillshaw (Wikimedia Commons), Daniel Markstedt and Michael Bauer
-   Scythia		Lavrentij P Berija
-   Sakha		Zachary Harden
-   Seljuk		J.M. Maalderink
-   Seleucid		J.M. Maalderink
-   Seminole		Daniel Markstedt
-   Senegal		SonofSenegal (Wikimedia Commons)
-   Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
-   Seychelles		Vzb83 (Wikimedia Commons)
-   Shan			Daniel Markstedt
-   Shawnee		Daniel Markstedt
-   Sherpa		Daniel Markstedt
-   Siberia		Daniel Markstedt
-   Sicily		Lexicon (Wikimedia Commons)
-   Sierra Leone		J.M. Maalderink
-   Sikh			Daniel Markstedt
-   Sikkim		Nichalp (Wikimedia Commons)
-   Silesia		Vasco Alexandre Da Silva Costa
-   Singapore		Lauris Kaplinski
-   Sinhalese		Uvants2 (Wikimedia Commons)
-   Slavic		J.M. Maalderink
-   Slovakia		Lauris Kaplinski
-   Slovenia		Matthew Gatto
-   Solomon Islands	SKopp (Wikimedia Commons)
-   Somalia		J.M. Maalderink
-   Somaliland		Cezary Biele and J.M. Maalderink
-   Songhai		Daniel Markstedt
-   South Africa		Farrel Lifson
-   Southern Cross	Crotalus horridus
-   Southern Sudan	J.M. Maalderink
-   South Yemen		J.M. Maalderink
-   Soviet		Sigge Kotliar
-   Spain		Pedro A. Gracia Fajardo
-   Sri Lanka		Tobias Jakobs
-   Sri Vijaya		Dan Cottrell and Daniel Markstedt
-   St. Patrick		Vasco Alexandre Da Silva Costa
-   Sudan		Tobias Jakobs
-   Suebian		Andrzej G.
-   Sumeria		Franz Mach, Jason Short, Daniel Markstedt
-   Suriname		Vzb83 (Wikimedia Commons)
-   SVG			SKopp (Wikimedia Commons)
-   Swahili		J.M. Maalderink
-   Swaziland		Caleb Moore
-   Sweden		Richard Torkar
-   Switzerland		Philipp Frauenfelder
-   Syria		Craig Kacinko
-   Taino		Daniel Markstedt
-   Tairona		Dan Cottrell and Daniel Markstedt
-   Taiwan		Cezary Biele
-   Tajikistan		Matthew Gatto and Daniil Ivanov
-   Tanganyika		J.M. Maalderink
-   Tanzania		SKopp (Wikimedia commons)
-   Tannu Tuva		Orange Tuesday (Wikimedia Commons)
-   Tatarstan		J.M. Maalderink
-   Templar		Daniel Markstedt
-   Teutonic Order	J.M. Maalderink
-   Texas		Paul B. Joiner
-   Thailand		Lauris Kaplinski
-   Thrace		Daniel Markstedt
-   Thuringia		David Liuzzo (Wikimedia Commons)
-   Tibet		Tobias Jakobs
-   Timur		Daniel Markstedt
-   Tocharian		Dan Cottrell and Daniel Markstedt
-   Togo			Vzb83 and Madden (Wikimedia Commons)
-   Toltec		J.M. Maalderink
-   Tonga		Madden (Wikimedia Commons)
-   Transnistria		Sigge Kotliar and J.M. Maalderink
-   Transylvania		Alex:D (Wikipedia)
-   Trebizond		J.M. Maalderink
-   Trinidad and Tobago	J.M. Maalderink
-   TRNC			David Benbennick and J.M Maalderink
-   Tuareg		Escondites (Wikimedia Commons)
-   Tunisia		Tobias Jakobs
-   Tupi			Dan Cottrell and Daniel Markstedt
-   Turkey		David Benbennick
-   Turkmenistan		Caleb Moore
-   Tyrol		Flow2 (Wikimedia Commons)
-   UAE			Bratt Roper
-   Uganda		Tobias Jakobs
-   Ukraine		Lauris Kaplinski
-   Unasur		Guilherme Paula (Wikipedia)
-   United Kingdom	Daniel McRae
-   United Nations	Tobias Jakobs
-   Unknown		Jason Short
-   Urartu		Andrzej G.
-   Uruguay		Guillermo Romero
-   USA			Daniel McRae
-   Uyghur		Daniel Markstedt
-   Uzbekistan		Zachary Harden
-   Valknut		AnonMoos (Wikimedia Commons)
-   Vampire		Ann Barcomb
-   Vandal		J.M. Maalderink
-   Vanuatu		Vzb83 (Wikimedia Commons)
-   Vatican		Flanker (Wikimedia Commons)
-   Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
-   Veletian		Andrzej G.
-   Venda		Walden69 (Wikimedia Commons)
-   Venetic		Andrzej G.
-   Venezuela		Zachary Harden et al.
-   Venice		Daniel Markstedt
-   Vermont		Mysid (Wikipedia)
-   Vietnam		Lauris Kaplinski
-   Viking		Daniel Markstedt
-   Visigoth		J.M. Maalderink
-   Vistulan		Kuba (Open Clip Art) and Hubert Kobalewski
-   Volapuk		Wierzbowski
-   Volga Bulgar		Óðinn (Wikimedia Commons) and Daniel Markstedt
-   Volga German		J.M. Maalderink
-   Wales		Tobias Jakobs
-   Wallonia		Cedric de Launois (Open Clip Art)
-   West Indies Fed.	Stepshep (Wikimedia Commons)
-   West Papua		J.M. Maalderink
-   Westphalia		Daniel Markstedt and Tobias Jakobs
-   Wuerttemberg		David Liuzzo (Wikimedia Commons)
-   Xhosa		Madden (Wikimedia Commons)
-   Xiongnu		Andrzej G.
-   Yemen		J.M. Maalderink
-   Yucatan		Zachary Harden
-   Yugoslavia		J.M. Maalderink
-   Zambia		Tobias Jakobs
-   Zanzibar		Mysid (Wikimedia Commons)
-   Zapotec		J.M. Maalderink
-   Zhuang		Daniel Markstedt
-   Zimbabwe		Madden (Wikimedia Commons)
-   Zulu			Daniel Markstedt and Caleb Moore
+	 Abkhazia		Reisio (Wikimedia Commons)
+	 Aborigines		Brett Roper
+	 Acadia		Jean-François Arseneau
+	 Aceh			Daniel Markstedt and J.M. Maalderink
+	 Acre			J.M. Maalderink
+	 Adygea		Conscious (Wikimedia Commons)
+	 Afghanistan		Andrew Duhan and Reisio
+	 Africa		JesperZedlitz (Wikimedia Commons)
+	 Ainu			Daniel Markstedt
+	 Akwe			Dan Cottrell and Daniel Markstedt
+	 Aland		J.M. Maalderink
+	 Albania		TigerTjäder (Wikimedia Commons)
+	 Aleut		Daniel Markstedt
+	 Algeria 		Lauris Kaplinski
+	 Almohad		Ch1902 (Wikimedia Commons)
+	 Alsace		Patricia Fidi, Saebhiar (Wikimedia Commons) and J.M. Maalderink
+	 Amazigh		Mysid
+	 Amazon		Ann Barcomb
+	 Andorra		Patricia Fidi
+	 Angola		SKopp (Wikimedia Commons)
+	 Animals              Jacob Nevins
+	 Anhalt		J.M. Maalderink
+	 Anishinaabe		Shandris (Wikimedia Commons)
+	 Antarctica		Zachary Harden
+	 Antarctica (alt)	Tobias Jakobs
+	 Antigua and Barbuda	Sigge Kotliar
+	 Apache		J.M. Maalderink
+	 Arab			Daniel Markstedt and Andrew Duhan
+	 Aragon		J.M. Maalderink
+	 Aram			Daniel Markstedt
+	 Argentina		Sigge Kotliar
+	 Armenia		Jason Short
+	 Ashanti		Daniel Markstedt
+	 Assam		Daniel Markstedt
+	 Assyria		Clevelander and Daniel Markstedt
+	 Asturias		Banderas (Wikimedia Commons)
+	 Atlantis		J.M. Maalderink
+	 Australia		Daniel McRae
+	 Austria		Christoph Breitler
+	 Avar			J.M. Maalderink
+	 Aymara		Daniel Markstedt
+	 Azerbaijan		Daniel McRae
+	 Aztec		Daniel Markstedt
+	 Babylon		Daniel Markstedt
+	 Baden		David Liuzzo (Wikimedia Commons)
+	 Bahamas		J.M. Maalderink
+	 Bahrain		J.M. Maalderink
+	 Bangladesh		Cezary Biele
+	 Barbados		Denelson83 (Wikimedia Commons)
+	 Barbarian		Tobias Jakobs
+	 Bashkortostan	Conscious (Wikimedia Commons)
+	 Bavarian		Jörgen Scheibengruber
+	 Belarus		Gregory Maxwell and Zachary Harden
+	 Belgic		Andrzej G.
+	 Belgium		Daniel McRae
+	 Belize		Caleb Moore
+	 Bengal		Daniel Markstedt
+	 Benin		J.M. Maalderink
+	 Benin (ancient)	Orange Tuesday (Wikimedia Commons)
+	 Bhutan		Denelson83 and Zachary Harden (Wikimedia Commons)
+	 Biafra		J.M. Maalderink
+	 Brandenburg		Madden (Wikimedia Commons)
+	 Boer			Caleb Moore
+	 Boii			Andrzej G.
+	 Bolivia		Caleb Moore
+	 Bophuthatswana	Washiucho (Wikimedia Commons)
+	 Bosnia		Daniel McRae
+	 Bosporus		J.M. Maalderink
+	 Botswana		SKopp (Wikimedia Commons)
+	 Brasil		Cezary Biele
+	 Britannia		J.M. Maalderink
+	 Brittany		Lexicon
+	 Brunei		Gustav Broberg
+	 Bulgaria		Daniel McRae
+	 Burgundic		Andrzej G.
+	 Burgundy		Daniel Markstedt
+	 Burkina Faso		Gabbe (Wikimedia Commons)
+	 Burundi		Sebastian Koppehel
+	 Buryatia		Urmas (Wikimedia Commons)
+	 Byzantium		Dragases
+	 Caddo		Daniel Markstedt
+	 California		Devin Cook (Wikimedia Commons)
+	 Cameroon		J.M. Maalderink
+	 Canada		James Leigh
+	 Canada (old)		Hoshie (Wikimedia Commons)
+	 Cañar		J.M. Maalderink
+	 Cantonese		Cezary Biele and J.M. Maalderink
+	 Cape Verde		Open Clip Art
+	 CAR			Vzb83 (Wikimedia Commons)
+	 Carantanian		Andrzej M. Gorzym
+	 Cartago		Daniel Markstedt and Matt Jecrell
+	 Catalan		Xavier Conde Rueda
+	 Celtiberian		J.M. Maalderink
+	 Celtic		AnonMoos (Wikimedia Commons)
+	 Central America	Connormah (Wikimedia Commons) and J.M. Maalderink
+	 Central Lithuania	Halibutt (Wikimedia Commons)
+	 Chad			J.M. Maalderink
+	 Cham			Daniel Markstedt
+	 Chananea		Daniel Markstedt
+	 Chechnya		Lokal Profil (Wikimedia Commons)
+	 Cheyenne		Arturo Espinosa-Aldama
+	 Chiapas		Towndown (Wikimedia Commons)
+	 Chickasaw		Daniel Markstedt
+	 Chile		Mario Fuentes
+	 Chimu		J.M. Maalderink
+	 China		Stephen Silver
+	 Choctaw		Daniel Markstedt
+	 Chola		Dan Cottrell and Daniel Markstedt
+	 Chrobatian		Andrzej M. Gorzym
+	 Chumash		Daniel Markstedt
+	 Chuvashia		Urmas (Wikimedia Commons)
+	 Clatsop		Euku (Wikimedia Commons)
+	 Colombia		Lauris Kaplinski
+	 Comanche		Zachary Harden
+	 Comoros		Open Clip Art
+	 Constantine		Nikos Mavrogiannopoulos
+	 Cornwall		Vasco Alexandre Da Silva Costa
+	 Corsica		Patricia Fidi
+	 Cossack		Alex Tora
+	 Costa Rica		Nightstallion (Wikimedia Commons)
+	 Crete		J.M. Maalderink
+	 Crimean Tatar	J.M. Maalderink
+	 Croatia		Frank Zeko
+	 Courland		J.M. Maalderink
+	 Cuba			Lauris Kaplinski
+	 Cuyavia		Lech Tadeusz Karczewski
+	 Cyprus		Vzb83 (Wikimedia Commons)
+	 Cyrenaica		Daniel Markstedt and J.M. Maalderink
+	 Czech		Lauris Kaplinski
+	 Czechoslovakia	Tlusťa (Wikimedia Commons)
+	 Dacian		Andrzej M. Gorzym
+	 Dahomey		Daniel Markstedt
+	 Darfur		Daniel Markstedt
+	 DDR			Jwnabd (Wikimedia Commons)
+	 Denmark		Jens Bech Madsen
+	 DGB			Precious alex (Wikimedia Commons)
+	 Djibouti		Open Clip Art
+	 Dominica		Caleb Moore and Christian Schaller
+	 Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
+	 DR Congo		Drieskamp (Wikimedia Commons)
+	 Dryad		Ivan Alvarado
+	 East Timor		SKopp (Wikimedia Commons)
+	 Ecuador		Zachary Harden
+	 Egypt (ancient)	Daniel Markstedt
+	 Egypt		Caleb Moore
+	 Elam			Patricia Fidi and J.M. Maalderink
+	 El Salvador		Vzb83 (Wikimedia Commons)
+	 England		Thom Sanders
+	 Epirus		Flanker (Wikimedia Commons) and Daniel Markstedt
+	 Equatorial Guinea	Open Clip Art
+	 Esperanto		Gabriel Ehrnst Grundin
+	 Estonia		Daniel Markstedt
+	 Eritrea		Andrew Duhan
+	 Ethiopia		Lauris Kaplinski and Christian Schaller
+	 Ethiopia (old)	Oren neu dag (Wikimedia Commons)
+	 Etruscan		J.M. Maalderink
+	 Europe		Lauris Kaplinski
+	 Euskadi		Patricia Fidi
+	 Evenkia		Mysid (Wikimedia Commons)
+	 Faroes		J.M. Maalderink
+	 Fiji			Denelson83, Vzb83, Zachary Harden, et al. (Wikimedia Commons)
+	 Finland		SKopp (Wikimedia Commons)
+	 Flanders		Cedric de Launois (Open Clip Art)
+	 Florence		Kanchelskis (Wikimedia Commons)
+	 Formosan		resodan
+	 France (old)		Patricia Fidi
+	 France		Tobias Jakobs
+	 Franconia		Andreas Trepte (Wikimedia Commons) and J.M. Maalderink
+	 French Polynesia	Tobias Jakobs
+	 Frisia		GeeKaa (Wikimedia Commons)
+	 Friuli		DieBuche et al. (Wikimedia Commons)
+	 Gabon		J.M. Maalderink
+	 Gael			Barryob (Wikimedia Commons)
+	 Galicia		Miguel Rodríguez
+	 Gambia		J.M. Maalderink
+	 Gaul			Daniel Markstedt and Kilian Valkhof
+	 Georgia		Christian Schaller
+	 Gepid		Andrzej G.
+	 Germanic		Andrzej G.
+	 Germany		Philipp Sadleder
+	 Ghana		J.M. Maalderink
+	 Ghana (ancient)	J_Alves (Open Clip Art)
+	 Ghaznavid		J.M. Maalderink
+	 Gokturk		J.M. Maalderink
+	 Golden Horde		J.M. Maalderink
+	 Gothic		Andzej G.
+	 Greater Poland	J.M. Maalderink
+	 Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
+	 Greece		Daniel McRae
+	 Greenland		Daniel McRae
+	 Grenada		SKopp (Wikimedia Commons)
+	 Grisons		Denelson83 (Wikimedia Commons)
+	 Guanche		HansenBCN (Wikimedia Commons)
+	 Guarani		Daniel Markstedt
+	 Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
+	 Guinea		J.M. Maalderink
+	 Guinea-Bissau	J.M. Maalderink
+	 Gupta		Daniel Markstedt
+	 Guyana		SKopp (Wikimedia Commons)
+	 Hacker		Daniel Markstedt and Eric S. Raymond
+	 Hainan		J.M. Maalderink
+	 Haiti		Lokal Profil (Wikimedia Commons)
+	 Han			Caleb Moore
+	 Hanover		J.M. Maalderink
+	 Hansa		J.M. Maalderink
+	 Hawaii		Rob Adams
+	 Helvetii		J.M. Maalderink and Andrzej G.
+	 Hephthalite		J.M. Maalderink
+	 Hesse		Madden (Wikimedia Commons)
+	 Himyar		Daniel Markstedt
+	 Hittite		Daniel Markstedt
+	 Honduras		Wikimedia Commons
+	 Hopi			Daniel Markstedt
+	 HRE			Gryffindor (Wikimedia Commons) and J.M. Maalderink
+	 Hungary		Laszlo Dvornik
+	 Hunnic		Andrzej G.
+	 Iberian		J.M. Maalderink
+	 Iceland		Áki G. Karlsson
+	 Illyria		William Allen Simpson
+	 Inca			Daniel Markstedt
+	 India		Lauris Kaplinski
+	 Indo-European	AnonMoos (Wikimedia Commons)
+	 Indonesia		Kuswanto
+	 Innu			Daniel Markstedt
+	 Iran (ancient)	Daniel Markstedt
+	 Iran			Cezary Biele
+	 Iraq (old)		AnonMoos
+	 Iraq			Militaryace and Hoshie
+	 Ireland		Lauris Kaplinski
+	 Iroquois		Daniel Markstedt
+	 Israel		John C Meuser
+	 Israel (ancient)	Tonyjeff (Wikimedia Commons) and J.M. Maalderink
+	 Italian Greek	Andrzej G.
+	 Italy		Lauris Kaplinski
+	 Ivory Coast		J.M. Maalderink
+	 Jaffna		Dysfunctional (Wikimedia Commons)
+	 Jamaica		J.M. Maalderink
+	 Japan		Lauris Kaplinski
+	 Jbonai		Elmo Todurov
+	 Jerusalem		Orange Tuesday
+	 Jolof		J.M. Maalderink
+	 Jordan		Zscout730 (Wikimedia Commons)
+	 Kalmykia		Conscious (Wikimedia Commons)
+	 Kampuchea		Caleb Moore
+	 Kanem-Bornu		Daniel Markstedt
+	 Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons)
+	 Karen		Daniel Markstedt
+	 Kashmir		Nichalp (Wikimedia Commons)
+	 Kashubia		Krun (Wikimedia Commons)
+	 Katanga		Lexicon and Froztbyte (Wikimedia Commons)
+	 Kazakhstan		-xfi-
+	 Keetoowah		Daniel Markstedt
+	 Kenya		James Ots
+	 Khazaria		J.M. Maalderink
+	 Khmer		Caleb Moore and Daniel Markstedt
+	 Khoisan		resodan
+	 Khwarezm		Dan Cottrell and Daniel Markstedt
+	 Kiev			Maxim (http://logograd.narod.ru/)
+	 Kiribati		Patricia Fidi
+	 Komi			J.M. Maalderink
+	 Kongo		Daniel Markstedt
+	 Korea		Stephen Silver
+	 Korea (ancient)	Mysid
+	 Kosovo		Cradel (Wikimedia Commons)
+	 Kuna Yala		J.M. Maalderink
+	 Kurd			Denelson83
+	 Kushan		Andrzej G.
+	 Kuwait		J.M. Maalderink
+	 Kyrgyzstan		-xfi-
+	 Labarum		J.M. Maalderink
+	 Laos			Sebastian Koppehel
+	 Latin Empire		Andrzej G.
+	 Latvia		Lauris Bukšis
+	 Lebanon		Tobias Jakobs
+	 Lendian		J.M. Maalderink
+	 Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
+	 Lesotho		Zachary Harden
+	 Lesotho (old)	Zachary Harden
+	 Liberia		J.M. Maalderink
+	 Liburnian		J.M. Maalderink
+	 Libya		Daniel Markstedt
+	 Libya (old)		Cezary Biele
+	 Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
+	 Liguria		Flanker (Wikimedia Commons)
+	 Ligurian		Andrzej G.
+	 Lippe		ludger1961 (Wikimedia Commons) and J.M. Maalderink
+	 Lipka Tatar		Aotearoa (Wikimedia Commons)
+	 Lithuania		Christian Schaller
+	 Lombardy		Flanker (Wikimedia Commons)
+	 Lorraine		J.M. Maalderink
+	 Luna			Daniel Markstedt
+	 Lusatia		J.M. Maalderink
+	 Luwian		Andrzej G.
+	 Luxembourg		J.M. Maalderink
+	 Lycian		Andrzej G.
+	 Maasai		James Ots and J.M. Maalderink
+	 Macedon		Mysid (Wikimedia Commons)
+	 Macedonia		Sigge Kotliar
+	 Madagascar		Russell Cloran
+	 Majapahit		Dan Cottrell and Daniel Markstedt
+	 Malawi		Zachary Harden
+	 Malaysia		Lauris Kaplinski
+	 Maldives		Cezary Biele
+	 Mali			J.M. Maalderink
+	 Mali (ancient)	Daniel Markstedt
+	 Malta		Yaddah and Zachary Harden (Wikimedia Commons)
+	 Mamluk		Daniel Markstedt
+	 Man			Washiucho (Wikimedia Commons)
+	 Manchuria		Zachary Harden
+	 Maori		Daniel Markstedt
+	 Mapuche		Guillermo Romero
+	 Marathi		Sankalp Dravid
+	 Mars			Vasco Alexandre Da Silva Costa
+	 Marshall Islands	SKopp (Wikimedia Commons)
+	 Mauritania		Flad (Wikimedia Commons)
+	 Mauritius		J.M. Maalderink
+	 Maya			Daniel Markstedt
+	 Mazovia		J.M. Maalderink
+	 Mecklenburg		Daniel Markstedt
+	 Median		Dan Cottrell, Daniel Markstedt and J.M. Maalderink
+	 Messapian		Andrzej G.
+	 Metis		J.M. Maalderink
+	 Mexico		Cezary Biele
+	 Micronesia		SKopp (Wikimedia commons)
+	 Mikmaq		Daniel Markstedt
+	 Milan		Flanker (Wikimedia Commons)
+	 Miskito		Daniel Markstedt
+	 Mitanni		Snubcube (Wikimedia Commons) and J.M. Maalderink
+	 Mixtec		J.M. Maalderink
+	 Moldova		Caleb Moore and Reisio
+	 Moluccas		J.M. Maalderink
+	 Mon			Tonyjeff (Wikimedia Commons) and Daniel Markstedt
+	 Monaco (alternative)	Zachary Harden
+	 Mongolia		Sebastian Koppehel
+	 Montenegro		Bugoslav (Wikimedia Commons)
+	 Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
+	 Mordovia		Fibonacci (Wikimedia Commons)
+	 Morocco		Xiquet, Flad (Wikimedia Commons)
+	 Moscow		Oren neu dag (Wikimedia Commons)
+	 Mozambique		Tobias Jakobs
+	 Mughal		Orange Tuesday (Wikimedia Commons)
+	 Muskogee		Daniel Markstedt
+	 Mwiska		Daniel Markstedt
+	 Myanmar		Zachary Harden
+	 Myanmar (old)	Caleb Moore
+	 Nagorno Karabakh	J.M. Maalderink
+	 Namibia		Vzb83 and Madden (Wikimedia Commons)
+	 Naples		J.M. Maalderink
+	 NATO			Christian Schaller
+	 Nauru		SKopp (Wikimedia Commons)
+	 Navajo		Daniel Markstedt and J.M. Maalderink
+	 Nenetsia		Conscious (Wikimedia Commons)
+	 Nepal		SKopp and Daniel Markstedt
+	 Nestoria		J.M. Maalderink
+	 Netherlands		Marc Maurer
+	 Netherlands Antilles	J.M. Maalderink
+	 Newfoundland		J.M. Maalderink
+	 New Zealand		Daniel McRae
+	 Nez Perce		Daniel Markstedt
+	 Nicaragua		Vzb83 (Wikimedia Commons)
+	 Niger		J.M. Maalderink
+	 Nigeria		Brett Roper
+	 Normandy		Syryatsu
+	 North Korea		Zachary Harden
+	 Northumbria		J.M. Maalderink
+	 Norway		Christian Schaller
+	 Novgorod		Loginname (Wikimedia Commons)
+	 Nubia		Daniel Markstedt
+	 Numidia		Lexicon and Dan Cottrell
+	 Nunavut		James Leigh
+	 Nuu-chah-nulth	Daniel Markstedt
+	 Occitania		Mysid
+	 Ohlone		J.M. Maalderink
+	 Oldenburg		J.M. Maalderink
+	 Oman			Open Clip Art
+	 Ossetia		J.M. Maalderink
+	 Otomi		J.M. Maalderink
+	 Ottoman		Daniel Markstedt
+	 Oz			Daniel Markstedt
+	 Pakistan		Lauris Kaplinski
+	 Palatinate		Madden (Wikimedia Commons)
+	 Palestine		J.M. Maalderink
+	 Palmyra		JB Grout
+	 Panama		J.M. Maalderink
+	 Paeonia		Andrzej G., J.M. Maalderink and Mysid
+	 Papua New Guinea	Tobias Jakobs
+	 Paraguay		Vzb83 (Wikimedia Commons)
+	 Parthia		Andrzej G.
+	 Pashtun		Paul Zastoupil
+	 Pelasgian		Andrzej G.
+	 Peru			Brett Roper
+	 Philippines		Lauris Kaplinski
+	 Phoenicia		Vasco Alexandre Da Silva Costa
+	 Phrygian		Andrzej G.
+	 Pict			J.M. Maalderink
+	 Piedmont		Orzetto (Wikimedia Commons)
+	 Pirate		Tobias Jakobs
+	 Piratini		Felipe Fontoura (Wikimedia Commons)
+	 Poland		Cezary Biele
+	 Polynesian		Daniel Markstedt
+	 Pomerania		N3MO (Wikipedia)
+	 Portugal		Diogo Mamede
+	 Prusai		Daniel Markstedt
+	 Prussia		Daniel Markstedt
+	 Puerto Rico		Lauris Kaplinski and J.M. Maalderink
+	 Purhepecha		Daniel Markstedt
+	 Qatar		J.M. Maalderink
+	 Qing			Caleb Moore
+	 Quebec		Patrick Guimond
+	 Rapa Nui		Mario Fuente Cid
+	 Raramuri		J.M. Maalderink
+	 Rep. Congo		J.M. Maalderink
+	 Rhineland		J.M. Maalderink
+	 Rif			Mysid (Wikipedia)
+	 Romania		Daniel McRae
+	 Rome			Vasco Alexandre Da Silva Costa, Patricia Fidi
+	 Russia		Oleg Krivosheev
+	 RVN			J.M. Maalderink
+	 Rwanda		Cezary Biele
+	 Ryukyu		Daniel Markstedt
+	 Sabinium		J.M. Maalderink
+	 SADR			J.M. Maalderink
+	 St. Kitts and Nevis	Denelson83 and Pumbaa80 (Wikimedia Commons)
+	 Saint Lucia		Kopp, Denelson83 and Zscout370 (Wikimedia Commons)
+	 Saka			Madden, J.M. Maalderink and Andrzej G.
+	 Sakha		Zachary Harden
+	 Salish		kubble (Open Clip Art)
+	 Samnium		Andrzej G.
+	 Samoa		Vzb83 (Wikimedia Commons)
+	 Samogitia		Daniel Markstedt and Jarno Vasamaa
+	 San Marino		Tobias Jakobs
+	 S. Tome and Principe	Vzb83 (Wikimedia Commons)
+	 Sapmi		Dean Tersigni
+	 Sardinia		Patricia Fidi and J.M. Maalderink
+	 Sarmatia		Andrzej G.
+	 Saudi Arabia		Cezary Biele
+	 Savoy		J.M. Maalderink
+	 Saxony 		Sir Iain (Wikimedia Commons)
+	 Scania		Daniel Markstedt
+	 Schleswig-Holstein	Madden and Drbashir117 (Wikimedia Commons)
+	 Scotland		Sigge Kotliar
+	 Scottish Gaelic	Oxenhillshaw (Wikimedia Commons), Daniel Markstedt and Michael Bauer
+	 Scythia		Lavrentij P Berija
+	 Sakha		Zachary Harden
+	 Seljuk		J.M. Maalderink
+	 Seleucid		J.M. Maalderink
+	 Seminole		Daniel Markstedt
+	 Senegal		SonofSenegal (Wikimedia Commons)
+	 Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
+	 Seychelles		Vzb83 (Wikimedia Commons)
+	 Shan			Daniel Markstedt
+	 Shawnee		Daniel Markstedt
+	 Sherpa		Daniel Markstedt
+	 Siberia		Daniel Markstedt
+	 Sicily		Lexicon (Wikimedia Commons)
+	 Sierra Leone		J.M. Maalderink
+	 Sikh			Daniel Markstedt
+	 Sikkim		Nichalp (Wikimedia Commons)
+	 Silesia		Vasco Alexandre Da Silva Costa
+	 Singapore		Lauris Kaplinski
+	 Sinhalese		Uvants2 (Wikimedia Commons)
+	 Slavic		J.M. Maalderink
+	 Slovakia		Lauris Kaplinski
+	 Slovenia		Matthew Gatto
+	 Solomon Islands	SKopp (Wikimedia Commons)
+	 Somalia		J.M. Maalderink
+	 Somaliland		Cezary Biele and J.M. Maalderink
+	 Songhai		Daniel Markstedt
+	 South Africa		Farrel Lifson
+	 Southern Cross	Crotalus horridus
+	 Southern Sudan	J.M. Maalderink
+	 South Yemen		J.M. Maalderink
+	 Soviet		Sigge Kotliar
+	 Spain		Pedro A. Gracia Fajardo
+	 Sri Lanka		Tobias Jakobs
+	 Sri Vijaya		Dan Cottrell and Daniel Markstedt
+	 St. Patrick		Vasco Alexandre Da Silva Costa
+	 Sudan		Tobias Jakobs
+	 Suebian		Andrzej G.
+	 Sumeria		Franz Mach, Jason Short, Daniel Markstedt
+	 Suriname		Vzb83 (Wikimedia Commons)
+	 SVG			SKopp (Wikimedia Commons)
+	 Swahili		J.M. Maalderink
+	 Swaziland		Caleb Moore
+	 Sweden		Richard Torkar
+	 Switzerland		Philipp Frauenfelder
+	 Syria		Craig Kacinko
+	 Taino		Daniel Markstedt
+	 Tairona		Dan Cottrell and Daniel Markstedt
+	 Taiwan		Cezary Biele
+	 Tajikistan		Matthew Gatto and Daniil Ivanov
+	 Tanganyika		J.M. Maalderink
+	 Tanzania		SKopp (Wikimedia commons)
+	 Tannu Tuva		Orange Tuesday (Wikimedia Commons)
+	 Tatarstan		J.M. Maalderink
+	 Templar		Daniel Markstedt
+	 Teutonic Order	J.M. Maalderink
+	 Texas		Paul B. Joiner
+	 Thailand		Lauris Kaplinski
+	 Thrace		Daniel Markstedt
+	 Thuringia		David Liuzzo (Wikimedia Commons)
+	 Tibet		Tobias Jakobs
+	 Timur		Daniel Markstedt
+	 Tocharian		Dan Cottrell and Daniel Markstedt
+	 Togo			Vzb83 and Madden (Wikimedia Commons)
+	 Toltec		J.M. Maalderink
+	 Tonga		Madden (Wikimedia Commons)
+	 Transnistria		Sigge Kotliar and J.M. Maalderink
+	 Transylvania		Alex:D (Wikipedia)
+	 Trebizond		J.M. Maalderink
+	 Trinidad and Tobago	J.M. Maalderink
+	 TRNC			David Benbennick and J.M Maalderink
+	 Tuareg		Escondites (Wikimedia Commons)
+	 Tunisia		Tobias Jakobs
+	 Tupi			Dan Cottrell and Daniel Markstedt
+	 Turkey		David Benbennick
+	 Turkmenistan		Caleb Moore
+	 Tyrol		Flow2 (Wikimedia Commons)
+	 UAE			Bratt Roper
+	 Uganda		Tobias Jakobs
+	 Ukraine		Lauris Kaplinski
+	 Unasur		Guilherme Paula (Wikipedia)
+	 United Kingdom	Daniel McRae
+	 United Nations	Tobias Jakobs
+	 Unknown		Jason Short
+	 Urartu		Andrzej G.
+	 Uruguay		Guillermo Romero
+	 USA			Daniel McRae
+	 Uyghur		Daniel Markstedt
+	 Uzbekistan		Zachary Harden
+	 Valknut		AnonMoos (Wikimedia Commons)
+	 Vampire		Ann Barcomb
+	 Vandal		J.M. Maalderink
+	 Vanuatu		Vzb83 (Wikimedia Commons)
+	 Vatican		Flanker (Wikimedia Commons)
+	 Vedic		Rugby471 (Wikimedia Commons) and Daniel Markstedt
+	 Veletian		Andrzej G.
+	 Venda		Walden69 (Wikimedia Commons)
+	 Venetic		Andrzej G.
+	 Venezuela		Zachary Harden et al.
+	 Venice		Daniel Markstedt
+	 Vermont		Mysid (Wikipedia)
+	 Vietnam		Lauris Kaplinski
+	 Viking		Daniel Markstedt
+	 Visigoth		J.M. Maalderink
+	 Vistulan		Kuba (Open Clip Art) and Hubert Kobalewski
+	 Volapuk		Wierzbowski
+	 Volga Bulgar		Óðinn (Wikimedia Commons) and Daniel Markstedt
+	 Volga German		J.M. Maalderink
+	 Wales		Tobias Jakobs
+	 Wallonia		Cedric de Launois (Open Clip Art)
+	 West Indies Fed.	Stepshep (Wikimedia Commons)
+	 West Papua		J.M. Maalderink
+	 Westphalia		Daniel Markstedt and Tobias Jakobs
+	 Wuerttemberg		David Liuzzo (Wikimedia Commons)
+	 Xhosa		Madden (Wikimedia Commons)
+	 Xiongnu		Andrzej G.
+	 Yemen		J.M. Maalderink
+	 Yucatan		Zachary Harden
+	 Yugoslavia		J.M. Maalderink
+	 Zambia		Tobias Jakobs
+	 Zanzibar		Mysid (Wikimedia Commons)
+	 Zapotec		J.M. Maalderink
+	 Zhuang		Daniel Markstedt
+	 Zimbabwe		Madden (Wikimedia Commons)
+	 Zulu			Daniel Markstedt and Caleb Moore
 
 "
 [extra]
@@ -586,6 +586,10 @@ sprites =
 		"f.abkhazia", "tilesets/flags/abkhazia"
 		"f.aborigines", "tilesets/flags/aborigines"
 		"f.acadia", "tilesets/flags/acadia"
+		"f.blue", "tilesets/flags/blue"
+		"f.purple", "tilesets/flags/purple"
+		"f.green", "tilesets/flags/green"
+		"f.yellow", "tilesets/flags/yellow"
 		"f.aceh", "tilesets/flags/aceh"
 		"f.acre", "tilesets/flags/acre"
 		"f.adygea", "tilesets/flags/adygea"

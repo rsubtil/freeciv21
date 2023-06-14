@@ -7,7 +7,7 @@ options = "+Freeciv-spec-Devel-2019-Jul-03"
 [info]
 
 artists = "
-   See flags.spec
+	 See flags.spec
 "
 
 [extra]
@@ -16,6 +16,10 @@ sprites =
 		"f.abkhazia", "tilesets/flags/abkhazia-large"
 		"f.aborigines", "tilesets/flags/aborigines-large"
 		"f.acadia", "tilesets/flags/acadia-large"
+		"f.blue", "tilesets/flags/blue-large"
+		"f.purple", "tilesets/flags/purple-large"
+		"f.green", "tilesets/flags/green-large"
+		"f.yellow", "tilesets/flags/yellow-large"
 		"f.aceh", "tilesets/flags/aceh-large"
 		"f.acre", "tilesets/flags/acre-large"
 		"f.adygea", "tilesets/flags/adygea-large"

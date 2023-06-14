@@ -7,11 +7,15 @@ options = "+Freeciv-spec-Devel-2019-Jul-03"
 [info]
 
 artists = "
-   See flags.spec
+	 See flags.spec
 "
 [extra]
 sprites =
 	{	"tag", "file"
+		"f.shield.blue", "tilesets/flags/blue-shield"
+		"f.shield.purple", "tilesets/flags/purple-shield"
+		"f.shield.green", "tilesets/flags/green-shield"
+		"f.shield.yellow", "tilesets/flags/yellow-shield"
 		"f.shield.abkhazia", "tilesets/flags/abkhazia-shield"
 		"f.shield.aborigines", "tilesets/flags/aborigines-shield"
 		"f.shield.acadia", "tilesets/flags/acadia-shield"
