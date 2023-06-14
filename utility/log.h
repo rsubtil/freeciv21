@@ -65,6 +65,7 @@ const QString &log_get_level();
 #endif
 
 #define log_warning(message, ...) qWarning(message, ##__VA_ARGS__)
+#define log_error(message, ...) qCritical(message, ##__VA_ARGS__)
 
 #ifdef FREECIV_TESTMATIC
 #define log_testmatic(message, ...) qCritical(message, ##__VA_ARGS__)

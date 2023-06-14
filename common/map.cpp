@@ -1650,10 +1650,10 @@ struct building* map_buildings_add(const char* rulename, struct tile *building)
 {
   fc_assert(nullptr != building);
   fc_assert(nullptr != wld.map.buildings);
-  fc_assert(strlen(rulename) >= 12);
+  fc_assert(strlen(rulename) >= 9);
 
   // Username is extracted from rulename
-  char username = rulename[9];
+  char username = (strlen(rulename) > 10) ? rulename[9] : ' ';
   struct building *pbuilding = create_building(username, building,
                   building->label, rulename);
 

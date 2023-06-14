@@ -562,6 +562,7 @@ Explorers are brave individuals that are very useful for\
 
 [unit_scientist]
 name          = _("Scientist")
+rule_name     = "unit_scientist"
 class         = "Land"
 tech_req      = "None"
 obsolete_by   = "None"
@@ -593,6 +594,7 @@ Explorers are brave individuals that are very useful for\
 
 [unit_banker]
 name          = _("Banker")
+rule_name     = "unit_banker"
 class         = "Land"
 tech_req      = "None"
 obsolete_by   = "None"
@@ -624,6 +626,7 @@ Explorers are brave individuals that are very useful for\
 
 [unit_engineer]
 name          = _("Engineer")
+rule_name     = "unit_engineer"
 class         = "Land"
 tech_req      = "None"
 obsolete_by   = "None"

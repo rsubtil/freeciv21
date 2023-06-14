@@ -3324,7 +3324,7 @@ static bool building_belongs_to_unit(const struct building *pbuilding,
   return false;
 }
 
-static bool building_cannot_be_removed_by(const struct extra_type *pextra,
+static bool building_can_be_removed_by(const struct extra_type *pextra,
                                           const struct unit *punit)
 {
   if (punit->utype == unit_type_by_rule_name("unit_scientist"))
@@ -3359,11 +3359,11 @@ static std::string building_to_player(const struct player *pplayer,
   value += username;
   if(username == 'u') return value;
 
-  if (punit->utype == unit_type_by_rule_name("Scientist"))
+  if (punit->utype == unit_type_by_rule_name("unit_scientist"))
     value += "_u";
-  else if (punit->utype == unit_type_by_rule_name("Banker"))
+  else if (punit->utype == unit_type_by_rule_name("unit_banker"))
     value += "_b";
-  else if (punit->utype == unit_type_by_rule_name("Engineer"))
+  else if (punit->utype == unit_type_by_rule_name("unit_engineer"))
     value += "_f";
   return value;
 }
@@ -3391,15 +3391,19 @@ static void unit_enter_building(struct unit *punit)
       }
 
       // Do not remove buildings if unit cannot even do that
-      if (building_cannot_be_removed_by(pextra, punit)) {
+      if (!building_can_be_removed_by(pextra, punit)) {
         log_warning("Here2");
         continue;
       }
 
       // Destroy building and change it to player color
-      destroy_extra(ptile, pextra);
       std::string name = building_to_player(pplayer, punit).c_str();
       extra_type *new_extra = extra_type_by_rule_name(name.c_str());
+      if(!new_extra) {
+        log_error("New extra was null! Building not swapped!");
+        return;
+      }
+      destroy_extra(ptile, pextra);
       create_extra(ptile, new_extra, pplayer);
       if (name == "building_u") {
         // No owner
