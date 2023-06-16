@@ -862,6 +862,7 @@ end
 
 PACKET_SABOTAGE_REQ = 77; cs, dsend
   UNIT actor_id;
+  TILE tile_id;
 end
 
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend

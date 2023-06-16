@@ -2449,8 +2449,9 @@ static void transport(QVariant data1, QVariant data2)
 static void sabotage(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
+  int tile_id = data2.toInt();
 
-  dsend_packet_sabotage_req(&client.conn, actor_id);
+  dsend_packet_sabotage_req(&client.conn, actor_id, tile_id);
 }
 
 /**

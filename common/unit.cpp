@@ -915,8 +915,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     // The call below doesn't support actor tile speculation.
     fc_assert_msg(unit_tile(punit) == ptile,
                   "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(ACTION_SABOTAGE, punit, ptile,
-                                          target);
+    return is_action_enabled_unit_on_city(ACTION_SABOTAGE, punit, tile_city(ptile));
 
   case ACTIVITY_PLANT:
     // The call below doesn't support actor tile speculation.

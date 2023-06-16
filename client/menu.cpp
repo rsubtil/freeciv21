@@ -2136,7 +2136,7 @@ void mr_menu::slot_sabotage()
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
     if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE)) {
-      dsend_packet_sabotage_req(&client.conn, punit->id);
+      dsend_packet_sabotage_req(&client.conn, punit->id, unit_tile(punit)->index);
     }
   }
 }

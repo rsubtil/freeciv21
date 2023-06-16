@@ -35,6 +35,7 @@
 #include "plrhand.h"
 
 #include "govhand.h"
+#include "unithand.h"
 #include "government.h"
 #include "diplomats.h"
 
@@ -96,7 +97,7 @@ void handle_government_audit_begin_req(struct player *pplayer)
   // TODO
 }
 
-void handle_sabotage_req(struct player *pplayer, int actor_id)
+void handle_sabotage_req(struct player *pplayer, int actor_id, int tile_id)
 {
   // City-only for now
   struct unit* punit = game_unit_by_number(actor_id);
@@ -105,6 +106,7 @@ void handle_sabotage_req(struct player *pplayer, int actor_id)
   fc_assert(punit);
   fc_assert(pcity);
 
-  spy_send_sabotage_list(pplayer->current_conn, punit, pcity,
-    action_by_number(ACTRES_SPY_TARGETED_SABOTAGE_CITY), true);
+  handle_unit_get_actions(pplayer->current_conn, actor_id,
+      IDENTITY_NUMBER_ZERO, tile_id,
+      EXTRA_NONE, true);
 }

@@ -883,8 +883,8 @@ static void hard_code_actions()
       ACTION_TRANSPORT, ACTRES_TRANSPORT, ATK_TILE, ASTK_EXTRA,
       ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
   actions[ACTION_SABOTAGE] = unit_action_new(
-      ACTION_SABOTAGE, ACTRES_SABOTAGE, ATK_TILE, ASTK_EXTRA,
-      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
+      ACTION_SABOTAGE, ACTRES_SABOTAGE, ATK_CITY, ASTK_NONE,
+      ACT_TGT_COMPL_SIMPLE, true, true, MAK_STAYS, 0, 0, false);
   actions[ACTION_IRRIGATE] = unit_action_new(
       ACTION_IRRIGATE, ACTRES_IRRIGATE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
       ACT_TGT_COMPL_MANDATORY, true, false, MAK_STAYS, 0, 0, false);
@@ -6996,7 +6996,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
  * accept_all_actions argument is TRUE.
  */
 static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
-                                 bool accept_all_actions)
+                                 bool accept_all_actions, bool spy_sabotage = false)
 {
   if (actor == nullptr || target == nullptr) {
     // Can't do any actions if actor or target are missing.
@@ -7004,7 +7004,7 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
   }
 
   // Spies won't interact with cities directly
-  if(unit_has_type_flag(actor, UTYF_SPY)) {
+  if(unit_has_type_flag(actor, UTYF_SPY) && !spy_sabotage) {
     return false;
   }
 
@@ -7046,7 +7046,7 @@ struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
 {
   struct city *target = tile_city(target_tile);
 
-  if (target && may_unit_act_vs_city(actor, target, accept_all_actions)) {
+  if (target && may_unit_act_vs_city(actor, target, accept_all_actions, true)) {
     // It may be possible to act against this city.
     return target;
   }
