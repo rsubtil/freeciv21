@@ -28,25 +28,9 @@ void top_bar_right_click_diplomacy();
 void top_bar_right_click_science();
 void top_bar_left_click_science();
 void top_bar_left_click_gov();
+void top_bar_left_click_sabotages();
 void top_bar_units_view();
 void top_bar_show_map();
-
-/**
- * Top bar widget for indicators (global warming/nuclear winter/science/
- * government).
- */
-class indicators_widget : public QToolButton {
-  Q_OBJECT
-
-public:
-  indicators_widget();
-  ~indicators_widget() override;
-
-  QSize sizeHint() const override;
-
-protected:
-  void paintEvent(QPaintEvent *event) override;
-};
 
 /***************************************************************************
   Class representing single widget(icon) on top_bar

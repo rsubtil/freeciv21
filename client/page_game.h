@@ -21,7 +21,6 @@ class fc_client;
 class map_view;
 class minimap_panel;
 class hud_units;
-class indicators_widget;
 class chat_widget;
 class message_widget;
 class hud_battle_log;
@@ -83,7 +82,7 @@ public:
   top_bar_widget *sw_cunit;
   xvote *x_vote;
   top_bar_widget *sw_diplo;
-  indicators_widget *sw_indicators;
+  top_bar_widget *sw_sabotages;
   top_bar_widget *sw_science;
   bool diplomacy_notify = false;
 public slots:

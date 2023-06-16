@@ -48,75 +48,6 @@
 #include "views/view_units.h"
 
 /**
- * Constructor
- */
-indicators_widget::indicators_widget()
-{
-  setToolButtonStyle(Qt::ToolButtonIconOnly);
-  setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-}
-
-/**
- * Destructor
- */
-indicators_widget::~indicators_widget() {}
-
-/**
- * Size hint
- */
-QSize indicators_widget::sizeHint() const
-{
-  // Assume that all icons have the same size
-  auto content_size = client_research_sprite()->size();
-  if (client_is_global_observer()) {
-    // Global observers can only see climate change
-    content_size.setWidth(2 * content_size.width());
-  } else {
-    content_size.setWidth(4 * content_size.width());
-  }
-
-  // See QToolButton::sizeHint
-  ensurePolished();
-
-  QStyleOptionToolButton opt;
-  initStyleOption(&opt);
-
-  return style()->sizeFromContents(QStyle::CT_ToolButton, &opt, content_size,
-                                   this);
-}
-
-/**
- * Renders the indicators widget
- */
-void indicators_widget::paintEvent(QPaintEvent *event)
-{
-  // Draw a button without contents
-  QToolButton::paintEvent(event);
-
-  // Draw the icons on top (centered; the style might expect something else
-  // but screw it)
-  // Assume that they have the same size
-  auto icon_size = client_warming_sprite()->size();
-  auto center = size() / 2;
-
-  auto x = center.width()
-           - (client_is_global_observer() ? 1 : 2) * icon_size.width();
-  auto y = center.height() - icon_size.height() / 2;
-
-  QPainter p(this);
-  p.drawPixmap(QPointF(x, y), *client_warming_sprite());
-  x += icon_size.width();
-  p.drawPixmap(QPointF(x, y), *client_cooling_sprite());
-
-  if (!client_is_global_observer()) {
-    x += icon_size.width();
-    p.drawPixmap(QPointF(x, y), *client_research_sprite());
-    x += icon_size.width();
-    p.drawPixmap(QPointF(x, y), *client_government_sprite());
-  }
-}
-
-/**
    Sidewidget constructor
  */
 top_bar_widget::top_bar_widget(const QString &label, const QString &pg,
@@ -395,18 +326,6 @@ void top_bar_center_unit()
 }
 
 /**
-   Popups menu on indicators widget
- */
-void top_bar_indicators_menu()
-{
-  gov_menu *menu = new gov_menu(queen()->top_bar_wdg);
-
-  menu->create();
-  menu->update();
-  menu->popup(QCursor::pos());
-}
-
-/**
    Right click for diplomacy
    Opens diplomacy meeting for player
    For observer popups menu
@@ -532,6 +451,11 @@ void top_bar_left_click_gov()
   } else {
     queen()->game_tab_widget->setCurrentWidget(government_report::instance());
   }
+}
+
+void top_bar_left_click_sabotages()
+{
+  // TODO
 }
 
 /**

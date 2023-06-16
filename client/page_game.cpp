@@ -135,9 +135,12 @@ pageGame::pageGame(QWidget *parent)
       fcIcons::instance()->getIcon(QStringLiteral("government")));
   sw_gov->setCheckable(true);
 
-  // National status
-  sw_indicators = new indicators_widget();
-  connect(sw_indicators, &QAbstractButton::clicked, top_bar_indicators_menu);
+  // Sabotage view
+  sw_sabotages = new top_bar_widget(_("Sabotages"), QStringLiteral("GOV"),
+                              top_bar_left_click_sabotages);
+  sw_sabotages->setIcon(
+      fcIcons::instance()->getIcon(QStringLiteral("sabotage")));
+  sw_sabotages->setCheckable(true);
 
   // Messages widget
   message = new message_widget(mapview_wdg);
@@ -204,8 +207,8 @@ pageGame::pageGame(QWidget *parent)
   top_bar_wdg->addWidget(sw_cities);  // F4
   top_bar_wdg->addWidget(sw_economy); // F5
   top_bar_wdg->addWidget(sw_science); // F6
-  top_bar_wdg->addWidget(sw_gov);
-  top_bar_wdg->addWidget(sw_indicators);
+  top_bar_wdg->addWidget(sw_gov);     // F7
+  top_bar_wdg->addWidget(sw_sabotages); // F8
   top_bar_wdg->addWidget(sw_message);
 
   game_layout->addWidget(mapview_wdg, 1, 0);
@@ -332,7 +335,7 @@ void pageGame::updateInfoLabelTimeout()
     sw_economy->setEnabled(false);
   }
 
-  sw_indicators->update();
+  sw_sabotages->update();
   sw_gov->update();
   sw_economy->update();
   delete update_info_timer;
@@ -395,7 +398,6 @@ void pageGame::updateSidebarTooltips()
     sw_map->setToolTip(QLatin1String(""));
     sw_economy->hide();
   }
-  sw_indicators->setToolTip(get_info_label_text_popup());
 }
 
 /**
