@@ -121,6 +121,7 @@ static void road(QVariant data1, QVariant data2);
 static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
 static void transport(QVariant data1, QVariant data2);
+static void sabotage(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
@@ -249,6 +250,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_TRANSPORT] = transport;
+  action_function[ACTION_SABOTAGE] = sabotage;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
@@ -2439,6 +2441,16 @@ static void transport(QVariant data1, QVariant data2)
   int actor_id = data1.toInt();
 
   dsend_packet_transport_req(&client.conn, actor_id);
+}
+
+/**
+    Action "Sabotage" for choice dialog
+ */
+static void sabotage(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+
+  dsend_packet_sabotage_req(&client.conn, actor_id);
 }
 
 /**

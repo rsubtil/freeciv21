@@ -94,3 +94,21 @@ void handle_government_audit_begin_req(struct player *pplayer)
 {
   // TODO
 }
+
+void handle_sabotage_req(struct player *pplayer, int actor_id)
+{
+  // TODO
+  /*
+  if (pcity
+        && is_action_enabled_unit_on_city(action_type, pactor, pcity)) {
+      spy_send_sabotage_list(pc, pactor, pcity,
+                             action_by_number(action_type), disturb_player);
+    } else {
+      illegal_action(pplayer, pactor, action_type,
+                     pcity ? city_owner(pcity) : nullptr, nullptr, pcity,
+                     nullptr, disturb_player, ACT_REQ_PLAYER);
+      unit_query_impossible(pc, actor_id, target_id, disturb_player);
+      return;
+    }
+    */
+}

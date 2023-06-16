@@ -860,6 +860,10 @@ PACKET_TRANSPORT_INFO = 76; sc
   STRVEC names[MAX_LEN_PACKET];
 end
 
+PACKET_SABOTAGE_REQ = 77; cs, dsend
+  UNIT actor_id;
+end
+
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   UNIT actor_id;
   CITY city_id;

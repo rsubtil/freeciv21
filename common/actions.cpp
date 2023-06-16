@@ -882,6 +882,9 @@ static void hard_code_actions()
   actions[ACTION_TRANSPORT] = unit_action_new(
       ACTION_TRANSPORT, ACTRES_TRANSPORT, ATK_TILE, ASTK_EXTRA,
       ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
+  actions[ACTION_SABOTAGE] = unit_action_new(
+      ACTION_SABOTAGE, ACTRES_SABOTAGE, ATK_TILE, ASTK_EXTRA,
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
   actions[ACTION_IRRIGATE] = unit_action_new(
       ACTION_IRRIGATE, ACTRES_IRRIGATE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
       ACT_TGT_COMPL_MANDATORY, true, false, MAK_STAYS, 0, 0, false);
@@ -1627,6 +1630,7 @@ int action_get_act_time(const struct action *paction,
   case ACTIVITY_CONVERT:
     return unit_type_get(actor_unit)->convert_time * ACTIVITY_FACTOR;
   case ACTIVITY_TRANSPORT:
+  case ACTIVITY_SABOTAGE:
     return ACT_TIME_INSTANTANEOUS;
   case ACTIVITY_EXPLORE:
   case ACTIVITY_IDLE:
@@ -1726,6 +1730,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_SABOTAGE:
     break;
   }
 
@@ -1805,6 +1810,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_SABOTAGE:
     break;
   }
 
@@ -2761,6 +2767,7 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_IRRIGATE:
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
+  case ACTRES_SABOTAGE:
     // No hard unit type requirements.
     break;
   }
@@ -2943,6 +2950,7 @@ static enum fc_tristate action_hard_reqs_actor(
   case ACTRES_TRANSPORT_UNLOAD:
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
+  case ACTRES_SABOTAGE:
     // No hard unit requirements.
     break;
   }
@@ -3827,6 +3835,7 @@ static enum fc_tristate is_action_possible(
   case ACTRES_STRIKE_PRODUCTION:
   case ACTRES_FORTIFY:
   case ACTRES_NONE:
+  case ACTRES_SABOTAGE:
     // No known hard coded requirements.
     break;
   }
@@ -4712,6 +4721,7 @@ static struct act_prob action_prob(
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT:
+  case ACTRES_SABOTAGE:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_TRANSPORT_ALIGHT:
@@ -5671,6 +5681,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_SABOTAGE:
     // No additional dice roll.
     break;
   }
@@ -6082,6 +6093,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_build_mine";
   case ACTION_TRANSPORT:
     return "ui_name_transport";
+  case ACTION_SABOTAGE:
+    return "ui_name_sabotage";
   case ACTION_IRRIGATE:
     return "ui_name_irrigate";
   case ACTION_TRANSPORT_ALIGHT:
@@ -6440,6 +6453,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_SABOTAGE:
     // Min range is not ruleset changeable
     return nullptr;
   case ACTION_USER_ACTION1:
@@ -6537,6 +6551,7 @@ int action_min_range_default(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_SABOTAGE:
     // Non ruleset defined action min range not supported here
     fc_assert_msg(false, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -6627,6 +6642,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_SABOTAGE:
     // Max range is not ruleset changeable
     return nullptr;
   case ACTION_HELP_WONDER:
@@ -6733,6 +6749,7 @@ int action_max_range_default(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_SABOTAGE:
     // Non ruleset defined action max range not supported here
     fc_assert_msg(false, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -6846,6 +6863,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_SABOTAGE:
     // Target kind is not ruleset changeable
     return nullptr;
   case ACTION_USER_ACTION1:
@@ -6946,6 +6964,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_SABOTAGE:
     // actor consuming always is not ruleset changeable
     return nullptr;
   case ACTION_SPY_SPREAD_PLAGUE:

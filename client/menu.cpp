@@ -888,6 +888,10 @@ void mr_menu::setup_menus()
   shortcuts->link_action(SC_TRANSPORT, act);
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
+  act = menu->addAction(_("Sabotage"));
+  shortcuts->link_action(SC_SABOTAGE, act);
+  menu_list.insert(SABOTAGE, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage);
   act = menu->addAction(_("Plant"));
   shortcuts->link_action(SC_PLANT, act);
   menu_list.insert(PLANT, act);
@@ -1620,9 +1624,24 @@ void mr_menu::menus_sensitive()
         struct extra_type *pextra = next_extra(punits, EC_ROAD);
 
         if (pextra != nullptr) {
+          i.value()->setText(QString(_("Transport")));
+        }
+       } break;
+
+       case SABOTAGE: {
+        if (can_units_do_activity(punits, ACTIVITY_SABOTAGE)) {
+          i.value()->setEnabled(true);
+        }
+
+        // TODO: Query transport, cities and buildings
+        i.value()->setText(
+            QString(_("Sabotage")));
+        /*struct extra_type *pextra = next_extra(punits, EC_ROAD);
+
+        if (pextra != nullptr) {
           i.value()->setText(
               QString(_("Transport")).arg(extra_name_translation(pextra)));
-        }
+        }*/
        } break;
 
       case IRRIGATION:
@@ -2110,6 +2129,22 @@ void mr_menu::slot_transport() {
     if (utype_can_do_action(unit_type_get(punit),
                                    ACTION_TRANSPORT)) {
       dsend_packet_transport_req(&client.conn, punit->id);
+    }
+  }
+}
+
+/**
+   Action "SABOTAGE"
+*/
+void mr_menu::slot_sabotage()
+{
+  for (const auto punit : get_units_in_focus()) {
+    /* FIXME: this can provide different actions for different units...
+     * not good! */
+    /* Enable the button for adding to a city in all cases, so we
+       get an eventual error message from the server if we try. */
+    if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE)) {
+      dsend_packet_sabotage_req(&client.conn, punit->id);
     }
   }
 }

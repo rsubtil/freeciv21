@@ -211,6 +211,8 @@ _   ._       Copyright (c) 1996-2021 Freeciv21 and Freeciv contributors.
 #define SPECENUM_VALUE76NAME "User Action 3"
 #define SPECENUM_VALUE77 ACTION_TRANSPORT
 #define SPECENUM_VALUE77NAME "Transport"
+#define SPECENUM_VALUE78 ACTION_SABOTAGE
+#define SPECENUM_VALUE78NAME "Sabotage"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"

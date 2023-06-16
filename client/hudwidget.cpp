@@ -1152,6 +1152,12 @@ int unit_actions::update_actions()
         SC_TRANSPORT));
   }
 
+  if (can_unit_do_activity(current_unit, ACTIVITY_SABOTAGE)) {
+    actions.append(new hud_action(
+        this, fcIcons::instance()->getIcon(QStringLiteral("sabotage")),
+        SC_SABOTAGE));
+  }
+
   if (can_unit_do_activity(current_unit, ACTIVITY_PLANT)) {
     actions.append(new hud_action(
         this, fcIcons::instance()->getIcon(QStringLiteral("plantforest")),
