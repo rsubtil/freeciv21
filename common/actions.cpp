@@ -6984,6 +6984,11 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
     return false;
   }
 
+  // Spies won't interact with cities directly
+  if(unit_has_type_flag(actor, UTYF_SPY)) {
+    return false;
+  }
+
   action_iterate(act)
   {
     if (!(action_id_get_actor_kind(act) == AAK_UNIT

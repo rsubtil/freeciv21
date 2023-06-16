@@ -3698,7 +3698,7 @@ static void cancel_orders(struct unit *punit, const char *dbg_msg)
 {
   free_unit_orders(punit);
   send_unit_info(nullptr, punit);
-  log_debug("%s", dbg_msg);
+  log_warning("    %s", dbg_msg);
 }
 
 /**
@@ -4682,7 +4682,7 @@ bool execute_orders(struct unit *punit, const bool fresh)
      * updates sent to the client as a result of the action should include
      * the new index value.  Note that we have to send_unit_info somewhere
      * after this point so that the client is properly updated. */
-    if (order.order != ORDER_MOVE)
+    if (order.order != ORDER_MOVE && order.order != ORDER_ACTION_MOVE)
       punit->orders.index++;
 
     switch (order.order) {

@@ -229,7 +229,8 @@ static void check_map(const char *file, const char *function, int line)
                     pplayers_allied(unit_owner(punit), unit_owner(punit2)));
       }
       unit_list_iterate_end;*/
-      if (pcity) {
+      // Enemy spies can now enter enemy cities
+      if (pcity && !unit_has_type_flag(punit, UTYF_SPY)) {
         SANITY_TILE(ptile,
                     pplayers_allied(unit_owner(punit), city_owner(pcity)));
       }

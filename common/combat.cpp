@@ -111,6 +111,7 @@ bool is_unit_reachable_at(const struct unit *defender,
       attempts to attack land.
    4) it is not a fighter and defender is a flying unit (except
  city/airbase).
+   5) is a spy (changed to dedicated submenu)
 
    Does NOT check:
    1) Moves left
@@ -151,6 +152,11 @@ unit_attack_unit_at_tile_result(const struct unit *punit,
   // 4. Only fighters can attack planes, except in city or airbase attacks
   if (!is_unit_reachable_at(pdefender, punit, dest_tile)) {
     return ATT_UNREACHABLE;
+  }
+
+  // 5. Spies no longer attack, it was changed to a dedicated submenu
+  if (unit_has_type_flag(punit, UTYF_SPY)) {
+    return ATT_NON_ATTACK;
   }
 
   /* Unreachability check must remain the last check, as callers interpret

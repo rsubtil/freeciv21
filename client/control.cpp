@@ -1211,7 +1211,7 @@ void control_mouse_cursor(struct tile *ptile)
       } else if (can_units_attack_at(active_units, ptile)) {
         // Goto results in military attack.
         mouse_cursor_type = CURSOR_ATTACK;
-      } else if (is_enemy_city_tile(ptile, client.conn.playing)) {
+      } else if (is_enemy_city_tile(ptile, client.conn.playing) && !unit_has_type_flag(active_units[0], UTYF_SPY)) {
         // Goto results in attack of enemy city.
         mouse_cursor_type = CURSOR_ATTACK;
       } else {

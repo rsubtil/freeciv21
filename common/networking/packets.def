@@ -990,7 +990,7 @@ PACKET_PLAYER_DIPLSTATE = 59; sc, is-game-info
   PLAYER plr1;
   PLAYER plr2;
   DIPLSTATE_TYPE type;
-  UINT16 turns_left;
+  UINT32 turns_left;
   UINT8 has_reason_to_cancel;
   UINT16 contact_turns_left;
 end

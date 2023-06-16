@@ -634,7 +634,7 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
   }
 
   // 8)
-  if ((pcity = tile_city(dst_tile))) {
+  if ((pcity = tile_city(dst_tile)) && !unit_has_type_flag(punit, UTYF_SPY)) {
     if (enter_enemy_city) {
       if (pplayers_non_attack(city_owner(pcity), puowner)) {
         /* You can't move into an empty city of a civilization you're at

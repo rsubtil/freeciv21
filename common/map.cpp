@@ -1219,6 +1219,9 @@ static bool is_valid_dir_calculate(enum direction8 dir)
  */
 bool is_valid_dir(enum direction8 dir)
 {
+  if(dir > direction8_invalid()) {
+    return false;
+  }
   fc_assert_ret_val(dir <= direction8_invalid(), false);
 
   return dir_validity[dir];
