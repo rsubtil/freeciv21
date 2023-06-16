@@ -554,6 +554,20 @@ target_reqs    =
       "Extra",        "Transport",    "Local", TRUE
     }
 
+[actionenabler_sabotage]
+action = "Sabotage"
+actor_reqs =
+    { "type",       "name",          "range", "present"
+      "UnitFlag",   "Spy",           "Local", TRUE
+      "DiplRel",    "War",           "Local", TRUE
+      "UnitState",  "OnLivableTile", "Local", TRUE
+    }
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
+    }
+
+
 [actionenabler_sabotage_city]
 action = "Sabotage City"
 actor_reqs    =

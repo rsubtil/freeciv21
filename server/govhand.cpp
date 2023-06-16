@@ -36,6 +36,7 @@
 
 #include "govhand.h"
 #include "government.h"
+#include "diplomats.h"
 
 void handle_government_info_req(struct player *pplayer)
 {
@@ -97,18 +98,13 @@ void handle_government_audit_begin_req(struct player *pplayer)
 
 void handle_sabotage_req(struct player *pplayer, int actor_id)
 {
-  // TODO
-  /*
-  if (pcity
-        && is_action_enabled_unit_on_city(action_type, pactor, pcity)) {
-      spy_send_sabotage_list(pc, pactor, pcity,
-                             action_by_number(action_type), disturb_player);
-    } else {
-      illegal_action(pplayer, pactor, action_type,
-                     pcity ? city_owner(pcity) : nullptr, nullptr, pcity,
-                     nullptr, disturb_player, ACT_REQ_PLAYER);
-      unit_query_impossible(pc, actor_id, target_id, disturb_player);
-      return;
-    }
-    */
+  // City-only for now
+  struct unit* punit = game_unit_by_number(actor_id);
+  struct city* pcity = tile_city(unit_tile(punit));
+
+  fc_assert(punit);
+  fc_assert(pcity);
+
+  spy_send_sabotage_list(pplayer->current_conn, punit, pcity,
+    action_by_number(ACTRES_SPY_TARGETED_SABOTAGE_CITY), true);
 }

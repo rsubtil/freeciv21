@@ -3311,13 +3311,6 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
   actor_and_target.append(paction->id);
   qv1 = QVariant::fromValue(actor_and_target);
 
-  if (action_prob_possible(
-          actor->client.act_prob_cache[get_production_targeted_action_id(
-              paction->id)])) {
-    func = spy_sabotage;
-    cd->add_item(QString(_("City Production")), func, qv1, -1);
-  }
-
   city_built_iterate(tcity, pimprove)
   {
     if (pimprove->sabotage > 0) {
@@ -3330,14 +3323,10 @@ void popup_sabotage_dialog(struct unit *actor, struct city *tcity,
   }
   city_built_iterate_end;
 
-  if (action_prob_possible(
-          actor->client
-              .act_prob_cache[get_non_targeted_action_id(paction->id)])) {
-    stra =
-        QString(_("At %1's Discretion")).arg(unit_name_translation(actor));
-    func = spy_sabotage;
-    cd->add_item(stra, func, qv1, B_LAST);
-  }
+  stra =
+      QString(_("At %1's Discretion")).arg(unit_name_translation(actor));
+  func = spy_sabotage;
+  cd->add_item(stra, func, qv1, B_LAST);
   cd->set_layout();
   cd->show_me();
 }

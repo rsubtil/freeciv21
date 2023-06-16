@@ -473,7 +473,8 @@ static void check_units(const char *file, const char *function, int line)
       }
 
       pcity = tile_city(ptile);
-      if (pcity) {
+      // Spies can be on enemy cities.
+      if (pcity && !unit_has_type_flag(punit, UTYF_SPY)) {
         SANITY_CHECK(pplayers_allied(city_owner(pcity), pplayer));
       }
 

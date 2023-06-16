@@ -1631,17 +1631,9 @@ void mr_menu::menus_sensitive()
        case SABOTAGE: {
         if (can_units_do_activity(punits, ACTIVITY_SABOTAGE)) {
           i.value()->setEnabled(true);
-        }
-
-        // TODO: Query transport, cities and buildings
-        i.value()->setText(
-            QString(_("Sabotage")));
-        /*struct extra_type *pextra = next_extra(punits, EC_ROAD);
-
-        if (pextra != nullptr) {
           i.value()->setText(
-              QString(_("Transport")).arg(extra_name_translation(pextra)));
-        }*/
+              QString(_("Sabotage")));
+        }
        } break;
 
       case IRRIGATION:

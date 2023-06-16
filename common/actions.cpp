@@ -2225,10 +2225,10 @@ action_enabler_suggest_repair(const struct action_enabler *enabler)
   }
 
   // Needed in action not enabled explanation finding.
-  out = enabler_tile_tgt_local_diplrel_implies_claimed(enabler);
-  if (out != nullptr) {
-    return out;
-  }
+  //out = enabler_tile_tgt_local_diplrel_implies_claimed(enabler);
+  //if (out != nullptr) {
+  //  return out;
+  //}
 
   // No problems found.
   return nullptr;
