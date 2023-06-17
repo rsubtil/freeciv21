@@ -583,23 +583,23 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local"
     }
 
-[actionenabler_sabotage_city_investigate_science]
-action = "Investigate Science City"
-actor_reqs    =
-    { "type",         "name",          "range"
-      "UnitFlag",     "Spy",           "Local"
-      "DiplRel",      "War",           "Local"
-      "UnitState",    "OnLivableTile", "Local"
-    }
-
-[actionenabler_sabotage_city_investigate_materials]
-action = "Investigate Materials City"
-actor_reqs    =
-    { "type",         "name",          "range"
-      "UnitFlag",     "Spy",           "Local"
-      "DiplRel",      "War",           "Local"
-      "UnitState",    "OnLivableTile", "Local"
-    }
+;[actionenabler_sabotage_city_investigate_science]
+;action = "Investigate Science City"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
+;
+;[actionenabler_sabotage_city_investigate_materials]
+;action = "Investigate Materials City"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
 
 [actionenabler_sabotage_city_steal_gold]
 action = "Steal Gold City"
@@ -610,23 +610,23 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local"
     }
 
-[actionenabler_sabotage_city_steal_science]
-action = "Steal Science City"
-actor_reqs    =
-    { "type",         "name",          "range"
-      "UnitFlag",     "Spy",           "Local"
-      "DiplRel",      "War",           "Local"
-      "UnitState",    "OnLivableTile", "Local"
-    }
-
-[actionenabler_sabotage_city_steal_materials]
-action = "Steal Materials City"
-actor_reqs    =
-    { "type",         "name",          "range"
-      "UnitFlag",     "Spy",           "Local"
-      "DiplRel",      "War",           "Local"
-      "UnitState",    "OnLivableTile", "Local"
-    }
+;[actionenabler_sabotage_city_steal_science]
+;action = "Steal Science City"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
+;
+;[actionenabler_sabotage_city_steal_materials]
+;action = "Steal Materials City"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
 
 [actionenabler_build_city_pioneer]
 action = "Found City"
