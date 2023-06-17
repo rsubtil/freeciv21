@@ -5036,6 +5036,49 @@ void handle_unit_actions(const struct packet_unit_actions *packet)
 }
 
 /**
+   Handle reply to possible sabotage actions.
+
+   Note that a reply to a foreground request (a reply where disturb_player
+   is true) must result in its clean up.
+ */
+void handle_sabotage_actions(const struct packet_sabotage_actions *packet)
+{
+  struct unit *actor_unit = game_unit_by_number(packet->actor_unit_id);
+
+  struct tile *target_tile =
+      index_to_tile(&(wld.map), packet->target_tile_id);
+  struct city *target_city = game_city_by_number(packet->target_city_id);
+
+  const struct act_prob *act_probs = packet->action_probabilities;
+
+  // The dead can't act
+  bool valid = false;
+  if (actor_unit && (target_tile || target_city)) {
+    // At least one action must be possible
+    action_iterate(act)
+    {
+      if (action_prob_possible(act_probs[act])) {
+        valid = true;
+        break;
+      }
+    }
+    action_iterate_end;
+  }
+
+  if (valid) {
+    // The player can select an action and should be informed.
+    // Show the client specific action dialog
+      popup_action_selection(actor_unit, target_city, nullptr,
+                             target_tile, nullptr, act_probs);
+  } else {
+    // Nothing to do.
+    action_selection_no_longer_in_progress(packet->actor_unit_id);
+    action_decision_clear_want(packet->actor_unit_id);
+    action_selection_next_in_focus(packet->actor_unit_id);
+  }
+}
+
+/**
    Handle list of potenttial buildings to sabotage.
  */
 void handle_city_sabotage_list(int actor_id, int city_id,

@@ -18,26 +18,44 @@
 #include "support.h"
 
 // common
+#include "actions.h"
+#include "ai.h"
 #include "city.h"
+#include "combat.h"
 #include "events.h"
+#include "featured_text.h"
 #include "game.h"
+#include "log.h"
 #include "map.h"
+#include "movement.h"
+#include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
+#include "traderoutes.h"
 #include "unit.h"
+#include "unitlist.h"
 #include "worklist.h"
 
 /* common/aicore */
 #include "cm.h"
 
 // server
+#include "actiontools.h"
+#include "citizenshand.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "diplomats.h"
+#include "government.h"
+#include "govhand.h"
+#include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
-
-#include "govhand.h"
+#include "sanitycheck.h"
+#include "spacerace.h"
+#include "techtools.h"
 #include "unithand.h"
-#include "government.h"
-#include "diplomats.h"
+#include "unittools.h"
 
 void handle_government_info_req(struct player *pplayer)
 {
@@ -101,12 +119,70 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
 {
   // City-only for now
   struct unit* punit = game_unit_by_number(actor_id);
-  struct city* pcity = tile_city(unit_tile(punit));
+  struct tile* ptile = unit_tile(punit);
+  struct city* pcity = tile_city(ptile);
 
-  fc_assert(punit);
-  fc_assert(pcity);
+  struct act_prob probabilities[MAX_NUM_ACTIONS];
+  int actor_target_distance;
+  const struct player_tile *plrtile;
 
-  handle_unit_get_actions(pplayer->current_conn, actor_id,
-      IDENTITY_NUMBER_ZERO, tile_id,
-      EXTRA_NONE, true);
+  // A target should only be sent if it is possible to act against it
+  int target_city_id = IDENTITY_NUMBER_ZERO;
+
+  // Initialize the action probabilities.
+  action_iterate(act) { probabilities[act] = ACTPROB_NA; }
+  action_iterate_end;
+
+  // Check if the request is valid.
+  if (!ptile || !punit || !pplayer || punit->owner != pplayer) {
+    dsend_packet_sabotage_actions(
+        pplayer->current_conn, actor_id, IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+        tile_id, IDENTITY_NUMBER_ZERO, probabilities);
+    return;
+  }
+
+  /* The player may have outdated information about the target tile.
+   * Limiting the player knowledge look up to the target tile is OK since
+   * all targets must be located at it. */
+  plrtile = map_get_player_tile(ptile, pplayer);
+
+  // Distance between actor and target tile.
+  actor_target_distance = real_map_distance(unit_tile(punit), ptile);
+
+  // Set the probability for the actions.
+  action_iterate_range(act, ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD,
+                       ACTION_SABOTAGE_CITY_STEAL_MATERIALS)
+  {
+    if (plrtile && plrtile->site) {
+      // Only a known city may be targeted.
+      if (pcity) {
+        // Calculate the probabilities.
+        probabilities[act] = action_prob_vs_city(punit, act, pcity);
+        target_city_id = plrtile->site->identity;
+      } else if (!tile_is_seen(ptile, pplayer)
+                  && action_maybe_possible_actor_unit(act, punit)
+                  && action_id_distance_accepted(act,
+                                                actor_target_distance)) {
+        /* The target city is non existing. The player isn't aware of this
+          * fact because he can't see the tile it was located on. The
+          * actor unit it self doesn't contradict the requirements to
+          * perform the action. The (no longer existing) target city was
+          * known to be close enough. */
+        probabilities[act] = ACTPROB_NOT_KNOWN;
+      } else {
+        /* The actor unit is known to be unable to act or the target city
+          * is known to be too far away. */
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+    } else {
+      // No target to act against.
+      probabilities[act] = ACTPROB_IMPOSSIBLE;
+    }
+  }
+  action_iterate_end;
+
+  // Send possible actions and targets.
+  dsend_packet_sabotage_actions(pplayer->current_conn, actor_id, IDENTITY_NUMBER_ZERO,
+                            target_city_id, tile_id, IDENTITY_NUMBER_ZERO,
+                            probabilities);
 }

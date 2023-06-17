@@ -148,6 +148,11 @@ static void pillage_something(QVariant data1, QVariant data2);
 static void user_action_1(QVariant data1, QVariant data2);
 static void user_action_2(QVariant data1, QVariant data2);
 static void user_action_3(QVariant data1, QVariant data2);
+static void spy_investigate_gold(QVariant data1, QVariant data2);
+static void spy_investigate_science(QVariant data1, QVariant data2);
+static void spy_investigate_materials(QVariant data1, QVariant data2);
+static void spy_steal_science(QVariant data1, QVariant data2);
+static void spy_steal_materials(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd, action_id act,
                          const struct act_prob *act_probs,
                          const QString custom, QVariant data1,
@@ -264,6 +269,14 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_USER_ACTION1] = user_action_1;
   action_function[ACTION_USER_ACTION2] = user_action_2;
   action_function[ACTION_USER_ACTION3] = user_action_3;
+
+  // Sabotages
+  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD] = spy_investigate_gold;
+  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE] = spy_investigate_science;
+  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_MATERIALS] = spy_investigate_materials;
+  action_function[ACTION_SABOTAGE_CITY_STEAL_GOLD] = spy_steal_gold;
+  action_function[ACTION_SABOTAGE_CITY_STEAL_SCIENCE] = spy_steal_science;
+  action_function[ACTION_SABOTAGE_CITY_STEAL_MATERIALS] = spy_steal_materials;
 
   return action_function;
 }
@@ -2221,6 +2234,38 @@ static void disembark2(QVariant data1, QVariant data2)
 {
   do_that_action(data1, data2, ACTION_TRANSPORT_DISEMBARK2);
 }
+
+static void spy_investigate_gold(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+static void spy_investigate_science(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+static void spy_investigate_materials(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+// Redefines, used previous
+/*static void spy_steal_gold(QVariant data1, QVariant data2)
+{
+  // TODO
+}*/
+
+static void spy_steal_science(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+static void spy_steal_materials(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
 
 /**
    Action "Nuke Units" for choice dialog

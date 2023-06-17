@@ -400,6 +400,15 @@ struct action_enabler {
   }                                                                         \
   }
 
+#define action_iterate_range(_act_, _act_start_, _act_end_)                 \
+  {                                                                         \
+    action_id _act_;                                                        \
+    for (_act_ = _act_start_; _act_ <= _act_end_; _act_++) {
+
+#define action_iterate_range_end                                            \
+  }                                                                         \
+  }
+
 #define action_by_result_iterate(_paction_, _act_id_, _result_)             \
   {                                                                         \
     action_iterate(_act_id_)                                                \
