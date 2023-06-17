@@ -187,6 +187,11 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
                             probabilities);
 }
 
+void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile_id)
+{
+  // TODO: Implement
+}
+
 void handle_sabotage_info_req(struct player *pplayer)
 {
   // DEBUG: Bogus info

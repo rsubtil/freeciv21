@@ -1546,6 +1546,54 @@ bool spy_investigate_materials(struct player *act_player, struct unit *act_unit,
   return false;
 }
 
+bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
+                             struct tile *tgt_tile, struct extra_type *tgt_extra,
+                             const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_steal_science_building(struct player *act_player, struct unit *act_unit,
+                                struct tile *tgt_tile, struct extra_type *tgt_extra,
+                                const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_steal_materials_building(struct player *act_player, struct unit *act_unit,
+                                  struct tile *tgt_tile, struct extra_type *tgt_extra,
+                                  const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_investigate_gold_building(struct player *act_player, struct unit *act_unit,
+                                   struct tile *tgt_tile, struct extra_type *tgt_extra,
+                                   const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_investigate_science_building(struct player *act_player, struct unit *act_unit,
+                                      struct tile *tgt_tile, struct extra_type *tgt_extra,
+                                      const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_investigate_materials_building(struct player *act_player, struct unit *act_unit,
+                                      struct tile *tgt_tile, struct extra_type *tgt_extra,
+                                        const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
 /**
    Steal part of another player's map.
 

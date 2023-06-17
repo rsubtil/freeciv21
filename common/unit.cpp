@@ -600,6 +600,8 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Transport");
   case ACTIVITY_SABOTAGE_CITY:
     return _("Sabotage (City)");
+  case ACTIVITY_SABOTAGE_BUILDING:
+    return _("Sabotage (Building)");
   case ACTIVITY_PLANT:
     // TRANS: Activity name, verb in English
     return _("Plant");
@@ -917,6 +919,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                   "Please use action_speculate_unit_on_tile()");
     return is_action_enabled_unit_on_city(ACTION_SABOTAGE_CITY, punit, tile_city(ptile));
 
+  case ACTIVITY_SABOTAGE_BUILDING:
+    // The call below doesn't support actor tile speculation.
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_city()");
+    return is_action_enabled_unit_on_tile(ACTION_SABOTAGE_BUILDING, punit, ptile,
+                                          target);
+
   case ACTIVITY_PLANT:
     // The call below doesn't support actor tile speculation.
     fc_assert_msg(unit_tile(punit) == ptile,
@@ -1144,6 +1153,7 @@ void unit_activity_astr(const struct unit *punit, QString &s)
   case ACTIVITY_PLANT:
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
+  case ACTIVITY_SABOTAGE_BUILDING:
     s += QStringLiteral("%1\n").arg(get_activity_text(punit->activity));
     return;
   case ACTIVITY_MINE:

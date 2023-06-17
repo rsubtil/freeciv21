@@ -865,6 +865,11 @@ PACKET_SABOTAGE_CITY_REQ = 77; cs, dsend
   TILE tile_id;
 end
 
+PACKET_SABOTAGE_BUILDING_REQ = 79; cs, dsend
+  UNIT actor_id;
+  TILE tile_id;
+end
+
 PACKET_SABOTAGE_ACTIONS = 78; sc, dsend
   UNIT actor_unit_id;
   UNIT target_unit_id;

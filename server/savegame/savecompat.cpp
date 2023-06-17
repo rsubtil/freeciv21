@@ -1613,6 +1613,7 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_UNKNOWN:
     case ACTIVITY_TRANSPORT:
     case ACTIVITY_SABOTAGE_CITY:
+    case ACTIVITY_SABOTAGE_BUILDING:
       qCritical("Activity %d is not supposed to appear in unit orders",
                 order->activity);
       break;

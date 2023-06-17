@@ -763,6 +763,8 @@ static char activity2char(enum unit_activity activity)
     return 'T';
   case ACTIVITY_SABOTAGE_CITY:
     return 'S';
+  case ACTIVITY_SABOTAGE_BUILDING:
+    return 'B';
   case ACTIVITY_PLANT:
     return 'M';
   case ACTIVITY_IRRIGATE:

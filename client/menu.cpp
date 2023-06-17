@@ -889,7 +889,7 @@ void mr_menu::setup_menus()
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
   act = menu->addAction(_("Sabotage"));
-  shortcuts->link_action(SC_SABOTAGE_CITY, act);
+  shortcuts->link_action(SC_SABOTAGE, act);
   menu_list.insert(SABOTAGE_CITY, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage);
   act = menu->addAction(_("Plant"));
@@ -1629,7 +1629,8 @@ void mr_menu::menus_sensitive()
        } break;
 
        case SABOTAGE_CITY: {
-        if (can_units_do_activity(punits, ACTIVITY_SABOTAGE_CITY)) {
+        if (can_units_do_activity(punits, ACTIVITY_SABOTAGE_CITY) ||
+            can_units_do_activity(punits, ACTIVITY_SABOTAGE_BUILDING)) {
           i.value()->setEnabled(true);
           i.value()->setText(
               QString(_("Sabotage")));
@@ -2137,6 +2138,8 @@ void mr_menu::slot_sabotage()
        get an eventual error message from the server if we try. */
     if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE_CITY)) {
       dsend_packet_sabotage_city_req(&client.conn, punit->id, unit_tile(punit)->index);
+    } else if(utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE_BUILDING)) {
+      dsend_packet_sabotage_building_req(&client.conn, punit->id, unit_tile(punit)->index);
     }
   }
 }

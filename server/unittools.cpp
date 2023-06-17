@@ -819,6 +819,7 @@ static void unit_activity_complete(struct unit *punit)
 
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
+  case ACTIVITY_SABOTAGE_BUILDING:
     // TODO: Implement
     unit_activity_done = true;
     break;
@@ -1014,6 +1015,7 @@ static void update_unit_activity(struct unit *punit, time_t now)
   case ACTIVITY_LAST:
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
+  case ACTIVITY_SABOTAGE_BUILDING:
     // These activities do not do anything interesting at turn change.
     break;
 
@@ -3918,6 +3920,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_GOTO:
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
+  case ACTIVITY_SABOTAGE_BUILDING:
     break;
   case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
@@ -5177,6 +5180,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
         break;
       case ACTIVITY_TRANSPORT:
       case ACTIVITY_SABOTAGE_CITY:
+      case ACTIVITY_SABOTAGE_BUILDING:
         // TODO: Implement
         return true;
       // Replaced by action orders

@@ -973,6 +973,13 @@ void adv_best_government(struct player *pplayer)
           case ACTRES_SABOTAGE_CITY_STEAL_GOLD:
           case ACTRES_SABOTAGE_CITY_STEAL_SCIENCE:
           case ACTRES_SABOTAGE_CITY_STEAL_MATERIALS:
+          case ACTRES_SABOTAGE_BUILDING:
+          case ACTRES_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+          case ACTRES_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+          case ACTRES_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+          case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
+          case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
+          case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
             /* Could be good. An embassy gives permanent contact. A trade
              * route gives gold per turn. Join city gives population. Help
              * wonder gives shields. */

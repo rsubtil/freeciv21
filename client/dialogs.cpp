@@ -256,6 +256,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_TRANSPORT] = transport;
   action_function[ACTION_SABOTAGE_CITY] = sabotage;
+  action_function[ACTION_SABOTAGE_BUILDING] = sabotage;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
@@ -277,6 +278,12 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_SABOTAGE_CITY_STEAL_GOLD] = spy_steal_gold;
   action_function[ACTION_SABOTAGE_CITY_STEAL_SCIENCE] = spy_steal_science;
   action_function[ACTION_SABOTAGE_CITY_STEAL_MATERIALS] = spy_steal_materials;
+  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD] = spy_investigate_gold;
+  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE] = spy_investigate_science;
+  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS] = spy_investigate_materials;
+  action_function[ACTION_SABOTAGE_BUILDING_STEAL_GOLD] = spy_steal_gold;
+  action_function[ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE] = spy_steal_science;
+  action_function[ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS] = spy_steal_materials;
 
   return action_function;
 }

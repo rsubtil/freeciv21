@@ -515,6 +515,12 @@ ui_name_sabotage_city_investigate_materials = _("%sInvestigate (Materials)%s")
 ui_name_sabotage_city_steal_gold = _("%sSteal (Gold)%s")
 ui_name_sabotage_city_steal_science = _("%sSteal (Science)%s")
 ui_name_sabotage_city_steal_materials = _("%sSteal (Materials)%s")
+ui_name_sabotage_building_investigate_gold = _("%sInvestigate (Gold)%s")
+ui_name_sabotage_building_investigate_science = _("%sInvestigate (Science)%s")
+ui_name_sabotage_building_investigate_materials = _("%sInvestigate (Materials)%s")
+ui_name_sabotage_building_steal_gold = _("%sSteal (Gold)%s")
+ui_name_sabotage_building_steal_science = _("%sSteal (Science)%s")
+ui_name_sabotage_building_steal_materials = _("%sSteal (Materials)%s")
 
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
@@ -621,6 +627,73 @@ actor_reqs    =
 ;
 ;[actionenabler_sabotage_city_steal_materials]
 ;action = "Steal Materials City"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
+
+[actionenabler_sabotage_building]
+action = "Sabotage (Building)"
+actor_reqs =
+    { "type",       "name",          "range", "present"
+      "UnitFlag",   "Spy",           "Local", TRUE
+      "DiplRel",    "War",           "Local", TRUE
+      "UnitState",  "OnLivableTile", "Local", TRUE
+    }
+target_reqs =
+    { "type",     "name",     "range", "present"
+      "Extra",    "Building", "Local", TRUE
+    }
+
+[actionenabler_sabotage_building_investigate_gold]
+action = "Investigate Gold Building"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+
+;[actionenabler_sabotage_building_investigate_science]
+;action = "Investigate Science Building"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
+;
+;[actionenabler_sabotage_building_investigate_materials]
+;action = "Investigate Materials Building"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
+
+[actionenabler_sabotage_building_steal_gold]
+action = "Steal Gold Building"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+
+;[actionenabler_sabotage_building_steal_science]
+;action = "Steal Science Building"
+;actor_reqs    =
+;    { "type",         "name",          "range"
+;      "UnitFlag",     "Spy",           "Local"
+;      "DiplRel",      "War",           "Local"
+;      "UnitState",    "OnLivableTile", "Local"
+;    }
+;
+;[actionenabler_sabotage_building_steal_materials]
+;action = "Steal Materials Building"
 ;actor_reqs    =
 ;    { "type",         "name",          "range"
 ;      "UnitFlag",     "Spy",           "Local"
