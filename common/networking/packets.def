@@ -860,7 +860,7 @@ PACKET_TRANSPORT_INFO = 76; sc
   STRVEC names[MAX_LEN_PACKET];
 end
 
-PACKET_SABOTAGE_REQ = 77; cs, dsend
+PACKET_SABOTAGE_CITY_REQ = 77; cs, dsend
   UNIT actor_id;
   TILE tile_id;
 end

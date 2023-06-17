@@ -97,7 +97,7 @@ void handle_government_audit_begin_req(struct player *pplayer)
   // TODO
 }
 
-void handle_sabotage_req(struct player *pplayer, int actor_id, int tile_id)
+void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
 {
   // City-only for now
   struct unit* punit = game_unit_by_number(actor_id);

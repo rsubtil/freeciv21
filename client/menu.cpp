@@ -889,8 +889,8 @@ void mr_menu::setup_menus()
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
   act = menu->addAction(_("Sabotage"));
-  shortcuts->link_action(SC_SABOTAGE, act);
-  menu_list.insert(SABOTAGE, act);
+  shortcuts->link_action(SC_SABOTAGE_CITY, act);
+  menu_list.insert(SABOTAGE_CITY, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage);
   act = menu->addAction(_("Plant"));
   shortcuts->link_action(SC_PLANT, act);
@@ -1628,8 +1628,8 @@ void mr_menu::menus_sensitive()
         }
        } break;
 
-       case SABOTAGE: {
-        if (can_units_do_activity(punits, ACTIVITY_SABOTAGE)) {
+       case SABOTAGE_CITY: {
+        if (can_units_do_activity(punits, ACTIVITY_SABOTAGE_CITY)) {
           i.value()->setEnabled(true);
           i.value()->setText(
               QString(_("Sabotage")));
@@ -2135,8 +2135,8 @@ void mr_menu::slot_sabotage()
      * not good! */
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
-    if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE)) {
-      dsend_packet_sabotage_req(&client.conn, punit->id, unit_tile(punit)->index);
+    if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE_CITY)) {
+      dsend_packet_sabotage_city_req(&client.conn, punit->id, unit_tile(punit)->index);
     }
   }
 }

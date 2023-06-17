@@ -150,8 +150,8 @@ enum output_type_id {
 #define SPECENUM_VALUE22NAME N_("Plant")
 #define SPECENUM_VALUE23 ACTIVITY_TRANSPORT
 #define SPECENUM_VALUE23NAME N_("Transport")
-#define SPECENUM_VALUE24 ACTIVITY_SABOTAGE
-#define SPECENUM_VALUE24NAME N_("Sabotage")
+#define SPECENUM_VALUE24 ACTIVITY_SABOTAGE_CITY
+#define SPECENUM_VALUE24NAME N_("Sabotage (City)")
 #define SPECENUM_COUNT ACTIVITY_LAST
 #include "specenum_gen.h"
 
@@ -271,8 +271,8 @@ enum output_type_id {
 #define SPECENUM_VALUE55NAME "Spy Attack"
 #define SPECENUM_VALUE56 ACTRES_TRANSPORT
 #define SPECENUM_VALUE56NAME "Transport"
-#define SPECENUM_VALUE57 ACTRES_SABOTAGE
-#define SPECENUM_VALUE57NAME "Sabotage"
+#define SPECENUM_VALUE57 ACTRES_SABOTAGE_CITY
+#define SPECENUM_VALUE57NAME "Sabotage (City)"
 // All consequences are handled as (ruleset) action data.
 #define SPECENUM_COUNT ACTRES_NONE
 #include "specenum_gen.h"

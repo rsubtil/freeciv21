@@ -250,7 +250,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_TRANSPORT] = transport;
-  action_function[ACTION_SABOTAGE] = sabotage;
+  action_function[ACTION_SABOTAGE_CITY] = sabotage;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
@@ -2444,14 +2444,14 @@ static void transport(QVariant data1, QVariant data2)
 }
 
 /**
-    Action "Sabotage" for choice dialog
+    Action "Sabotage (City)" for choice dialog
  */
 static void sabotage(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
   int tile_id = data2.toInt();
 
-  dsend_packet_sabotage_req(&client.conn, actor_id, tile_id);
+  dsend_packet_sabotage_city_req(&client.conn, actor_id, tile_id);
 }
 
 /**

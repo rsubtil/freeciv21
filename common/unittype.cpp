@@ -308,7 +308,7 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_TRANSPORT_BOARD:
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_TRANSPORT:
-  case ACTRES_SABOTAGE:
+  case ACTRES_SABOTAGE_CITY:
     return false;
   case ACTRES_NONE:
     // Assume they are up to something.

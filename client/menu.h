@@ -66,7 +66,7 @@ enum munit {
   ENDGAME,
   SAVE,
   TRANSPORT,
-  SABOTAGE,
+  SABOTAGE_CITY,
 };
 
 enum delay_order { D_GOTO, D_NUKE, D_PARADROP, D_FORT };
