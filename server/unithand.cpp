@@ -834,6 +834,12 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
   case ACTRES_SABOTAGE_CITY:
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+  case ACTRES_SABOTAGE_CITY_STEAL_GOLD:
+  case ACTRES_SABOTAGE_CITY_STEAL_SCIENCE:
+  case ACTRES_SABOTAGE_CITY_STEAL_MATERIALS:
     // No special help.
     break;
   }
@@ -3212,6 +3218,42 @@ bool unit_perform_action(struct player *pplayer, const int actor_id,
   case ACTRES_SABOTAGE_CITY:
     // Handled by packet, no need to do anything
     break;
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
+    // Difference is caused by data in the action structure.
+    ACTION_STARTED_UNIT_CITY(
+        action_type, actor_unit, pcity,
+        spy_investigate_gold(pplayer, actor_unit, pcity, paction));
+    break;
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+    // Difference is caused by data in the action structure.
+    ACTION_STARTED_UNIT_CITY(
+        action_type, actor_unit, pcity,
+        spy_investigate_science(pplayer, actor_unit, pcity, paction));
+    break;
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+    // Difference is caused by data in the action structure.
+    ACTION_STARTED_UNIT_CITY(
+        action_type, actor_unit, pcity,
+        spy_investigate_materials(pplayer, actor_unit, pcity, paction));
+    break;
+  case ACTRES_SABOTAGE_CITY_STEAL_GOLD:
+    // Difference is caused by data in the action structure.
+    ACTION_STARTED_UNIT_CITY(
+        action_type, actor_unit, pcity,
+        spy_steal_gold(pplayer, actor_unit, pcity, paction));
+    break;
+  case ACTRES_SABOTAGE_CITY_STEAL_SCIENCE:
+    // Difference is caused by data in the action structure.
+    ACTION_STARTED_UNIT_CITY(
+        action_type, actor_unit, pcity,
+        spy_steal_science(pplayer, actor_unit, pcity, paction));
+    break;
+  case ACTRES_SABOTAGE_CITY_STEAL_MATERIALS:
+    // Difference is caused by data in the action structure.
+    ACTION_STARTED_UNIT_CITY(
+        action_type, actor_unit, pcity,
+        spy_steal_materials(pplayer, actor_unit, pcity, paction));
+    break;
   case ACTRES_NONE:
     // 100% ruleset defined.
     switch (action_get_target_kind(paction)) {
@@ -3489,7 +3531,6 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
   QString s_transport_from(punit->tile->label);
   QString s_transport_to(name);
 
-  tile* transport_from = ptile;
   tile* transport_to = map_transports_get(s_transport_to);
 
   // TODO: Register this info properly for spies to get

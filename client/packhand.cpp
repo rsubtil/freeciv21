@@ -4904,6 +4904,12 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_IRRIGATE:
       case ACTION_TRANSPORT:
       case ACTION_SABOTAGE_CITY:
+      case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
+      case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+      case ACTION_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+      case ACTION_SABOTAGE_CITY_STEAL_GOLD:
+      case ACTION_SABOTAGE_CITY_STEAL_SCIENCE:
+      case ACTION_SABOTAGE_CITY_STEAL_MATERIALS:
         // An interesting non attack action has been found.
         return ACTION_NONE;
         break;

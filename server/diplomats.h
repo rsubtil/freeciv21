@@ -41,6 +41,16 @@ bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        const struct action *paction);
 bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                     struct city *tgt_city, const struct action *paction);
+bool spy_steal_science(struct player *act_player, struct unit *act_unit,
+                       struct city *tgt_city, const struct action *paction);
+bool spy_steal_materials(struct player *act_player, struct unit *act_unit,
+                         struct city *tgt_city, const struct action *paction);
+bool spy_investigate_gold(struct player *act_player, struct unit *act_unit,
+                          struct city *tgt_city, const struct action *paction);
+bool spy_investigate_science(struct player *act_player, struct unit *act_unit,
+                             struct city *tgt_city, const struct action *paction);
+bool spy_investigate_materials(struct player *act_player, struct unit *act_unit,
+                               struct city *tgt_city, const struct action *paction);
 bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                          struct city *tgt_city,
                          const struct action *paction);

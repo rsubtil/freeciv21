@@ -277,6 +277,9 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_PILLAGE:
   case ACTRES_SPY_ATTACK:
   case ACTRES_SPY_SPREAD_PLAGUE:
+  case ACTRES_SABOTAGE_CITY_STEAL_GOLD:
+  case ACTRES_SABOTAGE_CITY_STEAL_SCIENCE:
+  case ACTRES_SABOTAGE_CITY_STEAL_MATERIALS:
     return true;
   case ACTRES_ESTABLISH_EMBASSY:
   case ACTRES_TRADE_ROUTE:
@@ -309,6 +312,9 @@ static bool action_is_hostile(action_id act_id)
   case ACTRES_TRANSPORT_EMBARK:
   case ACTRES_TRANSPORT:
   case ACTRES_SABOTAGE_CITY:
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+  case ACTRES_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
     return false;
   case ACTRES_NONE:
     // Assume they are up to something.

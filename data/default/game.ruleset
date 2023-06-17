@@ -567,58 +567,82 @@ target_reqs =
       "CityTile", "Center", "Local", TRUE
     }
 
-[actionenabler_sabotage_city_spy]
-action = "Sabotage City Escape"
+[actionenabler_sabotage_city_investigate_gold]
+action = "Investigate (Gold)"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
     }
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
+    }
 
-[actionenabler_sabotage_city_production]
-action = "Sabotage City Production Escape"
+[actionenabler_sabotage_city_investigate_science]
+action = "Investigate (Science)"
 actor_reqs    =
     { "type",         "name",          "range"
-      "DiplRel",      "War",           "Local"
       "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
     }
-
-[actionenabler_investigate_city_spy]
-action       = "Investigate City"
-actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "DiplRel", "Foreign", "Local"
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
     }
 
-[actionenabler_poison_city]
-action = "Poison City Escape"
+[actionenabler_sabotage_city_investigate_materials]
+action = "Investigate (Materials)"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Spy", "Local"
-      "DiplRel", "War", "Local"
-      "UnitState", "OnLivableTile", "Local"
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
     }
-target_reqs    =
-    { "type",   "name", "range"
-      "MinSize", "2", "City"
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
     }
 
-[actionenabler_steal_tech_random]
-action = "Steal Tech"
+[actionenabler_sabotage_city_steal_gold]
+action = "Steal (Gold)"
 actor_reqs    =
-    { "type",         "name",          "range", "present"
-      "UnitFlag",     "Spy",           "Local", FALSE
-      "UnitFlag",     "Diplomat",      "Local", TRUE
-      "UnitState",    "OnLivableTile", "Local", TRUE
-      "DiplRel",      "Foreign",       "Local", TRUE
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
     }
-target_reqs  =
-    { "type",        "name",      "range",  "present"
-      "NationGroup", "Barbarian", "Player", FALSE
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
+    }
+
+[actionenabler_sabotage_city_steal_science]
+action = "Steal (Science)"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
+    }
+
+[actionenabler_sabotage_city_steal_materials]
+action = "Steal (Materials)"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+target_reqs =
+    { "type",     "name",   "range", "present"
+      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_build_city_pioneer]

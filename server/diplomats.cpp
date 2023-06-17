@@ -1549,6 +1549,41 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   return true;
 }
 
+bool spy_steal_science(struct player *act_player, struct unit *act_unit,
+                       struct city *tgt_city, const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_steal_materials(struct player *act_player, struct unit *act_unit,
+                         struct city *tgt_city, const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_investigate_gold(struct player *act_player, struct unit *act_unit,
+                          struct city *tgt_city, const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_investigate_science(struct player *act_player, struct unit *act_unit,
+                             struct city *tgt_city, const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
+bool spy_investigate_materials(struct player *act_player, struct unit *act_unit,
+                             struct city *tgt_city, const struct action *paction)
+{
+  // TODO: Implement
+  return false;
+}
+
 /**
    Steal part of another player's map.
 

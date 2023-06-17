@@ -2079,6 +2079,12 @@ void dai_incident(struct ai_type *ait, enum incident_type type,
     case ACTRES_NONE:
     case ACTRES_TRANSPORT:
     case ACTRES_SABOTAGE_CITY:
+    case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
+    case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+    case ACTRES_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+    case ACTRES_SABOTAGE_CITY_STEAL_GOLD:
+    case ACTRES_SABOTAGE_CITY_STEAL_SCIENCE:
+    case ACTRES_SABOTAGE_CITY_STEAL_MATERIALS:
       // Various
       dai_incident_simple(receiver, violator, victim, scope, 1);
       break;
