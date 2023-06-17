@@ -509,6 +509,13 @@ ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
 ; /* TRANS: _Embark (100% chance of success). */
 ui_name_transport_embark = _("%sEmbark%s")
 
+ui_name_sabotage_city_investigate_gold = _("%sInvestigate (Gold)%s")
+ui_name_sabotage_city_investigate_science = _("%sInvestigate (Science)%s")
+ui_name_sabotage_city_investigate_materials = _("%sInvestigate (Materials)%s")
+ui_name_sabotage_city_steal_gold = _("%sSteal (Gold)%s")
+ui_name_sabotage_city_steal_science = _("%sSteal (Science)%s")
+ui_name_sabotage_city_steal_materials = _("%sSteal (Materials)%s")
+
 ; Blank ruleset defined user actions.
 ; See the section "Ruleset defined actions" is doc/README.actions
 ; Example: set up "User Action 1"
@@ -568,81 +575,57 @@ target_reqs =
     }
 
 [actionenabler_sabotage_city_investigate_gold]
-action = "Investigate (Gold)"
+action = "Investigate Gold City"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
-    }
-target_reqs =
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_sabotage_city_investigate_science]
-action = "Investigate (Science)"
+action = "Investigate Science City"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
-    }
-target_reqs =
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_sabotage_city_investigate_materials]
-action = "Investigate (Materials)"
+action = "Investigate Materials City"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
-    }
-target_reqs =
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_sabotage_city_steal_gold]
-action = "Steal (Gold)"
+action = "Steal Gold City"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
-    }
-target_reqs =
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_sabotage_city_steal_science]
-action = "Steal (Science)"
+action = "Steal Science City"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
-    }
-target_reqs =
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_sabotage_city_steal_materials]
-action = "Steal (Materials)"
+action = "Steal Materials City"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
       "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
-    }
-target_reqs =
-    { "type",     "name",   "range", "present"
-      "CityTile", "Center", "Local", TRUE
     }
 
 [actionenabler_build_city_pioneer]

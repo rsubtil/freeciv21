@@ -214,17 +214,17 @@ _   ._       Copyright (c) 1996-2021 Freeciv21 and Freeciv contributors.
 #define SPECENUM_VALUE78 ACTION_SABOTAGE_CITY
 #define SPECENUM_VALUE78NAME "Sabotage (City)"
 #define SPECENUM_VALUE79 ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD
-#define SPECENUM_VALUE79NAME "Investigate (Gold) (City)"
+#define SPECENUM_VALUE79NAME "Investigate Gold City"
 #define SPECENUM_VALUE80 ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE
-#define SPECENUM_VALUE80NAME "Investigate (Science) (City)"
+#define SPECENUM_VALUE80NAME "Investigate Science City"
 #define SPECENUM_VALUE81 ACTION_SABOTAGE_CITY_INVESTIGATE_MATERIALS
-#define SPECENUM_VALUE81NAME "Investigate (Materials) (City)"
+#define SPECENUM_VALUE81NAME "Investigate Materials City"
 #define SPECENUM_VALUE82 ACTION_SABOTAGE_CITY_STEAL_GOLD
-#define SPECENUM_VALUE82NAME "Steal (Gold) (City)"
+#define SPECENUM_VALUE82NAME "Steal Gold City"
 #define SPECENUM_VALUE83 ACTION_SABOTAGE_CITY_STEAL_SCIENCE
-#define SPECENUM_VALUE83NAME "Steal (Science) (City)"
+#define SPECENUM_VALUE83NAME "Steal Science City"
 #define SPECENUM_VALUE84 ACTION_SABOTAGE_CITY_STEAL_MATERIALS
-#define SPECENUM_VALUE84NAME "Steal (Materials) (City)"
+#define SPECENUM_VALUE84NAME "Steal Materials City"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"
