@@ -2250,12 +2250,6 @@ static void spy_investigate_materials(QVariant data1, QVariant data2)
   // TODO
 }
 
-// Redefines, used previous
-/*static void spy_steal_gold(QVariant data1, QVariant data2)
-{
-  // TODO
-}*/
-
 static void spy_steal_science(QVariant data1, QVariant data2)
 {
   // TODO
@@ -2849,7 +2843,7 @@ static void spy_steal_gold(QVariant data1, QVariant data2)
 
   if (nullptr != game_unit_by_number(diplomat_id)
       && nullptr != game_city_by_number(diplomat_target_id)) {
-    request_do_action(ACTION_SPY_STEAL_GOLD, diplomat_id, diplomat_target_id,
+    request_do_action(ACTION_SABOTAGE_CITY_STEAL_GOLD, diplomat_id, diplomat_target_id,
                       0, "");
   }
 }
