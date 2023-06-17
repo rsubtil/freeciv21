@@ -156,6 +156,18 @@ init_techs=""
 init_buildings=""
 init_units=""
 
+[nation_unknown]
+name=_("Unknown")
+plural=_("?plural:Unknown")
+hidden=true
+flag="unknown"
+flag_alt="-"
+style = "european"
+leaders = {
+ "name",     "sex"
+ "Unknown",   "Male"
+}
+
 [ngroup_barbarian]
 name=_("?nationgroup:Barbarian")
 match=0

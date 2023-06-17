@@ -1435,7 +1435,7 @@ const QString action_prepare_ui_name(action_id act_id, const char *mnemonic,
     fc_assert(custom == nullptr || custom[0] == '\0');
 
     // Make the best of what is known
-    str = QString(_("%1%2 (name may be wrong)"))
+    str = QString(_("%1%2"))
               .arg(mnemonic, action_id_rule_name(act_id));
 
     // Return the guess.

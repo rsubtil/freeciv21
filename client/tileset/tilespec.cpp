@@ -3519,6 +3519,9 @@ static QPixmap *get_unit_nation_flag_sprite(const struct tileset *t,
                                             const struct unit *punit)
 {
   struct nation_type *pnation = nation_of_unit(punit);
+  if(unit_has_type_flag(punit, UTYF_SPY) && unit_owner(punit) != client_player()) {
+    pnation = nation_by_rule_name("Unknown");
+  }
 
   if (gui_options->draw_unit_shields) {
     return t->sprites.nation_shield.p[nation_index(pnation)];
