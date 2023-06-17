@@ -186,3 +186,39 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
                             target_city_id, tile_id, IDENTITY_NUMBER_ZERO,
                             probabilities);
 }
+
+void handle_sabotage_info_req(struct player *pplayer)
+{
+  // DEBUG: Bogus info
+  struct packet_sabotage_info info;
+  info.last_sabotage_self_id = 0;
+  info.last_sabotage_other_id = -1;
+
+  send_packet_sabotage_info(pplayer->current_conn, &info);
+}
+
+void handle_sabotage_info_self_req(struct player *pplayer, int id)
+{
+  // DEBUG: Bogus info, for now
+  struct packet_sabotage_info_self info;
+
+  info.id = id;
+  info.turn = 1;
+  strcpy(info.info, "Someone stole 295 gold from one of your bases/buildings!");
+
+  send_packet_sabotage_info_self(pplayer->current_conn, &info);
+}
+
+void handle_sabotage_info_other_req(struct player *pplayer, int id)
+{
+  struct sabotage_info* info = s_info.find_cached_sabotage(id);
+
+  if(!info) return;
+
+  struct packet_sabotage_info_other other_info;
+  other_info.id = info->id;
+  other_info.turn = info->turn;
+  strcpy(other_info.info, info->info.c_str());
+
+  send_packet_sabotage_info_other(pplayer->current_conn, &other_info);
+}

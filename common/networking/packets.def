@@ -2448,3 +2448,31 @@ PACKET_BUILDING_INFO = 267; sc, lsend, is-game-info, force, handle-via-packet
   TILE tile;
   UINT8 username;
 end
+
+PACKET_SABOTAGE_INFO_REQ = 268; cs
+end
+
+PACKET_SABOTAGE_INFO = 269; sc
+  UINT32 last_sabotage_self_id;
+  UINT32 last_sabotage_other_id;
+end
+
+PACKET_SABOTAGE_INFO_SELF_REQ = 270; cs
+  UINT32 id;
+end
+
+PACKET_SABOTAGE_INFO_SELF = 271; sc, lsend
+  UINT32 id;
+  UINT32 turn;
+  STRING info[MAX_LEN_CONTENT];
+end
+
+PACKET_SABOTAGE_INFO_OTHER_REQ = 272; cs
+  UINT32 id;
+end
+
+PACKET_SABOTAGE_INFO_OTHER = 273; sc, lsend
+  UINT32 id;
+  UINT32 turn;
+  STRING info[MAX_LEN_CONTENT];
+end

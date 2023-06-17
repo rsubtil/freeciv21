@@ -1481,7 +1481,6 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   act_player->economic.gold += gold_take;
 
   // Notify everyone involved.
-  // TODO: Make actual sabotage
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_GOLD, ftc_server,
                 // TRANS: unit, gold, city
                 PL_("Your %s stole %d gold from %s.",
@@ -1493,6 +1492,13 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                     "%d gold stolen from %s, %s suspected.", gold_take),
                 gold_take, tgt_city_link,
                 nation_plural_for_player(act_player));
+
+  // Record sabotage ocurred
+  struct sabotage_info* info = s_info.new_sabotage_info();
+  info->turn = game.info.turn;
+  info->info = "You stole " + std::to_string(gold_take) + " of gold from " + std::string(tgt_player->name);
+  // TODO: Send info both ways and make info player-specific
+  s_info.alert_players(act_player, tgt_player);
 
   /*// Try to escape.
   diplomat_escape_full(act_player, act_unit, true, tgt_tile, tgt_city_link,

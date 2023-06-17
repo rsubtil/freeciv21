@@ -98,6 +98,7 @@
 #include "views/view_map_common.h"
 #include "views/view_nations_data.h"
 #include "views/view_government.h"
+#include "views/view_sabotages.h"
 #include "voteinfo.h"
 
 // gui-qt
@@ -181,7 +182,9 @@ static void packhand_init()
 
   // Request government info
   g_info.reset();
+  s_info.reset();
   send_packet_government_info_req(&client.conn);
+  send_packet_sabotage_info_req(&client.conn);
 }
 
 /**
@@ -5511,4 +5514,19 @@ void handle_building_info(const struct packet_building_info *packet)
   // Update the description
   // TODO: Implement
   // update_building_description(pcity);
+}
+
+void handle_sabotage_info(int last_sabotage_self_id, int last_sabotage_other_id)
+{
+  sabotages_report::instance()->update_info(last_sabotage_self_id, last_sabotage_other_id);
+}
+
+void handle_sabotage_info_self(int id, int turn, char const* info)
+{
+  sabotages_report::instance()->update_self_info(id, turn, info);
+}
+
+void handle_sabotage_info_other(int id, int turn, char const* info)
+{
+  sabotages_report::instance()->update_other_info(id, turn, info);
 }

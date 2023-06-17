@@ -26,6 +26,7 @@
 #include "government.h"
 
 struct government_info g_info;
+struct sabotage_record s_info;
 std::vector<government> governments;
 
 player_id determine_jury_id(player_id accuser, player_id accused, int which)

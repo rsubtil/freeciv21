@@ -136,6 +136,59 @@ struct government_info {
 
 extern struct government_info g_info;
 
+struct sabotage_info {
+  int id;
+  int turn;
+  std::string info;
+};
+
+struct sabotage_record {
+  std::vector<struct sabotage_info*> cached_sabotages;
+
+private:
+  int id = -1;
+
+public:
+  struct sabotage_info *new_sabotage_info()
+  {
+    struct sabotage_info *sabotage = new struct sabotage_info();
+    sabotage->id = ++id;
+    cached_sabotages.push_back(sabotage);
+    return sabotage;
+  }
+
+  struct sabotage_info *find_cached_sabotage(int id)
+  {
+    auto iter = std::find_if(
+        cached_sabotages.begin(), cached_sabotages.end(),
+        [id](struct sabotage_info *sabotage) { return sabotage->id == id; });
+    if (iter != cached_sabotages.end()) {
+      return *iter;
+    } else {
+      return nullptr;
+    }
+  }
+
+  void reset() {
+    for(struct sabotage_info* sabotage : cached_sabotages) {
+      delete sabotage;
+    }
+    cached_sabotages.clear();
+  }
+
+  void alert_players(const player* p1, const player* p2) {
+    // TODO: Alert p2 later
+    struct packet_sabotage_info info;
+    info.last_sabotage_self_id = 0;
+    info.last_sabotage_other_id = id;
+
+    send_packet_sabotage_info(p1->current_conn, &info);
+  }
+};
+
+extern struct sabotage_record s_info;
+
+
 extern std::vector<government> governments;
 // General government accessor functions.
 Government_type_id government_count();

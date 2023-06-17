@@ -44,6 +44,7 @@
 #include "views/view_map.h"
 #include "views/view_nations.h"
 #include "views/view_research.h"
+#include "views/view_sabotages.h"
 #include "views/view_government.h"
 #include "views/view_units.h"
 
@@ -455,7 +456,11 @@ void top_bar_left_click_gov()
 
 void top_bar_left_click_sabotages()
 {
-  // TODO
+  if (!queen()->isRepoDlgOpen(QStringLiteral("SAB"))) {
+    sabotages_report::instance()->init(true);
+  } else {
+    queen()->game_tab_widget->setCurrentWidget(sabotages_report::instance());
+  }
 }
 
 /**
