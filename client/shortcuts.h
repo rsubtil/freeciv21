@@ -94,7 +94,8 @@ enum shortcut_id {
   SC_GOTO_MOUSE = 60,
   SC_VIEW_DRAG = 61,
   SC_TRANSPORT = 62,
-  SC_SABOTAGE = 63,
+  SC_SABOTAGE_CITY = 63,
+  SC_SABOTAGE_BUILDING = 64
 };
 
 /**************************************************************************

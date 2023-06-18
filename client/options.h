@@ -82,10 +82,10 @@ struct client_options {
   int smooth_center_slide_msec = 200;
   int smooth_combat_step_msec = 10;
   bool ai_manual_turn_done = true;
-  bool auto_center_on_unit = true;
+  bool auto_center_on_unit = false;
   bool auto_center_on_automated = true;
   bool auto_center_on_combat = false;
-  bool auto_center_each_turn = true;
+  bool auto_center_each_turn = false;
   bool wakeup_focus = true;
   bool goto_into_unknown = true;
   bool center_when_popup_city = true;

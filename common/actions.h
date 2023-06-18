@@ -818,7 +818,7 @@ struct action_auto_perf *action_auto_perf_slot_number(const int num);
 
 // Find targets
 struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
-                             bool accept_all_actions);
+                             bool accept_all_actions, bool is_movement = false);
 
 struct unit *action_tgt_unit(struct unit *actor, struct tile *target_tile,
                              bool accept_all_actions);

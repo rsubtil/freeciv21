@@ -2298,7 +2298,13 @@ static void spy_city_steal_materials(QVariant data1, QVariant data2)
 
 static void spy_building_investigate_gold(QVariant data1, QVariant data2)
 {
-  // TODO
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (nullptr != game_unit_by_number(diplomat_id)) {
+    request_do_action(ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD, diplomat_id,
+                      diplomat_target_id, 0, "");
+  }
 }
 
 static void spy_building_investigate_science(QVariant data1, QVariant data2)

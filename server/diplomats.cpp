@@ -1695,8 +1695,62 @@ bool spy_investigate_gold_building(struct player *act_player, struct unit *act_u
                                    struct tile *tgt_tile, struct extra_type *tgt_extra,
                                    const struct action *paction)
 {
-  // TODO: Implement
-  return false;
+  struct player *tgt_player;
+
+  // Sanity check: The actor still exists.
+  fc_assert_ret_val(act_player, false);
+  fc_assert_ret_val(act_unit, false);
+
+  // Who to steal from.
+  tgt_player = building_owner(map_buildings_get(tgt_tile));
+
+  // Sanity check: The target player still exists.
+  fc_assert_ret_val(tgt_player, false);
+
+  // Sanity check: The target is foreign.
+  if (tgt_player == act_player) {
+    // Nothing to do to a domestic target.
+    return false;
+  }
+
+  // FIXME: Hardcoded for demo, later these values must be recorded and
+  // stored Green player is the culprit
+
+  // Notify everyone involved.
+  notify_player(act_player, unit_tile(act_unit), E_MY_SPY_STEAL_GOLD,
+                ftc_server,
+                _("You obtained a gold report from %s. Check it in your "
+                  "sabotages panel."),
+                tgt_player->name);
+  notify_player(tgt_player, nullptr, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
+                _("Someone obtained a report of your gold gains."));
+
+  // Record sabotage ocurred
+  struct sabotage_info *info = s_info.new_sabotage_info();
+  info->turn = game.info.turn;
+  bool is_culprit = !strcmp(tgt_player->name, "Green");
+  info->info =
+      "Gold report for player " + std::string(tgt_player->name) + ": \n"
+      + "Total gold: " + std::to_string(tgt_player->economic.gold) + "\n"
+      + "Gains: \n" + "\tLast 10 minutes: +"
+      + std::to_string(75 + rand() % 10) + "\n" + "\tLast 20 minutes: +"
+      + std::to_string(72 + rand() % 10) + "\n" + "\tLast 30 minutes: +"
+      + std::to_string(70 + rand() % 9) + "\n" + "\tLast 40 minutes: +"
+      + std::to_string((65 + rand() % 8)
+                       + (is_culprit ? (270 + rand() % 17) : 0))
+      + "\n" + "\tLast 50 minutes: +" + std::to_string(60 + rand() % 7)
+      + "\n" + "\tLast 60 minutes: +" + std::to_string(58 + rand() % 7);
+  // TODO: Send info both ways and make info player-specific
+  s_info.alert_players(act_player, tgt_player);
+
+  // Record sabotages tile
+  spy_set_recent_sabotaged_tile(act_unit, unit_tile(act_unit));
+
+  // Update the players' gold in the client
+  send_player_info_c(act_player, act_player->connections);
+  send_player_info_c(tgt_player, tgt_player->connections);
+
+  return true;
 }
 
 bool spy_investigate_science_building(struct player *act_player, struct unit *act_unit,

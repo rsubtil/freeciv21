@@ -889,11 +889,11 @@ void mr_menu::setup_menus()
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
   act = menu->addAction(_("Sabotage (City)"));
-  shortcuts->link_action(SC_SABOTAGE, act);
+  shortcuts->link_action(SC_SABOTAGE_CITY, act);
   menu_list.insert(SABOTAGE_CITY, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage_city);
   act = menu->addAction(_("Sabotage (Building)"));
-  shortcuts->link_action(SC_SABOTAGE, act);
+  shortcuts->link_action(SC_SABOTAGE_BUILDING, act);
   menu_list.insert(SABOTAGE_BUILDING, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage_building);
   act = menu->addAction(_("Plant"));

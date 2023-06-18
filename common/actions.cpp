@@ -7231,14 +7231,14 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
  * accept_all_actions argument is TRUE.
  */
 static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
-                                 bool accept_all_actions, bool spy_sabotage = false)
+                                 bool accept_all_actions, bool spy_sabotage)
 {
   if (actor == nullptr || target == nullptr) {
     // Can't do any actions if actor or target are missing.
     return false;
   }
 
-  // Spies won't interact with cities directly
+  // Spies won't interact with cities directly when moving, but will when sabotaging
   if(unit_has_type_flag(actor, UTYF_SPY) && !spy_sabotage) {
     return false;
   }
@@ -7277,11 +7277,11 @@ static bool may_unit_act_vs_city(struct unit *actor, struct city *target,
  * accept_all_actions argument is TRUE.
  */
 struct city *action_tgt_city(struct unit *actor, struct tile *target_tile,
-                             bool accept_all_actions)
+                             bool accept_all_actions, bool is_movement)
 {
   struct city *target = tile_city(target_tile);
 
-  if (target && may_unit_act_vs_city(actor, target, accept_all_actions, true)) {
+  if (target && may_unit_act_vs_city(actor, target, accept_all_actions, is_movement)) {
     // It may be possible to act against this city.
     return target;
   }

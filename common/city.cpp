@@ -3511,6 +3511,7 @@ const char *building_rulename_get(const struct building *pbuilding)
 
 struct player *building_owner(const struct building *pbuilding)
 {
+  if(!pbuilding) return nullptr;
   char username = pbuilding->username;
   players_iterate(pplayer)
   {

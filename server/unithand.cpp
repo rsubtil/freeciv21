@@ -4627,14 +4627,14 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         !unit_can_move_to_tile(&(wld.map), punit, pdesttile, igzoc, false);
     bool one_action_may_be_legal =
         action_tgt_unit(punit, pdesttile, can_not_move)
-        || action_tgt_city(punit, pdesttile, can_not_move)
+        || action_tgt_city(punit, pdesttile, can_not_move, true)
         // A legal action with an extra sub target is a legal action
         || action_tgt_tile_extra(punit, pdesttile, can_not_move)
         // Tile target actions with extra sub targets are handled above
         // Includes actions vs unit stacks
         || action_tgt_tile(punit, pdesttile, nullptr, can_not_move);
 
-    if (one_action_may_be_legal || can_not_move) {
+    if (!unit_has_type_flag(punit, UTYF_SPY) && (one_action_may_be_legal || can_not_move)) {
       /* There is a target punit, from the player's point of view, may be
        * able to act against OR punit can't do any non action move. The
        * client should therefore ask what action(s) the unit can perform
