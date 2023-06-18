@@ -34,9 +34,10 @@ flags =
 ;                 and sensible.
 ; helptxt       = displayed in the help for extra types with this flag
 ;                 (optional)
-;extra_flags =
-;  { "name", "helptxt"
-;  }
+extra_flags =
+  { "name", "helptxt"
+    _("Building"), _("Is an independent building")
+  }
 
 [parameters]
 
@@ -1996,7 +1997,7 @@ compat_special = "Road"
 
 [road_railroad]
 extra          = "Railroad"
-move_cost      = 0
+move_cost      = 3
 food_incr      = 0
 shield_incr    = 0
 trade_incr     = 0
@@ -2038,6 +2039,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2069,6 +2071,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2100,6 +2103,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2131,6 +2135,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2162,6 +2167,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2193,6 +2199,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2224,6 +2231,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2255,6 +2263,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2286,6 +2295,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2317,6 +2327,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2348,6 +2359,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2379,6 +2391,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \
@@ -2410,6 +2423,7 @@ reqs           =
     { "type", "name", "range"
       "TerrainClass", "Land", "Local"
     }
+flags = "Building"
 helptext = _("\
 Villages (also called \"huts\") are primitive communities spread \
 across the world at the beginning of the game. Any land unit can enter \

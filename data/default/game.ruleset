@@ -639,12 +639,11 @@ action = "Sabotage (Building)"
 actor_reqs =
     { "type",       "name",          "range", "present"
       "UnitFlag",   "Spy",           "Local", TRUE
-      "DiplRel",    "War",           "Local", TRUE
       "UnitState",  "OnLivableTile", "Local", TRUE
     }
 target_reqs =
-    { "type",     "name",     "range", "present"
-      "Extra",    "Building", "Local", TRUE
+    { "type",      "name",     "range", "present"
+      "ExtraFlag", "Building", "Local", TRUE
     }
 
 [actionenabler_sabotage_building_investigate_gold]
@@ -652,7 +651,6 @@ action = "Investigate Gold Building"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
-      "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
     }
 
@@ -661,7 +659,6 @@ actor_reqs    =
 ;actor_reqs    =
 ;    { "type",         "name",          "range"
 ;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
 ;      "UnitState",    "OnLivableTile", "Local"
 ;    }
 ;
@@ -670,7 +667,6 @@ actor_reqs    =
 ;actor_reqs    =
 ;    { "type",         "name",          "range"
 ;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
 ;      "UnitState",    "OnLivableTile", "Local"
 ;    }
 
@@ -679,7 +675,6 @@ action = "Steal Gold Building"
 actor_reqs    =
     { "type",         "name",          "range"
       "UnitFlag",     "Spy",           "Local"
-      "DiplRel",      "War",           "Local"
       "UnitState",    "OnLivableTile", "Local"
     }
 
@@ -688,7 +683,6 @@ actor_reqs    =
 ;actor_reqs    =
 ;    { "type",         "name",          "range"
 ;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
 ;      "UnitState",    "OnLivableTile", "Local"
 ;    }
 ;
@@ -697,7 +691,6 @@ actor_reqs    =
 ;actor_reqs    =
 ;    { "type",         "name",          "range"
 ;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
 ;      "UnitState",    "OnLivableTile", "Local"
 ;    }
 
