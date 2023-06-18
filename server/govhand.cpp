@@ -157,6 +157,8 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
 
   // If city was sabotaged recently, don't allow another sabotage
   if(spy_sabotaged_tile_recently(punit, ptile)) {
+    log_warning("[metric]%s sabotage error: tried to attack city twice",
+                unit_link(punit));
     spy_send_error(pplayer, "You can't sabotage the same city twice in a row! Move your spy to another place.");
     return;
   }
@@ -235,11 +237,15 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
 
   // If building belongs to player, it makes no sense to auto-sabotage
   if(building_belongs_to(pbuilding, pplayer)) {
+    log_warning("[metric]%s sabotage error: tried to sabotage own building",
+                unit_link(punit));
     spy_send_error(pplayer, "You can't sabotage your own buildings!");
   }
 
   // If building was sabotaged recently, don't allow another sabotage
   if(spy_sabotaged_tile_recently(punit, ptile)) {
+    log_warning("[metric]%s sabotage error: tried to attack building twice",
+                unit_link(punit));
     spy_send_error(pplayer, "You can't sabotage the same building twice in a row! Move your spy to another place.");
     return;
   }
@@ -280,7 +286,17 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
         pplayer->current_conn, actor_id, IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
         tile_id, target_extra_id, probabilities);
   } else {
-    spy_send_error(pplayer, "There are no valid sabotages you can perform here!");
+    if(!strcmp(building_rulename_get(pbuilding), "building_u")) {
+      log_warning(
+          "[metric]%s sabotage error: tried to sabotage empty building",
+          unit_link(punit));
+      spy_send_error(pplayer,
+                     "You can't sabotage an unoccupied building!");
+    } else {
+      log_warning("[metric]%s sabotage error: unknown error, no sabotages valid",
+                  unit_link(punit));
+      spy_send_error(pplayer, "There are no valid sabotages you can perform here!");
+    }
   }
 }
 

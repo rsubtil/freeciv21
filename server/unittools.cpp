@@ -4779,6 +4779,10 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return true;
       }
 
+      if(res) {
+        log_warning("[metric]%s moved to (%d, %d)", unit_link(punit), TILE_XY(dst_tile));
+      }
+
       if (!res) {
         fc_assert(0 <= punit->moves_left);
 

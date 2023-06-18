@@ -1500,6 +1500,11 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   // TODO: Send info both ways and make info player-specific
   s_info.alert_players(act_player, tgt_player);
 
+  log_warning("[metric]%s sabotage (%s): steal gold (%d) from city "
+              "\"%s\" (%d, %d)",
+              unit_link(act_unit), tgt_player->name, gold_take,
+              city_link(tgt_city), TILE_XY(city_tile(tgt_city)));
+
   // Record sabotages tile
   spy_set_recent_sabotaged_tile(act_unit, tgt_tile);
 
@@ -1571,6 +1576,11 @@ bool spy_investigate_gold(struct player *act_player, struct unit *act_unit,
                + "\tLast 60 minutes: +" + std::to_string(58 + rand() % 7);
   // TODO: Send info both ways and make info player-specific
   s_info.alert_players(act_player, tgt_player);
+
+  log_warning("[metric]%s sabotage (%s): investigate gold from city "
+              "\"%s\" (%d, %d)",
+              unit_link(act_unit), tgt_player->name, city_link(tgt_city),
+              TILE_XY(city_tile(tgt_city)));
 
   // Record sabotages tile
   spy_set_recent_sabotaged_tile(act_unit, unit_tile(act_unit));
@@ -1665,6 +1675,13 @@ bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
   // TODO: Send info both ways and make info player-specific
   s_info.alert_players(act_player, tgt_player);
 
+  // DEMO metrics
+  log_warning("[metric]%s sabotage (%s): steal gold (%d) from building "
+              "\"%s\" (%d, %d)",
+              unit_link(act_unit), tgt_player->name, gold_take,
+              building_rulename_get(map_buildings_get(tgt_tile)),
+              TILE_XY(tgt_tile));
+
   // Record sabotages tile
   spy_set_recent_sabotaged_tile(act_unit, tgt_tile);
 
@@ -1745,6 +1762,13 @@ bool spy_investigate_gold_building(struct player *act_player, struct unit *act_u
 
   // Record sabotages tile
   spy_set_recent_sabotaged_tile(act_unit, unit_tile(act_unit));
+
+  // DEMO metrics
+  log_warning("[metric]%s sabotage (%s): investigate gold from building "
+              "\"%s\" (%d, %d)",
+              unit_link(act_unit), tgt_player->name,
+              building_rulename_get(map_buildings_get(tgt_tile)),
+              TILE_XY(tgt_tile));
 
   // Update the players' gold in the client
   send_player_info_c(act_player, act_player->connections);
