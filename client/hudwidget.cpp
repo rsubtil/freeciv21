@@ -1539,7 +1539,7 @@ void show_new_turn_info()
             .arg(client.conn.playing->economic.gold)
             .arg(buf);
   ht = new hud_text(s, 5, queen()->mapview_wdg);
-  ht->show_me();
+  //ht->show_me();
 }
 
 /**
