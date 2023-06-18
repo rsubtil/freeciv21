@@ -34,6 +34,7 @@
 #include "cityturn.h"
 #include "diplhand.h"
 #include "diplomats.h"
+#include "govhand.h"
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
@@ -1499,10 +1500,9 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
   // TODO: Send info both ways and make info player-specific
   s_info.alert_players(act_player, tgt_player);
 
-  /*// Try to escape.
-  diplomat_escape_full(act_player, act_unit, true, tgt_tile, tgt_city_link,
-                       paction);
-*/
+  // Record sabotages tile
+  spy_set_recent_sabotaged_tile(act_unit, tgt_tile);
+
   // Update the players' gold in the client
   send_player_info_c(act_player, act_player->connections);
   send_player_info_c(tgt_player, tgt_player->connections);
@@ -1613,6 +1613,9 @@ bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
                + std::string(tgt_player->name);
   // TODO: Send info both ways and make info player-specific
   s_info.alert_players(act_player, tgt_player);
+
+  // Record sabotages tile
+  spy_set_recent_sabotaged_tile(act_unit, tgt_tile);
 
   // Update the players' gold in the client
   send_player_info_c(act_player, act_player->connections);

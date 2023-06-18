@@ -881,6 +881,10 @@ PACKET_SABOTAGE_ACTIONS = 78; sc, dsend
   ACT_PROB action_probabilities[MAX_NUM_ACTIONS];
 end
 
+PACKET_SABOTAGE_ERROR = 80; sc, dsend
+  STRING msg[MAX_LEN_CONTENT];
+end
+
 PACKET_CITY_SABOTAGE_LIST = 45; sc, lsend
   UNIT actor_id;
   CITY city_id;

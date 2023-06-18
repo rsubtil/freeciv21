@@ -57,6 +57,21 @@
 #include "unithand.h"
 #include "unittools.h"
 
+std::map<struct unit*, struct tile*> spy_last_sabotages;
+
+bool spy_sabotaged_tile_recently(struct unit* punit, struct tile* tile)
+{
+  if(spy_last_sabotages.find(punit) == spy_last_sabotages.end()) {
+    return false;
+  }
+  return spy_last_sabotages[punit] == tile;
+}
+
+void spy_set_recent_sabotaged_tile(struct unit* punit, struct tile* tile)
+{
+  spy_last_sabotages[punit] = tile;
+}
+
 void handle_government_info_req(struct player *pplayer)
 {
   // DEBUG: Bogus info
@@ -140,6 +155,12 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
     return;
   }
 
+  // If city was sabotaged recently, don't allow another sabotage
+  if(spy_sabotaged_tile_recently(punit, ptile)) {
+    spy_send_error(pplayer, "You can't sabotage the same city twice in a row! Move your spy to another place.");
+    return;
+  }
+
   /* The player may have outdated information about the target tile.
    * Limiting the player knowledge look up to the target tile is OK since
    * all targets must be located at it. */
@@ -212,6 +233,17 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
     return;
   }
 
+  // If building belongs to player, it makes no sense to auto-sabotage
+  if(building_belongs_to(pbuilding, pplayer)) {
+    spy_send_error(pplayer, "You can't sabotage your own buildings!");
+  }
+
+  // If building was sabotaged recently, don't allow another sabotage
+  if(spy_sabotaged_tile_recently(punit, ptile)) {
+    spy_send_error(pplayer, "You can't sabotage the same building twice in a row! Move your spy to another place.");
+    return;
+  }
+
   bool anyset = false;
   // Set the probability for the actions.
   action_iterate_range(act, ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD,
@@ -248,7 +280,7 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
         pplayer->current_conn, actor_id, IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
         tile_id, target_extra_id, probabilities);
   } else {
-    // TODO: No valid target, warn player
+    spy_send_error(pplayer, "There are no valid sabotages you can perform here!");
   }
 }
 
@@ -286,4 +318,12 @@ void handle_sabotage_info_other_req(struct player *pplayer, int id)
   strcpy(other_info.info, info->info.c_str());
 
   send_packet_sabotage_info_other(pplayer->current_conn, &other_info);
+}
+
+void spy_send_error(struct player *pplayer, const char *msg)
+{
+  if (!pplayer)
+    return;
+
+  dsend_packet_sabotage_error(pplayer->current_conn, msg);
 }

@@ -5537,3 +5537,8 @@ void handle_sabotage_info_other(int id, int turn, char const* info)
 {
   sabotages_report::instance()->update_other_info(id, turn, info);
 }
+
+void handle_sabotage_error(const char* msg)
+{
+  popup_notify_dialog("Sabotage", "Sabotage", msg);
+}
