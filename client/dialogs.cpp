@@ -83,7 +83,6 @@ static void diplomat_steal(QVariant data1, QVariant data2);
 static void diplomat_steal_esc(QVariant data1, QVariant data2);
 static void spy_poison(QVariant data1, QVariant data2);
 static void spy_poison_esc(QVariant data1, QVariant data2);
-static void spy_steal_gold(QVariant data1, QVariant data2);
 static void spy_steal_gold_esc(QVariant data1, QVariant data2);
 static void spy_steal_maps(QVariant data1, QVariant data2);
 static void spy_steal_maps_esc(QVariant data1, QVariant data2);
@@ -122,6 +121,7 @@ static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
 static void transport(QVariant data1, QVariant data2);
 static void sabotage(QVariant data1, QVariant data2);
+static void sabotage_building(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
@@ -148,11 +148,18 @@ static void pillage_something(QVariant data1, QVariant data2);
 static void user_action_1(QVariant data1, QVariant data2);
 static void user_action_2(QVariant data1, QVariant data2);
 static void user_action_3(QVariant data1, QVariant data2);
-static void spy_investigate_gold(QVariant data1, QVariant data2);
-static void spy_investigate_science(QVariant data1, QVariant data2);
-static void spy_investigate_materials(QVariant data1, QVariant data2);
-static void spy_steal_science(QVariant data1, QVariant data2);
-static void spy_steal_materials(QVariant data1, QVariant data2);
+static void spy_city_investigate_gold(QVariant data1, QVariant data2);
+static void spy_city_investigate_science(QVariant data1, QVariant data2);
+static void spy_city_investigate_materials(QVariant data1, QVariant data2);
+static void spy_city_steal_gold(QVariant data1, QVariant data2);
+static void spy_city_steal_science(QVariant data1, QVariant data2);
+static void spy_city_steal_materials(QVariant data1, QVariant data2);
+static void spy_building_investigate_gold(QVariant data1, QVariant data2);
+static void spy_building_investigate_science(QVariant data1, QVariant data2);
+static void spy_building_investigate_materials(QVariant data1, QVariant data2);
+static void spy_building_steal_gold(QVariant data1, QVariant data2);
+static void spy_building_steal_science(QVariant data1, QVariant data2);
+static void spy_building_steal_materials(QVariant data1, QVariant data2);
 static void action_entry(choice_dialog *cd, action_id act,
                          const struct act_prob *act_probs,
                          const QString custom, QVariant data1,
@@ -189,7 +196,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_INV_CITY_SPEND] = diplomat_investigate;
   action_function[ACTION_SPY_POISON] = spy_poison;
   action_function[ACTION_SPY_POISON_ESC] = spy_poison_esc;
-  action_function[ACTION_SPY_STEAL_GOLD] = spy_steal_gold;
+  action_function[ACTION_SPY_STEAL_GOLD] = spy_city_steal_gold;
   action_function[ACTION_SPY_STEAL_GOLD_ESC] = spy_steal_gold_esc;
   action_function[ACTION_SPY_SABOTAGE_CITY] = diplomat_sabotage;
   action_function[ACTION_SPY_SABOTAGE_CITY_ESC] = diplomat_sabotage_esc;
@@ -256,7 +263,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_TRANSPORT] = transport;
   action_function[ACTION_SABOTAGE_CITY] = sabotage;
-  action_function[ACTION_SABOTAGE_BUILDING] = sabotage;
+  action_function[ACTION_SABOTAGE_BUILDING] = sabotage_building;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
@@ -272,18 +279,18 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_USER_ACTION3] = user_action_3;
 
   // Sabotages
-  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD] = spy_investigate_gold;
-  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE] = spy_investigate_science;
-  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_MATERIALS] = spy_investigate_materials;
-  action_function[ACTION_SABOTAGE_CITY_STEAL_GOLD] = spy_steal_gold;
-  action_function[ACTION_SABOTAGE_CITY_STEAL_SCIENCE] = spy_steal_science;
-  action_function[ACTION_SABOTAGE_CITY_STEAL_MATERIALS] = spy_steal_materials;
-  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD] = spy_investigate_gold;
-  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE] = spy_investigate_science;
-  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS] = spy_investigate_materials;
-  action_function[ACTION_SABOTAGE_BUILDING_STEAL_GOLD] = spy_steal_gold;
-  action_function[ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE] = spy_steal_science;
-  action_function[ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS] = spy_steal_materials;
+  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD] = spy_city_investigate_gold;
+  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE] = spy_city_investigate_science;
+  action_function[ACTION_SABOTAGE_CITY_INVESTIGATE_MATERIALS] = spy_city_investigate_materials;
+  action_function[ACTION_SABOTAGE_CITY_STEAL_GOLD] = spy_city_steal_gold;
+  action_function[ACTION_SABOTAGE_CITY_STEAL_SCIENCE] = spy_city_steal_science;
+  action_function[ACTION_SABOTAGE_CITY_STEAL_MATERIALS] = spy_city_steal_materials;
+  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD] = spy_building_investigate_gold;
+  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE] = spy_building_investigate_science;
+  action_function[ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS] = spy_building_investigate_materials;
+  action_function[ACTION_SABOTAGE_BUILDING_STEAL_GOLD] = spy_building_steal_gold;
+  action_function[ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE] = spy_building_steal_science;
+  action_function[ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS] = spy_building_steal_materials;
 
   return action_function;
 }
@@ -2242,31 +2249,84 @@ static void disembark2(QVariant data1, QVariant data2)
   do_that_action(data1, data2, ACTION_TRANSPORT_DISEMBARK2);
 }
 
-static void spy_investigate_gold(QVariant data1, QVariant data2)
+static void spy_city_investigate_gold(QVariant data1, QVariant data2)
 {
   // TODO
 }
 
-static void spy_investigate_science(QVariant data1, QVariant data2)
+static void spy_city_investigate_science(QVariant data1, QVariant data2)
 {
   // TODO
 }
 
-static void spy_investigate_materials(QVariant data1, QVariant data2)
+static void spy_city_investigate_materials(QVariant data1, QVariant data2)
 {
   // TODO
 }
 
-static void spy_steal_science(QVariant data1, QVariant data2)
+/**
+   Action steal gold for choice dialog
+ */
+static void spy_city_steal_gold(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (nullptr != game_unit_by_number(diplomat_id)
+      && nullptr != game_city_by_number(diplomat_target_id)) {
+    request_do_action(ACTION_SABOTAGE_CITY_STEAL_GOLD, diplomat_id,
+                      diplomat_target_id, 0, "");
+  }
+}
+
+static void spy_city_steal_science(QVariant data1, QVariant data2)
 {
   // TODO
 }
 
-static void spy_steal_materials(QVariant data1, QVariant data2)
+static void spy_city_steal_materials(QVariant data1, QVariant data2)
 {
   // TODO
 }
 
+static void spy_building_investigate_gold(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+static void spy_building_investigate_science(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+static void spy_building_investigate_materials(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+/**
+   Action steal gold for choice dialog
+ */
+static void spy_building_steal_gold(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+
+  if (nullptr != game_unit_by_number(diplomat_id)) {
+    request_do_action(ACTION_SABOTAGE_BUILDING_STEAL_GOLD, diplomat_id,
+                      diplomat_target_id, 0, "");
+  }
+}
+
+static void spy_building_steal_science(QVariant data1, QVariant data2)
+{
+  // TODO
+}
+
+static void spy_building_steal_materials(QVariant data1, QVariant data2)
+{
+  // TODO
+}
 
 /**
    Action "Nuke Units" for choice dialog
@@ -2498,6 +2558,17 @@ static void sabotage(QVariant data1, QVariant data2)
   int tile_id = data2.toInt();
 
   dsend_packet_sabotage_city_req(&client.conn, actor_id, tile_id);
+}
+
+/**
+    Action "Sabotage (Building)" for choice dialog
+ */
+static void sabotage_building(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tile_id = data2.toInt();
+
+  dsend_packet_sabotage_building_req(&client.conn, actor_id, tile_id);
 }
 
 /**
@@ -2836,21 +2907,6 @@ static void destroy_city(QVariant data1, QVariant data2)
   if (nullptr != game_unit_by_number(diplomat_id)
       && nullptr != game_city_by_number(diplomat_target_id)) {
     request_do_action(ACTION_DESTROY_CITY, diplomat_id, diplomat_target_id,
-                      0, "");
-  }
-}
-
-/**
-   Action steal gold for choice dialog
- */
-static void spy_steal_gold(QVariant data1, QVariant data2)
-{
-  int diplomat_id = data1.toInt();
-  int diplomat_target_id = data2.toInt();
-
-  if (nullptr != game_unit_by_number(diplomat_id)
-      && nullptr != game_city_by_number(diplomat_target_id)) {
-    request_do_action(ACTION_SABOTAGE_CITY_STEAL_GOLD, diplomat_id, diplomat_target_id,
                       0, "");
   }
 }

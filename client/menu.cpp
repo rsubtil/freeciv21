@@ -888,10 +888,14 @@ void mr_menu::setup_menus()
   shortcuts->link_action(SC_TRANSPORT, act);
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
-  act = menu->addAction(_("Sabotage"));
+  act = menu->addAction(_("Sabotage (City)"));
   shortcuts->link_action(SC_SABOTAGE, act);
   menu_list.insert(SABOTAGE_CITY, act);
-  connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage_city);
+  act = menu->addAction(_("Sabotage (Building)"));
+  shortcuts->link_action(SC_SABOTAGE, act);
+  menu_list.insert(SABOTAGE_BUILDING, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage_building);
   act = menu->addAction(_("Plant"));
   shortcuts->link_action(SC_PLANT, act);
   menu_list.insert(PLANT, act);
@@ -2129,7 +2133,7 @@ void mr_menu::slot_transport() {
 /**
    Action "SABOTAGE"
 */
-void mr_menu::slot_sabotage()
+void mr_menu::slot_sabotage_city()
 {
   for (const auto punit : get_units_in_focus()) {
     /* FIXME: this can provide different actions for different units...
@@ -2138,847 +2142,875 @@ void mr_menu::slot_sabotage()
        get an eventual error message from the server if we try. */
     if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE_CITY)) {
       dsend_packet_sabotage_city_req(&client.conn, punit->id, unit_tile(punit)->index);
-    } else if(utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE_BUILDING)) {
+    }
+  }
+}
+
+/**
+   Action "SABOTAGE"
+*/
+void mr_menu::slot_sabotage_building()
+{
+  for (const auto punit : get_units_in_focus()) {
+    /* FIXME: this can provide different actions for different units...
+     * not good! */
+    /* Enable the button for adding to a city in all cases, so we
+       get an eventual error message from the server if we try. */
+    if (utype_can_do_action(unit_type_get(punit), ACTION_SABOTAGE_BUILDING)) {
       dsend_packet_sabotage_building_req(&client.conn, punit->id, unit_tile(punit)->index);
     }
   }
 }
 
-/**
-   Action "PLANT"
- */
-void mr_menu::slot_plant() { key_unit_plant(); }
 
-/**
-   Action "FORTIFY"
- */
-void mr_menu::slot_unit_fortify() { key_unit_fortify(); }
+  /**
+     Action "PLANT"
+   */
+  void mr_menu::slot_plant() { key_unit_plant(); }
 
-/**
-   Action "SENTRY"
- */
-void mr_menu::slot_unit_sentry() { key_unit_sentry(); }
+  /**
+     Action "FORTIFY"
+   */
+  void mr_menu::slot_unit_fortify() { key_unit_fortify(); }
 
-/**
-   Action "CONVERT"
- */
-void mr_menu::slot_convert() { key_unit_convert(); }
+  /**
+     Action "SENTRY"
+   */
+  void mr_menu::slot_unit_sentry() { key_unit_sentry(); }
 
-/**
-   Action "DISBAND UNIT"
- */
-void mr_menu::slot_disband() { popup_disband_dialog(get_units_in_focus()); }
+  /**
+     Action "CONVERT"
+   */
+  void mr_menu::slot_convert() { key_unit_convert(); }
 
-/**
- * Action "RENAME UNIT"
- */
-void mr_menu::slot_rename()
-{
-  if (get_num_units_in_focus() != 1) {
-    return;
+  /**
+     Action "DISBAND UNIT"
+   */
+  void mr_menu::slot_disband()
+  {
+    popup_disband_dialog(get_units_in_focus());
   }
-  for (const auto punit : get_units_in_focus()) {
-    auto ask = new hud_input_box(king()->central_wdg);
 
-    ask->set_text_title_definput(_("New unit name:"), _("Rename Unit"),
-                                 punit->name);
-    ask->setAttribute(Qt::WA_DeleteOnClose);
-
-    int id = punit->id;
-    connect(ask, &QDialog::accepted, [ask, id]() {
-      // Unit might have been removed, make sure it's still there
-      auto unit = game_unit_by_number(id);
-      if (unit) {
-        dsend_packet_unit_rename(&client.conn, id,
-                                 ask->input_edit.text().toUtf8());
-      }
-    });
-    ask->show();
-  }
-}
-
-/**
-   Clears delayed orders
- */
-void mr_menu::slot_orders_clear()
-{
-  delayed_order = false;
-  units_list.clear();
-}
-
-/**
-   Sets/unset rally point
- */
-void mr_menu::slot_rally()
-{
-  king()->rallies.hover_tile = false;
-  king()->rallies.hover_city = true;
-}
-
-/**
-   Adds one city to trade planning
- */
-void mr_menu::slot_trade_city() { king()->trade_gen.hover_city = true; }
-
-/**
-   Adds all cities to trade planning
- */
-void mr_menu::slot_trade_add_all() { king()->trade_gen.add_all_cities(); }
-
-/**
-   Trade calculation slot
- */
-void mr_menu::slot_calculate() { king()->trade_gen.calculate(); }
-
-/**
-   Slot for clearing trade routes
- */
-void mr_menu::slot_clear_trade() { king()->trade_gen.clear_trade_planing(); }
-
-/**
-   Sends automatic caravan
- */
-void mr_menu::slot_autocaravan()
-{
-  struct unit *punit;
-  struct city *homecity;
-  struct tile *home_tile;
-  struct tile *dest_tile;
-  bool sent = false;
-
-  punit = head_of_units_in_focus();
-  homecity = game_city_by_number(punit->homecity);
-  home_tile = homecity->tile;
-  for (auto gilles : qAsConst(king()->trade_gen.lines)) {
-    if ((gilles.t1 == home_tile || gilles.t2 == home_tile)
-        && gilles.autocaravan == nullptr) {
-      // send caravan
-      if (gilles.t1 == home_tile) {
-        dest_tile = gilles.t2;
-      } else {
-        dest_tile = gilles.t1;
-      }
-      if (send_goto_tile(punit, dest_tile)) {
-        int i;
-        i = king()->trade_gen.lines.indexOf(gilles);
-        gilles = king()->trade_gen.lines.takeAt(i);
-        gilles.autocaravan = punit;
-        king()->trade_gen.lines.append(gilles);
-        sent = true;
-        break;
-      }
+  /**
+   * Action "RENAME UNIT"
+   */
+  void mr_menu::slot_rename()
+  {
+    if (get_num_units_in_focus() != 1) {
+      return;
     }
-  }
-
-  if (!sent) {
-    queen()->chat->append(_("Didn't find any trade route to establish"));
-  }
-}
-
-/**
-   Slot for setting quick airlift
- */
-void mr_menu::slot_quickairlift_set()
-{
-  QVariant v;
-  QAction *act;
-
-  act = qobject_cast<QAction *>(sender());
-  v = act->data();
-  airlift_type_id = v.toInt();
-}
-
-/**
-   Slot for choosing default action vs unit
- */
-void mr_menu::slot_action_vs_unit()
-{
-  QAction *act;
-
-  act = qobject_cast<QAction *>(sender());
-  qdef_act::action()->vs_unit_set(act->data().toInt());
-}
-
-/**
-   Slot for choosing default action vs city
- */
-void mr_menu::slot_action_vs_city()
-{
-  QAction *act;
-
-  act = qobject_cast<QAction *>(sender());
-  qdef_act::action()->vs_city_set(act->data().toInt());
-}
-
-/**
-   Slot for quick airlifting
- */
-void mr_menu::slot_quickairlift() { quick_airlifting = true; }
-
-/**
-   Delayed goto
- */
-void mr_menu::slot_delayed_goto()
-{
-  delay_order dg;
-
-  delayed_order = true;
-  dg = D_GOTO;
-
-  const auto &focus = get_units_in_focus();
-  if (focus.empty()) {
-    return;
-  }
-  if (hover_state != HOVER_GOTO) {
-    set_hover_state(focus, HOVER_GOTO, ACTIVITY_LAST, nullptr, NO_TARGET,
-                    NO_TARGET, ACTION_NONE, ORDER_LAST);
-    enter_goto_state(focus);
-    create_line_at_mouse_pos();
-    control_mouse_cursor(nullptr);
-  }
-  for (const auto punit : focus) {
-    units_list.emplace_back(dg, punit->id);
-  }
-}
-
-/**
-   Executes stored orders
- */
-void mr_menu::slot_execute_orders()
-{
-  struct unit *punit;
-  struct tile *last_tile;
-  struct tile *new_tile;
-  int i = 0;
-
-  for (const auto &fui : units_list) {
-    i++;
-    punit = unit_list_find(client_player()->units, fui.id);
-    if (punit == nullptr) {
-      continue;
-    }
-    last_tile = punit->tile;
-    new_tile = find_last_unit_pos(punit, i);
-    if (new_tile != nullptr) {
-      punit->tile = new_tile;
-    }
-    if (is_tiles_adjacent(punit->tile, fui.ptile)) {
-      request_move_unit_direction(
-          punit, get_direction_for_step(&(wld.map), punit->tile, fui.ptile));
-    } else {
-      send_attack_tile(punit, fui.ptile);
-    }
-    punit->tile = last_tile;
-  }
-  units_list.clear();
-}
-
-/**
-   Action "LOAD INTO TRANSPORTER"
- */
-void mr_menu::slot_load()
-{
-  for (const auto punit : get_units_in_focus()) {
-    request_transport(punit, unit_tile(punit));
-  }
-}
-
-/**
-   Action "UNIT PATROL"
- */
-void mr_menu::slot_patrol() { key_unit_patrol(); }
-
-/**
-   Action "GOTO/AIRLIFT TO CITY"
- */
-void mr_menu::slot_airlift() { popup_goto_dialog(); }
-
-/**
-   Action "SET HOMECITY"
- */
-void mr_menu::slot_set_home() { key_unit_homecity(); }
-
-/**
-   Action "UNLOAD FROM TRANSPORTED"
- */
-void mr_menu::slot_unload()
-{
-  for (const auto punit : get_units_in_focus()) {
-    request_unit_unload(punit);
-  }
-}
-
-/**
-   Action "UNLOAD ALL UNITS FROM TRANSPORTER"
- */
-void mr_menu::slot_unload_all() { key_unit_unload_all(); }
-
-/**
-   Action "UNSENTRY(WAKEUP) ALL UNITS"
- */
-void mr_menu::slot_unsentry() { key_unit_wakeup_others(); }
-
-/**
-   Action "UPGRADE UNITS"
- */
-void mr_menu::slot_upgrade() { popup_upgrade_dialog(get_units_in_focus()); }
-
-/**
-   Action "GOTO"
- */
-void mr_menu::slot_unit_goto() { key_unit_goto(); }
-
-/**
-   Action "EXPLORE"
- */
-void mr_menu::slot_unit_explore() { key_unit_auto_explore(); }
-
-/**
-   Action "CENTER VIEW"
- */
-void mr_menu::slot_center_view() { request_center_focus_unit(); }
-
-/**
-   Action "Lock interface"
- */
-void mr_menu::slot_lock()
-{
-  if (king()->interface_locked) {
-    enable_interface(false);
-  } else {
-    enable_interface(true);
-  }
-  king()->interface_locked = !king()->interface_locked;
-}
-
-/**
-   Helper function to hide/show widgets
- */
-void enable_interface(bool enable)
-{
-  QList<close_widget *> lc;
-  QList<move_widget *> lm;
-  int i;
-
-  lc = king()->findChildren<close_widget *>();
-  lm = king()->findChildren<move_widget *>();
-
-  for (i = 0; i < lc.size(); ++i) {
-    lc.at(i)->setVisible(!enable);
-  }
-  for (i = 0; i < lm.size(); ++i) {
-    lm.at(i)->setVisible(!enable);
-  }
-}
-
-/**
-   Action "SET FULLSCREEN"
- */
-void mr_menu::slot_fullscreen()
-{
-  gui_options->gui_qt_fullscreen = !gui_options->gui_qt_fullscreen;
-  if (gui_options->gui_qt_fullscreen) {
-    king()->setWindowState(king()->windowState() | Qt::WindowFullScreen);
-  } else {
-    king()->setWindowState(king()->windowState() & ~Qt::WindowFullScreen);
-  }
-}
-
-/**
-   Action "Show/Dont show new turn info"
- */
-void mr_menu::slot_show_new_turn_text()
-{
-  king()->qt_settings.show_new_turn_text = osd_status->isChecked();
-}
-
-/**
-   Action "Show/Dont battle log"
- */
-void mr_menu::slot_battlelog()
-{
-  king()->qt_settings.show_battle_log = btlog_status->isChecked();
-}
-
-/**
-   Action "SHOW BORDERS"
- */
-void mr_menu::slot_borders() { key_map_borders_toggle(); }
-
-/**
-   Action "SHOW NATIVE TILES"
- */
-void mr_menu::slot_native_tiles() { key_map_native_toggle(); }
-
-/**
-   Action "SHOW BUY COST"
- */
-void mr_menu::slot_city_buycost() { key_city_buycost_toggle(); }
-
-/**
-   Action "SHOW CITY GROWTH"
- */
-void mr_menu::slot_city_growth() { key_city_growth_toggle(); }
-
-/**
-   Action "SCALE FONTS WHEN SCALING MAP"
- */
-void mr_menu::zoom_scale_fonts()
-{
-  gui_options->zoom_scale_fonts = scale_fonts_status->isChecked();
-  update_map_canvas_visible();
-}
-
-/**
-   Action "SHOW CITY NAMES"
- */
-void mr_menu::slot_city_names() { key_city_names_toggle(); }
-
-/**
-   Action "SHOW CITY OUTLINES"
- */
-void mr_menu::slot_city_outlines() { key_city_outlines_toggle(); }
-
-/**
-   Action "Citybar changed"
- */
-void mr_menu::slot_set_citybar()
-{
-  for (auto *a : action_citybar->actions()) {
-    if (a->isChecked()) {
-      fc_strlcpy(gui_options->default_city_bar_style_name,
-                 qUtf8Printable(a->data().toString()),
-                 sizeof(gui_options->default_city_bar_style_name));
-      options_iterate(client_optset, poption)
-      {
-        if (QString(option_name(poption))
-            == QLatin1String("default_city_bar_style_name")) {
-          citybar_painter::option_changed(poption);
-        }
-      }
-      options_iterate_end;
-    }
-  }
-}
-
-/**
-   Action "SHOW CITY OUTPUT"
- */
-void mr_menu::slot_city_output() { key_city_output_toggle(); }
-
-/**
-   Action "SHOW CITY PRODUCTION"
- */
-void mr_menu::slot_city_production() { key_city_productions_toggle(); }
-
-/**
-   Action "SHOW CITY TRADEROUTES"
- */
-void mr_menu::slot_city_traderoutes() { key_city_trade_routes_toggle(); }
-
-/**
-   Action "SHOW MAP GRID"
- */
-void mr_menu::slot_map_grid() { key_map_grid_toggle(); }
-
-/**
-   Action "DONE MOVING"
- */
-void mr_menu::slot_done_moving() { key_unit_done(); }
-
-/**
-   Action "SELECT ALL UNITS ON TILE"
- */
-void mr_menu::slot_select_all_tile()
-{
-  request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
-}
-
-/**
-   Action "SELECT ONE UNITS/DESELECT OTHERS"
- */
-void mr_menu::slot_select_one()
-{
-  request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
-}
-
-/**
-   Action "SELLECT SAME UNITS ON CONTINENT"
- */
-void mr_menu::slot_select_same_continent()
-{
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
-}
-
-/**
-   Action "SELECT SAME TYPE EVERYWHERE"
- */
-void mr_menu::slot_select_same_everywhere()
-{
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
-}
-
-/**
-   Action "SELECT SAME TYPE ON TILE"
- */
-void mr_menu::slot_select_same_tile()
-{
-  request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
-}
-
-/**
-   Action "WAIT"
- */
-void mr_menu::slot_wait() { key_unit_wait(); }
-
-/**
-   Shows units filter
- */
-void mr_menu::slot_unit_filter()
-{
-  unit_hud_selector *uhs;
-  uhs = new unit_hud_selector(king()->central_wdg);
-  uhs->show_me();
-}
-
-/**
-   Action "SHOW DEMOGRAPGHICS REPORT"
- */
-void mr_menu::slot_demographics()
-{
-  send_report_request(REPORT_DEMOGRAPHIC);
-}
-
-/**
-   Action "SHOW ACHIEVEMENTS REPORT"
- */
-void mr_menu::slot_achievements()
-{
-  send_report_request(REPORT_ACHIEVEMENTS);
-}
-
-/**
-   Action "SHOW ENDGAME REPORT"
- */
-void mr_menu::slot_endgame() { popup_endgame_report(); }
-
-/**
-   Action "SHOW TOP FIVE CITIES"
- */
-void mr_menu::slot_top_five() { send_report_request(REPORT_TOP_5_CITIES); }
-
-/**
-   Action "SHOW WONDERS REPORT"
- */
-void mr_menu::slot_traveler()
-{
-  send_report_request(REPORT_WONDERS_OF_THE_WORLD);
-}
-
-/**
-   Shows rulesets to load
- */
-void mr_menu::tileset_custom_load()
-{
-  QDialog *dialog = new QDialog(this);
-  QLabel *label;
-  QPushButton *but;
-  QVBoxLayout *layout;
-  const struct option *poption;
-  QStringList sl;
-
-  sl << QStringLiteral("default_tileset_square_name")
-     << QStringLiteral("default_tileset_hex_name")
-     << QStringLiteral("default_tileset_isohex_name");
-  layout = new QVBoxLayout;
-  dialog->setWindowTitle(_("Available tilesets"));
-  label = new QLabel;
-  label->setText(_("Some tilesets might not be compatible with current"
-                   " map topology!"));
-  layout->addWidget(label);
-
-  // Gather the list of tilesets
-  QStringList tilesets;
-  for (auto const &s : qAsConst(sl)) {
-    poption = optset_option_by_name(client_optset, qUtf8Printable(s));
-    for (const auto &name : qAsConst(*get_tileset_list(poption))) {
-      tilesets.append(name);
-    }
-  }
-
-  // Remove duplicates
-  tilesets.sort();
-  tilesets.erase(std::unique(tilesets.begin(), tilesets.end()),
-                 tilesets.end());
-
-  // Add the buttons
-  for (const auto &name : qAsConst(tilesets)) {
-    but = new QPushButton(name);
-    connect(but, &QAbstractButton::clicked, this,
-            &mr_menu::load_new_tileset);
-    layout->addWidget(but);
-  }
-  dialog->setSizeGripEnabled(true);
-  dialog->setLayout(layout);
-  dialog->show();
-}
-
-/**
-   Slot for loading new tileset
- */
-void mr_menu::load_new_tileset()
-{
-  QPushButton *but;
-  QByteArray tn_bytes;
-
-  but = qobject_cast<QPushButton *>(sender());
-  tn_bytes = but->text().toLocal8Bit();
-  tilespec_reread(tn_bytes.data(), true);
-  queen()->mapview_wdg->set_scale(1.0);
-  but->parentWidget()->close();
-}
-
-/**
-   Action "NATIONAL BUDGET"
- */
-void mr_menu::slot_popup_tax_rates() { queen()->popup_budget_dialog(); }
-
-/**
-   Action "MULTIPLERS RATES"
- */
-void mr_menu::slot_popup_mult_rates() { popup_multiplier_dialog(); }
-
-/**
-   Actions "HELP_*"
- */
-void mr_menu::slot_help(const QString &topic)
-{
-  popup_help_dialog_typed(Q_(topic.toStdString().c_str()), HELP_ANY);
-}
-
-/**
-  Actions "BUILD_PATH_*"
- */
-void mr_menu::slot_build_path(int id)
-{
-  for (const auto punit : get_units_in_focus()) {
-    extra_type_by_cause_iterate(EC_ROAD, pextra)
-    {
-      if (pextra->buildable && pextra->id == id
-          && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD,
-                                           pextra)) {
-        request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD, pextra);
-      }
-    }
-    extra_type_by_cause_iterate_end;
-  }
-}
-
-/**
-  Actions "BUILD_BASE_*"
- */
-void mr_menu::slot_build_base(int id)
-{
-  for (const auto punit : get_units_in_focus()) {
-    extra_type_by_cause_iterate(EC_BASE, pextra)
-    {
-      if (pextra->buildable && pextra->id == id
-          && can_unit_do_activity_targeted(punit, ACTIVITY_BASE, pextra)) {
-        request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
-      }
-    }
-    extra_type_by_cause_iterate_end;
-  }
-}
-
-/**
-   Invoke dialog with interface (local) options
- */
-void mr_menu::local_options() { popup_client_options(); }
-
-/**
-   Invoke dialog with shortcut options
- */
-void mr_menu::shortcut_options() { popup_shortcuts_dialog(); }
-
-/**
-   Invoke dialog with server options
- */
-void mr_menu::server_options()
-{
-  option_dialog_popup(_("Game Options"), server_optset);
-}
-
-/**
-   Invoke dialog with messages options
- */
-void mr_menu::messages_options() { popup_messageopt_dialog(); }
-
-/**
-   Menu Save Options Now
- */
-void mr_menu::save_options_now() { options_save(nullptr); }
-
-/**
-   Invoke popup for quiting game
- */
-void mr_menu::quit_game() { popup_quit_dialog(); }
-
-/**
-   Menu Save Map Image
- */
-void mr_menu::save_image()
-{
-  // Save the size of the map view
-  QSize current = queen()->mapview_wdg->size();
-
-  // The size of the image we want to render
-  QSize full_size((wld.map.xsize + 2) * tileset_tile_width(tileset),
-                  (wld.map.ysize + 2) * tileset_tile_height(tileset));
-  if (tileset_is_isometric(tileset)) {
-    full_size.rheight() /= 2;
-  }
-
-  auto renderer = new freeciv::renderer;
-  renderer->set_viewport_size(full_size);
-
-  // Wait for a fullscreen repaint_needed. It will come asynchronously.
-  connect(
-      renderer, &freeciv::renderer::repaint_needed,
-      [=](const QRegion &where) {
-        // Maybe some other update sneaked in -- make sure to ignore it
-        if (where.boundingRect().contains(QRect(QPoint(), full_size))) {
-          // File path
-          QString img_name =
-              QStringLiteral("Freeciv21-Turn%1").arg(game.info.turn);
-          if (client_has_player()) {
-            img_name += QStringLiteral("-")
-                        + QString(nation_plural_for_player(client_player()));
-          }
-
-          auto path = QStandardPaths::writableLocation(
-              QStandardPaths::PicturesLocation);
-          if (path.isEmpty()) {
-            path = QStandardPaths::writableLocation(
-                QStandardPaths::HomeLocation);
-          }
-          if (path.isEmpty()) {
-            path = freeciv_storage_dir();
-          }
-          img_name =
-              path + QStringLiteral("/") + img_name + QStringLiteral(".png");
-
-          // Render
-          auto pixmap = QPixmap(full_size);
-          pixmap.fill(Qt::black);
-
-          auto painter = QPainter(&pixmap);
-          renderer->render(painter, QRect(pixmap.rect()));
-          renderer->deleteLater();
-
-          // Save
-          bool map_saved = pixmap.save(img_name, "png");
-
-          // Restore the old mapview size
-          map_canvas_resized(current.width(), current.height());
-
-          // Let the user know
-          hud_message_box *saved = new hud_message_box(king()->central_wdg);
-          saved->setStandardButtons(QMessageBox::Ok);
-          saved->setDefaultButton(QMessageBox::Ok);
-          saved->setAttribute(Qt::WA_DeleteOnClose);
-          if (map_saved) {
-            saved->set_text_title(_("Image saved as:\n") + img_name,
-                                  _("Success"));
-          } else {
-            saved->set_text_title(_("Failed to save image of the map"),
-                                  _("Error"));
-          }
-          saved->show();
+    for (const auto punit : get_units_in_focus()) {
+      auto ask = new hud_input_box(king()->central_wdg);
+
+      ask->set_text_title_definput(_("New unit name:"), _("Rename Unit"),
+                                   punit->name);
+      ask->setAttribute(Qt::WA_DeleteOnClose);
+
+      int id = punit->id;
+      connect(ask, &QDialog::accepted, [ask, id]() {
+        // Unit might have been removed, make sure it's still there
+        auto unit = game_unit_by_number(id);
+        if (unit) {
+          dsend_packet_unit_rename(&client.conn, id,
+                                   ask->input_edit.text().toUtf8());
         }
       });
-}
-
-/**
-   Menu Save Game
- */
-void mr_menu::save_game() { send_save_game(nullptr); }
-
-/**
-   Menu Save Game As...
- */
-void mr_menu::save_game_as()
-{
-  QString str;
-  QString current_file;
-  QString location;
-
-  for (const auto &dirname : get_save_dirs()) {
-    location = dirname;
-    // choose last location
+      ask->show();
+    }
   }
 
-  str = QString(_("Save Games"))
-        + QStringLiteral(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz *.sav.zst)");
-  current_file = QFileDialog::getSaveFileName(
-      king()->central_wdg, _("Save Game As..."), location, str);
-  if (!current_file.isEmpty()) {
-    QByteArray cf_bytes;
-
-    cf_bytes = current_file.toLocal8Bit();
-    send_save_game(cf_bytes.data());
-  }
-}
-
-/**
-   Back to Main Menu
- */
-void mr_menu::back_to_menu()
-{
-  hud_message_box *ask;
-
-  if (is_server_running()) {
-    ask = new hud_message_box(king()->central_wdg);
-    ask->set_text_title(
-        _("Do you want to leave the game?\nLeaving a single-player game "
-          "will end it. Be sure to save first."),
-        QStringLiteral("Leave Game"));
-    ask->setStandardButtons(QMessageBox::No | QMessageBox::Yes);
-    ask->setDefaultButton(QMessageBox::No);
-    ask->button(QMessageBox::No)->setText(_("Keep Playing"));
-    ask->button(QMessageBox::Yes)->setText(_("Leave"));
-    ask->setAttribute(Qt::WA_DeleteOnClose);
-
-    connect(ask, &hud_message_box::accepted, [=]() {
-      if (client.conn.used) {
-        disconnect_from_server();
-      }
-    });
-    ask->show();
-  } else {
-    disconnect_from_server();
-  }
-}
-
-/**
-   Airlift unit type to city acity from each city
- */
-void multiairlift(struct city *acity, Unit_type_id ut)
-{
-  struct tile *ptile;
-  city_list_iterate(client.conn.playing->cities, pcity)
+  /**
+     Clears delayed orders
+   */
+  void mr_menu::slot_orders_clear()
   {
-    if (get_city_bonus(pcity, EFT_AIRLIFT) > 0) {
-      ptile = city_tile(pcity);
-      unit_list_iterate(ptile->units, punit)
-      {
-        if (punit->utype == utype_by_number(ut)) {
-          request_unit_airlift(punit, acity);
+    delayed_order = false;
+    units_list.clear();
+  }
+
+  /**
+     Sets/unset rally point
+   */
+  void mr_menu::slot_rally()
+  {
+    king()->rallies.hover_tile = false;
+    king()->rallies.hover_city = true;
+  }
+
+  /**
+     Adds one city to trade planning
+   */
+  void mr_menu::slot_trade_city() { king()->trade_gen.hover_city = true; }
+
+  /**
+     Adds all cities to trade planning
+   */
+  void mr_menu::slot_trade_add_all() { king()->trade_gen.add_all_cities(); }
+
+  /**
+     Trade calculation slot
+   */
+  void mr_menu::slot_calculate() { king()->trade_gen.calculate(); }
+
+  /**
+     Slot for clearing trade routes
+   */
+  void mr_menu::slot_clear_trade()
+  {
+    king()->trade_gen.clear_trade_planing();
+  }
+
+  /**
+     Sends automatic caravan
+   */
+  void mr_menu::slot_autocaravan()
+  {
+    struct unit *punit;
+    struct city *homecity;
+    struct tile *home_tile;
+    struct tile *dest_tile;
+    bool sent = false;
+
+    punit = head_of_units_in_focus();
+    homecity = game_city_by_number(punit->homecity);
+    home_tile = homecity->tile;
+    for (auto gilles : qAsConst(king()->trade_gen.lines)) {
+      if ((gilles.t1 == home_tile || gilles.t2 == home_tile)
+          && gilles.autocaravan == nullptr) {
+        // send caravan
+        if (gilles.t1 == home_tile) {
+          dest_tile = gilles.t2;
+        } else {
+          dest_tile = gilles.t1;
+        }
+        if (send_goto_tile(punit, dest_tile)) {
+          int i;
+          i = king()->trade_gen.lines.indexOf(gilles);
+          gilles = king()->trade_gen.lines.takeAt(i);
+          gilles.autocaravan = punit;
+          king()->trade_gen.lines.append(gilles);
+          sent = true;
           break;
         }
       }
-      unit_list_iterate_end;
+    }
+
+    if (!sent) {
+      queen()->chat->append(_("Didn't find any trade route to establish"));
     }
   }
-  city_list_iterate_end;
-}
+
+  /**
+     Slot for setting quick airlift
+   */
+  void mr_menu::slot_quickairlift_set()
+  {
+    QVariant v;
+    QAction *act;
+
+    act = qobject_cast<QAction *>(sender());
+    v = act->data();
+    airlift_type_id = v.toInt();
+  }
+
+  /**
+     Slot for choosing default action vs unit
+   */
+  void mr_menu::slot_action_vs_unit()
+  {
+    QAction *act;
+
+    act = qobject_cast<QAction *>(sender());
+    qdef_act::action()->vs_unit_set(act->data().toInt());
+  }
+
+  /**
+     Slot for choosing default action vs city
+   */
+  void mr_menu::slot_action_vs_city()
+  {
+    QAction *act;
+
+    act = qobject_cast<QAction *>(sender());
+    qdef_act::action()->vs_city_set(act->data().toInt());
+  }
+
+  /**
+     Slot for quick airlifting
+   */
+  void mr_menu::slot_quickairlift() { quick_airlifting = true; }
+
+  /**
+     Delayed goto
+   */
+  void mr_menu::slot_delayed_goto()
+  {
+    delay_order dg;
+
+    delayed_order = true;
+    dg = D_GOTO;
+
+    const auto &focus = get_units_in_focus();
+    if (focus.empty()) {
+      return;
+    }
+    if (hover_state != HOVER_GOTO) {
+      set_hover_state(focus, HOVER_GOTO, ACTIVITY_LAST, nullptr, NO_TARGET,
+                      NO_TARGET, ACTION_NONE, ORDER_LAST);
+      enter_goto_state(focus);
+      create_line_at_mouse_pos();
+      control_mouse_cursor(nullptr);
+    }
+    for (const auto punit : focus) {
+      units_list.emplace_back(dg, punit->id);
+    }
+  }
+
+  /**
+     Executes stored orders
+   */
+  void mr_menu::slot_execute_orders()
+  {
+    struct unit *punit;
+    struct tile *last_tile;
+    struct tile *new_tile;
+    int i = 0;
+
+    for (const auto &fui : units_list) {
+      i++;
+      punit = unit_list_find(client_player()->units, fui.id);
+      if (punit == nullptr) {
+        continue;
+      }
+      last_tile = punit->tile;
+      new_tile = find_last_unit_pos(punit, i);
+      if (new_tile != nullptr) {
+        punit->tile = new_tile;
+      }
+      if (is_tiles_adjacent(punit->tile, fui.ptile)) {
+        request_move_unit_direction(
+            punit,
+            get_direction_for_step(&(wld.map), punit->tile, fui.ptile));
+      } else {
+        send_attack_tile(punit, fui.ptile);
+      }
+      punit->tile = last_tile;
+    }
+    units_list.clear();
+  }
+
+  /**
+     Action "LOAD INTO TRANSPORTER"
+   */
+  void mr_menu::slot_load()
+  {
+    for (const auto punit : get_units_in_focus()) {
+      request_transport(punit, unit_tile(punit));
+    }
+  }
+
+  /**
+     Action "UNIT PATROL"
+   */
+  void mr_menu::slot_patrol() { key_unit_patrol(); }
+
+  /**
+     Action "GOTO/AIRLIFT TO CITY"
+   */
+  void mr_menu::slot_airlift() { popup_goto_dialog(); }
+
+  /**
+     Action "SET HOMECITY"
+   */
+  void mr_menu::slot_set_home() { key_unit_homecity(); }
+
+  /**
+     Action "UNLOAD FROM TRANSPORTED"
+   */
+  void mr_menu::slot_unload()
+  {
+    for (const auto punit : get_units_in_focus()) {
+      request_unit_unload(punit);
+    }
+  }
+
+  /**
+     Action "UNLOAD ALL UNITS FROM TRANSPORTER"
+   */
+  void mr_menu::slot_unload_all() { key_unit_unload_all(); }
+
+  /**
+     Action "UNSENTRY(WAKEUP) ALL UNITS"
+   */
+  void mr_menu::slot_unsentry() { key_unit_wakeup_others(); }
+
+  /**
+     Action "UPGRADE UNITS"
+   */
+  void mr_menu::slot_upgrade()
+  {
+    popup_upgrade_dialog(get_units_in_focus());
+  }
+
+  /**
+     Action "GOTO"
+   */
+  void mr_menu::slot_unit_goto() { key_unit_goto(); }
+
+  /**
+     Action "EXPLORE"
+   */
+  void mr_menu::slot_unit_explore() { key_unit_auto_explore(); }
+
+  /**
+     Action "CENTER VIEW"
+   */
+  void mr_menu::slot_center_view() { request_center_focus_unit(); }
+
+  /**
+     Action "Lock interface"
+   */
+  void mr_menu::slot_lock()
+  {
+    if (king()->interface_locked) {
+      enable_interface(false);
+    } else {
+      enable_interface(true);
+    }
+    king()->interface_locked = !king()->interface_locked;
+  }
+
+  /**
+     Helper function to hide/show widgets
+   */
+  void enable_interface(bool enable)
+  {
+    QList<close_widget *> lc;
+    QList<move_widget *> lm;
+    int i;
+
+    lc = king()->findChildren<close_widget *>();
+    lm = king()->findChildren<move_widget *>();
+
+    for (i = 0; i < lc.size(); ++i) {
+      lc.at(i)->setVisible(!enable);
+    }
+    for (i = 0; i < lm.size(); ++i) {
+      lm.at(i)->setVisible(!enable);
+    }
+  }
+
+  /**
+     Action "SET FULLSCREEN"
+   */
+  void mr_menu::slot_fullscreen()
+  {
+    gui_options->gui_qt_fullscreen = !gui_options->gui_qt_fullscreen;
+    if (gui_options->gui_qt_fullscreen) {
+      king()->setWindowState(king()->windowState() | Qt::WindowFullScreen);
+    } else {
+      king()->setWindowState(king()->windowState() & ~Qt::WindowFullScreen);
+    }
+  }
+
+  /**
+     Action "Show/Dont show new turn info"
+   */
+  void mr_menu::slot_show_new_turn_text()
+  {
+    king()->qt_settings.show_new_turn_text = osd_status->isChecked();
+  }
+
+  /**
+     Action "Show/Dont battle log"
+   */
+  void mr_menu::slot_battlelog()
+  {
+    king()->qt_settings.show_battle_log = btlog_status->isChecked();
+  }
+
+  /**
+     Action "SHOW BORDERS"
+   */
+  void mr_menu::slot_borders() { key_map_borders_toggle(); }
+
+  /**
+     Action "SHOW NATIVE TILES"
+   */
+  void mr_menu::slot_native_tiles() { key_map_native_toggle(); }
+
+  /**
+     Action "SHOW BUY COST"
+   */
+  void mr_menu::slot_city_buycost() { key_city_buycost_toggle(); }
+
+  /**
+     Action "SHOW CITY GROWTH"
+   */
+  void mr_menu::slot_city_growth() { key_city_growth_toggle(); }
+
+  /**
+     Action "SCALE FONTS WHEN SCALING MAP"
+   */
+  void mr_menu::zoom_scale_fonts()
+  {
+    gui_options->zoom_scale_fonts = scale_fonts_status->isChecked();
+    update_map_canvas_visible();
+  }
+
+  /**
+     Action "SHOW CITY NAMES"
+   */
+  void mr_menu::slot_city_names() { key_city_names_toggle(); }
+
+  /**
+     Action "SHOW CITY OUTLINES"
+   */
+  void mr_menu::slot_city_outlines() { key_city_outlines_toggle(); }
+
+  /**
+     Action "Citybar changed"
+   */
+  void mr_menu::slot_set_citybar()
+  {
+    for (auto *a : action_citybar->actions()) {
+      if (a->isChecked()) {
+        fc_strlcpy(gui_options->default_city_bar_style_name,
+                   qUtf8Printable(a->data().toString()),
+                   sizeof(gui_options->default_city_bar_style_name));
+        options_iterate(client_optset, poption)
+        {
+          if (QString(option_name(poption))
+              == QLatin1String("default_city_bar_style_name")) {
+            citybar_painter::option_changed(poption);
+          }
+        }
+        options_iterate_end;
+      }
+    }
+  }
+
+  /**
+     Action "SHOW CITY OUTPUT"
+   */
+  void mr_menu::slot_city_output() { key_city_output_toggle(); }
+
+  /**
+     Action "SHOW CITY PRODUCTION"
+   */
+  void mr_menu::slot_city_production() { key_city_productions_toggle(); }
+
+  /**
+     Action "SHOW CITY TRADEROUTES"
+   */
+  void mr_menu::slot_city_traderoutes() { key_city_trade_routes_toggle(); }
+
+  /**
+     Action "SHOW MAP GRID"
+   */
+  void mr_menu::slot_map_grid() { key_map_grid_toggle(); }
+
+  /**
+     Action "DONE MOVING"
+   */
+  void mr_menu::slot_done_moving() { key_unit_done(); }
+
+  /**
+     Action "SELECT ALL UNITS ON TILE"
+   */
+  void mr_menu::slot_select_all_tile()
+  {
+    request_unit_select(get_units_in_focus(), SELTYPE_ALL, SELLOC_TILE);
+  }
+
+  /**
+     Action "SELECT ONE UNITS/DESELECT OTHERS"
+   */
+  void mr_menu::slot_select_one()
+  {
+    request_unit_select(get_units_in_focus(), SELTYPE_SINGLE, SELLOC_TILE);
+  }
+
+  /**
+     Action "SELLECT SAME UNITS ON CONTINENT"
+   */
+  void mr_menu::slot_select_same_continent()
+  {
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_CONT);
+  }
+
+  /**
+     Action "SELECT SAME TYPE EVERYWHERE"
+   */
+  void mr_menu::slot_select_same_everywhere()
+  {
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_WORLD);
+  }
+
+  /**
+     Action "SELECT SAME TYPE ON TILE"
+   */
+  void mr_menu::slot_select_same_tile()
+  {
+    request_unit_select(get_units_in_focus(), SELTYPE_SAME, SELLOC_TILE);
+  }
+
+  /**
+     Action "WAIT"
+   */
+  void mr_menu::slot_wait() { key_unit_wait(); }
+
+  /**
+     Shows units filter
+   */
+  void mr_menu::slot_unit_filter()
+  {
+    unit_hud_selector *uhs;
+    uhs = new unit_hud_selector(king()->central_wdg);
+    uhs->show_me();
+  }
+
+  /**
+     Action "SHOW DEMOGRAPGHICS REPORT"
+   */
+  void mr_menu::slot_demographics()
+  {
+    send_report_request(REPORT_DEMOGRAPHIC);
+  }
+
+  /**
+     Action "SHOW ACHIEVEMENTS REPORT"
+   */
+  void mr_menu::slot_achievements()
+  {
+    send_report_request(REPORT_ACHIEVEMENTS);
+  }
+
+  /**
+     Action "SHOW ENDGAME REPORT"
+   */
+  void mr_menu::slot_endgame() { popup_endgame_report(); }
+
+  /**
+     Action "SHOW TOP FIVE CITIES"
+   */
+  void mr_menu::slot_top_five() { send_report_request(REPORT_TOP_5_CITIES); }
+
+  /**
+     Action "SHOW WONDERS REPORT"
+   */
+  void mr_menu::slot_traveler()
+  {
+    send_report_request(REPORT_WONDERS_OF_THE_WORLD);
+  }
+
+  /**
+     Shows rulesets to load
+   */
+  void mr_menu::tileset_custom_load()
+  {
+    QDialog *dialog = new QDialog(this);
+    QLabel *label;
+    QPushButton *but;
+    QVBoxLayout *layout;
+    const struct option *poption;
+    QStringList sl;
+
+    sl << QStringLiteral("default_tileset_square_name")
+       << QStringLiteral("default_tileset_hex_name")
+       << QStringLiteral("default_tileset_isohex_name");
+    layout = new QVBoxLayout;
+    dialog->setWindowTitle(_("Available tilesets"));
+    label = new QLabel;
+    label->setText(_("Some tilesets might not be compatible with current"
+                     " map topology!"));
+    layout->addWidget(label);
+
+    // Gather the list of tilesets
+    QStringList tilesets;
+    for (auto const &s : qAsConst(sl)) {
+      poption = optset_option_by_name(client_optset, qUtf8Printable(s));
+      for (const auto &name : qAsConst(*get_tileset_list(poption))) {
+        tilesets.append(name);
+      }
+    }
+
+    // Remove duplicates
+    tilesets.sort();
+    tilesets.erase(std::unique(tilesets.begin(), tilesets.end()),
+                   tilesets.end());
+
+    // Add the buttons
+    for (const auto &name : qAsConst(tilesets)) {
+      but = new QPushButton(name);
+      connect(but, &QAbstractButton::clicked, this,
+              &mr_menu::load_new_tileset);
+      layout->addWidget(but);
+    }
+    dialog->setSizeGripEnabled(true);
+    dialog->setLayout(layout);
+    dialog->show();
+  }
+
+  /**
+     Slot for loading new tileset
+   */
+  void mr_menu::load_new_tileset()
+  {
+    QPushButton *but;
+    QByteArray tn_bytes;
+
+    but = qobject_cast<QPushButton *>(sender());
+    tn_bytes = but->text().toLocal8Bit();
+    tilespec_reread(tn_bytes.data(), true);
+    queen()->mapview_wdg->set_scale(1.0);
+    but->parentWidget()->close();
+  }
+
+  /**
+     Action "NATIONAL BUDGET"
+   */
+  void mr_menu::slot_popup_tax_rates() { queen()->popup_budget_dialog(); }
+
+  /**
+     Action "MULTIPLERS RATES"
+   */
+  void mr_menu::slot_popup_mult_rates() { popup_multiplier_dialog(); }
+
+  /**
+     Actions "HELP_*"
+   */
+  void mr_menu::slot_help(const QString &topic)
+  {
+    popup_help_dialog_typed(Q_(topic.toStdString().c_str()), HELP_ANY);
+  }
+
+  /**
+    Actions "BUILD_PATH_*"
+   */
+  void mr_menu::slot_build_path(int id)
+  {
+    for (const auto punit : get_units_in_focus()) {
+      extra_type_by_cause_iterate(EC_ROAD, pextra)
+      {
+        if (pextra->buildable && pextra->id == id
+            && can_unit_do_activity_targeted(punit, ACTIVITY_GEN_ROAD,
+                                             pextra)) {
+          request_new_unit_activity_targeted(punit, ACTIVITY_GEN_ROAD,
+                                             pextra);
+        }
+      }
+      extra_type_by_cause_iterate_end;
+    }
+  }
+
+  /**
+    Actions "BUILD_BASE_*"
+   */
+  void mr_menu::slot_build_base(int id)
+  {
+    for (const auto punit : get_units_in_focus()) {
+      extra_type_by_cause_iterate(EC_BASE, pextra)
+      {
+        if (pextra->buildable && pextra->id == id
+            && can_unit_do_activity_targeted(punit, ACTIVITY_BASE, pextra)) {
+          request_new_unit_activity_targeted(punit, ACTIVITY_BASE, pextra);
+        }
+      }
+      extra_type_by_cause_iterate_end;
+    }
+  }
+
+  /**
+     Invoke dialog with interface (local) options
+   */
+  void mr_menu::local_options() { popup_client_options(); }
+
+  /**
+     Invoke dialog with shortcut options
+   */
+  void mr_menu::shortcut_options() { popup_shortcuts_dialog(); }
+
+  /**
+     Invoke dialog with server options
+   */
+  void mr_menu::server_options()
+  {
+    option_dialog_popup(_("Game Options"), server_optset);
+  }
+
+  /**
+     Invoke dialog with messages options
+   */
+  void mr_menu::messages_options() { popup_messageopt_dialog(); }
+
+  /**
+     Menu Save Options Now
+   */
+  void mr_menu::save_options_now() { options_save(nullptr); }
+
+  /**
+     Invoke popup for quiting game
+   */
+  void mr_menu::quit_game() { popup_quit_dialog(); }
+
+  /**
+     Menu Save Map Image
+   */
+  void mr_menu::save_image()
+  {
+    // Save the size of the map view
+    QSize current = queen()->mapview_wdg->size();
+
+    // The size of the image we want to render
+    QSize full_size((wld.map.xsize + 2) * tileset_tile_width(tileset),
+                    (wld.map.ysize + 2) * tileset_tile_height(tileset));
+    if (tileset_is_isometric(tileset)) {
+      full_size.rheight() /= 2;
+    }
+
+    auto renderer = new freeciv::renderer;
+    renderer->set_viewport_size(full_size);
+
+    // Wait for a fullscreen repaint_needed. It will come asynchronously.
+    connect(
+        renderer, &freeciv::renderer::repaint_needed,
+        [=](const QRegion &where) {
+          // Maybe some other update sneaked in -- make sure to ignore it
+          if (where.boundingRect().contains(QRect(QPoint(), full_size))) {
+            // File path
+            QString img_name =
+                QStringLiteral("Freeciv21-Turn%1").arg(game.info.turn);
+            if (client_has_player()) {
+              img_name +=
+                  QStringLiteral("-")
+                  + QString(nation_plural_for_player(client_player()));
+            }
+
+            auto path = QStandardPaths::writableLocation(
+                QStandardPaths::PicturesLocation);
+            if (path.isEmpty()) {
+              path = QStandardPaths::writableLocation(
+                  QStandardPaths::HomeLocation);
+            }
+            if (path.isEmpty()) {
+              path = freeciv_storage_dir();
+            }
+            img_name = path + QStringLiteral("/") + img_name
+                       + QStringLiteral(".png");
+
+            // Render
+            auto pixmap = QPixmap(full_size);
+            pixmap.fill(Qt::black);
+
+            auto painter = QPainter(&pixmap);
+            renderer->render(painter, QRect(pixmap.rect()));
+            renderer->deleteLater();
+
+            // Save
+            bool map_saved = pixmap.save(img_name, "png");
+
+            // Restore the old mapview size
+            map_canvas_resized(current.width(), current.height());
+
+            // Let the user know
+            hud_message_box *saved =
+                new hud_message_box(king()->central_wdg);
+            saved->setStandardButtons(QMessageBox::Ok);
+            saved->setDefaultButton(QMessageBox::Ok);
+            saved->setAttribute(Qt::WA_DeleteOnClose);
+            if (map_saved) {
+              saved->set_text_title(_("Image saved as:\n") + img_name,
+                                    _("Success"));
+            } else {
+              saved->set_text_title(_("Failed to save image of the map"),
+                                    _("Error"));
+            }
+            saved->show();
+          }
+        });
+  }
+
+  /**
+     Menu Save Game
+   */
+  void mr_menu::save_game() { send_save_game(nullptr); }
+
+  /**
+     Menu Save Game As...
+   */
+  void mr_menu::save_game_as()
+  {
+    QString str;
+    QString current_file;
+    QString location;
+
+    for (const auto &dirname : get_save_dirs()) {
+      location = dirname;
+      // choose last location
+    }
+
+    str = QString(_("Save Games"))
+          + QStringLiteral(" (*.sav *.sav.bz2 *.sav.gz *.sav.xz *.sav.zst)");
+    current_file = QFileDialog::getSaveFileName(
+        king()->central_wdg, _("Save Game As..."), location, str);
+    if (!current_file.isEmpty()) {
+      QByteArray cf_bytes;
+
+      cf_bytes = current_file.toLocal8Bit();
+      send_save_game(cf_bytes.data());
+    }
+  }
+
+  /**
+     Back to Main Menu
+   */
+  void mr_menu::back_to_menu()
+  {
+    hud_message_box *ask;
+
+    if (is_server_running()) {
+      ask = new hud_message_box(king()->central_wdg);
+      ask->set_text_title(
+          _("Do you want to leave the game?\nLeaving a single-player game "
+            "will end it. Be sure to save first."),
+          QStringLiteral("Leave Game"));
+      ask->setStandardButtons(QMessageBox::No | QMessageBox::Yes);
+      ask->setDefaultButton(QMessageBox::No);
+      ask->button(QMessageBox::No)->setText(_("Keep Playing"));
+      ask->button(QMessageBox::Yes)->setText(_("Leave"));
+      ask->setAttribute(Qt::WA_DeleteOnClose);
+
+      connect(ask, &hud_message_box::accepted, [=]() {
+        if (client.conn.used) {
+          disconnect_from_server();
+        }
+      });
+      ask->show();
+    } else {
+      disconnect_from_server();
+    }
+  }
+
+  /**
+     Airlift unit type to city acity from each city
+   */
+  void multiairlift(struct city * acity, Unit_type_id ut)
+  {
+    struct tile *ptile;
+    city_list_iterate(client.conn.playing->cities, pcity)
+    {
+      if (get_city_bonus(pcity, EFT_AIRLIFT) > 0) {
+        ptile = city_tile(pcity);
+        unit_list_iterate(ptile->units, punit)
+        {
+          if (punit->utype == utype_by_number(ut)) {
+            request_unit_airlift(punit, acity);
+            break;
+          }
+        }
+        unit_list_iterate_end;
+      }
+    }
+    city_list_iterate_end;
+  }

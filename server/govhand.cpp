@@ -117,7 +117,6 @@ void handle_government_audit_begin_req(struct player *pplayer)
 
 void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
 {
-  // City-only for now
   struct unit* punit = game_unit_by_number(actor_id);
   struct tile* ptile = unit_tile(punit);
   struct city* pcity = tile_city(ptile);
@@ -189,7 +188,68 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
 
 void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile_id)
 {
-  // TODO: Implement
+  // City-only for now
+  struct unit *punit = game_unit_by_number(actor_id);
+  struct tile *ptile = unit_tile(punit);
+  struct building *pbuilding = map_buildings_get(ptile);
+
+  if(!pbuilding) return;
+
+  struct act_prob probabilities[MAX_NUM_ACTIONS];
+
+  // A target should only be sent if it is possible to act against it
+  int target_extra_id = IDENTITY_NUMBER_ZERO;
+
+  // Initialize the action probabilities.
+  action_iterate(act) { probabilities[act] = ACTPROB_NA; }
+  action_iterate_end;
+
+  // Check if the request is valid.
+  if (!ptile || !punit || !pplayer || !pbuilding || punit->owner != pplayer) {
+    dsend_packet_sabotage_actions(
+        pplayer->current_conn, actor_id, IDENTITY_NUMBER_ZERO,
+        IDENTITY_NUMBER_ZERO, tile_id, IDENTITY_NUMBER_ZERO, probabilities);
+    return;
+  }
+
+  bool anyset = false;
+  // Set the probability for the actions.
+  action_iterate_range(act, ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD,
+                       ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS)
+  {
+    bool set = false;
+    extra_type_by_cause_iterate(EC_BUILDING, pextra)
+    {
+      if (!strcmp(rule_name_get(&pextra->name), building_rulename_get(pbuilding))
+       && !building_belongs_to(pbuilding, pplayer)
+       && building_owner(pbuilding) != nullptr) {
+        // Calculate the probabilities.
+        probabilities[act] = action_prob_vs_tile(punit, act, ptile, pextra);
+        target_extra_id = pextra->id;
+        set = true;
+        anyset = true;
+        break;
+      } else {
+        probabilities[act] = ACTPROB_IMPOSSIBLE;
+      }
+    }
+    extra_type_by_cause_iterate_end;
+
+    if(!set) {
+      // No target to act against.
+      probabilities[act] = ACTPROB_IMPOSSIBLE;
+    }
+  }
+  action_iterate_end;
+
+  // Send possible actions and targets.
+  if(anyset) {
+    dsend_packet_sabotage_actions(
+        pplayer->current_conn, actor_id, IDENTITY_NUMBER_ZERO, IDENTITY_NUMBER_ZERO,
+        tile_id, target_extra_id, probabilities);
+  } else {
+    // TODO: No valid target, warn player
+  }
 }
 
 void handle_sabotage_info_req(struct player *pplayer)

@@ -1488,10 +1488,9 @@ bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
                 unit_link(act_unit), gold_take, tgt_city_link);
   notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
                 // TRANS: gold, city, nation
-                PL_("%d gold stolen from %s, %s suspected.",
-                    "%d gold stolen from %s, %s suspected.", gold_take),
-                gold_take, tgt_city_link,
-                nation_plural_for_player(act_player));
+                PL_("%d gold stolen from %s",
+                    "%d gold stolen from %s", gold_take),
+                gold_take, tgt_city_link);
 
   // Record sabotage ocurred
   struct sabotage_info* info = s_info.new_sabotage_info();
@@ -1550,8 +1549,76 @@ bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
                              struct tile *tgt_tile, struct extra_type *tgt_extra,
                              const struct action *paction)
 {
-  // TODO: Implement
-  return false;
+  struct player *tgt_player;
+
+  int gold_take;
+
+  // Sanity check: The actor still exists.
+  fc_assert_ret_val(act_player, false);
+  fc_assert_ret_val(act_unit, false);
+
+  // Sanity check: The building still exists.
+  fc_assert_ret_val(tgt_extra, false);
+
+  // Who to steal from.
+  tgt_player = building_owner(map_buildings_get(tgt_tile));
+
+  // If there's no player, building is unoccupied. This should never happen.
+  fc_assert_ret_val(tgt_player, false);
+
+  // Sanity check: The target is foreign.
+  if (tgt_player == act_player) {
+    // Nothing to do to a domestic target.
+    return false;
+  }
+
+  // Sanity check: There is something to steal.
+  if (tgt_player->economic.gold <= 0) {
+    return false;
+  }
+
+  log_warning("steal gold: unit: %d", act_unit->id);
+
+  log_warning("steal gold: infiltrated");
+
+  /* Take 20% of the target's gold, rounded up */
+  gold_take = int(ceil(tgt_player->economic.gold * 0.2f));
+
+  log_warning("steal gold: will take %d gold", gold_take);
+
+  // Steal the gold.
+  tgt_player->economic.gold -= gold_take;
+
+  log_warning("steal gold: will give %d gold", gold_take);
+
+  // Pocket the stolen money.
+  act_player->economic.gold += gold_take;
+
+  // Notify everyone involved.
+  notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_GOLD, ftc_server,
+                // TRANS: unit, gold, city
+                PL_("Your %s stole %d gold from %s.",
+                    "Your %s stole %d gold from %s.", gold_take),
+                unit_link(act_unit), gold_take, tgt_player->name);
+  notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
+                // TRANS: gold, city, nation
+                PL_("%d gold stolen from %s",
+                    "%d gold stolen from %s", gold_take),
+                gold_take, tgt_player->name);
+
+  // Record sabotage ocurred
+  struct sabotage_info *info = s_info.new_sabotage_info();
+  info->turn = game.info.turn;
+  info->info = "You stole " + std::to_string(gold_take) + " of gold from "
+               + std::string(tgt_player->name);
+  // TODO: Send info both ways and make info player-specific
+  s_info.alert_players(act_player, tgt_player);
+
+  // Update the players' gold in the client
+  send_player_info_c(act_player, act_player->connections);
+  send_player_info_c(tgt_player, tgt_player->connections);
+
+  return true;
 }
 
 bool spy_steal_science_building(struct player *act_player, struct unit *act_unit,
