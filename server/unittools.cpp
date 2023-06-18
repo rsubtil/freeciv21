@@ -4668,13 +4668,13 @@ bool execute_orders(struct unit *punit, const bool fresh)
       break;
     }
 
-    log_warning("repeat: %d, index: %d, length: %d", punit->orders.repeat,
-                punit->orders.index, punit->orders.length);
     last_order = (!punit->orders.repeat
                   && punit->orders.index + 1 == punit->orders.length);
+    log_warning("repeat: %d, index: %d, length: %d, last_order: %d", punit->orders.repeat,
+                punit->orders.index, punit->orders.length, last_order);
 
     if ((last_order && punit->move_subdivisions <= 1) ||
-        (last_order && order.order == ORDER_MOVE && punit->move_subdivisions > 1
+        (last_order && (order.order == ORDER_MOVE || order.order == ORDER_ACTION_MOVE) && punit->move_subdivisions > 1
         && punit->move_acc + 1 == punit->move_subdivisions && !fresh)) {
       /* Clear the orders before we engage in the move.  That way any
        * has_orders checks will yield FALSE and this will be treated as

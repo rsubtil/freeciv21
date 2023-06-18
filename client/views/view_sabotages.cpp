@@ -22,6 +22,7 @@
 #include <QScrollArea>
 #include <QTimer>
 #include <QToolTip>
+#include <QVBoxLayout>
 
 // common
 #include "game.h"
@@ -73,12 +74,14 @@ sabotages_report::sabotages_report() : QWidget()
   m_sabotages_self_label->setSizePolicy(size_fixed_policy);
   layout->addWidget(m_sabotages_self_label, 0, 4, 1, -1);
 
-
   m_sabotages_self_scroll = new QScrollArea();
   m_sabotages_self_scroll->setSizePolicy(size_expand_policy);
-  QBoxLayout *m_sabotages_self_layout = new QBoxLayout(QBoxLayout::TopToBottom);
+  m_sabotages_self_scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  m_sabotages_self_scroll->setWidgetResizable(true);
+  m_sabotages_self_widget = new QWidget();
+  QVBoxLayout *m_sabotages_self_layout = new QVBoxLayout(m_sabotages_self_widget);
   m_sabotages_self_layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-  m_sabotages_self_scroll->setLayout(m_sabotages_self_layout);
+  m_sabotages_self_scroll->setWidget(m_sabotages_self_widget);
   layout->addWidget(m_sabotages_self_scroll, 1, 4, 7, -1);
 
   QLabel *m_sabotages_other_label = new QLabel(_("Me to others:"));
@@ -87,9 +90,12 @@ sabotages_report::sabotages_report() : QWidget()
 
   m_sabotages_other_scroll = new QScrollArea();
   m_sabotages_other_scroll->setSizePolicy(size_expand_policy);
-  QBoxLayout *m_sabotages_other_layout = new QBoxLayout(QBoxLayout::TopToBottom);
+  m_sabotages_other_scroll->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+  m_sabotages_other_scroll->setWidgetResizable(true);
+  m_sabotages_other_widget = new QWidget();
+  QVBoxLayout *m_sabotages_other_layout = new QVBoxLayout(m_sabotages_other_widget);
+  m_sabotages_other_scroll->setWidget(m_sabotages_other_widget);
   m_sabotages_other_layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-  m_sabotages_other_scroll->setLayout(m_sabotages_other_layout);
   layout->addWidget(m_sabotages_other_scroll, 9, 4, 7, -1);
 
   // Add it all up
@@ -155,14 +161,18 @@ void sabotages_report::update_self_info(int id, int turn, const char *info)
 {
   cached_last_self_id = MAX(cached_last_self_id, id);
   QLabel *label = new QLabel();
+  label->setWordWrap(true);
+  label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
   label->setText(QString::number(turn) + ": " + QString(info));
-  m_sabotages_self_scroll->layout()->addWidget(label);
+  m_sabotages_self_widget->layout()->addWidget(label);
 }
 
 void sabotages_report::update_other_info(int id, int turn, const char *info)
 {
   cached_last_other_id = MAX(cached_last_other_id, id);
   QLabel *label = new QLabel();
+  label->setWordWrap(true);
+  label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
   label->setText(QString::number(turn) + ": " + QString(info));
-  m_sabotages_other_scroll->layout()->addWidget(label);
+  m_sabotages_other_widget->layout()->addWidget(label);
 }

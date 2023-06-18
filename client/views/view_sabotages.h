@@ -40,6 +40,9 @@ class sabotages_report : public QWidget {
   QScrollArea *m_sabotages_self_scroll;
   QScrollArea *m_sabotages_other_scroll;
 
+  QWidget *m_sabotages_self_widget;
+  QWidget *m_sabotages_other_widget;
+
   int cached_last_self_id = -1;
   int cached_last_other_id = -1;
 
