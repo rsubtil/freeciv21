@@ -49,6 +49,7 @@ if (FREECIV_ENABLE_SERVER OR FREECIV_ENABLE_RULEDIT)
   add_subdirectory(nation)
 
   # Rulesets
+  add_ruleset(NAME default SERV_FILE README README.default)
   #add_ruleset(NAME alien SERV_FILE README README.alien)
   #add_ruleset(NAME civ1 SERV_FILE)
   #add_ruleset(NAME civ2 SERV_FILE)
