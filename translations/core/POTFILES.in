@@ -107,7 +107,7 @@ data/default/game.ruleset
 data/default/governments.ruleset
 data/default/nations.ruleset
 data/default/parser.lua
-data/default/README.spacerace
+data/default/README.default
 data/default/script.lua
 data/default/styles.ruleset
 data/default/techs.ruleset

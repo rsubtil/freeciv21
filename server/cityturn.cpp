@@ -530,13 +530,14 @@ static void city_turn_notify(const struct city *pcity,
   } else {
     if (0 >= pcity->food_stock + pcity->surplus[O_FOOD]
         && 0 > pcity->surplus[O_FOOD]) {
-      package_event(&packet, city_tile(pcity), E_CITY_FAMINE_FEARED,
-                    ftc_server, _("Warning: Famine feared in %s."),
-                    city_link(pcity));
-      lsend_packet_chat_msg(dest, &packet);
-      if (nullptr != cache_for_player) {
-        event_cache_add_for_player(&packet, cache_for_player);
-      }
+      // FIXME: Demo
+      //package_event(&packet, city_tile(pcity), E_CITY_FAMINE_FEARED,
+      //              ftc_server, _("Warning: Famine feared in %s."),
+      //              city_link(pcity));
+      //lsend_packet_chat_msg(dest, &packet);
+      //if (nullptr != cache_for_player) {
+      //  event_cache_add_for_player(&packet, cache_for_player);
+      //}
     }
   }
 }
@@ -1150,10 +1151,11 @@ static void city_populate(struct city *pcity, struct player *nationality)
 
         if (upkeep_kill_unit(punit, O_FOOD, ULR_STARVED,
                              game.info.muuk_food_wipe)) {
-          notify_player(city_owner(pcity), city_tile(pcity),
-                        E_UNIT_LOST_MISC, ftc_server,
-                        _("Famine feared in %s, %s lost!"), city_link(pcity),
-                        punit_link);
+          // FIXME: For demo
+          //notify_player(city_owner(pcity), city_tile(pcity),
+          //              E_UNIT_LOST_MISC, ftc_server,
+          //              _("Famine feared in %s, %s lost!"), city_link(pcity),
+          //              punit_link);
         }
 
         if (city_exist(saved_id)) {
@@ -1164,13 +1166,15 @@ static void city_populate(struct city *pcity, struct player *nationality)
     }
     unit_list_iterate_safe_end;
     if (city_size_get(pcity) > 1) {
-      notify_player(city_owner(pcity), city_tile(pcity), E_CITY_FAMINE,
-                    ftc_server, _("Famine causes population loss in %s."),
-                    city_link(pcity));
+      // FIXME: Demo
+      //notify_player(city_owner(pcity), city_tile(pcity), E_CITY_FAMINE,
+      //              ftc_server, _("Famine causes population loss in %s."),
+      //              city_link(pcity));
     } else {
-      notify_player(city_owner(pcity), city_tile(pcity), E_CITY_FAMINE,
-                    ftc_server, _("Famine destroys %s entirely."),
-                    city_link(pcity));
+      // FIXME: Demo
+      //notify_player(city_owner(pcity), city_tile(pcity), E_CITY_FAMINE,
+      //              ftc_server, _("Famine destroys %s entirely."),
+      //              city_link(pcity));
     }
     city_reset_foodbox(pcity, city_size_get(pcity) - 1);
     // Cities now don't disappear due to famine
@@ -2587,7 +2591,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     (void) city_production_build_units(pcity, false, &num_units);
 
     // We should be able to build at least one (by checks above)
-    fc_assert(num_units >= 1);
+    // FIXME: For demo, remove this
+    //fc_assert(num_units >= 1);
 
     for (i = 0; i < num_units; i++) {
       punit = city_create_unit(pcity, utype);

@@ -714,6 +714,64 @@ Spies built under a Communist government will start at the first\
  veteran level (handler).\
 ")
 
+[unit_spy_demo]
+name          = _("Spy _DEMO_")
+class         = "Land"
+tech_req      = "None"
+obsolete_by   = "None"
+graphic       = "u.spy"
+graphic_alt   = "-"
+sound_move    = "m_spy"
+sound_move_alt = "m_generic"
+sound_fight   = "f_spy"
+sound_fight_alt = "f_generic"
+build_cost    = 30
+pop_cost      = 0
+attack        = 0
+defense       = 0
+hitpoints     = 10
+firepower     = 1
+;move_rate     = 0.1
+move_rate     = 0.0000001
+vision_radius_sq = 8
+transport_cap = 0
+fuel          = 0
+uk_happy      = 0
+uk_shield     = 0
+uk_food       = 0
+uk_gold       = 0
+flags         = "Diplomat", "IgZOC", "NonMil", "HasNoZOC", "Spy",
+                "Provoking", "NoVeteran", "NoBuild"
+roles         = "DiplomatStartUnit"
+helptext      = _("\
+A Spy is more skilled in the arts of espionage than her Diplomat predecessor.\
+"), _("\
+She can perform all the functions of the Diplomat; refer to the Diplomat\
+ entry for more details. Unlike a Diplomat, a Spy may also survive an\
+ operation in a foreign city and become more experienced as a result.\
+ Spies are also more effective than Diplomats at defending cities\
+ against foreign Diplomats and Spies.\
+"), _("\
+A Spy can also be used to:\n\
+ - sabotage an enemy unit (reducing its hit points to half), if it is\
+ alone on a tile and the players are at war;\n\
+ - poison the water supply of an enemy city (reducing the population\
+ by one);\n\
+ - steal specific technology (with a reduced chance of success);\n\
+ - steal further technologies from a city which has already been\
+ stolen from (although cities become more resistant each time they\
+ are stolen from);\n\
+ - sabotage predetermined city targets (with a reduced chance of\
+ success).\
+"), _("\
+A Spy that survives the more aggressive actions (sabotage, theft,\
+ inciting rebellion, and poisoning) escapes to the safety of the\
+ nearest friendly city.\
+"), _("\
+Spies built under a Communist government will start at the first\
+ veteran level (handler).\
+")
+
 [unit_unknown_spy]
 name          = _("Unknown Spy")
 class         = "Land"
