@@ -743,6 +743,9 @@ void unit_focus_advance()
  */
 void unit_focus_update()
 {
+  // FIXME: Debug
+  return;
+
   if (nullptr == client.conn.playing || !can_client_change_view()) {
     return;
   }

@@ -130,6 +130,26 @@ void sabotages_report::init(bool raise)
  */
 void sabotages_report::redraw() { update(); }
 
+void sabotages_report::reset()
+{
+  if(m_sabotages_self_widget->layout()) {
+    QLayoutItem *child;
+    while ((child = m_sabotages_self_widget->layout()->takeAt(0)) != nullptr) {
+      delete child->widget();
+      delete child;
+    }
+  }
+  if(m_sabotages_other_widget->layout()) {
+    QLayoutItem *child;
+    while ((child = m_sabotages_other_widget->layout()->takeAt(0)) != nullptr) {
+      delete child->widget();
+      delete child;
+    }
+  }
+  cached_last_self_id = -1;
+  cached_last_other_id = -1;
+}
+
 void sabotages_report::update_info(int last_sabotage_self_id, int last_sabotage_other_id)
 {
   if (last_sabotage_self_id != cached_last_self_id) {

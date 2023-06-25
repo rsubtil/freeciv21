@@ -322,12 +322,15 @@ static void historian_generic(struct history_report *report,
  */
 void send_current_history_report(struct conn_list *dest)
 {
+  // FIXME: Demo
+  return;
+  /*
   // History report is actually constructed at the end of previous turn.
   if (latest_history_report.turn >= game.info.turn - 1) {
     page_conn_etype(dest, _("Historian Publishes!"),
                     latest_history_report.title, latest_history_report.body,
                     E_BROADCAST_REPORT);
-  }
+  }*/
 }
 
 /**

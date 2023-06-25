@@ -236,7 +236,7 @@ void fc_client::switch_page(int new_pg)
     queen()->sw_message->setChecked(qt_settings.show_messages);
     queen()->sw_message->setIcon(
         fcIcons::instance()->getIcon(QStringLiteral("messages")));
-    queen()->message->clr();
+    //queen()->message->clr();
     center_on_something();
     voteinfo_gui_update();
     update_info_label();

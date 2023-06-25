@@ -49,6 +49,7 @@ class sabotages_report : public QWidget {
 public:
   void init(bool raise);
   void redraw();
+  void reset();
 
 protected:
   static sabotages_report *_instance;

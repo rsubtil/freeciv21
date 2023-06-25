@@ -183,6 +183,7 @@ static void packhand_init()
   // Request government info
   g_info.reset();
   s_info.reset();
+  sabotages_report::instance()->reset();
   send_packet_government_info_req(&client.conn);
   send_packet_sabotage_info_req(&client.conn);
 }

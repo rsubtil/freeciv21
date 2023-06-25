@@ -240,6 +240,7 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
     log_warning("[metric]%s sabotage error: tried to sabotage own building",
                 unit_link(punit));
     spy_send_error(pplayer, "You can't sabotage your own buildings!");
+    return;
   }
 
   // If building was sabotaged recently, don't allow another sabotage

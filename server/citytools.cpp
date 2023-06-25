@@ -2269,7 +2269,7 @@ void send_all_known_buildings(struct conn_list *dest)
   {
     struct player *pplayer = pconn->playing;
 
-    if (!pplayer && !pconn->observer) {
+    if (!pplayer && pconn->observer) {
       continue;
     }
     building_list_iterate(wld.map.buildings, pbuilding)

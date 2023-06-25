@@ -119,7 +119,6 @@ layer_order =
   "City1",      ; City and walls.
   "Special2",   ; 2nd layer for extras with "3Layers" and "Single2" styles.
   "Fog",        ; Fog of war (on tiles one knows but doesn`t see).
-  "Unit",       ; Units except the selected one(s).
   "Special3",   ; 3rd layer for extras with "3Layers" style.
   "BaseFlags",  ; Base flags.
   "City2",      ; City size when the city bar is disabled.
@@ -127,6 +126,7 @@ layer_order =
   "Overlays",   ; Tile output sprites.
   "TileLabel",  ; Tile labels ("Scorched spot").
   "CityBar",    ; The city bar with name, production, food, ...
+  "Unit",       ; Units except the selected one(s).
   "FocusUnit",  ; The focused unit(s).
   "Goto",       ; Goto turn count and intermediate points, *not* goto lines.
   "WorkerTask", ; The unit task indicators ("G", "S", ...).
