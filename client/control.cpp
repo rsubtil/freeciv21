@@ -448,10 +448,13 @@ void draw_focus_unit_goto()
     return;
   }
 
+  exit_goto_state();
   struct unit *punit = head_of_units_in_focus();
   if(punit->goto_tile) {
+    if(punit->goto_tile != punit->tile) {
     enter_goto_state(get_units_in_focus());
-    is_valid_goto_draw_line(punit->goto_tile);
+      is_valid_goto_draw_line(punit->goto_tile);
+    }
   }
 }
 

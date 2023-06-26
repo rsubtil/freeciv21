@@ -1945,6 +1945,9 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     update_unit_info_label(get_units_in_focus());
     // Update (an possible active) unit select dialog.
     unit_select_dialog_update();
+    draw_focus_unit_goto();
+    need_menus_update = true;
+    flush_dirty_overview();
   }
 
   if (repaint_unit) {
