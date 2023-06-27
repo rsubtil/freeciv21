@@ -95,6 +95,7 @@ int goto_last_sub_tgt;
 enum unit_orders goto_last_order; // Last order for goto
 
 bool dragging_view = false;
+bool dragging_view_past_delta = false;
 int dragging_offset_x;
 int dragging_offset_y;
 QPointF dragging_origin;

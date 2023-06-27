@@ -75,7 +75,7 @@ static std::vector<fc_shortcut> default_shortcuts()
        Qt::NoModifier, _("Select button")},
       {SC_GOTO_MOUSE, fc_shortcut::mouse, QKeySequence(), Qt::RightButton,
        Qt::NoModifier, _("Go to tile (mouse)")},
-      {SC_VIEW_DRAG, fc_shortcut::mouse, QKeySequence(), Qt::MiddleButton,
+      {SC_VIEW_DRAG, fc_shortcut::mouse, QKeySequence(), Qt::LeftButton,
        Qt::NoModifier, _("Drag map view")},
       {SC_ADJUST_WORKERS, fc_shortcut::mouse, QKeySequence(), Qt::LeftButton,
        Qt::MetaModifier | Qt::ControlModifier, _("Adjust workers")},

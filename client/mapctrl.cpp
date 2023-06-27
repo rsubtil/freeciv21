@@ -400,6 +400,7 @@ void map_view::shortcut_pressed(shortcut_id id)
 
   case SC_VIEW_DRAG:
     dragging_view = true;
+    dragging_view_past_delta = false;
     dragging_offset_x = unscaled_pos.x();
     dragging_offset_y = unscaled_pos.y();
     dragging_origin = m_renderer->origin();
@@ -425,6 +426,7 @@ void map_view::shortcut_released(Qt::MouseButton bt)
 
   auto sc = fc_shortcuts::sc()->get_shortcut(SC_SELECT_BUTTON);
   if (bt == sc.buttons && md == sc.modifiers) {
+    dragging_view = false;
     if (king()->trade_gen.hover_city || king()->rallies.hover_city) {
       king()->trade_gen.hover_city = false;
       king()->rallies.hover_city = false;
@@ -484,9 +486,15 @@ void map_view::mouseMoveEvent(QMouseEvent *event)
   control_mouse_cursor(canvas_pos_to_tile(event->pos().x() / scale(),
                                           event->pos().y() / scale()));
   if(dragging_view) {
-    int deltax = event->pos().x() - dragging_offset_x;
-    int deltay = event->pos().y() - dragging_offset_y;
-    QPointF new_origin = dragging_origin - QPointF(deltax, deltay) / scale();
-    m_renderer->set_origin(new_origin);
+    if(!dragging_view_past_delta && (abs(event->pos().x() - dragging_offset_x) > 25 ||
+                                     abs(event->pos().y() - dragging_offset_y) > 25)) {
+      dragging_view_past_delta = true;
+    }
+    if(dragging_view_past_delta) {
+      int deltax = event->pos().x() - dragging_offset_x;
+      int deltay = event->pos().y() - dragging_offset_y;
+      QPointF new_origin = dragging_origin - QPointF(deltax, deltay) / scale();
+      m_renderer->set_origin(new_origin);
+    }
   }
 }

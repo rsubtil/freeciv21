@@ -52,6 +52,7 @@ extern int goto_last_sub_tgt;
 extern enum unit_orders goto_last_order;
 extern bool non_ai_unit_focus;
 extern bool dragging_view;
+extern bool dragging_view_past_delta;
 extern int dragging_offset_x;
 extern int dragging_offset_y;
 extern QPointF dragging_origin;
