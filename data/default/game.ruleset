@@ -58,7 +58,7 @@ global_init_buildings="Palace"
 [tileset]
 ; If preferred tileset is set, clients that support the feature will suggest
 ; using that tileset with the ruleset.
-; preferred = ""
+preferred = "hexemplio"
 
 [soundset]
 ; If preferred soundset is set, clients that support the feature will suggest
@@ -135,7 +135,7 @@ tech_loss_allow_holes     = TRUE
 initial_diplomatic_state = "War"
 
 ; Whether civil war is possible at all
-civil_war_enabled        = TRUE
+civil_war_enabled        = FALSE
 
 ; How many percents each celebrating city affects chance of civil war
 civil_war_bonus_celebrating = -5
@@ -349,6 +349,13 @@ nuke_units_max_range = 1
 ; restriction. The maximum distance can`t be smaller than the minimum
 ; distance.
 airlift_max_range = "unlimited"
+
+; Sabotage time for all actions, in number of turns.
+; Must be multiplied by 10 due to internal #define ACTIVITY_FACTOR 10
+;sabotage_offensive_time = 240
+;sabotage_defensive_time = 60
+sabotage_offensive_time = 60
+sabotage_defensive_time = 40
 
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action. A Freeciv client
@@ -565,6 +572,13 @@ actor_reqs    =
 target_reqs    =
     { "type",         "name",         "range", "present"
       "Extra",        "Transport",    "Local", TRUE
+    }
+
+[actionenabler_mining]
+action        = "Build Mine"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Settlers",     "Local"
     }
 
 [actionenabler_sabotage_city]

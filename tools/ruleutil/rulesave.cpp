@@ -1128,6 +1128,13 @@ static bool save_game_ruleset(const char *filename, const char *name)
                     RS_DEFAULT_STEAL_MAP_REVEALS_CITIES,
                     "actions.steal_maps_reveals_all_cities", nullptr);
 
+  save_default_int(sfile, game.info.sabotage_offensive_time,
+                   RS_DEFAULT_SABOTAGE_OFFENSIVE_TIME,
+                   "actions.sabotage_offensive_time", nullptr);
+  save_default_int(sfile, game.info.sabotage_defensive_time,
+                   RS_DEFAULT_SABOTAGE_DEFENSIVE_TIME,
+                   "actions.sabotage_defensive_time", nullptr);
+
   action_iterate(act_id)
   {
     save_action_ui_name(sfile, act_id,

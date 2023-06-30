@@ -1618,9 +1618,6 @@ bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
   fc_assert_ret_val(act_player, false);
   fc_assert_ret_val(act_unit, false);
 
-  // Sanity check: The building still exists.
-  fc_assert_ret_val(tgt_extra, false);
-
   // Who to steal from.
   tgt_player = building_owner(map_buildings_get(tgt_tile));
 
@@ -2405,4 +2402,59 @@ int count_diplomats_on_tile(struct tile *ptile)
   unit_list_iterate_end;
 
   return count;
+}
+
+void sabotage_apply_activity(struct unit *punit, const unit_activity &act)
+{
+  struct player *pact_player = unit_owner(punit);
+  struct tile *ptile = unit_tile(punit);
+
+  struct city *pcity = nullptr;
+  struct building *pbuilding = nullptr;
+
+  if(ptile) {
+    pcity = tile_city(ptile);
+    pbuilding = map_buildings_get(ptile);
+  }
+
+  switch(act) {
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
+    spy_investigate_gold(pact_player, punit, pcity, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+    spy_investigate_science(pact_player, punit, pcity, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+    spy_investigate_materials(pact_player, punit, pcity, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
+    spy_steal_gold(pact_player, punit, pcity, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
+    spy_steal_science(pact_player, punit, pcity, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS:
+    spy_steal_materials(pact_player, punit, pcity, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+    spy_investigate_gold_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+    spy_investigate_science_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+    spy_investigate_materials_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
+    spy_steal_gold_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
+    spy_steal_science_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+    spy_steal_materials_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  default:
+    break;
+  }
 }

@@ -2253,11 +2253,13 @@ static void spy_city_investigate_gold(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
+  struct unit *punit = game_unit_by_number(diplomat_id);
+  struct city *pcity = game_city_by_number(diplomat_target_id);
 
-  if (nullptr != game_unit_by_number(diplomat_id)
-      && nullptr != game_city_by_number(diplomat_target_id)) {
-    request_do_action(ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD, diplomat_id,
-                      diplomat_target_id, 0, "");
+  if (nullptr != punit && nullptr != pcity) {
+    if (can_unit_do_activity_targeted(punit, ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD, nullptr)) {
+      request_new_unit_activity_targeted(punit, ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD, nullptr);
+    }
   }
 }
 
@@ -2278,11 +2280,16 @@ static void spy_city_steal_gold(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
+  struct unit *punit = game_unit_by_number(diplomat_id);
+  struct city *pcity = game_city_by_number(diplomat_target_id);
 
-  if (nullptr != game_unit_by_number(diplomat_id)
-      && nullptr != game_city_by_number(diplomat_target_id)) {
-    request_do_action(ACTION_SABOTAGE_CITY_STEAL_GOLD, diplomat_id,
-                      diplomat_target_id, 0, "");
+  if (nullptr != punit && nullptr != pcity) {
+    if (can_unit_do_activity_targeted(punit,
+                                      ACTIVITY_SABOTAGE_CITY_STEAL_GOLD,
+                                      nullptr)) {
+      request_new_unit_activity_targeted(
+          punit, ACTIVITY_SABOTAGE_CITY_STEAL_GOLD, nullptr);
+    }
   }
 }
 
@@ -2300,10 +2307,14 @@ static void spy_building_investigate_gold(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
-
-  if (nullptr != game_unit_by_number(diplomat_id)) {
-    request_do_action(ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD, diplomat_id,
-                      diplomat_target_id, 0, "");
+  struct unit *punit = game_unit_by_number(diplomat_id);
+  if (nullptr != punit) {
+    if (can_unit_do_activity_targeted(punit,
+                                      ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD,
+                                      nullptr)) {
+      request_new_unit_activity_targeted(
+          punit, ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD, nullptr);
+    }
   }
 }
 
@@ -2324,10 +2335,13 @@ static void spy_building_steal_gold(QVariant data1, QVariant data2)
 {
   int diplomat_id = data1.toInt();
   int diplomat_target_id = data2.toInt();
-
-  if (nullptr != game_unit_by_number(diplomat_id)) {
-    request_do_action(ACTION_SABOTAGE_BUILDING_STEAL_GOLD, diplomat_id,
-                      diplomat_target_id, 0, "");
+  struct unit *punit = game_unit_by_number(diplomat_id);
+  if (nullptr != punit) {
+    if (can_unit_do_activity_targeted(
+            punit, ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD, nullptr)) {
+      request_new_unit_activity_targeted(
+          punit, ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD, nullptr);
+    }
   }
 }
 

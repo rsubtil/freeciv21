@@ -182,7 +182,14 @@ public:
     info.last_sabotage_self_id = 0;
     info.last_sabotage_other_id = id;
 
-    send_packet_sabotage_info(p1->current_conn, &info);
+    conn_list_iterate(p1->connections, pconn)
+    {
+      if(pconn->playing == p1) {
+        send_packet_sabotage_info(pconn, &info);
+        break;
+      }
+    }
+    conn_list_iterate_end;
   }
 };
 

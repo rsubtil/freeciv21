@@ -59,6 +59,7 @@
 #include "aiiface.h"
 #include "citytools.h"
 #include "cityturn.h"
+#include "diplomats.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "notify.h"
@@ -713,6 +714,8 @@ static int total_activity(struct tile *ptile, enum unit_activity act,
 static bool total_activity_done(struct tile *ptile, enum unit_activity act,
                                 struct extra_type *tgt)
 {
+  log_warning("Activity %d is %d/%d", act, total_activity(ptile, act, tgt),
+             tile_activity_time(act, ptile, tgt));
   return total_activity(ptile, act, tgt)
          >= tile_activity_time(act, ptile, tgt);
 }
@@ -904,6 +907,30 @@ static void unit_activity_complete(struct unit *punit)
     }
     break;
 
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  if (total_activity_done(ptile, activity, punit->activity_target)) {
+      /* The function below could change the terrain. Therefore, we have to
+       * check the terrain (which will also do a sanity check for the tile).
+       */
+      // TODO: Implement
+      sabotage_apply_activity(punit, activity);
+      //tile_apply_activity(ptile, activity, punit->activity_target);
+      log_warning("Activity %d done", activity);
+      unit_activity_done = true;
+    }
+    break;
+
   case ACTIVITY_OLD_ROAD:
   case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_FORTRESS:
@@ -916,7 +943,19 @@ static void unit_activity_complete(struct unit *punit)
     update_tile_knowledge(ptile);
     if (ACTIVITY_IRRIGATE == activity || ACTIVITY_MINE == activity
         || ACTIVITY_CULTIVATE == activity || ACTIVITY_PLANT == activity
-        || ACTIVITY_TRANSFORM == activity) {
+        || ACTIVITY_TRANSFORM == activity
+        || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD == activity
+        || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE == activity
+        || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS == activity
+        || ACTIVITY_SABOTAGE_CITY_STEAL_GOLD == activity
+        || ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE == activity
+        || ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS == activity
+        || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD == activity
+        || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE == activity
+        || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS == activity
+        || ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD == activity
+        || ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE == activity
+        || ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS == activity) {
       /* FIXME: As we might probably do the activity again, because of the
        * terrain change cycles, we need to treat these cases separatly.
        * Probably ACTIVITY_TRANSFORM should be associated to its terrain
@@ -1029,6 +1068,18 @@ static void update_unit_activity(struct unit *punit, time_t now)
   case ACTIVITY_FALLOUT:
   case ACTIVITY_BASE:
   case ACTIVITY_GEN_ROAD:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
     // settler may become veteran when doing something useful
     if (maybe_become_veteran_real(punit, true)) {
       notify_unit_experience(punit);
@@ -3942,6 +3993,18 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_OLD_ROAD:
   case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_LAST:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
     set_unit_activity(punit, ACTIVITY_IDLE);
     break;
   };
@@ -5200,6 +5263,18 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ACTIVITY_TRANSFORM:
       case ACTIVITY_CONVERT:
       case ACTIVITY_FORTIFYING:
+      case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
+      case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+      case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+      case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
+      case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
+      case ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS:
+      case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+      case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+      case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+      case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
+      case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
+      case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
         qCritical("at index %d, use action rather than activity %d.", i,
                   orders[i].activity);
         return false;

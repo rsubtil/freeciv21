@@ -597,6 +597,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   BOOL paradrop_to_transport;
   UINT16 granularity;
   SINT16 killunhomed; add-cap(killunhomed-is-game-info)
+  UINT16 sabotage_offensive_time;
+  UINT16 sabotage_defensive_time;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet

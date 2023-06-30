@@ -6670,6 +6670,16 @@ static bool load_ruleset_game(struct section_file *file, bool act,
       }
     }
 
+    // section: sabotages
+    if (ok) {
+      game.info.sabotage_offensive_time = secfile_lookup_int_default(
+          file, RS_DEFAULT_SABOTAGE_OFFENSIVE_TIME,
+          "actions.sabotage_offensive_time");
+      game.info.sabotage_defensive_time = secfile_lookup_int_default(
+          file, RS_DEFAULT_SABOTAGE_DEFENSIVE_TIME,
+          "actions.sabotage_defensive_time");
+    }
+
     if (ok) {
       sec = secfile_sections_by_name_prefix(file,
                                             ACTION_ENABLER_SECTION_PREFIX);

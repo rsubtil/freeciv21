@@ -76,3 +76,5 @@ bool spy_nuke_city(struct player *act_player, struct unit *act_unit,
                    struct city *tgt_city, const struct action *paction);
 
 int count_diplomats_on_tile(struct tile *ptile);
+
+void sabotage_apply_activity(struct unit *punit, const unit_activity &act);

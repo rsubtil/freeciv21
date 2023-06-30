@@ -3223,84 +3223,32 @@ bool unit_perform_action(struct player *pplayer, const int actor_id,
         do_transport(pplayer, actor_unit, target_tile, name, paction));
     break;
   case ACTRES_SABOTAGE_CITY:
+  case ACTRES_SABOTAGE_BUILDING:
     // Handled by packet, no need to do anything
     break;
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_CITY(
-        action_type, actor_unit, pcity,
-        spy_investigate_gold(pplayer, actor_unit, pcity, paction));
-    break;
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_CITY(
-        action_type, actor_unit, pcity,
-        spy_investigate_science(pplayer, actor_unit, pcity, paction));
-    break;
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_CITY(
-        action_type, actor_unit, pcity,
-        spy_investigate_materials(pplayer, actor_unit, pcity, paction));
-    break;
   case ACTRES_SABOTAGE_CITY_STEAL_GOLD:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_CITY(
-        action_type, actor_unit, pcity,
-        spy_steal_gold(pplayer, actor_unit, pcity, paction));
-    break;
   case ACTRES_SABOTAGE_CITY_STEAL_SCIENCE:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_CITY(
-        action_type, actor_unit, pcity,
-        spy_steal_science(pplayer, actor_unit, pcity, paction));
-    break;
   case ACTRES_SABOTAGE_CITY_STEAL_MATERIALS:
     // Difference is caused by data in the action structure.
     ACTION_STARTED_UNIT_CITY(
         action_type, actor_unit, pcity,
-        spy_steal_materials(pplayer, actor_unit, pcity, paction));
-    break;
-  case ACTRES_SABOTAGE_BUILDING:
-    // Handled by packet, no need to do anything
+        do_action_activity_targeted(actor_unit, paction, &target_extra));
     break;
   case ACTRES_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_TILE(
-        action_type, actor_unit, target_tile,
-        spy_investigate_gold_building(pplayer, actor_unit, target_tile, target_extra, paction));
-    break;
   case ACTRES_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_TILE(
-        action_type, actor_unit, target_tile,
-        spy_investigate_science_building(pplayer, actor_unit, target_tile, target_extra, paction));
-    break;
   case ACTRES_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_TILE(
-        action_type, actor_unit, target_tile,
-        spy_investigate_materials_building(pplayer, actor_unit, target_tile, target_extra, paction));
-    break;
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_TILE(
-        action_type, actor_unit, target_tile,
-        spy_steal_gold_building(pplayer, actor_unit, target_tile, target_extra, paction));
-    break;
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
-    // Difference is caused by data in the action structure.
-    ACTION_STARTED_UNIT_TILE(
-        action_type, actor_unit, target_tile,
-        spy_steal_science_building(pplayer, actor_unit, target_tile, target_extra, paction));
-    break;
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_NONE:
     // Difference is caused by data in the action structure.
     ACTION_STARTED_UNIT_TILE(
         action_type, actor_unit, target_tile,
-        spy_steal_materials_building(pplayer, actor_unit, target_tile, target_extra, paction));
+        do_action_activity_targeted(actor_unit, paction, &target_extra));
     break;
-  case ACTRES_NONE:
     // 100% ruleset defined.
     switch (action_get_target_kind(paction)) {
     case ATK_CITY:
