@@ -52,6 +52,8 @@ tiles = { "row", "column", "tag"
   4, 0, "unit.goto"
   4, 1, "unit.convert"
   4, 2, "unit.auto_explore"
+  4, 0, "unit.sabotage_def"
+  4, 0, "unit.sabotage_off"
 
 ; [GS]
   5,  0, "unit.irrigation"
@@ -59,5 +61,6 @@ tiles = { "row", "column", "tag"
   5,  2, "unit.mine"
   5,  3, "unit.oil_mine"
   5,  4, "unit.oil_rig"
+
 
 }

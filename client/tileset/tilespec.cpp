@@ -195,7 +195,8 @@ struct named_sprites {
         *go_to, // goto is a C keyword :-)
         *irrigate, *plant, *pillage, *sentry, *stack, *loaded, *transform,
         *connect, *patrol, *convert, *battlegroup[MAX_NUM_BATTLEGROUPS],
-        *action_decision_want, *lowfuel, *tired;
+        *action_decision_want, *lowfuel, *tired,
+        *sabotage_def, *sabotage_off;
     std::vector<QPixmap *> hp_bar, select;
   } unit;
   struct {
@@ -2591,6 +2592,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(unit.plant, "unit.plant");
   SET_SPRITE(unit.pillage, "unit.pillage");
   SET_SPRITE(unit.sentry, "unit.sentry");
+  SET_SPRITE(unit.sabotage_def, "unit.sabotage_def");
+  SET_SPRITE(unit.sabotage_off, "unit.sabotage_off");
   SET_SPRITE(unit.convert, "unit.convert");
   SET_SPRITE(unit.stack, "unit.stack");
   SET_SPRITE(unit.loaded, "unit.loaded");
@@ -3573,7 +3576,7 @@ void build_tile_data(const struct tile *ptile, struct terrain *pterrain,
  */
 const QPixmap *get_activity_sprite(const struct tileset *t,
                                    enum unit_activity activity,
-                                   extra_type *target)
+                                   extra_type *target, bool own_unit)
 {
   switch (activity) {
   case ACTIVITY_MINE:
@@ -3628,6 +3631,26 @@ const QPixmap *get_activity_sprite(const struct tileset *t,
   case ACTIVITY_CONVERT:
     return t->sprites.unit.convert;
     break;
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+    if(own_unit) {
+      return t->sprites.unit.sabotage_def;
+    }
+    break;
+  case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
+  case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+    if (own_unit) {
+      return t->sprites.unit.sabotage_off;
+    }
+    break;
   default:
     break;
   }
@@ -3681,7 +3704,8 @@ void fill_unit_sprite_array(const struct tileset *t,
 
   // Activity sprite
   if (auto sprite =
-          get_activity_sprite(t, punit->activity, punit->activity_target)) {
+          get_activity_sprite(t, punit->activity, punit->activity_target,
+                              unit_owner(punit) == client_player())) {
     sprs.emplace_back(t, sprite, true,
                       FULL_TILE_X_OFFSET + t->activity_offset_x,
                       FULL_TILE_Y_OFFSET + t->activity_offset_y);
