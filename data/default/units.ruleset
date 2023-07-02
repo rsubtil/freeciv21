@@ -141,6 +141,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ;                       citizen. The effect "Unit_No_Lose_Pop" and the server
 ;                       setting 'killcitizen' can disable this.
 ; "NonStack"          = Units don't allow stacking of any kind.
+; "Public"            = Unit is public, i.e. can be seen by all players anywhere
+;                       on the map.
 ;
 ; */ <-- avoid gettext warnings
 
@@ -586,7 +588,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack"
+flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack", "Public"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
@@ -618,7 +620,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack"
+flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack", "Public"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
@@ -650,7 +652,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack"
+flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack", "Public"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\

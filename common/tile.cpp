@@ -405,6 +405,13 @@ enum known_type tile_get_known(const struct tile *ptile,
     }
   }
   extra_type_by_cause_iterate_end;
+  unit_list_iterate(ptile->units, punit)
+  {
+    if (utype_has_flag(punit->utype, UTYF_PUBLIC)) {
+      return TILE_KNOWN_SEEN;
+    }
+  }
+  unit_list_iterate_end;
 
   if (tile_virtual_check(ptile)) {
     return TILE_KNOWN_SEEN;
