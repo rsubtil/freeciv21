@@ -456,6 +456,18 @@ void fc_client::read_settings()
   } else {
     qt_settings.show_battle_log = false;
   }
+  if (s.contains(QStringLiteral("server_username"))) {
+    qt_settings.server_username =
+        s.value(QStringLiteral("server_username")).toString();
+  } else {
+    qt_settings.server_username = QString("");
+  }
+  if (s.contains(QStringLiteral("server_password"))) {
+    qt_settings.server_password =
+        s.value(QStringLiteral("server_password")).toString();
+  } else {
+    qt_settings.server_password = QString("");
+  }
 
   qt_settings.show_chat =
       s.value(QStringLiteral("show_chat"), true).toBool();
@@ -529,8 +541,9 @@ void fc_client::write_settings()
   s.setValue(QStringLiteral("battlelog_scale"), qt_settings.battlelog_scale);
   s.setValue(QStringLiteral("battlelog_x"), qt_settings.battlelog_x);
   s.setValue(QStringLiteral("battlelog_y"), qt_settings.battlelog_y);
-  s.setValue(QStringLiteral("new_turn_text"),
-             qt_settings.show_new_turn_text);
+  s.setValue(QStringLiteral("new_turn_text"), qt_settings.show_new_turn_text);
+  s.setValue(QStringLiteral("server_username"), qt_settings.server_username);
+  s.setValue(QStringLiteral("server_password"), qt_settings.server_password);
   s.setValue(QStringLiteral("show_battle_log"), qt_settings.show_battle_log);
   s.setValue(QStringLiteral("show_chat"), queen()->chat->is_chat_visible());
   s.setValue(QStringLiteral("show_messages"),

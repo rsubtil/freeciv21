@@ -124,7 +124,8 @@ page_network::page_network(QWidget *parent, fc_client *gui)
 
   ui.connect_host_edit->setText(client_url().host());
   ui.connect_port_edit->setText(QString::number(client_url().port()));
-  ui.connect_login_edit->setText(client_url().userName());
+  //ui.connect_login_edit->setText(client_url().userName());
+  ui.connect_login_edit->setText(king->qt_settings.server_username);
   ui.connect_password_edit->setDisabled(true);
   ui.connect_confirm_password_edit->setDisabled(true);
   setLayout(ui.gridLayout);
@@ -153,7 +154,7 @@ void page_network::set_connection_state(enum connection_state state)
     ui.connect_password_edit->setFocus(Qt::OtherFocusReason);
     break;
   case ENTER_PASSWORD_TYPE:
-    ui.connect_password_edit->setText(QLatin1String(""));
+    ui.connect_password_edit->setText(king->qt_settings.server_password);
     ui.connect_confirm_password_edit->setText(QLatin1String(""));
     ui.connect_password_edit->setDisabled(false);
     ui.connect_confirm_password_edit->setDisabled(true);
@@ -447,6 +448,7 @@ void page_network::slot_connect()
     client_url().setUserName(ui.connect_login_edit->text());
     client_url().setHost(ui.connect_host_edit->text());
     client_url().setPort(ui.connect_port_edit->text().toInt());
+    king->qt_settings.server_username = ui.connect_login_edit->text();
 
     if (connect_to_server(client_url(), errbuf, sizeof(errbuf)) != -1) {
     } else {
@@ -475,6 +477,10 @@ void page_network::slot_connect()
                MAX_LEN_PASSWORD);
     send_packet_authentication_reply(&client.conn, &reply);
     set_connection_state(WAITING_TYPE);
+    log_warning("%s  %s", ui.connect_login_edit->text().toUtf8().data(),
+                ui.connect_password_edit->text().toUtf8().data());
+    king->qt_settings.server_username = ui.connect_login_edit->text();
+    king->qt_settings.server_password = ui.connect_password_edit->text();
     return;
   case WAITING_TYPE:
     return;

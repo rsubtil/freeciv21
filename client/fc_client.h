@@ -60,6 +60,8 @@ struct fc_settings {
   bool show_battle_log;
   bool show_chat;     // Only used when loading
   bool show_messages; // Only used when loading
+  QString server_username;
+  QString server_password;
   Qt::SortOrder player_report_sort;
   int city_repo_sort_col;
   Qt::SortOrder city_report_sort;
