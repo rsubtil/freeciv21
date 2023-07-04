@@ -863,6 +863,7 @@ void handle_city_info(const struct packet_city_info *packet)
   } else if (powner->primary_capital_id == pcity->id) {
     powner->primary_capital_id = 0;
   }
+  pcity->hp = packet->hp;
   pcity->client.city_image = packet->city_image;
   pcity->steal = packet->steal;
 

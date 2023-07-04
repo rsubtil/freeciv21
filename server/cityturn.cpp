@@ -3339,6 +3339,39 @@ static bool city_handle_disorder(struct city *pcity)
   return false;
 }
 
+static void city_handle_capture(struct city *pcity)
+{
+  struct player *pplayer = city_owner(pcity);
+  int radius_sq = city_map_radius_sq_get(pcity);
+
+  // Cities recover HP each turn, and lose HP by the difference between foreign and local units.
+  int delta = game.info.city_recover_hitpoints;
+  city_map_iterate_without_index(radius_sq, cx, cy)
+  {
+    struct tile *ptile = city_map_to_tile(pcity->tile, radius_sq, cx, cy);
+    if(!ptile) continue;
+    unit_list_iterate(ptile->units, punit)
+    {
+      if (utype_has_flag(punit->utype, UTYF_PUBLIC)) {
+        if (unit_owner(punit) != pplayer) {
+          delta -= 1;
+        } else {
+          delta += 1;
+        }
+      }
+    }
+    unit_list_iterate_end;
+  }
+  city_map_iterate_without_index_end;
+
+  // Change HP.
+  pcity->hp = std::clamp(pcity->hp + delta, 0, game.info.city_start_hitpoints);
+
+  // If HP == 0, city loses ownership.
+  // TODO: Figure ownership. First unit arriving?
+  log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);
+}
+
 /**
    Called every turn, at end of turn, for every city.
  */
@@ -3476,6 +3509,10 @@ static void update_city_activity(struct city *pcity)
   /* ------------------------------------------------------------------------
    * Check if disorder in city brings the government to anarchy */
   city_handle_disorder(pcity);
+
+  /* ------------------------------------------------------------------------
+   * Handle city capture. */
+  city_handle_capture(pcity);
 
   pcity->did_sell = false;
   pcity->did_buy = false;

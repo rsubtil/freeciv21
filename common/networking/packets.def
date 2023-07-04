@@ -599,6 +599,8 @@ PACKET_GAME_INFO = 16; sc, is-info
   SINT16 killunhomed; add-cap(killunhomed-is-game-info)
   UINT16 sabotage_offensive_time;
   UINT16 sabotage_defensive_time;
+  UINT32 city_start_hitpoints;
+  UINT32 city_recover_hitpoints;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet
@@ -757,6 +759,7 @@ PACKET_CITY_INFO = 31; sc, lsend, is-game-info, force, cancel(PACKET_CITY_SHORT_
   UNIT_ORDER rally_point_orders[MAX_LEN_ROUTE:rally_point_length];
   BOOL cma_enabled;
   CM_PARAMETER cm_parameter;
+  UINT32 hp;
 end
 
 PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
@@ -767,6 +770,7 @@ PACKET_CITY_SHORT_INFO = 32; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
   UINT8 size;
   UINT8 style;
   CAPITAL capital;
+  UINT32 hp;
 
   BOOL  occupied;
   UINT8 walls;

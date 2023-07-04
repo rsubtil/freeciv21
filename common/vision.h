@@ -125,6 +125,7 @@ struct vision_site {
   int style;
   int city_image;
   enum capital_type capital;
+  int hp;
 
   bv_imprs improvements;
 };

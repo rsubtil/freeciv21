@@ -6925,6 +6925,8 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
     pdcity->capital = CAPITAL_NOT;
   }
 
+  pdcity->hp = secfile_lookup_int_default(loading->file, 480, "%s.hp", citystr);
+
   return true;
 }
 
@@ -7068,6 +7070,7 @@ static void sg_save_player_vision(struct savedata *saving,
                          buf);
       secfile_insert_str(saving->file, capital_type_name(pdcity->capital),
                          "%s.capital", buf);
+      secfile_insert_int(saving->file, pdcity->hp, "%s.hp", buf);
 
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement.order. */

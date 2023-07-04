@@ -3337,6 +3337,7 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->capital = CAPITAL_NOT;
   city_size_set(pcity, 1);
   pcity->specialists[DEFAULT_SPECIALIST] = 1;
+  pcity->hp = game.info.city_start_hitpoints;
 
   output_type_iterate(o) { pcity->bonus[o] = 100; }
   output_type_iterate_end;

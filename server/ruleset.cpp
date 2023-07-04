@@ -6381,6 +6381,11 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     game.info.granularity =
         secfile_lookup_int_default(file, 1, "civstyle.output_granularity");
+    game.info.city_start_hitpoints =
+        secfile_lookup_int_default(file, RS_DEFAULT_CITY_START_HITPOINTS, "civstyle.city_start_hitpoints");
+    game.info.city_recover_hitpoints =
+        secfile_lookup_int_default(file, RS_DEFAULT_CITY_RECOVER_HITPOINTS,
+                                   "civstyle.city_recover_hitpoints");
 
     // section: illness
     game.info.illness_on = secfile_lookup_bool_default(

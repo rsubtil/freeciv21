@@ -1191,6 +1191,8 @@ bool transfer_city(struct player *ptaker, struct city *pcity,
 
   pcity->owner = ptaker;
   pcity->capital = CAPITAL_NOT;
+  // Recover half of HP
+  pcity->hp = game.info.city_start_hitpoints / 2;
   map_claim_ownership(pcenter, ptaker, pcenter, true);
   city_list_prepend(ptaker->cities, pcity);
 
@@ -2141,6 +2143,7 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
   packet->style = pdcity->style;
   packet->city_image = pdcity->city_image;
   packet->capital = pdcity->capital;
+  packet->hp = pdcity->hp;
   packet->happy = pdcity->happy;
   packet->unhappy = pdcity->unhappy;
   packet->improvements = pdcity->improvements;
@@ -2637,6 +2640,7 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->style = pcity->style;
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
   packet->capital = pcity->capital;
+  packet->hp = pcity->hp;
   packet->steal = pcity->steal;
 
   packet->rally_point_length = pcity->rally_point.length;
@@ -2689,6 +2693,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   int style = pcity->style;
   int city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
   enum capital_type capital = pcity->capital;
+  int hp = pcity->hp;
 
   BV_CLR_ALL(improvements);
   improvement_iterate(pimprove)
@@ -2719,6 +2724,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
              && pdcity->happy == happy && pdcity->unhappy == unhappy
              && pdcity->style == style && pdcity->city_image == city_image
              && pdcity->capital == capital
+             && pdcity->hp == hp
              && BV_ARE_EQUAL(pdcity->improvements, improvements)
              && vision_site_size_get(pdcity) == city_size_get(pcity)
              && vision_site_owner(pdcity) == city_owner(pcity)
@@ -2732,6 +2738,7 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity)
   pdcity->style = style;
   pdcity->city_image = city_image;
   pdcity->capital = capital;
+  pdcity->hp = hp;
   pdcity->happy = happy;
   pdcity->unhappy = unhappy;
   pdcity->improvements = improvements;

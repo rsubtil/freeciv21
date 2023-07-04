@@ -1048,6 +1048,12 @@ static bool save_game_ruleset(const char *filename, const char *name)
   }
   save_default_int(sfile, game.info.granularity, 1,
                    "civstyle.output_granularity", nullptr);
+  save_default_int(sfile, game.info.city_start_hitpoints,
+                   RS_DEFAULT_CITY_START_HITPOINTS,
+                   "civstyle.city_start_hitpoints", nullptr);
+  save_default_int(sfile, game.info.city_recover_hitpoints,
+                   RS_DEFAULT_CITY_RECOVER_HITPOINTS,
+                   "civstyle.city_recover_hitpoints", nullptr);
   save_default_bool(sfile, game.info.illness_on, RS_DEFAULT_ILLNESS_ON,
                     "illness.illness_on", nullptr);
   save_default_int(sfile, game.info.illness_base_factor,

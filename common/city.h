@@ -288,6 +288,7 @@ struct city {
   int id;
   int style;
   enum capital_type capital;
+  int hp;
 
   // the people
   citizens size;
