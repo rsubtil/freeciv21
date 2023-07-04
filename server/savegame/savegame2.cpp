@@ -3372,9 +3372,9 @@ static void sg_load_player_cities(struct loaddata *loading,
 static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                 struct city *pcity, const char *citystr)
 {
-  struct player *past;
+  struct player *past, *past_attacker;
   const char *kind, *name, *string;
-  int id, i, repair, sp_count = 0, workers = 0, value;
+  int id, attacker_id, i, repair, sp_count = 0, workers = 0, value;
   int nat_x, nat_y;
   citizens size;
   const char *stylename;
@@ -3404,6 +3404,10 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   if (nullptr != past) {
     pcity->original = past;
   }
+  attacker_id = secfile_lookup_int_default(loading->file, player_number(plr),
+                                           "%s.attacker", citystr);
+  past_attacker = player_by_number(attacker_id);
+  pcity->attacker = past_attacker;
 
   sg_warn_ret_val(
       secfile_lookup_int(loading->file, &value, "%s.size", citystr), false,

@@ -3329,6 +3329,7 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->tile = ptile;
   pcity->owner = pplayer;
   pcity->original = pplayer;
+  pcity->attacker = nullptr;
 
   /* City structure was allocated with fc_calloc(), so contents are initially
    * zero. There is no need to initialize it a second time. */

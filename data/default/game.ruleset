@@ -181,7 +181,7 @@ gold_upkeep_style = "City"
 output_granularity = 1
 
 ; With how much HP cities start
-city_start_hitpoints = 480
+city_start_hitpoints = 5
 
 ; How much HP city recovers per turn
 city_recover_hitpoints = 1
@@ -793,6 +793,37 @@ actor_reqs    =
       "UnitClassFlag", "Missile", "Local", TRUE
       "MinMoveFrags",  "1",       "Local", TRUE
       "DiplRel",       "War",     "Local", TRUE
+    }
+
+[actionenabler_conquer_city_native]
+action = "Conquer City"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitState",      "OnLivableTile", "Local", TRUE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
+    }
+
+[actionenabler_conquer_city_marines]
+action = "Conquer City 2"
+actor_reqs    =
+    { "type",           "name",          "range", "present"
+      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
+      "UnitFlag",       "NonMil",        "Local", FALSE
+      "DiplRel",        "War",           "Local", TRUE
+      "MinMoveFrags",   "1",             "Local", TRUE
+      "UnitFlag",       "Marines",       "Local", TRUE
+      "UnitState",      "OnLivableTile", "Local", FALSE
+    }
+target_reqs    =
+    { "type",           "name",          "range", "present"
+      "MaxUnitsOnTile", "0",             "Local", TRUE
     }
 
 [borders]

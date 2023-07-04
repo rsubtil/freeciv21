@@ -620,7 +620,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack", "Public"
+flags         = "IgZOC", "HasNoZOC", "NonStack", "Public"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
@@ -652,7 +652,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "NonMil", "HasNoZOC", "NonStack", "Public"
+flags         = "IgZOC", "HasNoZOC", "NonStack", "Public"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\

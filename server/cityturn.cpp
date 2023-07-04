@@ -3346,6 +3346,7 @@ static void city_handle_capture(struct city *pcity)
 
   // Cities recover HP each turn, and lose HP by the difference between foreign and local units.
   int delta = game.info.city_recover_hitpoints;
+  struct player* attacker = nullptr;
   city_map_iterate_without_index(radius_sq, cx, cy)
   {
     struct tile *ptile = city_map_to_tile(pcity->tile, radius_sq, cx, cy);
@@ -3355,6 +3356,9 @@ static void city_handle_capture(struct city *pcity)
       if (utype_has_flag(punit->utype, UTYF_PUBLIC)) {
         if (unit_owner(punit) != pplayer) {
           delta -= 1;
+          if(!attacker) {
+            attacker = unit_owner(punit);
+          }
         } else {
           delta += 1;
         }
@@ -3364,12 +3368,26 @@ static void city_handle_capture(struct city *pcity)
   }
   city_map_iterate_without_index_end;
 
+  // Check attacker. If noone was claiming this city, set it to first seen unit.
+  // If city stopped being claimed, clear attacker
+  if(pcity->attacker && !attacker) {
+    pcity->attacker = nullptr;
+  } else if(!pcity->attacker && attacker) {
+    pcity->attacker = attacker;
+  }
+
   // Change HP.
   pcity->hp = std::clamp(pcity->hp + delta, 0, game.info.city_start_hitpoints);
+  log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);
 
   // If HP == 0, city loses ownership.
-  // TODO: Figure ownership. First unit arriving?
-  log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);
+  if(pcity->hp == 0) {
+    fc_assert(pcity->attacker);
+
+    notify_player(pplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
+                  _("Your base %s has changed ownership to the %s player!"), city_link(pcity), player_name(pcity->attacker));
+    transfer_city(pcity->attacker, pcity, false, false, false, false, false);
+  }
 }
 
 /**

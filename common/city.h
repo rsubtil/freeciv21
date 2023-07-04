@@ -289,6 +289,7 @@ struct city {
   int style;
   enum capital_type capital;
   int hp;
+  struct player *attacker; // nullptr if not under attack; indicated rightfull owner if multiple players attack
 
   // the people
   citizens size;
