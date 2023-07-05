@@ -206,7 +206,7 @@ enum spaceship_part {
 
 struct citybar_sprites {
   QPixmap *shields, *food, *trade, *occupied, *background;
-  struct sprite_vector occupancy;
+  struct sprite_vector occupancy, hp;
 };
 
 struct editor_sprites {

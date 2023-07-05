@@ -162,6 +162,7 @@ files =
   "hexemplio/activities.spec",
   "hexemplio/bases.spec",
   "hexemplio/cities.spec",
+  "hexemplio/cityextras.spec",
   "hexemplio/grid.spec",
   "hexemplio/embellishments.spec",
   "hexemplio/forests.spec",

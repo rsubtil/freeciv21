@@ -2642,6 +2642,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(citybar.occupied, "citybar.occupied");
   SET_SPRITE(citybar.background, "citybar.background");
   sprite_vector_init(&t->sprites.citybar.occupancy);
+  sprite_vector_init(&t->sprites.citybar.hp);
   for (i = 0;; i++) {
     QPixmap *sprite;
 
@@ -2655,6 +2656,13 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   if (t->sprites.citybar.occupancy.size < 2) {
     tileset_error(t, LOG_FATAL,
                   _("Missing necessary citybar.occupancy_N sprites."));
+  }
+  for (i = 0; i <= 100; i++) {
+    buffer = QStringLiteral("city.hp_%1").arg(QString::number(i));
+    auto sprite = load_sprite(t, buffer);
+    if (sprite) {
+      sprite_vector_append(&t->sprites.citybar.hp, sprite);
+    }
   }
 
 #define SET_EDITOR_SPRITE(x) SET_SPRITE(editor.x, "editor." #x)
