@@ -23,3 +23,7 @@
 #define SERVER_COMMAND_PREFIX '/'
 #define CHAT_ALLIES_PREFIX '.'
 #define CHAT_DIRECT_PREFIX ':'
+
+#define CHAT_GLOBAL_PREFIX '!'
+#define CHAT_PRIVATE_PREFIX '@'
+#define CHAT_SABOTAGE_PREFIX '$'

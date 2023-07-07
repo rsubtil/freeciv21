@@ -115,10 +115,7 @@ void chat_listener::send_chat_message(const QString &message)
    * Option to send to allies by default
    */
   if (!message.isEmpty()) {
-    if (client_state() >= C_S_RUNNING && gui_options->gui_qt_allied_chat_only
-        && is_plain_public_message(message)) {
-      send_chat((QString(CHAT_ALLIES_PREFIX) + " " + message).toLocal8Bit());
-    } else {
+    if (client_state() >= C_S_RUNNING) {
       send_chat(message.toLocal8Bit());
     }
   }

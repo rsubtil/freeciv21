@@ -287,6 +287,7 @@ static void chat_msg_to_all(struct connection *sender, char *msg)
 {
   struct packet_chat_msg packet;
   char sender_name[MAX_LEN_CHAT_NAME];
+  if(msg[0] != '\0') msg++;
 
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
@@ -330,6 +331,8 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
 
   sz_strlcpy(real_message, message);
 
+  log_warning("Raw msg: %s", real_message);
+
   /* This loop to prevent players from sending multiple lines which can
    * be abused */
   for (cp = real_message; *cp != '\0'; cp++) {
@@ -345,27 +348,27 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
      So consider this an incentive for IRC support,
      or change it in chat.h - rp
   */
-  if (real_message[0] == SERVER_COMMAND_PREFIX) {
-    // pass it to the command parser, which will chop the prefix off
-    (void) handle_stdin_input(pconn, real_message);
-    return;
-  }
-
-  // Send to allies command
-  if (real_message[0] == CHAT_ALLIES_PREFIX) {
-    // this won't work if we aren't attached to a player
-    if (nullptr == pconn->playing && !pconn->observer) {
-      notify_conn(pconn->self, nullptr, E_CHAT_ERROR, ftc_server,
-                  _("You are not attached to a player."));
+ switch(real_message[0]) {
+    case SERVER_COMMAND_PREFIX:
+      // pass it to the command parser, which will chop the prefix off
+      (void) handle_stdin_input(pconn, real_message);
       return;
-    }
-
-    if (nullptr != pconn->playing) {
-      chat_msg_to_allies(pconn, real_message + 1);
-    } else {
-      chat_msg_to_global_observers(pconn, real_message + 1);
-    }
-    return;
+    case CHAT_GLOBAL_PREFIX:
+      // Send to all command
+      chat_msg_to_all(pconn, real_message);
+      return;
+    case CHAT_PRIVATE_PREFIX:
+      // Send to player command
+      //chat_msg_to_player(...)
+      return;
+    case CHAT_SABOTAGE_PREFIX:
+      // Send to sabotage command
+      //chat_msg_to_sabotage(...)
+      return;
+    default:
+      // Messages must have prefix.
+      log_warning("Message without prefix: %s", real_message);
+      return;
   }
 
   /* Want to allow private messages with "player_name: message",
@@ -391,7 +394,7 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
      else complain (might be a typo-ed intended private message)
   */
 
-  cp = strchr(real_message, CHAT_DIRECT_PREFIX);
+  /*cp = strchr(real_message, CHAT_DIRECT_PREFIX);
 
   if (cp && (cp != &real_message[0])) {
     enum m_pre_result match_result_player, match_result_conn;
@@ -440,9 +443,6 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
         return;
       }
     }
-    /* Didn't match; check heuristics to see if this is likely
-     * to be a global message
-     */
     cpblank = strchr(real_message, ' ');
     if (!cpblank || (cp < cpblank)) {
       if (double_colon) {
@@ -458,4 +458,5 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
   }
   // global message:
   chat_msg_to_all(pconn, real_message);
+  */
 }

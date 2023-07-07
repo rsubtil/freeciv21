@@ -3378,7 +3378,7 @@ static void city_handle_capture(struct city *pcity)
 
   // Change HP.
   pcity->hp = std::clamp(pcity->hp + delta, 0, game.info.city_start_hitpoints);
-  log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);
+  //log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);
 
   // If HP == 0, city loses ownership.
   if(pcity->hp == 0) {
