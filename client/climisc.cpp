@@ -854,6 +854,8 @@ void handle_event(const char *featured_text, struct tile *ptile,
   featured_text_to_plain_text(featured_text, plain_text, sizeof(plain_text),
                               &tags, conn_id != -1);
 
+  log_warning("handle_event: %s -> %s", featured_text, plain_text);
+
   // Display link marks when an user is pointed us something.
   if (conn_id != -1) {
     text_tag_list_iterate(tags, ptag)

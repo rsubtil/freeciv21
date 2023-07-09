@@ -521,6 +521,11 @@ void chat_widget::update_font()
   chat_output->setFont(fcFont::instance()->getFont(fonts::chatline));
 }
 
+void chat_widget::set_filter(QString filter)
+{
+  this->filter = filter;
+}
+
 /**
  * User clicked clear links button
  */
@@ -548,7 +553,7 @@ void chat_widget::anchor_clicked(const QUrl &link)
     if (pcity) {
       ptile = client_city_tile(pcity);
     } else {
-      output_window_append(ftc_client, _("This city isn't known!"));
+      output_window_append(ftc_client, _("#This city isn't known!"));
     }
   } break;
   case TLT_TILE:
@@ -556,7 +561,7 @@ void chat_widget::anchor_clicked(const QUrl &link)
 
     if (!ptile) {
       output_window_append(ftc_client,
-                           _("This tile doesn't exist in this game!"));
+                           _("#This tile doesn't exist in this game!"));
     }
     break;
   case TLT_UNIT: {
@@ -565,7 +570,7 @@ void chat_widget::anchor_clicked(const QUrl &link)
     if (punit) {
       ptile = unit_tile(punit);
     } else {
-      output_window_append(ftc_client, _("This unit isn't known!"));
+      output_window_append(ftc_client, _("#This unit isn't known!"));
     }
   }
   case TLT_INVALID:
@@ -583,8 +588,19 @@ void chat_widget::anchor_clicked(const QUrl &link)
 void chat_widget::chat_message_received(const QString &message,
                                         const struct text_tag_list *tags)
 {
+  log_warning("chat_widget::chat_message_received: %s", message.toUtf8().data());
+
+  if (!filter.isEmpty() && !message.startsWith(CHAT_META_PREFIX) && !message.startsWith(filter)) {
+    return;
+  }
+
   QColor col = chat_output->palette().color(QPalette::Text);
-  append(apply_tags(message, tags, col));
+  if(message.startsWith(CHAT_META_PREFIX)) {
+    append(apply_tags(message.right(message.size() - 1), tags,
+                      col));
+  } else {
+    append(apply_tags(message.right(message.size() - filter.size()), tags, col));
+  }
 }
 
 /**

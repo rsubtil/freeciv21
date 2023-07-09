@@ -18,6 +18,7 @@
 // utility
 #include "fcintl.h"
 // common
+#include "chat.h"
 #include "chatline_common.h"
 #include "colors_common.h"
 #include "connectdlg_common.h"
@@ -581,6 +582,10 @@ void page_pregame::chat_message_received(const QString &message,
 {
   QColor col = ui.output_window->palette().color(QPalette::Text);
   QString str = apply_tags(message, tags, col);
+
+  if(message.startsWith(CHAT_META_PREFIX)) {
+    str = str.mid(1);
+  }
 
   if (ui.output_window != nullptr) {
     ui.output_window->append(str);

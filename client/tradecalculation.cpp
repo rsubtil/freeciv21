@@ -209,7 +209,7 @@ void trade_generator::calculate()
     if (!tc->done) {
       char text[1024];
       fc_snprintf(text, sizeof(text),
-                  PL_("City %s - 1 free trade route.",
+                  PL_("#City %s - 1 free trade route.",
                       "City %s - %d free trade routes.",
                       max_trade_routes(tc->city) - tc->trade_num),
                   city_link(tc->city),

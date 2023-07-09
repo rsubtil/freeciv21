@@ -23,6 +23,7 @@
 #include "fcintl.h"
 // common
 #include "calendar.h"
+#include "chat.h"
 #include "cityrep_g.h"
 #include "government.h"
 #include "repodlgs_g.h"
@@ -189,6 +190,7 @@ pageGame::pageGame(QWidget *parent)
   // Chatline widget
   chat = new chat_widget(mapview_wdg);
   chat->setAttribute(Qt::WA_NoMousePropagation);
+  chat->set_filter(QString(CHAT_GLOBAL_PREFIX));
   chat->show();
 
   // Voting bar widget

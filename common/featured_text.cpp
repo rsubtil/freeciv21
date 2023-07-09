@@ -21,6 +21,7 @@
 
 // common
 #include "city.h"
+#include "chat.h"
 #include "combat.h"
 #include "game.h"
 #include "map.h"

@@ -206,7 +206,7 @@ bool client_start_server(const QString &user_name)
   // This also resets client_has_hack.
   client_kill_server(true);
 
-  output_window_append(ftc_client, _("Starting local server..."));
+  output_window_append(ftc_client, _("#Starting local server..."));
 
   // find a free port
   /* Mitigate the risk of ending up with the port already
@@ -216,18 +216,18 @@ bool client_start_server(const QString &user_name)
                                              DEFAULT_SOCK_PORT + 1 + 10000);
 
   if (internal_server_port < 0) {
-    output_window_append(ftc_client, _("Couldn't start the server."));
+    output_window_append(ftc_client, _("#Couldn't start the server."));
     output_window_append(ftc_client,
-                         _("You'll have to start one manually. Sorry..."));
+                         _("#You'll have to start one manually. Sorry..."));
     return false;
   }
 
   storage = freeciv_storage_dir();
   if (storage == nullptr) {
     output_window_append(ftc_client,
-                         _("Cannot find Freeciv21 storage directory"));
+                         _("#Cannot find Freeciv21 storage directory"));
     output_window_append(
-        ftc_client, _("You'll have to start server manually. Sorry..."));
+        ftc_client, _("#You'll have to start server manually. Sorry..."));
     return false;
   }
 
@@ -270,11 +270,11 @@ bool client_start_server(const QString &user_name)
 
   serverProcess::i()->start(location, arguments);
   if (!serverProcess::i()->waitForStarted(3000)) {
-    output_window_append(ftc_client, _("Couldn't start the server."));
+    output_window_append(ftc_client, _("#Couldn't start the server."));
     output_window_append(ftc_client,
-                         _("We probably couldn't start it from here."));
+                         _("#We probably couldn't start it from here."));
     output_window_append(ftc_client,
-                         _("You'll have to start one manually. Sorry..."));
+                         _("#You'll have to start one manually. Sorry..."));
     return false;
   }
 
@@ -314,11 +314,11 @@ bool client_start_server(const QString &user_name)
                .toLocal8Bit()
                .data());
 #endif
-    output_window_append(ftc_client, _("Couldn't connect to the server."));
+    output_window_append(ftc_client, _("#Couldn't connect to the server."));
     output_window_append(ftc_client,
-                         _("We probably couldn't start it from here."));
+                         _("#We probably couldn't start it from here."));
     output_window_append(ftc_client,
-                         _("You'll have to start one manually. Sorry..."));
+                         _("#You'll have to start one manually. Sorry..."));
 
     return false;
   }

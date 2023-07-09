@@ -214,7 +214,7 @@ void disconnect_from_server()
   if (force) {
     client_kill_server(true);
   }
-  output_window_append(ftc_client, _("Disconnected from server."));
+  output_window_append(ftc_client, _("#Disconnected from server."));
 
   if (gui_options->save_options_on_exit) {
     options_save(nullptr);

@@ -159,15 +159,15 @@ void output_window_event(const char *plain_text,
  */
 void chat_welcome_message(bool gui_has_copying_mitem)
 {
-  output_window_append(ftc_any, _("Freeciv21 is free software and you are "
+  output_window_append(ftc_any, _("#Freeciv21 is free software and you are "
                                   "welcome to distribute copies of it "
                                   "under certain conditions;"));
   if (gui_has_copying_mitem) {
-    output_window_append(ftc_any, _("See the \"Copying\" item on the "
+    output_window_append(ftc_any, _("#See the \"Copying\" item on the "
                                     "Help menu."));
   } else {
-    output_window_append(ftc_any, _("See COPYING file distributed with "
+    output_window_append(ftc_any, _("#See COPYING file distributed with "
                                     "this program."));
   }
-  output_window_append(ftc_any, _("Now ... Go give 'em hell!"));
+  output_window_append(ftc_any, _("#Now ... Go give 'em hell!"));
 }

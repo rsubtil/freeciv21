@@ -170,8 +170,8 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   }
 
   // Send the message to player observers.
-  package_chat_msg(&packet, sender, ftc_chat_private, "{%s -> %s} %s",
-                   sender_name, player_name(pdest), msg);
+  package_chat_msg(&packet, sender, ftc_chat_private, "%c{%s -> %s} %s",
+                   CHAT_META_PREFIX, sender_name, player_name(pdest), msg);
   conn_list_iterate(pdest->connections, pconn)
   {
     if (pconn != dest && pconn != sender
@@ -210,8 +210,8 @@ static void chat_msg_to_all(struct connection *sender, char *msg)
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  package_chat_msg(&packet, sender, ftc_chat_public, "<%s> %s", sender_name,
-                   msg);
+  package_chat_msg(&packet, sender, ftc_chat_public, "%c<%s> %s",
+                   CHAT_GLOBAL_PREFIX, sender_name, msg);
   con_write(C_COMMENT, "%s", packet.message);
   lsend_packet_chat_msg(game.est_connections, &packet);
 

@@ -114,6 +114,8 @@ public:
   void take_focus();
   void update_font();
 
+  void set_filter(QString filter);
+
   /// Returns whether the chat widget is currently visible.
   bool is_chat_visible() const { return m_chat_visible; }
   void set_chat_visible(bool visible);
@@ -138,6 +140,7 @@ private:
   QToolButton *cb;
   QMenu *cb_menu;
   move_widget *mw;
+  QString filter;
 };
 
 void real_output_window_append(const QString &astring,
