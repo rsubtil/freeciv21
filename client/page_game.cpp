@@ -188,9 +188,11 @@ pageGame::pageGame(QWidget *parent)
   battlelog_wdg->hide();
 
   // Chatline widget
-  chat = new chat_widget(mapview_wdg);
+  chat = new multiple_chat_widget(mapview_wdg);
   chat->setAttribute(Qt::WA_NoMousePropagation);
-  chat->set_filter(QString(CHAT_GLOBAL_PREFIX));
+  //chat->set_filter(QString(CHAT_GLOBAL_PREFIX));
+  chat->add_chat_panel(QString("Public"), QString(CHAT_GLOBAL_PREFIX), QString(""));
+  chat->add_chat_panel(QString("Sabotage"), QString(CHAT_SABOTAGE_PREFIX), QString(""));
   chat->show();
 
   // Voting bar widget

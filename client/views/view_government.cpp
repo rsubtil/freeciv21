@@ -24,6 +24,7 @@
 #include <QToolTip>
 
 // common
+#include "chat.h"
 #include "game.h"
 // client
 #include "chatline.h"
@@ -239,6 +240,7 @@ government_report::government_report() : QWidget()
   // TODO: Add public chat
   chat_widget *a_public_chat = new chat_widget(this);
   a_public_chat->setSizePolicy(size_expand_policy);
+  a_public_chat->set_filter(QString(CHAT_SABOTAGE_PREFIX));
   a_layout->addWidget(a_public_chat, 1, 6, -1, 4);//, -1, 4);
 
   QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));

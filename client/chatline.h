@@ -14,8 +14,11 @@
 
 // Qt
 #include <QEvent>
+#include <QGridLayout>
 #include <QLineEdit>
+#include <QStackedLayout>
 #include <QTextBrowser>
+#include <QVBoxLayout>
 // gui-qt
 #include "listener.h"
 #include "widgets/decorations.h"
@@ -51,7 +54,7 @@ public:
   virtual void chat_message_received(const QString &,
                                      const struct text_tag_list *);
 
-  void send_chat_message(const QString &message);
+  void send_chat_message(const QString &message, const QString &filter);
 
   QString back_in_history();
   QString forward_in_history();
@@ -68,7 +71,8 @@ private slots:
   void send();
 
 public:
-  explicit chat_input(QWidget *parent = nullptr);
+  explicit chat_input(QWidget *parent = nullptr, QString filter = "");
+  QString filter;
 
 protected:
   bool event(QEvent *event) override;
@@ -103,7 +107,7 @@ class chat_widget : public resizable_widget, private chat_listener {
   Q_OBJECT
 
 public:
-  chat_widget(QWidget *parent);
+  chat_widget(QWidget *parent, bool resizable = true);
   virtual ~chat_widget();
 
   void append(const QString &str);
@@ -134,15 +138,57 @@ private:
                              const struct text_tag_list *tags) override;
 
   bool m_chat_visible = true;
+  bool sabotage_version;
   QTextBrowser *chat_output;
   QPushButton *remove_links;
   QPushButton *show_hide;
   QToolButton *cb;
   QMenu *cb_menu;
   move_widget *mw;
+
+public:
   QString filter;
 };
 
 void real_output_window_append(const QString &astring,
                                const text_tag_list *tags);
 void version_message(const QString &vertext);
+
+class multiple_chat_widget : public resizable_widget, private chat_listener {
+  Q_OBJECT
+
+public:
+  multiple_chat_widget(QWidget *parent);
+  virtual ~multiple_chat_widget();
+
+  void add_chat_panel(const QString &name, const QString &filter, const QString &image_path);
+  void update_widgets();
+
+  bool is_chat_visible() const { return m_chat_visible; }
+  void set_chat_visible(bool visible);
+
+  void append(const QString &str);
+  void take_focus();
+  void update_font();
+  void make_link(struct tile *ptile);
+
+protected:
+  void paintEvent(QPaintEvent *event) override;
+  //bool eventFilter(QObject *obj, QEvent *event) override;
+
+private slots:
+  void update_menu() override {}
+
+private:
+  void chat_message_received(const QString &message,
+                             const struct text_tag_list *tags) override;
+  chat_widget* get_current_chat_widget();
+
+  bool m_chat_visible = true;
+  QGridLayout *main_layout;
+  QWidget *main_widget;
+  QPushButton *show_hide;
+  QVBoxLayout *chat_buttons_layout;
+  QStackedLayout *chat_widgets_layout;
+  std::vector<chat_widget *> chat_widgets;
+};

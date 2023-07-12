@@ -21,7 +21,7 @@ class fc_client;
 class map_view;
 class minimap_panel;
 class hud_units;
-class chat_widget;
+class multiple_chat_widget;
 class message_widget;
 class hud_battle_log;
 class gold_widget;
@@ -75,7 +75,7 @@ public:
   hud_units *unitinfo_wdg;
   message_widget *message;
   top_bar_widget *sw_message;
-  chat_widget *chat;
+  multiple_chat_widget *chat;
   map_view *mapview_wdg;
   ::minimap_panel *minimap_panel;
   city_dialog *city_overlay;

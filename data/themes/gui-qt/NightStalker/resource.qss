@@ -48,6 +48,10 @@ chat_widget, message_widget {
   border-radius: 3px;
 }
 
+multiple_chat_widget {
+  background-color: #00001d;
+}
+
 /* color of border only - set the same as background */
 *[messagewindow="true"] {
   color: #00002f;

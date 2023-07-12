@@ -571,7 +571,7 @@ void page_pregame::start_page_menu(QPoint pos)
  */
 void page_pregame::send_fake_chat_message(const QString &message)
 {
-  send_chat_message(message);
+  send_chat_message(message, QString("#"));
 }
 
 /**

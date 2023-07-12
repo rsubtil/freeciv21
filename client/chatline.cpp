@@ -83,7 +83,7 @@ void chat_listener::chat_message_received(const QString &,
  *
  * The history position is reset to HISTORY_END.
  */
-void chat_listener::send_chat_message(const QString &message)
+void chat_listener::send_chat_message(const QString &message, const QString &filter)
 {
   QString splayer, s;
 
@@ -111,12 +111,19 @@ void chat_listener::send_chat_message(const QString &message)
     players_iterate_end;
   }
 
+  // Append text filter
+  if (!message.startsWith("/")) {
+    s = filter + message;
+  } else {
+    s = message;
+  }
+
   /*
    * Option to send to allies by default
    */
   if (!message.isEmpty()) {
     if (client_state() >= C_S_RUNNING) {
-      send_chat(message.toLocal8Bit());
+      send_chat(s.toLocal8Bit());
     }
   }
   // Empty messages aren't sent
@@ -163,7 +170,7 @@ void chat_listener::reset_history_position() { position = HISTORY_END; }
 /**
  * Constructor
  */
-chat_input::chat_input(QWidget *parent) : QLineEdit(parent)
+chat_input::chat_input(QWidget *parent, QString filter) : QLineEdit(parent), filter(filter)
 {
   connect(this, &QLineEdit::returnPressed, this, &chat_input::send);
   chat_listener::listen();
@@ -174,7 +181,7 @@ chat_input::chat_input(QWidget *parent) : QLineEdit(parent)
  */
 void chat_input::send()
 {
-  send_chat_message(text());
+  send_chat_message(text(), filter);
   clear();
 }
 
@@ -336,12 +343,15 @@ void chat_input::focusInEvent(QFocusEvent *event)
 /**
  * Constructor for chat_widget
  */
-chat_widget::chat_widget(QWidget *parent)
+chat_widget::chat_widget(QWidget *parent, bool resizable)
 {
   QGridLayout *gl;
   setParent(parent);
   setMinimumSize(200, 100);
-  setResizable(Qt::LeftEdge | Qt::RightEdge | Qt::TopEdge | Qt::BottomEdge);
+  if(resizable)
+    setResizable(Qt::LeftEdge | Qt::RightEdge | Qt::TopEdge | Qt::BottomEdge);
+  else
+    setResizable({});
 
   gl = new QGridLayout;
   gl->setVerticalSpacing(0);
@@ -387,7 +397,7 @@ chat_widget::chat_widget(QWidget *parent)
   });
   group->addAction(action);
 
-  chat_line = new chat_input;
+  chat_line = new chat_input(nullptr, filter);
   chat_line->installEventFilter(this);
 
   remove_links = new QPushButton();
@@ -408,8 +418,10 @@ chat_widget::chat_widget(QWidget *parent)
   show_hide->setCheckable(true);
   show_hide->setChecked(true);
 
-  mw = new move_widget(this);
-  mw->put_to_corner();
+  if(resizable) {
+    mw = new move_widget(this);
+    mw->put_to_corner();
+  }
 
   chat_output = new text_browser_dblclck(this);
   chat_output->setFont(fcFont::instance()->getFont(fonts::chatline));
@@ -423,10 +435,12 @@ chat_widget::chat_widget(QWidget *parent)
   title->setAlignment(Qt::AlignCenter);
   title->setMouseTracking(true);
 
-  gl->addWidget(mw, 0, 0, Qt::AlignLeft | Qt::AlignTop);
+  if(resizable)
+    gl->addWidget(mw, 0, 0, Qt::AlignLeft | Qt::AlignTop);
   gl->addWidget(title, 0, 1, 1, 2);
   gl->setColumnStretch(1, 100);
-  gl->addWidget(show_hide, 0, 3);
+  if(resizable)
+    gl->addWidget(show_hide, 0, 3);
   gl->addWidget(chat_output, 1, 0, 1, 4);
   gl->addWidget(chat_line, 2, 0, 1, 2);
   gl->addWidget(cb, 2, 2);
@@ -438,7 +452,8 @@ chat_widget::chat_widget(QWidget *parent)
           &chat_widget::rm_links);
   connect(show_hide, &QAbstractButton::toggled, this,
           &chat_widget::set_chat_visible);
-  setMouseTracking(true);
+  if(resizable)
+    setMouseTracking(true);
 
   chat_listener::listen();
 }
@@ -524,6 +539,7 @@ void chat_widget::update_font()
 void chat_widget::set_filter(QString filter)
 {
   this->filter = filter;
+  chat_line->filter = filter;
 }
 
 /**
@@ -925,4 +941,195 @@ void real_output_window_append(const QString &astring,
 void version_message(const QString &vertext)
 {
   king()->set_status_bar(vertext);
+}
+
+multiple_chat_widget::multiple_chat_widget(QWidget *parent) {
+  setParent(parent);
+  setMinimumSize(250, 100);
+  setResizable(Qt::LeftEdge | Qt::RightEdge | Qt::TopEdge | Qt::BottomEdge);
+
+  main_layout = new QGridLayout;
+  main_layout->setVerticalSpacing(0);
+  main_layout->setContentsMargins(QMargins());
+  setLayout(main_layout);
+
+  show_hide = new QPushButton();
+  show_hide->setIcon(
+      fcIcons::instance()->getIcon(QStringLiteral("expand-down")));
+  show_hide->setIconSize(QSize(24, 24));
+  show_hide->setFixedWidth(25);
+  show_hide->setFixedHeight(25);
+  show_hide->setToolTip(_("Show/hide chat"));
+  show_hide->setCheckable(true);
+  show_hide->setChecked(true);
+
+  auto mw = new move_widget(this);
+  mw->put_to_corner();
+
+  auto title = new QLabel(_("Chat"));
+  title->setAlignment(Qt::AlignCenter);
+  title->setMouseTracking(true);
+
+  main_layout->addWidget(mw, 0, 0, Qt::AlignLeft | Qt::AlignTop);
+  main_layout->addWidget(title, 0, 1, 1, 2);
+  main_layout->setColumnStretch(1, 100);
+  main_layout->addWidget(show_hide, 0, 3);
+
+  connect(show_hide, &QAbstractButton::toggled, this,
+          &multiple_chat_widget::set_chat_visible);
+  setMouseTracking(true);
+
+  chat_buttons_layout = new QVBoxLayout;
+  main_layout->addLayout(chat_buttons_layout, 1, 0, -1, 2);
+
+  chat_widgets_layout = new QStackedLayout;
+  main_layout->addLayout(chat_widgets_layout, 1, 2, -1, -1);
+}
+
+multiple_chat_widget::~multiple_chat_widget()
+{
+}
+
+void multiple_chat_widget::add_chat_panel(const QString &name,
+                                          const QString &filter,
+                                          const QString &image_path)
+{
+  QPushButton *button = new QPushButton(name);
+  button->setCheckable(true);
+  button->setAutoExclusive(true);
+  button->setFixedSize(QSize(45, 45));
+
+  button->setIcon(fcIcons::instance()->getIcon(image_path));
+  button->setIconSize(QSize(40, 40));
+
+  int idx = chat_widgets.size();
+  connect(button, &QAbstractButton::toggled, this, [=](bool checked) {
+    if(checked)
+      chat_widgets_layout->setCurrentIndex(idx);
+  });
+  chat_buttons_layout->addWidget(button);
+
+  chat_widget *cw = new chat_widget(this, false);
+  cw->set_filter(filter);
+  chat_widgets_layout->addWidget(cw);
+  chat_widgets.push_back(cw);
+}
+
+void multiple_chat_widget::update_widgets()
+{
+  for (std::vector<chat_widget*>::iterator i = chat_widgets.begin();
+       i != chat_widgets.end(); ++i) {
+    (*i)->update_widgets();
+  }
+}
+
+void multiple_chat_widget::chat_message_received(const QString &message,
+                                        const struct text_tag_list *tags)
+{
+  // TODO: Notify button with chat filter
+}
+
+void multiple_chat_widget::set_chat_visible(bool visible)
+{
+  // Don't update chat_fheight
+  m_chat_visible = false;
+
+  // Save the geometry before setting the minimum size
+  auto geo = geometry();
+
+  if (visible) {
+    setMinimumSize(250, 100);
+    setResizable(Qt::LeftEdge | Qt::RightEdge | Qt::TopEdge
+                 | Qt::BottomEdge);
+  } else {
+    setMinimumSize(250, 0);
+    setResizable({});
+  }
+
+  for(std::vector<chat_widget*>::iterator i = chat_widgets.begin();
+      i != chat_widgets.end(); ++i) {
+    chat_widget* cw = *i;
+    cw->set_chat_visible(visible);
+  }
+  for(int i = 0; i < chat_buttons_layout->count(); ++i) {
+    chat_buttons_layout->itemAt(i)->widget()->setVisible(visible);
+  }
+
+  int h = visible ? qRound(parentWidget()->size().height()
+                           * king()->qt_settings.chat_fheight)
+                  : sizeHint().height();
+
+  // Heuristic that more or less works
+  bool expand_up =
+      (y() > parentWidget()->height() - y() - (visible ? h : height()));
+
+  QString icon_name = (expand_up ^ visible) ? QLatin1String("expand-up")
+                                            : QLatin1String("expand-down");
+  show_hide->setIcon(fcIcons::instance()->getIcon(icon_name));
+
+  if (expand_up) {
+    geo.setTop(std::max(geo.bottom() - h, 0));
+    geo.setHeight(h);
+    // Prevent it from going out of screen
+    if (geo.bottom() > parentWidget()->height()) {
+      geo.translate(0, parentWidget()->height() - geo.bottom());
+    }
+  } else {
+    geo.setBottom(std::min(geo.top() + h, parentWidget()->height()));
+  }
+  setGeometry(geo);
+
+  m_chat_visible = visible;
+}
+
+void multiple_chat_widget::append(const QString &str)
+{
+  for(std::vector<chat_widget*>::iterator i = chat_widgets.begin();
+      i != chat_widgets.end(); ++i) {
+    chat_widget* cw = *i;
+    if(cw->filter == QString(CHAT_GLOBAL_PREFIX)) {
+      cw->append(str);
+      return;
+    }
+  }
+}
+
+chat_widget* multiple_chat_widget::get_current_chat_widget()
+{
+  return (chat_widget*)chat_widgets_layout->currentWidget();
+}
+
+void multiple_chat_widget::take_focus()
+{
+  chat_widget* curr = get_current_chat_widget();
+  if(curr) {
+    curr->take_focus();
+  }
+}
+
+void multiple_chat_widget::update_font()
+{
+  chat_widget *curr = get_current_chat_widget();
+  if (curr) {
+    curr->update_font();
+  }
+}
+
+void multiple_chat_widget::make_link(struct tile *ptile)
+{
+  chat_widget *curr = get_current_chat_widget();
+  if (curr) {
+    curr->make_link(ptile);
+  }
+}
+
+/**
+ * Paint event for chat_widget
+ */
+void multiple_chat_widget::paintEvent(QPaintEvent *event)
+{
+  QStyleOption opt;
+  opt.init(this);
+  QPainter p(this);
+  style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
