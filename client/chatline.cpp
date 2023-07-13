@@ -992,14 +992,15 @@ multiple_chat_widget::~multiple_chat_widget()
 
 void multiple_chat_widget::add_chat_panel(const QString &name,
                                           const QString &filter,
-                                          const QString &image_path)
+                                          const QPixmap* image)
 {
   QPushButton *button = new QPushButton(name);
   button->setCheckable(true);
   button->setAutoExclusive(true);
-  button->setFixedSize(QSize(45, 45));
+  button->setFixedSize(QSize(90, 45));
 
-  button->setIcon(fcIcons::instance()->getIcon(image_path));
+  QIcon icon(*image);
+  button->setIcon(icon);
   button->setIconSize(QSize(40, 40));
 
   int idx = chat_widgets.size();
@@ -1013,6 +1014,22 @@ void multiple_chat_widget::add_chat_panel(const QString &name,
   cw->set_filter(filter);
   chat_widgets_layout->addWidget(cw);
   chat_widgets.push_back(cw);
+}
+
+void multiple_chat_widget::clear_chat_panels()
+{
+  for (std::vector<chat_widget*>::iterator i = chat_widgets.begin();
+       i != chat_widgets.end(); ++i) {
+    chat_widget* cw = *i;
+    chat_widgets_layout->removeWidget(cw);
+    delete cw;
+  }
+  QLayoutItem *child;
+  while((child = chat_buttons_layout->takeAt(0)) != 0) {
+    delete child->widget();
+    delete child;
+  }
+  chat_widgets.clear();
 }
 
 void multiple_chat_widget::update_widgets()

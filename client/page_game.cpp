@@ -13,6 +13,9 @@
 
 #include "page_game.h"
 
+// std
+#include <sstream>
+
 // Qt
 #include <QGridLayout>
 #include <QIcon>
@@ -190,9 +193,6 @@ pageGame::pageGame(QWidget *parent)
   // Chatline widget
   chat = new multiple_chat_widget(mapview_wdg);
   chat->setAttribute(Qt::WA_NoMousePropagation);
-  //chat->set_filter(QString(CHAT_GLOBAL_PREFIX));
-  chat->add_chat_panel(QString("Public"), QString(CHAT_GLOBAL_PREFIX), QString(""));
-  chat->add_chat_panel(QString("Sabotage"), QString(CHAT_SABOTAGE_PREFIX), QString(""));
   chat->show();
 
   // Voting bar widget
@@ -283,6 +283,26 @@ void pageGame::updateInfoLabel()
     update_info_timer->start(300);
     reloadSidebarIcons();
     return;
+  }
+}
+
+void pageGame::updateChatPanels()
+{
+  log_warning("Cleared!");
+  chat->clear_chat_panels();
+  chat->add_chat_panel(QString("Public"), QString(CHAT_GLOBAL_PREFIX),
+                       fcIcons::instance()->getPixmap("public-chat"));
+  std::string player_buffer =
+      foreign_player_usernames(client_player());
+  for (int i = 0; i < player_buffer.size(); i++) {
+    char player_username = player_buffer[i];
+    player_id id = player_id_from_char(player_username);
+    std::ostringstream ss;
+    ss << CHAT_PRIVATE_PREFIX << player_username << ":";
+    chat->add_chat_panel(
+        QString(player_id_to_string(id).c_str()),
+        QString(ss.str().c_str()),
+        get_player_thumb_sprite(tileset, id));
   }
 }
 
@@ -761,3 +781,4 @@ bool pageGame::isRepoDlgOpen(const QString &str)
    changed.
  */
 void update_info_label(void) { queen()->updateInfoLabel(); }
+void update_chat_panels(void) { queen()->updateChatPanels(); }

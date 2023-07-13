@@ -161,7 +161,8 @@ public:
   multiple_chat_widget(QWidget *parent);
   virtual ~multiple_chat_widget();
 
-  void add_chat_panel(const QString &name, const QString &filter, const QString &image_path);
+  void add_chat_panel(const QString &name, const QString &filter, const QPixmap* image);
+  void clear_chat_panels();
   void update_widgets();
 
   bool is_chat_visible() const { return m_chat_visible; }

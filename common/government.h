@@ -50,6 +50,8 @@ player_id determine_jury_id(player_id accuser, player_id accused, int which);
 player_id get_player_id(const struct player *pplayer);
 std::string player_id_to_string(player_id id);
 player_id player_id_from_string(const std::string &str);
+player_id player_id_from_char(const char &c);
+std::string foreign_player_usernames(struct player *curr_player);
 
 /* This is struct government itself.  All information about a form of
  * government is contained inhere. -- SKi */

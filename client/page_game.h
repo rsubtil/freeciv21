@@ -63,6 +63,7 @@ public:
   void removeRepoDlg(const QString &str);
   bool isRepoDlgOpen(const QString &str);
   void updateInfoLabel();
+  void updateChatPanels();
 
   void popup_budget_dialog();
 

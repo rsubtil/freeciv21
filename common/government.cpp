@@ -87,7 +87,35 @@ player_id player_id_from_string(const std::string &str)
   }
 }
 
-struct government_news* government_news_new(const struct packet_government_news* news)
+player_id player_id_from_char(const char &c)
+{
+  switch (c) {
+    case 'p':
+      return PLAYER_PURPLE;
+    case 'b':
+      return PLAYER_BLUE;
+    case 'g':
+      return PLAYER_GREEN;
+    case 'y':
+      return PLAYER_YELLOW;
+  }
+  return PLAYER_PURPLE;
+}
+
+std::string foreign_player_usernames(struct player* curr_player)
+{
+  std::string ret = "";
+  std::string raw = "pbgy";
+  for(int i = 0; i < raw.length(); i++) {
+    if(raw[i] != curr_player->username[0]) {
+      ret += raw[i];
+    }
+  }
+  return ret;
+}
+
+    struct government_news *
+    government_news_new(const struct packet_government_news *news)
 {
   struct government_news *pnews = new government_news;
   pnews->id = news->id;

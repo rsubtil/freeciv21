@@ -872,6 +872,7 @@ void set_client_state(enum client_states newstate)
     refresh_overview_canvas();
 
     update_info_label(); // get initial population right
+    update_chat_panels();
     unit_focus_update();
     update_unit_info_label(get_units_in_focus());
 
