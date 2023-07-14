@@ -606,8 +606,10 @@ void chat_widget::chat_message_received(const QString &message,
 {
   log_warning("chat_widget::chat_message_received: %s", message.toUtf8().data());
 
-  if (!filter.isEmpty() && !message.startsWith(CHAT_META_PREFIX) && !message.startsWith(filter)) {
-    return;
+  if (!filter.isEmpty()) {
+    if (!message.startsWith(filter))
+      if(filter != CHAT_GLOBAL_PREFIX || !message.startsWith(CHAT_META_PREFIX))
+        return;
   }
 
   QColor col = chat_output->palette().color(QPalette::Text);
@@ -1018,6 +1020,7 @@ void multiple_chat_widget::add_chat_panel(const QString &name,
 
 void multiple_chat_widget::clear_chat_panels()
 {
+  log_warning("Panels cleared");
   for (std::vector<chat_widget*>::iterator i = chat_widgets.begin();
        i != chat_widgets.end(); ++i) {
     chat_widget* cw = *i;
@@ -1074,7 +1077,7 @@ void multiple_chat_widget::set_chat_visible(bool visible)
 
   int h = visible ? qRound(parentWidget()->size().height()
                            * king()->qt_settings.chat_fheight)
-                  : sizeHint().height();
+                  : 50;// sizeHint().height();
 
   // Heuristic that more or less works
   bool expand_up =

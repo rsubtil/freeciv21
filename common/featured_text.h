@@ -174,6 +174,10 @@ extern const struct ft_color ftc_game_start;
 extern const struct ft_color ftc_chat_public;
 extern const struct ft_color ftc_chat_ally;
 extern const struct ft_color ftc_chat_private;
+extern const struct ft_color ftc_chat_player_purple;
+extern const struct ft_color ftc_chat_player_yellow;
+extern const struct ft_color ftc_chat_player_green;
+extern const struct ft_color ftc_chat_player_blue;
 extern const struct ft_color ftc_chat_luaconsole;
 
 extern const struct ft_color ftc_vote_public;

@@ -84,6 +84,11 @@ const struct ft_color ftc_chat_ally = FT_COLOR("#551166", nullptr);
 const struct ft_color ftc_chat_private = FT_COLOR("#A020F0", nullptr);
 const struct ft_color ftc_chat_luaconsole = FT_COLOR("#006400", nullptr);
 
+const struct ft_color ftc_chat_player_purple = FT_COLOR("#F934FF", nullptr);
+const struct ft_color ftc_chat_player_yellow = FT_COLOR("#FFcb00", nullptr);
+const struct ft_color ftc_chat_player_green = FT_COLOR("#9FFF50", nullptr);
+const struct ft_color ftc_chat_player_blue = FT_COLOR("#00C1EE", nullptr);
+
 const struct ft_color ftc_vote_public = FT_COLOR("#FFFFFF", "#AA0000");
 const struct ft_color ftc_vote_team = FT_COLOR("#FFFFFF", "#5555CC");
 const struct ft_color ftc_vote_passed = FT_COLOR("#006400", "#AAFFAA");

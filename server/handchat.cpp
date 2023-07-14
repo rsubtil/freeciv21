@@ -90,6 +90,26 @@ static void send_chat_msg(struct connection *pconn,
   send_packet_chat_msg(pconn, &packet);
 }
 
+static struct ft_color get_ftc_for_player(const char &c)
+{
+  switch (c) {
+  case 'p':
+  case 'P':
+    return ftc_chat_player_purple;
+  case 'b':
+  case 'B':
+    return ftc_chat_player_blue;
+  case 'g':
+  case 'G':
+    return ftc_chat_player_green;
+  case 'y':
+  case 'Y':
+    return ftc_chat_player_yellow;
+  default:
+    return ftc_chat_player_purple;
+  }
+}
+
 /**
    Send private message to single connection.
  */
@@ -129,18 +149,19 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   struct connection *dest = nullptr; // The 'pdest' user.
 
   if(strlen(msg) <= 3 && msg[2] != ':') return;
-  char player_char = msg[1];
+  char player_char_to = msg[1];
+  char player_char_from = sender->username[0];
   msg = msg + 3;
 
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  struct player *pdest = player_by_user_char(player_char);
+  struct player *pdest = player_by_user_char(player_char_to);
   if(!pdest) return;
   struct event_cache_players *players =
       event_cache_player_add(nullptr, pdest);
 
-  // Find the user of the player_char.
+  // Find the user of the player_char_to.
   conn_list_iterate(pdest->connections, pconn)
   {
     if (!pconn->observer) {
@@ -158,20 +179,20 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   conn_list_iterate_end;
 
   // Repeat the message for the sender.
-  send_chat_msg(sender, sender, ftc_chat_private, "%c%c:{%s} %s",
-                CHAT_PRIVATE_PREFIX, player_char,
-                player_name(pdest), msg);
+  send_chat_msg(sender, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
+                CHAT_PRIVATE_PREFIX, player_char_to,
+                sender_name, msg);
 
   // Send the message to destination.
   if (nullptr != dest && dest != sender) {
-    send_chat_msg(dest, sender, ftc_chat_private, "%c%c:{%s} %s",
-                  CHAT_PRIVATE_PREFIX, player_char,
+    send_chat_msg(dest, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
+                  CHAT_PRIVATE_PREFIX, player_char_from,
                   sender_name, msg);
   }
 
   // Send the message to player observers.
   package_chat_msg(&packet, sender, ftc_chat_private, "%c{%s -> %s} %s",
-                   CHAT_META_PREFIX, sender_name, player_name(pdest), msg);
+                   CHAT_META_PREFIX, sender_name, pdest->username, msg);
   conn_list_iterate(pdest->connections, pconn)
   {
     if (pconn != dest && pconn != sender
@@ -210,7 +231,7 @@ static void chat_msg_to_all(struct connection *sender, char *msg)
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  package_chat_msg(&packet, sender, ftc_chat_public, "%c<%s> %s",
+  package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]), "%c<%s> %s",
                    CHAT_GLOBAL_PREFIX, sender_name, msg);
   con_write(C_COMMENT, "%s", packet.message);
   lsend_packet_chat_msg(game.est_connections, &packet);

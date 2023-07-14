@@ -5488,6 +5488,8 @@ void handle_building_info(const struct packet_building_info *packet)
   struct player *powner = player_by_user_char((char)packet->username);
   struct player *pself = client.conn.playing;
 
+  if(!pself) return;
+
   fc_assert_ret_msg(nullptr != ptile, "Invalid tile index %d.",
                     packet->tile);
 

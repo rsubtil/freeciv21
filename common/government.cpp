@@ -106,6 +106,9 @@ std::string foreign_player_usernames(struct player* curr_player)
 {
   std::string ret = "";
   std::string raw = "pbgy";
+  if(!curr_player) {
+    return raw;
+  }
   for(int i = 0; i < raw.length(); i++) {
     if(raw[i] != curr_player->username[0]) {
       ret += raw[i];
