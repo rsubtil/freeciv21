@@ -238,6 +238,7 @@ void chat_input::update_completion()
   word_list << _("/aitoggle <player-name>");
   word_list << _("/take <player-name>");
   word_list << _("/observe <player-name>");
+  word_list << _("/switch <mode>");
   word_list << _("/detach <connection-name>");
   word_list << _("/create <player-name> [ai type]");
   word_list << QStringLiteral("/away");

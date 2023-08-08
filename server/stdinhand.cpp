@@ -3660,6 +3660,34 @@ static bool take_command(struct connection *caller, char *str, bool check)
   return res;
 }
 
+static bool switch_command(struct connection *caller, char *str, bool check)
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+  QStringList arg;
+
+  sz_strlcpy(buf, str);
+  arg = QString(buf).split(QRegularExpression(REG_EXP), Qt::SkipEmptyParts);
+  remove_quotes(arg);
+
+  if (arg.count() != 1) {
+    cmd_reply(CMD_SWITCH, caller, C_SYNTAX, _("Usage:\n%s"),
+              command_synopsis(command_by_number(CMD_SWITCH)));
+    return false;
+  }
+
+  const char* arg_str = qUtf8Printable(arg.at(0));
+  if(!strcmp("active", arg_str)) {
+      log_warning("Switching to active mode");
+  } else if (!strcmp("passive", arg_str)) {
+      log_warning("Switching to passive mode");
+  } else {
+      cmd_reply(CMD_SWITCH, caller, C_SYNTAX, _("Mode must be either \"active\" or \"passive\"."));
+      return false;
+  }
+
+  return true;
+}
+
 /**
    Detach from a player. if that player wasn't /created and you were
    controlling the player, remove it (and then detach any observers as well).
@@ -4655,6 +4683,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return toggle_ai_command(caller, arg, check);
   case CMD_TAKE:
     return take_command(caller, arg, check);
+  case CMD_SWITCH:
+    return switch_command(caller, arg, check);
   case CMD_OBSERVE:
     return observe_command(caller, arg, check);
   case CMD_DETACH:

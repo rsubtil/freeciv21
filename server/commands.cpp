@@ -285,6 +285,13 @@ static struct command commands[] = {
         "is created and assigned to the connection. The 'allowtake' option "
         "controls which players may be taken and in what circumstances."),
      nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},
+    {"switch", ALLOW_ADMIN,
+     // TRANS: translate text between [] and <> only
+     N_("switch <mode>"),
+     N_("Switch server mode to regular gameplay and spy gameplay."),
+     // TRANS: Don't translate text between ''
+     N_("Switch modes, internal"),
+     nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},
     {"observe", ALLOW_INFO,
      // TRANS: translate text between [] only
      N_("observe [connection-name] [player-name]"),
