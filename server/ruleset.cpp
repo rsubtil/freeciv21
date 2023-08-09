@@ -6685,6 +6685,14 @@ static bool load_ruleset_game(struct section_file *file, bool act,
           "actions.sabotage_defensive_time");
     }
 
+    // section: game mode
+    if (ok) {
+      game.info.game_mode = secfile_lookup_int_default(
+        file, RS_DEFAULT_GAME_MODE,
+        "game.mode"
+      );
+    }
+
     if (ok) {
       sec = secfile_sections_by_name_prefix(file,
                                             ACTION_ENABLER_SECTION_PREFIX);

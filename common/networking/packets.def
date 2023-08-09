@@ -601,6 +601,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT16 sabotage_defensive_time;
   UINT32 city_start_hitpoints;
   UINT32 city_recover_hitpoints;
+  UINT16 game_mode;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet

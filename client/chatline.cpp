@@ -609,7 +609,8 @@ void chat_widget::chat_message_received(const QString &message,
 
   if (!filter.isEmpty()) {
     if (!message.startsWith(filter))
-      if(filter != CHAT_GLOBAL_PREFIX || !message.startsWith(CHAT_META_PREFIX))
+      if(filter != CHAT_GLOBAL_PREFIX || (!message.startsWith(CHAT_META_PREFIX) &&
+        !message.startsWith(SERVER_COMMAND_PREFIX)))
         return;
   }
 
@@ -617,6 +618,8 @@ void chat_widget::chat_message_received(const QString &message,
   if(message.startsWith(CHAT_META_PREFIX)) {
     append(apply_tags(message.right(message.size() - 1), tags,
                       col));
+  } else if(message.startsWith(SERVER_COMMAND_PREFIX) && isVisible()) {
+    append(apply_tags(message.right(message.size()), tags, col));
   } else {
     append(apply_tags(message.right(message.size() - filter.size()), tags, col));
   }

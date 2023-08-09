@@ -1141,6 +1141,10 @@ static bool save_game_ruleset(const char *filename, const char *name)
                    RS_DEFAULT_SABOTAGE_DEFENSIVE_TIME,
                    "actions.sabotage_defensive_time", nullptr);
 
+  save_default_int(sfile, game.info.game_mode,
+                   RS_DEFAULT_GAME_MODE,
+                   "game.mode", nullptr);
+
   action_iterate(act_id)
   {
     save_action_ui_name(sfile, act_id,
