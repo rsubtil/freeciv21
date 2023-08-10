@@ -3678,13 +3678,18 @@ static bool switch_command(struct connection *caller, char *str, bool check)
   const char* arg_str = qUtf8Printable(arg.at(0));
   if(!strcmp("active", arg_str)) {
       log_warning("Switching to active mode");
+      game.info.game_mode = RS_GAME_MODE_ACTIVE;
   } else if (!strcmp("passive", arg_str)) {
       log_warning("Switching to passive mode");
+      game.info.game_mode = RS_GAME_MODE_PASSIVE;
   } else {
       cmd_reply(CMD_SWITCH, caller, C_SYNTAX, _("Mode must be either \"active\" or \"passive\"."));
       return false;
   }
 
+  cmd_reply(CMD_SWITCH, caller, C_OK, _("Switched to %s mode."),
+            game.info.game_mode == RS_GAME_MODE_ACTIVE ? "active" : "passive");
+  send_game_info(nullptr);
   return true;
 }
 

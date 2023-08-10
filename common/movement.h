@@ -41,6 +41,7 @@ enum unit_move_result {
   MR_UNIT_STAY,
   MR_NOT_ALLOWED,
   MR_NON_STACKABLE,
+  MR_GAME_MODE
 };
 
 float utype_move_rate(const struct unit_type *utype, const struct tile *ptile,

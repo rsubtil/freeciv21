@@ -217,6 +217,9 @@ bool universal_value_initial(struct universal *src)
   case VUT_NINTEL:
     src->value.nintel = NI_CULTURE; // We like culture
     return true;
+  case VUT_GAMEMODE:
+    src->value.gamemode = RS_GAME_MODE_ACTIVE;
+    return true;
   case VUT_COUNT:
     fc_assert(src->kind != VUT_COUNT);
     return false;
@@ -477,6 +480,11 @@ void universal_kind_values(struct universal *univ, univ_kind_values_cb cb,
          univ->value.nintel == i, data);
     }
     break;
+  case VUT_GAMEMODE:
+    for(i = 0; i < RS_GAME_MODE_COUNT; i++) {
+      cb(game_mode_name(static_cast<enum game_mode>(i)),
+         univ->value.gamemode == i, data);
+    }
   case VUT_MINSIZE:
   case VUT_MINYEAR:
   case VUT_MINCALFRAG:

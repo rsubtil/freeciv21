@@ -563,6 +563,7 @@ bool unit_can_move_to_tile(const struct civ_map *nmap,
     12) The unit is unable to disembark from current transporter.
     13) The unit is making a non-native move (e.g. lack of road)
     14) When having the non-stack flag, there's no unit on the destination tile (exception; the spy can stack with enemies; for allies it's handled by 4.1).
+    15) Movement is enabled on the current game-mode
  */
 enum unit_move_result
 unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
@@ -689,6 +690,12 @@ unit_move_to_tile_test(const struct civ_map *nmap, const struct unit *punit,
   if (utype_has_flag(punittype, UTYF_NON_STACK)
       && unit_nonstackable_on_tile(dst_tile)) {
     return MR_NON_STACKABLE;
+  }
+
+  // 15)
+  if ((utype_has_flag(punittype, UTYF_GAME_MODE_ACTIVE_ONLY) && game.info.game_mode == RS_GAME_MODE_PASSIVE)
+   || (utype_has_flag(punittype, UTYF_GAME_MODE_PASSIVE_ONLY) && game.info.game_mode == RS_GAME_MODE_ACTIVE)) {
+    return MR_GAME_MODE;
   }
 
   return MR_OK;

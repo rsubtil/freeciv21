@@ -143,6 +143,8 @@ veteran_move_bonus = 0, 0, 0, 0
 ; "NonStack"          = Units don't allow stacking of any kind.
 ; "Public"            = Unit is public, i.e. can be seen by all players anywhere
 ;                       on the map.
+; "ModeActive"        = Unit can only move during active game mode
+; "ModePassive"       = Unit can only move during passive game mode
 ;
 ; */ <-- avoid gettext warnings
 
@@ -588,7 +590,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "HasNoZOC", "NonStack", "Public"
+flags         = "IgZOC", "HasNoZOC", "NonStack", "Public", "ModeActive"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
@@ -620,7 +622,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "HasNoZOC", "NonStack", "Public"
+flags         = "IgZOC", "HasNoZOC", "NonStack", "Public", "ModeActive"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\
@@ -652,7 +654,7 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "IgZOC", "HasNoZOC", "NonStack", "Public"
+flags         = "IgZOC", "HasNoZOC", "NonStack", "Public", "ModeActive"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
  mapping unknown territory.\

@@ -1844,6 +1844,14 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
             _("* May not stack with any other unit.\n"));
   }
+  if (utype_has_flag(utype, UTYF_GAME_MODE_ACTIVE_ONLY)) {
+    CATLSTR(buf, bufsz,
+            _("* May only move during the strategy phase.\n"));
+  }
+  if (utype_has_flag(utype, UTYF_GAME_MODE_PASSIVE_ONLY)) {
+    CATLSTR(buf, bufsz,
+            _("* May only move during the spy phase.\n"));
+  }
   for (const auto &pnation : nations) {
     int i, count = 0;
 

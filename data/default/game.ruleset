@@ -594,6 +594,7 @@ actor_reqs =
       "UnitFlag",   "Spy",           "Local", TRUE
       "DiplRel",    "War",           "Local", TRUE
       "UnitState",  "OnLivableTile", "Local", TRUE
+      "GameMode",   "Passive",       "Local", TRUE
     }
 target_reqs =
     { "type",     "name",   "range", "present"

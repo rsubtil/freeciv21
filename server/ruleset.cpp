@@ -6687,10 +6687,10 @@ static bool load_ruleset_game(struct section_file *file, bool act,
 
     // section: game mode
     if (ok) {
-      game.info.game_mode = secfile_lookup_int_default(
+      game.info.game_mode = game_mode(secfile_lookup_int_default(
         file, RS_DEFAULT_GAME_MODE,
         "game.mode"
-      );
+      ));
     }
 
     if (ok) {

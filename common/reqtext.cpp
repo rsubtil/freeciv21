@@ -2870,6 +2870,12 @@ bool req_text_insert(char *buf, size_t bufsz, struct player *pplayer,
     return true;
     break;
 
+  case VUT_GAMEMODE:
+    fc_strlcat(buf, prefix, bufsz);
+    cat_snprintf(buf, bufsz, _("%s"),
+        qUtf8Printable(game_mode_translated_name(preq->source.value.gamemode)));
+    return true;
+
   case VUT_COUNT:
     break;
   }

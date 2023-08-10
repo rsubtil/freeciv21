@@ -840,6 +840,7 @@ bool dai_can_requirement_be_met_in_city(const struct requirement *preq,
   case VUT_MINCALFRAG:
   case VUT_VISIONLAYER:
   case VUT_NINTEL:
+  case VUT_GAMEMODE:
   case VUT_COUNT:
     // No sensible implementation possible with data available.
     break;

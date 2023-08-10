@@ -628,6 +628,15 @@ typedef int Unit_Class_id;
 #include "specenum_gen.h"
 
 // Used in the network protocol.
+#define SPECENUM_NAME game_mode
+#define SPECENUM_VALUE0 GM_ACTIVE
+#define SPECENUM_VALUE0NAME "Active"
+#define SPECENUM_VALUE1 GM_PASSIVE
+#define SPECENUM_VALUE1NAME "Passive"
+#define SPECENUM_COUNT GM_COUNT
+#include "specenum_gen.h"
+
+// Used in the network protocol.
 BV_DEFINE(bv_intel_visible, NI_COUNT);
 
 // A server setting + its value.
@@ -695,6 +704,7 @@ typedef union {
   int min_hit_points;
   int age;
   int min_techs;
+  enum game_mode gamemode;
 
   enum topo_flag topo_property;
   ssetv ssetval;
@@ -804,6 +814,8 @@ typedef union {
 #define SPECENUM_VALUE46NAME "VisionLayer"
 #define SPECENUM_VALUE47 VUT_NINTEL
 #define SPECENUM_VALUE47NAME "NationalIntelligence"
+#define SPECENUM_VALUE48 VUT_GAMEMODE
+#define SPECENUM_VALUE48NAME "GameMode"
 // Keep this last.
 #define SPECENUM_COUNT VUT_COUNT
 #include "specenum_gen.h"

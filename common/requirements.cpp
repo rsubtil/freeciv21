@@ -361,6 +361,11 @@ void universal_value_from_str(struct universal *source, const char *value)
     if (source->value.nintel != NI_COUNT) {
       return;
     }
+  case VUT_GAMEMODE:
+    source->value.gamemode = game_mode_by_name(value, fc_strcasecmp);
+    if (source->value.gamemode != RS_GAME_MODE_COUNT) {
+      return;
+    }
   case VUT_COUNT:
     break;
   }
@@ -567,6 +572,9 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_NINTEL:
     source.value.nintel = static_cast<national_intelligence>(value);
     return source;
+  case VUT_GAMEMODE:
+    source.value.gamemode = game_mode(value);
+    return source;
   case VUT_COUNT:
     break;
   }
@@ -692,6 +700,8 @@ int universal_number(const struct universal *source)
     return source->value.vlayer;
   case VUT_NINTEL:
     return source->value.nintel;
+  case VUT_GAMEMODE:
+    return source->value.gamemode;
   case VUT_COUNT:
     break;
   }
@@ -773,6 +783,7 @@ struct requirement req_from_str(const char *type, const char *range,
       case VUT_CITYTILE:
       case VUT_MAXTILEUNITS:
       case VUT_VISIONLAYER:
+      case VUT_GAMEMODE:
         req.range = REQ_RANGE_LOCAL;
         break;
       case VUT_MINSIZE:
@@ -910,6 +921,7 @@ struct requirement req_from_str(const char *type, const char *range,
        * So we allow anything here, and do a proper check once ruleset
        * loading is complete, in sanity_check_req_individual(). */
     case VUT_NONE:
+    case VUT_GAMEMODE:
       invalid = false;
       break;
     case VUT_COUNT:
@@ -975,6 +987,7 @@ struct requirement req_from_str(const char *type, const char *range,
     case VUT_MINTECHS:
     case VUT_VISIONLAYER:
     case VUT_NINTEL:
+    case VUT_GAMEMODE:
       // Most requirements don't support 'survives'.
       invalid = survives;
       break;
@@ -3374,6 +3387,9 @@ bool is_req_active(
       eval = BOOL_TO_TRISTATE(nintel == req->source.value.nintel);
     }
     break;
+  case VUT_GAMEMODE:
+    eval = BOOL_TO_TRISTATE(game.info.game_mode == req->source.value.gamemode);
+    break;
   case VUT_COUNT:
     qCritical("is_req_active(): invalid source kind %d.", req->source.kind);
     return false;
@@ -3486,6 +3502,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_ROADFLAG:
   case VUT_EXTRAFLAG:
   case VUT_MINCALFRAG: // cyclically available
+  case VUT_GAMEMODE:
     return false;
   case VUT_TERRAIN:
   case VUT_EXTRA:
@@ -3893,6 +3910,8 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.vlayer == psource2->value.vlayer;
   case VUT_NINTEL:
     return psource1->value.nintel == psource2->value.nintel;
+  case VUT_GAMEMODE:
+    return psource1->value.gamemode == psource2->value.gamemode;
   case VUT_COUNT:
     break;
   }
@@ -4031,6 +4050,8 @@ const char *universal_rule_name(const struct universal *psource)
     return vision_layer_name(psource->value.vlayer);
   case VUT_NINTEL:
     return national_intelligence_name(psource->value.nintel);
+  case VUT_GAMEMODE:
+    return game_mode_name(psource->value.gamemode);
   case VUT_COUNT:
     break;
   }
@@ -4338,6 +4359,8 @@ const char *universal_name_translation(const struct universal *psource,
                national_intelligence_translated_name(psource->value.nintel),
                bufsz);
     return buf;
+  case VUT_GAMEMODE:
+    fc_strlcat(buf, game_mode_translated_name(psource->value.gamemode), bufsz);
   case VUT_COUNT:
     break;
   }

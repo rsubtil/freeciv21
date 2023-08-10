@@ -305,6 +305,7 @@ static bool sanity_check_req_set(int reqs_of_type[],
     case VUT_CITYSTATUS:
     case VUT_VISIONLAYER:
     case VUT_NINTEL:
+    case VUT_GAMEMODE:
       /* There can be only one requirement of these types (with current
        * range limitations)
        * Requirements might be identical, but we consider multiple
@@ -941,6 +942,17 @@ bool sanity_check_ruleset_data(bool ignore_retired)
       qCCritical(ruleset_category,
                  "The unit type '%s' has the 'Spy' unit type flag but "
                  "not the 'Diplomat' unit type flag.",
+                 utype_rule_name(putype));
+      ok = false;
+    }
+
+    /* Units cannot exclusively move on both game modes */
+    if (utype_has_flag(putype, UTYF_GAME_MODE_ACTIVE_ONLY) &&
+        utype_has_flag(putype, UTYF_GAME_MODE_PASSIVE_ONLY)) {
+      qCCritical(ruleset_category,
+                 "The unit type '%s' cannot move exclusively on both "
+                 "game modes. If you want it to move on both phases, "
+                 "simply do not set any of these flags.",
                  utype_rule_name(putype));
       ok = false;
     }
