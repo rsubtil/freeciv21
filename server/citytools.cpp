@@ -2279,6 +2279,7 @@ void send_all_known_buildings(struct conn_list *dest)
     {
       if (pplayer->username[0] == pbuilding->username) {
         send_building_info(pplayer, pbuilding);
+        building_list_append(pplayer->buildings, pbuilding);
       }
     }
     building_list_iterate_end;
