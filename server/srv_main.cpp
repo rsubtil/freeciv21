@@ -1424,9 +1424,9 @@ void end_phase()
 
       if (A_UNSET != next_tech) {
         choose_tech(presearch, next_tech);
-      } else {
+      }/*else {
         choose_random_tech(presearch);
-      }
+      }*/
       /* add the researched bulbs to the pool; do *NOT* checvk for finished
        * research */
       update_bulbs(pplayer, 0, false);

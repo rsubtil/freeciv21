@@ -521,11 +521,11 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
 
   if (tech_found == presearch->researching) {
     // Try to pick new tech to research.
-    Tech_type_id next_tech =
+    /*Tech_type_id next_tech =
         research_goal_step(presearch, presearch->tech_goal);
 
-    /* As this function can be recursive, we need to print the messages
-     * before really picking the new technology. */
+    // As this function can be recursive, we need to print the messages
+    // before really picking the new technology.
     if (A_UNSET != next_tech) {
       notify_research(presearch, nullptr, E_TECH_LEARNED, ftc_server,
                       _("Learned %s. Our scientists focus on %s; "
@@ -540,8 +540,8 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
         // Continue researching future tech.
         next_tech = A_FUTURE;
       } else {
-        /* If there is at least one AI player still alive, then pick
-         * a random tech, else keep A_UNSET. */
+        // If there is at least one AI player still alive, then pick
+        // a random tech, else keep A_UNSET.
         research_players_iterate(presearch, aplayer)
         {
           if (is_ai(aplayer)) {
@@ -570,7 +570,8 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
       choose_tech(presearch, next_tech);
     } else {
       presearch->researching = A_UNSET;
-    }
+    }*/
+    presearch->researching = A_UNSET;
   }
 
   if (!saving_bulbs && presearch->bulbs_researched > 0) {
@@ -713,7 +714,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
     }
 
     tech_researched(research);
-  } while (research->researching != A_UNSET);
+  } while (false && research->researching != A_UNSET);
 }
 
 /**
@@ -1188,12 +1189,13 @@ void init_tech(struct research *research, bool update)
     // Mark the reachable techs
     research_update(research);
 
-    next_tech = research_goal_step(research, research->tech_goal);
-    if (A_UNSET != next_tech) {
-      choose_tech(research, next_tech);
-    } else {
-      choose_random_tech(research);
-    }
+    next_tech = A_UNSET;
+    //next_tech = research_goal_step(research, research->tech_goal);
+    //if (A_UNSET != next_tech) {
+    //  choose_tech(research, next_tech);
+    //} else {
+    //  choose_random_tech(research);
+    //}
   }
 }
 
@@ -1357,6 +1359,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 void handle_player_research(struct player *pplayer, int tech)
 {
   struct research *research = research_get(pplayer);
+  research->researching = tech;
 
   if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
     return;
