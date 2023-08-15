@@ -6325,10 +6325,10 @@ total=0
 
 [research]
 r={"number","goal_name","techs","futuretech","bulbs_before","saved_name","bulbs","now_name","got_tech","done"
-0,"A_UNSET",1,0,0,"A_UNSET",0,"Alphabet",FALSE,"100"
+0,"A_UNSET",1,0,0,"A_UNSET",0,"None",FALSE,"100"
 1,"A_UNSET",2,0,0,"",0,"A_UNSET",TRUE,"110"
-2,"A_UNSET",1,0,0,"A_UNSET",0,"Alphabet",FALSE,"100"
-3,"A_UNSET",1,0,0,"A_UNSET",0,"Alphabet",FALSE,"100"
+2,"A_UNSET",1,0,0,"A_UNSET",0,"None",FALSE,"100"
+3,"A_UNSET",1,0,0,"A_UNSET",0,"None",FALSE,"100"
 }
 count=4
 

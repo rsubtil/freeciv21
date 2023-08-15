@@ -122,3 +122,63 @@ sabotage	= 0
 helptext	= _("\
 The city will produce nothing.\
 ")
+
+[building_research_center]
+name		= _("Research Center")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Research Centers", "Player"
+  }
+graphic	= "b.research_center"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 180
+upkeep		= 1
+sabotage	= 0
+helptext	= _("\
+A Research Center gives more space for your scientists to work,\
+ improving your base's science production by 1.
+")
+
+[building_investment_center]
+name		= _("Investment Center")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Investment Centers", "Player"
+  }
+graphic	= "b.investment_center"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 180
+upkeep		= 1
+sabotage	= 0
+helptext	= _("\
+An Investment Center gives more space for your bankers to work,\
+ improving your base's gold production by 1.
+")
+
+[building_logistics_center]
+name		= _("Logistics Center")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Logistics Centers", "Player"
+  }
+graphic	= "b.logistics_center"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+build_cost	= 180
+upkeep		= 1
+sabotage	= 0
+helptext	= _("\
+A Logistics Center gives more space for your engineers to work,\
+ improving your base's material production by 1.
+")

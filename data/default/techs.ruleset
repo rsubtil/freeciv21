@@ -113,19 +113,85 @@ format_version=20
 ;
 ; */ <-- avoid gettext warnings
 
-[advance_alphabet]
-name     = _("Alphabet")
-req1     = "None"
-req2     = "None"
-flags    = ""
-graphic     = "a.alphabet"
+; 1st phase
+
+[advance_research_centers]
+name = _("Research Centers")
+req1 = "None"
+req2 = "None"
+cost = 50
+flags = ""
+graphic = "a.alphabet"
 graphic_alt = "-"
 
+[advance_investment_centers]
+name = _("Investment Centers")
+req1 = "None"
+req2 = "None"
+cost = 50
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
 
-[advance_writing]
-name     = _("Writing")
-req1     = "Alphabet"
-req2     = "None"
-flags    = ""
-graphic     = "a.writing"
+[advance_logistics_centers]
+name = _("Logistics Centers")
+req1 = "None"
+req2 = "None"
+cost = 50
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+
+[advance_labs]
+name = _("Laboratories")
+req1 = "Research Centers"
+req2 = "None"
+cost = 85
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+
+[advance_scolarships]
+name = _("Scolarships")
+req1 = "Research Centers"
+req2 = "None"
+cost = 120
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+
+[advance_free_market]
+name = _("Free Market")
+req1 = "Investment Centers"
+req2 = "None"
+cost = 100
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+
+[advance_venture_capital]
+name = _("Venture Capital")
+req1 = "Investment Centers"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+
+[advance_refinery]
+name = _("Refinery")
+req1 = "Logistics Centers"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+
+[advance_infrastructure]
+name = _("Infrastructure")
+req1 = "Logistics Centers"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
 graphic_alt = "-"
