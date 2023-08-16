@@ -79,3 +79,27 @@ reqs    =
 [effect_city_build_slots_basic]
 type    = "City_Build_Slots"
 value   = 1
+
+[effect_improvement_research_center]
+type = "Base_Science_Output"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Building", "Research Center", "City"
+    }
+
+[effect_improvement_investment_center]
+type = "Base_Gold_Output"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Building", "Investment Center", "City"
+    }
+
+[effect_improvement_logistics_center]
+type = "Base_Material_Output"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Building", "Logistics Center", "City"
+    }

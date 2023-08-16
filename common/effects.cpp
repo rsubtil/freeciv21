@@ -1192,6 +1192,15 @@ QString effect_type_unit_text(effect_type type, int value)
     return QString(PL_("%1 infrastructure point", "%1 infrastructure points",
                        value))
         .arg(value);
+  case EFT_BASE_GOLD_OUTPUT:
+  case EFT_BUILDING_GOLD_OUTPUT:
+    return QString(_("%1 gold")).arg(value);
+  case EFT_BASE_SCIENCE_OUTPUT:
+  case EFT_BUILDING_SCIENCE_OUTPUT:
+    return QString(_("%1 science")).arg(value);
+  case EFT_BASE_MATERIAL_OUTPUT:
+  case EFT_BUILDING_MATERIAL_OUTPUT:
+    return QString(_("%1 material")).arg(value);
   case EFT_ANY_GOVERNMENT:
   case EFT_CAPITAL_CITY:
   case EFT_ENABLE_NUKE:
@@ -1240,6 +1249,7 @@ QString effect_type_unit_text(effect_type type, int value)
   case EFT_CASUS_BELLI_COMPLETE:
   case EFT_WONDER_VISIBLE:
   case EFT_NATION_INTELLIGENCE:
+  case EFT_ENABLE_PUBLIC_TRANSPORT_ALL:
   case EFT_COUNT:
     return QStringLiteral("%1").arg(value);
   }

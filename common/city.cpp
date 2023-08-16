@@ -81,10 +81,11 @@ struct output_type output_types[O_LAST] = {
     {O_FOOD, N_("Food"), "food", true, UNHAPPY_PENALTY_SURPLUS},
     {O_SHIELD, N_("Shield"), "shield", true, UNHAPPY_PENALTY_SURPLUS},
     {O_TRADE, N_("Trade"), "trade", true, UNHAPPY_PENALTY_NONE},
-    {O_GOLD, N_("Gold"), "gold", false, UNHAPPY_PENALTY_ALL_PRODUCTION},
+    {O_GOLD, N_("Gold"), "gold", false, UNHAPPY_PENALTY_NONE},
     {O_LUXURY, N_("Luxury"), "luxury", false, UNHAPPY_PENALTY_NONE},
-    {O_SCIENCE, N_("Science"), "science", false,
-     UNHAPPY_PENALTY_ALL_PRODUCTION}};
+    {O_SCIENCE, N_("Science"), "science", false, UNHAPPY_PENALTY_NONE},
+    {O_MATERIALS, N_("Materials"), "materials", false, UNHAPPY_PENALTY_NONE},
+    };
 
 /**
    Returns the coordinates for the given city tile index taking into account
@@ -3073,6 +3074,18 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
   citizen_happy_wonders(pcity);
 
   unhappy_city_check(pcity);
+
+  // Hijack all surplus gold/science math to do it manually from now.
+  output_type_id outputs[] = { O_GOLD, O_SCIENCE , O_MATERIALS };
+  effect_type output_effects[] = { EFT_BASE_GOLD_OUTPUT, EFT_BASE_SCIENCE_OUTPUT, EFT_BASE_MATERIAL_OUTPUT };
+  for(int i = 0; i < 3; i++) {
+    output_type_id out = outputs[i];
+    effect_type effect = output_effects[i];
+
+    pcity->prod[out] = 1 + get_city_output_bonus(pcity, get_output_type(out), effect);
+  }
+  // O_SHIELD (production) is treated differently due to the effect being on percentage
+  pcity->prod[O_SHIELD] = 1;
   set_surpluses(pcity);
 }
 

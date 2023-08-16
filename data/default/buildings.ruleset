@@ -130,12 +130,13 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Research Centers", "Player"
   }
-graphic	= "b.research_center"
+graphic	= "b.palace"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 180
+;build_cost	= 180
+build_cost = 3
 upkeep		= 1
 sabotage	= 0
 helptext	= _("\
@@ -150,13 +151,14 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Investment Centers", "Player"
   }
-graphic	= "b.investment_center"
+graphic	= "b.palace"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 180
-upkeep		= 1
+;build_cost	= 180
+build_cost = 3
+upkeep		= 0
 sabotage	= 0
 helptext	= _("\
 An Investment Center gives more space for your bankers to work,\
@@ -170,12 +172,13 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Logistics Centers", "Player"
   }
-graphic	= "b.logistics_center"
+graphic	= "b.palace"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 180
+;build_cost	= 180
+build_cost = 3
 upkeep		= 1
 sabotage	= 0
 helptext	= _("\
