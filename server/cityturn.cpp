@@ -2592,8 +2592,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     (void) city_production_build_units(pcity, false, &num_units);
 
     // We should be able to build at least one (by checks above)
-    // FIXME: For demo, remove this
-    //fc_assert(num_units >= 1);
+    fc_assert(num_units >= 1);
 
     for (i = 0; i < num_units; i++) {
       punit = city_create_unit(pcity, utype);

@@ -74,3 +74,8 @@ reqs    =
       "Specialist", "taxman", "Local"
       "OutputType", "gold", "Local"
     }
+
+; each city has at least one slot to build units
+[effect_city_build_slots_basic]
+type    = "City_Build_Slots"
+value   = 1
