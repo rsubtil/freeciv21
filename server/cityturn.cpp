@@ -3463,6 +3463,7 @@ static void update_city_activity(struct city *pcity)
     * ->surplus[O_GOLD]) according to the setting.
     */
   pplayer->economic.gold += pcity->saved_surplus[O_GOLD];
+  pplayer->economic.materials += pcity->saved_surplus[O_MATERIALS];
 
   // Remember how much gold upkeep each unit was payed.
   unit_list_iterate(pcity->units_supported, punit)

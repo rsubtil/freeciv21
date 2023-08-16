@@ -46,38 +46,14 @@ reqs    =
       "NationGroup", "Barbarian", "Player"
     }
 
-; Specialist output bonuses
-
-[effect_elvis]
-type    = "Specialist_Output"
-value   = 2
-reqs    =
-    { "type", "name", "range"
-      "Specialist", "elvis", "Local"
-      "OutputType", "luxury", "Local"
-    }
-
-[effect_scientist]
-type    = "Specialist_Output"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "Specialist", "scientist", "Local"
-      "OutputType", "science", "Local"
-    }
-
-[effect_taxman]
-type    = "Specialist_Output"
-value   = 3
-reqs    =
-    { "type", "name", "range"
-      "Specialist", "taxman", "Local"
-      "OutputType", "gold", "Local"
-    }
 
 ; each city has at least one slot to build units
 [effect_city_build_slots_basic]
 type    = "City_Build_Slots"
+value   = 1
+
+[effect_tech_cost_base]
+type    = "Tech_Cost_Factor"
 value   = 1
 
 [effect_improvement_research_center]

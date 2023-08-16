@@ -342,8 +342,18 @@ void pageGame::updateInfoLabelTimeout()
     real_menus_update();
   }
   // TRANS: T is shortcut from Turn
-  s = QString(_("%1 \nT:%2"))
-          .arg(calendar_text(), QString::number(game.info.turn));
+  if (client.conn.playing && !client_is_global_observer() && C_S_RUNNING == client_state()) {
+    int materials_objective = 20000;
+    s = QString(_("%1 \nT:%2 %3/%4 (%5%)"))
+            .arg(player_name(client.conn.playing),
+                 QString::number(game.info.turn),
+                 QString::number(player_get_materials(client.conn.playing)),
+                 QString::number(materials_objective),
+                 QString::number(player_get_material_percentage(client.conn.playing,
+                                                       materials_objective)));
+  } else {
+    s = QString(_("All-mighty god \nT:%1")).arg(QString::number(game.info.turn));
+  }
 
   sw_map->setCustomLabels(s);
   reloadSidebarIcons();

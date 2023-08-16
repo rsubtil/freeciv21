@@ -1264,6 +1264,15 @@ int player_get_expected_income(const struct player *pplayer)
   return income;
 }
 
+int player_get_materials(const struct player *pplayer)
+{
+  return pplayer->economic.materials;
+}
+int player_get_material_percentage(const struct player *pplayer, int objective)
+{
+  return int((pplayer->economic.materials / (float)objective) * 100);
+}
+
 /**
    Returns TRUE iff the player knows at least one tech which has the
    given flag.
