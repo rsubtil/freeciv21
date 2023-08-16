@@ -1253,13 +1253,15 @@ int player_get_expected_income(const struct player *pplayer)
   }
   city_list_iterate_end;
 
+  int building_income = 0;
   building_list_iterate(pplayer->buildings, pbuilding)
   {
     if(pbuilding->rulename[11] == 'b') {
-      income += 1;
+      building_income += 1;
     }
   }
   building_list_iterate_end;
+  income += int(building_income * (1 + get_player_bonus(pplayer, EFT_BUILDING_GOLD_OUTPUT) / 100.0f));
 
   return income;
 }

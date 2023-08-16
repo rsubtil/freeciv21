@@ -4402,6 +4402,7 @@ void city_style_refresh(struct city *pcity)
 
 void update_buildings(struct player *pplayer)
 {
+  int gold = 0, science = 0, materials = 0;
   building_list_iterate(pplayer->buildings, pbuilding)
   {
     if(building_belongs_to(pbuilding, pplayer)) {
@@ -4410,18 +4411,21 @@ void update_buildings(struct player *pplayer)
       switch (type)
       {
       case 'b':
-        pplayer->economic.gold += 1;
+        gold += 1;
         break;
       case 'u':
-        pplayer->economic.science_acc += 1;
+        science += 1;
         break;
       case 'f':
-        pplayer->economic.materials += 1;
+        materials += 1;
         break;
       }
     }
   }
   building_list_iterate_end;
+  pplayer->economic.gold += int(gold * (1 + get_player_bonus(pplayer, EFT_BUILDING_GOLD_OUTPUT) / 100.0));
+  pplayer->economic.science_acc += int(science * (1 + get_player_bonus(pplayer, EFT_BUILDING_SCIENCE_OUTPUT) / 100.0));
+  pplayer->economic.materials += int(materials * (1 + get_player_bonus(pplayer, EFT_BUILDING_MATERIAL_OUTPUT) / 100.0));
 }
 
 /*int get_expected_buildings_gold(struct player *pplayer)

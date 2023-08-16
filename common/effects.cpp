@@ -1193,14 +1193,24 @@ QString effect_type_unit_text(effect_type type, int value)
                        value))
         .arg(value);
   case EFT_BASE_GOLD_OUTPUT:
-  case EFT_BUILDING_GOLD_OUTPUT:
     return QString(_("%1 gold")).arg(value);
+  case EFT_BUILDING_GOLD_OUTPUT:
+    return QString(_("%1% gold")).arg(value);
   case EFT_BASE_SCIENCE_OUTPUT:
-  case EFT_BUILDING_SCIENCE_OUTPUT:
     return QString(_("%1 science")).arg(value);
+  case EFT_BUILDING_SCIENCE_OUTPUT:
+    return QString(_("%1% science")).arg(value);
   case EFT_BASE_MATERIAL_OUTPUT:
-  case EFT_BUILDING_MATERIAL_OUTPUT:
     return QString(_("%1 material")).arg(value);
+  case EFT_BUILDING_MATERIAL_OUTPUT:
+    return QString(_("%1% material")).arg(value);
+  case EFT_PUBLIC_UNITS_MOVE_RATE:
+    return QString(_("%1% move rate")).arg(value);
+  case EFT_BASE_PRODUCTION_RATE:
+    return QString(_("%1% production rate")).arg(value);
+  case EFT_ENABLE_BUY_SCIENCE:
+  case EFT_ENABLE_BUY_MATERIAL:
+  case EFT_ENABLE_TRADE:
   case EFT_ANY_GOVERNMENT:
   case EFT_CAPITAL_CITY:
   case EFT_ENABLE_NUKE:

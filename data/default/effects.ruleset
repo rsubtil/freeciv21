@@ -79,3 +79,51 @@ reqs =
     { "type", "name", "range"
       "Building", "Logistics Center", "City"
     }
+
+[effect_building_labs]
+type = "Building_Science_Output_Pct"
+value = 50
+reqs =
+    { "type", "name", "range"
+      "Tech", "Laboratories", "Player"
+    }
+
+[effect_mechanic_scolarships]
+type = "Enable_Buy_Science"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Tech", "Scolarships", "Player"
+    }
+
+[effect_mechanic_free_market]
+type = "Enable_Trade"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Tech", "Free Market", "Player"
+    }
+
+[effect_building_venture_capital]
+type = "Building_Gold_Output_Pct"
+value = 100
+reqs =
+    { "type", "name", "range"
+      "Tech", "Venture Capital", "Player"
+    }
+
+[effect_building_refinery]
+type = "Building_Material_Output_Pct"
+value = 50
+reqs =
+    { "type", "name", "range"
+      "Tech", "Refinery", "Player"
+    }
+
+[effect_building_infrastructure]
+type = "Base_Production_Rate_Pct"
+value = 15
+reqs =
+    { "type", "name", "range"
+      "Tech", "Infrastructure", "Player"
+    }
