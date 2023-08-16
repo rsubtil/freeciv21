@@ -3341,6 +3341,9 @@ static bool city_handle_disorder(struct city *pcity)
 
 static void city_handle_capture(struct city *pcity)
 {
+  // Only enabled during strategy mode
+  if(game.info.game_mode != GM_ACTIVE) return;
+
   struct player *pplayer = city_owner(pcity);
   int radius_sq = city_map_radius_sq_get(pcity);
 
