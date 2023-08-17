@@ -3502,7 +3502,8 @@ static void unit_enter_base_empty(struct unit *punit)
     destroy_extra(ptile, pextra);
     map_base_empty_remove(pbase_empty);
 
-    create_city(pplayer, ptile, "Base", pplayer);
+    create_city(pplayer, ptile, pbase_empty->name, pplayer);
+    ptile->label = nullptr;
 
     update_tile_knowledge(ptile);
   }

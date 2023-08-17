@@ -2685,7 +2685,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
       extra_type_by_cause_iterate(EC_TRANSPORT, pres)
       {
         if (tile_has_extra(ptile, pres) && ptile->label) {
-          log_warning("Transport named %s", ptile->label);
+          log_warning("Transport named %s on pos %d,%d", ptile->label, TILE_XY(ptile));
           map_transports_add(QString(ptile->label), ptile);
         }
       }
@@ -2710,7 +2710,7 @@ static void sg_load_map_tiles_extras(struct loaddata *loading)
           struct base_empty *pbase_empty = map_base_empty_add(ptile);
           pbase_empty->id = identity_number();
           idex_register_base_empty(&wld, pbase_empty);
-          log_warning("Added base_empty on pos %d,%d", TILE_XY(ptile));
+          log_warning("Added base %s on pos %d,%d", pbase_empty->name, TILE_XY(ptile));
         }
       }
       extra_type_by_cause_iterate_end;

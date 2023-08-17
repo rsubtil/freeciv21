@@ -40,6 +40,7 @@ def fix_tech(lines):
 
 # Assign default usernames and border colors to players:
 def fix_player_info(lines):
+  print("# Fixing player info")
   data = {
   # "player_name": ["username", "color.r", "color.g", "color.b"]],
     "Yellow": ["234", "186", "0"],
@@ -73,6 +74,7 @@ def fix_player_info(lines):
 
 # Set some default server settings
 def fix_server_settings(lines):
+  print("# Fixing server settings")
   data = [
     "\"timeout\",1,1",
     "\"saveturns\",60,60"
@@ -83,10 +85,13 @@ def fix_server_settings(lines):
       for d in data:
         lines.insert(i + 1, d + "\n")
         print_edit(i + 1, 2, f"Added {d}")
+    if lines[i].startswith("set_count="):
+      lines[i] = f"set_count={int(lines[i].split('=')[1]) + len(data)}\n"
       return
 
 # Remove existing units that are not in the final scenario
 def fix_removed_units(lines):
+  print("# Fixing removed units")
   valid_units = [
     "unit_engineer",
     "unit_banker",
@@ -144,3 +149,5 @@ with open(freeciv_in_save_file, "r") as f:
 # Write out the lunar gambit save file
 with open(lunar_gambit_out_save_file, "w") as f:
   f.writelines(lines)
+
+print(f"File written to {lunar_gambit_out_save_file}. You now need to open this file with the server and then save for it to automatically fix the remaining missing stuff.")

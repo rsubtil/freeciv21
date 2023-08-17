@@ -802,6 +802,7 @@ struct building {
 struct base_empty {
   int id;
   struct tile *tile; // May be nullptr, should check!
+  const char* name;
 };
 
 // get 'struct base_empty_list' and related functions:
@@ -824,5 +825,5 @@ struct tile *building_tile(const struct building *pbuilding);
 struct building *create_building(const char username, struct tile *ptile,
                                  const char *name, const char *rulename);
 void destroy_building(struct building *pbuilding);
-struct base_empty *create_base_empty(struct tile *ptile);
+struct base_empty *create_base_empty(struct tile *ptile, const char* name);
 void destroy_base_empty(struct base_empty *pbase_empty);

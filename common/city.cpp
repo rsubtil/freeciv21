@@ -3566,11 +3566,12 @@ void destroy_building(struct building *pbuilding)
   pbuilding = nullptr;
 }
 
-struct base_empty *create_base_empty(struct tile *ptile)
+struct base_empty *create_base_empty(struct tile *ptile, const char* name)
 {
   struct base_empty *pbase_empty = new base_empty();
 
   pbase_empty->tile = ptile;
+  pbase_empty->name = name;
 
   return pbase_empty;
 }

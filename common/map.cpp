@@ -1692,8 +1692,11 @@ struct base_empty *map_base_empty_add(struct tile *tile)
   fc_assert(nullptr != tile);
   fc_assert(nullptr != wld.map.buildings);
 
+  const char* name = tile->label;
+  fc_assert(nullptr != name);
+
   struct base_empty *pbase_empty =
-      create_base_empty(tile);
+      create_base_empty(tile, name);
 
   base_empty_list_append(wld.map.bases_empty, pbase_empty);
 
