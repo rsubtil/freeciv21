@@ -120,6 +120,7 @@ tiles = { "row", "column","tag"
  7,  5, "tx.building_g_u"
  7,  2, "tx.building_b_u"
  7,  6, "tx.building_u"
+ 8,  6, "tx.base_empty"
 
 ;misc
  5, 5, "mask.tile"

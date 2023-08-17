@@ -26,11 +26,14 @@ void idex_free(struct world *iworld);
 void idex_register_city(struct world *iworld, struct city *pcity);
 void idex_register_unit(struct world *iworld, struct unit *punit);
 void idex_register_building(struct world *iworld, struct building *pbuilding);
+void idex_register_base_empty(struct world *iworld, struct base_empty *pbase_empty);
 
 void idex_unregister_city(struct world *iworld, struct city *pcity);
 void idex_unregister_unit(struct world *iworld, struct unit *punit);
 void idex_unregister_building(struct world *iworld, struct building *pbuilding);
+void idex_unregister_base_empty(struct world *iworld, struct base_empty *pbase_empty);
 
 struct city *idex_lookup_city(struct world *iworld, int id);
 struct unit *idex_lookup_unit(struct world *iworld, int id);
 struct building *idex_lookup_building(struct world *iworld, int id);
+struct base_empty *idex_lookup_base_empty(struct world *iworld, int id);

@@ -3482,6 +3482,34 @@ static void unit_enter_building(struct unit *punit)
   extra_type_by_cause_iterate_end;
 }
 
+static void unit_enter_base_empty(struct unit *punit)
+{
+  struct player *pplayer = unit_owner(punit);
+  struct tile *ptile = unit_tile(punit);
+
+  struct base_empty *pbase_empty = map_base_empty_get(ptile);
+  if (!pbase_empty)
+    return;
+
+  // Only public units can occupy bases
+  if(!unit_has_type_flag(punit, UTYF_PUBLIC)) {
+    return;
+  }
+
+  // Unit entered an empty base. Capture it
+  extra_type_by_cause_iterate(EC_BASE_EMPTY, pextra)
+  {
+    destroy_extra(ptile, pextra);
+    map_base_empty_remove(pbase_empty);
+
+    create_city(pplayer, ptile, "Base", pplayer);
+
+    update_tile_knowledge(ptile);
+  }
+  extra_type_by_cause_iterate_end;
+
+}
+
 /**
    Put the unit onto the transporter, and tell everyone.
  */
@@ -4540,6 +4568,12 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
   if (unit_lives) {
     // Is there a building?
     unit_enter_building(punit);
+    unit_lives = unit_is_alive(saved_id);
+  }
+
+  if (unit_lives) {
+    // Is there an empty base?
+    unit_enter_base_empty(punit);
     unit_lives = unit_is_alive(saved_id);
   }
 

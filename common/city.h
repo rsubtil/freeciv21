@@ -799,6 +799,20 @@ struct building {
   players_iterate_end;                                                      \
   }
 
+struct base_empty {
+  int id;
+  struct tile *tile; // May be nullptr, should check!
+};
+
+// get 'struct base_empty_list' and related functions:
+#define SPECLIST_TAG base_empty
+#define SPECLIST_TYPE struct base_empty
+#include "speclist.h"
+
+#define base_empty_list_iterate(base_emptylist, pbase_empty)                      \
+  TYPED_LIST_ITERATE(struct base_empty, base_emptylist, pbase_empty)
+#define base_empty_list_iterate_end LIST_ITERATE_END
+
 // properties
 
 const char *building_name_get(const struct building *pbuilding);
@@ -810,3 +824,5 @@ struct tile *building_tile(const struct building *pbuilding);
 struct building *create_building(const char username, struct tile *ptile,
                                  const char *name, const char *rulename);
 void destroy_building(struct building *pbuilding);
+struct base_empty *create_base_empty(struct tile *ptile);
+void destroy_base_empty(struct base_empty *pbase_empty);

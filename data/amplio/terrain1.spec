@@ -134,6 +134,7 @@ tiles = { "row", "column", "tag"
  2,  16, "tx.building_g_u"
  2,  16, "tx.building_b_u"
  2,  16, "tx.building_u"
+ 2,  16, "tx.base_empty"
 
  15,  0, "t.dither_tile"
  15,  0, "tx.darkness"

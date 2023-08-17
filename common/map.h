@@ -98,6 +98,11 @@ int map_buildings_count();
 struct building* map_buildings_add(const char* rulename, struct tile *building);
 struct building* map_buildings_get(struct tile *tile);
 
+int map_base_empty_count();
+struct base_empty *map_base_empty_add(struct tile *tile);
+struct base_empty *map_base_empty_get(struct tile *tile);
+void map_base_empty_remove(struct base_empty *pbase_empty);
+
 // Number of index coordinates (for sanity checks and allocations)
 #define MAP_INDEX_SIZE (wld.map.xsize * wld.map.ysize)
 

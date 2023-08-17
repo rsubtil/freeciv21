@@ -3550,7 +3550,7 @@ struct building *create_building(const char username, struct tile *ptile,
 {
   fc_assert_ret_val(nullptr != rulename, nullptr);    // No missing rulenames!
 
-  struct building *pbuilding = new building[1]();
+  struct building *pbuilding = new building();
   sz_strlcpy(pbuilding->rulename, rulename);
 
   pbuilding->username = username;
@@ -3564,4 +3564,20 @@ void destroy_building(struct building *pbuilding)
   memset(pbuilding, 0, sizeof(*pbuilding)); // ensure no pointers remain
   delete[] pbuilding;
   pbuilding = nullptr;
+}
+
+struct base_empty *create_base_empty(struct tile *ptile)
+{
+  struct base_empty *pbase_empty = new base_empty();
+
+  pbase_empty->tile = ptile;
+
+  return pbase_empty;
+}
+
+void destroy_base_empty(struct base_empty *pbase_empty)
+{
+  memset(pbase_empty, 0, sizeof(*pbase_empty)); // ensure no pointers remain
+  delete pbase_empty;
+  pbase_empty = nullptr;
 }

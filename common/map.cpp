@@ -484,7 +484,8 @@ void map_allocate(struct civ_map *amap)
   amap->transport_tiles = new QHash<QString, struct tile *>;
   building_list_destroy(amap->buildings);
   amap->buildings = building_list_new();
-
+  base_empty_list_destroy(amap->bases_empty);
+  amap->bases_empty = base_empty_list_new();
 }
 
 /**
@@ -1675,6 +1676,52 @@ struct building *map_buildings_get(struct tile *tile)
   }
   building_list_iterate_end;
   return nullptr;
+}
+
+int map_base_empty_count()
+{
+  if (nullptr != wld.map.bases_empty) {
+    return base_empty_list_size(wld.map.bases_empty);
+  } else {
+    return 0;
+  }
+}
+
+struct base_empty *map_base_empty_add(struct tile *tile)
+{
+  fc_assert(nullptr != tile);
+  fc_assert(nullptr != wld.map.buildings);
+
+  struct base_empty *pbase_empty =
+      create_base_empty(tile);
+
+  base_empty_list_append(wld.map.bases_empty, pbase_empty);
+
+  return pbase_empty;
+}
+
+struct base_empty *map_base_empty_get(struct tile *tile)
+{
+  base_empty_list_iterate(wld.map.bases_empty, pbase_empty)
+  {
+    if (pbase_empty->tile == tile) {
+      return pbase_empty;
+    }
+  }
+  base_empty_list_iterate_end;
+  return nullptr;
+}
+
+void map_base_empty_remove(struct base_empty *pbase_empty)
+{
+  base_empty_list_iterate(wld.map.bases_empty, pbase_empty2)
+  {
+    if (pbase_empty2 == pbase_empty) {
+      base_empty_list_remove(wld.map.bases_empty, pbase_empty);
+      return;
+    }
+  }
+  base_empty_list_iterate_end;
 }
 
 /**

@@ -22,4 +22,5 @@ struct world {
   QHash<int, const struct city *> *cities;
   QHash<int, const struct unit *> *units;
   QHash<int, const struct building *> *buildings;
+  QHash<int, const struct base_empty *> *bases_empty;
 };

@@ -146,6 +146,7 @@ tiles = { "row", "column", "tag"
  2,  16, "tx.building_g_u"
  2,  16, "tx.building_b_u"
  2,  16, "tx.building_u"
+ 2,  16, "tx.base_empty"
 
 ;goto path sprites
  14,  7, "path.step"            ; turn boundary within path
