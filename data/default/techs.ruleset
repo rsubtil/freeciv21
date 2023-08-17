@@ -123,6 +123,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Allows you to build Research Centers on bases, increasing it's science output.")
 
 [advance_investment_centers]
 name = _("Investment Centers")
@@ -132,6 +133,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Allows you to build Investment Centers on bases, increasing it's gold output.")
 
 [advance_logistics_centers]
 name = _("Logistics Centers")
@@ -141,6 +143,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Allows you to build Logistics Centers on bases, increasing it's production output.")
 
 [advance_labs]
 name = _("Laboratories")
@@ -150,6 +153,7 @@ cost = 85
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Improves your universities by establishing laboratories, increasing science output by 50%.")
 
 [advance_scolarships]
 name = _("Scolarships")
@@ -159,6 +163,7 @@ cost = 120
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Allows you to invest gold into science production, at a 5:1 ratio (100 gold = 20 science).")
 
 [advance_free_market]
 name = _("Free Market")
@@ -168,6 +173,7 @@ cost = 100
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Allows you to trade resources with any other player (provided they have researched this too).")
 
 [advance_venture_capital]
 name = _("Venture Capital")
@@ -177,6 +183,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Gives extra funding to your banks, increasing gold output by 100%.")
 
 [advance_refinery]
 name = _("Refinery")
@@ -186,6 +193,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Improves your factories with refineries, increasing material output by 50%.")
 
 [advance_infrastructure]
 name = _("Infrastructure")
@@ -195,3 +203,4 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
+help = _("Provides better service and access to your bases, increasing unit/improvement production speed by 15%.")
