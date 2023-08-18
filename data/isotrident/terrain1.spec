@@ -136,6 +136,7 @@ tiles = { "row", "column","tag"
  7,  2, "tx.building_b_u"
  7,  2, "tx.building_u"
  7,  2, "tx.base_empty"
+ 7,  2, "tx.transport"
 
 ;add-ons
  2, 7, "tx.oil_mine"

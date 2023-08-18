@@ -519,6 +519,7 @@ tiles = { "row", "column", "tag"
  7,  2, "tx.building_b_u"
  7,  2, "tx.building_u"
  7,  2, "tx.base_empty"
+ 7,  2, "tx.transport"
 
 ; Numbers: city size: (also used for goto)
 
