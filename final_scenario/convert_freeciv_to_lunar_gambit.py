@@ -123,6 +123,42 @@ def fix_removed_units(lines):
   for line in range(len(lines_to_erase)-1, -1, -1):
     lines.pop(lines_to_erase[line])
 
+# Make currently existing units "free" by disassociating their home city
+def fix_unit_ownership(lines):
+  print("# Fixing unit ownership")
+  valid_units = [
+    "unit_engineer",
+    "unit_banker",
+    "unit_scientist",
+    "Spy"
+  ]
+  lines_to_erase = []
+  for i in range(len(lines)):
+    if lines[i].startswith("u={\"id\""):
+      print_edit(i, 1, f"Found unit player definition")
+      for j in range(i+1, len(lines)):
+        if lines[j].startswith("}"):
+          print_edit(j, 1, f"Finished unit player definition")
+          break
+        unit_def = lines[j].split(",")
+        if len(unit_def) > 7:
+          unit_def[7] = "0"
+          print_edit(j, 2, f"{lines[j]} -> {','.join(unit_def)}")
+          lines[j] = ",".join(unit_def) + "\n"
+        any_valid_unit = False
+        for unit in valid_units:
+          regex = f"\"{unit}\""
+          search = re.search(regex, lines[j])
+          if search:
+            any_valid_unit = True
+            break
+        if not any_valid_unit:
+          # Remove line
+          lines_to_erase.append(j)
+          num_units -= 1
+          print_edit(j, 2, f"Removing {lines[j].strip()}")
+  for line in range(len(lines_to_erase)-1, -1, -1):
+    lines.pop(lines_to_erase[line])
 
 
 if len(sys.argv) < 3:
@@ -145,6 +181,7 @@ with open(freeciv_in_save_file, "r") as f:
   fix_player_info(lines)
   fix_server_settings(lines)
   fix_removed_units(lines)
+  fix_unit_ownership(lines)
 
 # Write out the lunar gambit save file
 with open(lunar_gambit_out_save_file, "w") as f:
