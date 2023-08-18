@@ -471,7 +471,7 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "IgZOC", "HasNoZOC", "NonStack", "Public", "ModeActive"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
@@ -503,7 +503,7 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "IgZOC", "HasNoZOC", "NonStack", "Public", "ModeActive"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\
@@ -535,7 +535,7 @@ fuel          = 0
 uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
-uk_gold       = 0
+uk_gold       = 1
 flags         = "IgZOC", "HasNoZOC", "NonStack", "Public", "ModeActive"
 helptext      = _("\
 Explorers are brave individuals that are very useful for\

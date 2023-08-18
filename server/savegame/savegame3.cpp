@@ -4795,9 +4795,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   if (nullptr != past) {
     pcity->original = past;
   }
-  attacker_id = secfile_lookup_int_default(loading->file, player_number(plr),
+  attacker_id = secfile_lookup_int_default(loading->file, -1,
                                   "%s.attacker", citystr);
-  past_attacker = player_by_number(attacker_id);
+  past_attacker = attacker_id > -1 ? player_by_number(attacker_id) : nullptr;
   pcity->attacker = past_attacker;
 
   sg_warn_ret_val(
@@ -5284,7 +5284,8 @@ static void sg_save_player_cities(struct savedata *saving,
 
     secfile_insert_int(saving->file, player_number(pcity->original),
                        "%s.original", buf);
-    secfile_insert_int(saving->file, player_number(pcity->attacker),
+    int attacker_id = pcity->attacker ? player_number(pcity->attacker) : -1;
+    secfile_insert_int(saving->file, attacker_id,
                        "%s.attacker", buf);
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
 

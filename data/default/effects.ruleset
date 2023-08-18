@@ -56,6 +56,10 @@ value   = 1
 type    = "Tech_Cost_Factor"
 value   = 1
 
+[effect_base_unit_upkeep]
+type    = "Upkeep_Factor"
+value	= 1
+
 [effect_improvement_research_center]
 type = "Base_Science_Output"
 value = 1
