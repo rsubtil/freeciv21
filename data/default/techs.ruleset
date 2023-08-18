@@ -123,7 +123,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows you to build Research Centers on bases, increasing it's science output.")
+help = _("Allows the construction of Research Centers on bases, increasing it's science output.")
 
 [advance_investment_centers]
 name = _("Investment Centers")
@@ -133,7 +133,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows you to build Investment Centers on bases, increasing it's gold output.")
+help = _("Allows the construction of Investment Centers on bases, increasing it's gold output.")
 
 [advance_logistics_centers]
 name = _("Logistics Centers")
@@ -143,7 +143,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows you to build Logistics Centers on bases, increasing it's production output.")
+help = _("Allows the construction of Logistics Centers on bases, increasing it's material output.")
 
 [advance_labs]
 name = _("Laboratories")
@@ -163,7 +163,7 @@ cost = 120
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows you to invest gold into science production, at a 5:1 ratio (100 gold = 20 science).")
+help = _("Reduce scientists unit cost by 50%.")
 
 [advance_free_market]
 name = _("Free Market")
@@ -204,3 +204,173 @@ flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
 help = _("Provides better service and access to your bases, increasing unit/improvement production speed by 15%.")
+
+[advance_rnd]
+name = _("Research & Development")
+req1 = "Laboratories"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows the construction of R&D centers on bases, increasing it's science output.")
+
+[advance_renewable_energy]
+name = _("Renewable Energies")
+req1 = "Laboratories"
+req2 = "Scolarships"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Reduces improvement maintenance costs by 50%.")
+
+[advance_public_transport]
+name = _("Public Transport")
+req1 = "Investment Centers"
+req2 = "Refinery"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows any unit to use public transports.")
+
+[advance_factory]
+name = _("Factory")
+req1 = "Infrastructure"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows the construction of factories on bases, increasing it's material output.")
+
+[advance_4day_week]
+name = _("4-day Work Week")
+req1 = "Research & Development"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows the construction of R&D centers on bases, increasing it's science output.")
+
+[advance_salary_boost]
+name = _("Salary Boost")
+req1 = "Research & Development"
+req2 = "Renewable Energies"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows you to double a bases's loyalty, but by doubling unit costs.")
+
+[advance_salary_cut]
+name = _("Salary Cuts")
+req1 = "Venture Capital"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Make all the base's units have no maintenance costs, but by reducing a base's loyalty to 25%.")
+
+[advance_company_vehicles]
+name = _("Company Vehicles")
+req1 = "Factory"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Double all public unit's movement speed (spies are not affected).")
+
+[advance_modern_materials]
+name = _("Modern Materials")
+req1 = "Refinery"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Introduces modern materials and processes in your factories, increasing material output by 25%.")
+
+[advance_telecommunications]
+name = _("Telecommunications")
+req1 = "4-day Work Week"
+req2 = "Modern Materials"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Increases spies' view range by 2 tile.")
+
+[advance_inflation]
+name = _("Inflation")
+req1 = "Salary Cuts"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Get more government help to support costs. Bases gold output is doubled.")
+
+[advance_railroad_stocks]
+name = _("Railroad Stocks")
+req1 = "Salary Cuts"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Increase influence in public transports, allowing any wiretaps to reveal player identity.")
+
+[advance_space_program]
+name = _("Space Program")
+req1 = "4-day Work Week"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows the construction of Space Programs on bases, increasing it's science output.")
+
+[advance_tax_evasion]
+name = _("Tax Evasion")
+req1 = "Inflation"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Converts 50% of the expended science directly into gold.")
+
+[advance_financial_rescue]
+name = _("Financial Rescue")
+req1 = "Inflation"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Reduces all unit maintenance costs by 50%.")
+
+[advance_automation]
+name = _("Automation")
+req1 = "Modern Materials"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Converts 25% of the expended science directly into materials.")
+
+[advance_video_surveillance]
+name = _("Video Surveillance")
+req1 = "Modern Materials"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Lowers stolen materials by spies from 10% to 7.5%.")
