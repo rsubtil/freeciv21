@@ -195,8 +195,7 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
 bool player_has_embassy(const struct player *pplayer,
                         const struct player *pplayer2)
 {
-  return (pplayer == pplayer2 || player_has_real_embassy(pplayer, pplayer2)
-          || player_has_embassy_from_effect(pplayer, pplayer2));
+  return true; // Hardcoded to allow trading always
 }
 
 /**

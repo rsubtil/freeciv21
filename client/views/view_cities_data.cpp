@@ -56,280 +56,6 @@ static QString cr_entry_cityname(const struct city *pcity, const void *data)
 }
 
 /**
-   Translated name of nation who owns this city.
- */
-static QString cr_entry_nation(const struct city *pcity, const void *data)
-{
-  return nation_adjective_for_player(city_owner(pcity));
-}
-
-/**
-   Returns city size written to string. Returned string is statically
-   allocated and its contents change when this function is called again.
- */
-static QString cr_entry_size(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-
-  fc_snprintf(buf, sizeof(buf), "%2d", city_size_get(pcity));
-  return buf;
-}
-
-/**
-   Returns concise city happiness state written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_hstate_concise(const struct city *pcity,
-                                       const void *data)
-{
-  if (city_unhappy(pcity)) {
-    return "X"; // Disorder
-  } else if (city_celebrating(pcity)) {
-    return "*"; // Celebrating
-  } else if (city_happy(pcity)) {
-    return "+"; // Happy
-  } else {
-    return " "; // Content
-  }
-  static char buf[4];
-  fc_snprintf(
-      buf, sizeof(buf), "%s",
-      (city_celebrating(pcity) ? "*" : (city_unhappy(pcity) ? "X" : " ")));
-  return buf;
-}
-
-/**
-   Returns verbose city happiness state written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_hstate_verbose(const struct city *pcity,
-                                       const void *data)
-{
-  Q_UNUSED(data);
-  return get_city_dialog_status_text(pcity);
-}
-
-/**
-   Returns number of citizens of each happiness state written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_workers(const struct city *pcity, const void *data)
-{
-  static char buf[32];
-
-  fc_snprintf(buf, sizeof(buf), "%d/%d/%d/%d",
-              pcity->feel[CITIZEN_HAPPY][FEELING_FINAL],
-              pcity->feel[CITIZEN_CONTENT][FEELING_FINAL],
-              pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
-              pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
-  return buf;
-}
-
-/**
-   Returns number of happy citizens written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_happy(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%2d",
-              pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]);
-  return buf;
-}
-
-/**
-   Returns city total culture written to string
- */
-static QString cr_entry_culture(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->client.culture);
-  return buf;
-}
-
-/**
-   Returns city history culture value written to string
- */
-static QString cr_entry_history(const struct city *pcity, const void *data)
-{
-  static char buf[20];
-  int perturn = city_history_gain(pcity);
-
-  if (perturn != 0) {
-    fc_snprintf(buf, sizeof(buf), "%3d (%+d)", pcity->history, perturn);
-  } else {
-    fc_snprintf(buf, sizeof(buf), "%3d", pcity->history);
-  }
-  return buf;
-}
-
-/**
-   Returns city performance culture value written to string
- */
-static QString cr_entry_performance(const struct city *pcity,
-                                    const void *data)
-{
-  static char buf[8];
-
-  /*
-   * Infer the actual performance component of culture from server-supplied
-   * values, rather than using the client's guess at EFT_PERFORMANCE.
-   * XXX: if culture ever gets more complicated than history+performance,
-   * this will need revising, possibly to use a server-supplied value.
-   */
-  fc_snprintf(buf, sizeof(buf), "%3d",
-              pcity->client.culture - pcity->history);
-  return buf;
-}
-
-/**
-   Returns number of content citizens written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_content(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%2d",
-              pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]);
-  return buf;
-}
-
-/**
-   Returns number of unhappy citizens written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_unhappy(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%2d",
-              pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]);
-  return buf;
-}
-
-/**
-   Returns number of angry citizens written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_angry(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%2d",
-              pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
-  return buf;
-}
-
-/**
-   Returns list of specialists written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_specialists(const struct city *pcity,
-                                    const void *data)
-{
-  return specialists_string(pcity->specialists);
-}
-
-/**
-   Returns number of specialists of type given as data written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_specialist(const struct city *pcity,
-                                   const void *data)
-{
-  static char buf[8];
-  const struct specialist *sp = static_cast<const specialist *>(data);
-
-  fc_snprintf(buf, sizeof(buf), "%2d",
-              pcity->specialists[specialist_index(sp)]);
-  return buf;
-}
-
-/**
-   Returns string with best attack values of units in city.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_attack(const struct city *pcity, const void *data)
-{
-  static char buf[32];
-  int attack_best[4] = {-1, -1, -1, -1}, i;
-
-  unit_list_iterate(pcity->tile->units, punit)
-  {
-    // What about allied units?  Should we just count them?
-    attack_best[3] = unit_type_get(punit)->attack_strength;
-
-    /* Now that the element is appended to the end of the list, we simply
-       do an insertion sort. */
-    for (i = 2; i >= 0 && attack_best[i] < attack_best[i + 1]; i--) {
-      int tmp = attack_best[i];
-      attack_best[i] = attack_best[i + 1];
-      attack_best[i + 1] = tmp;
-    }
-  }
-  unit_list_iterate_end;
-
-  buf[0] = '\0';
-  for (i = 0; i < 3; i++) {
-    if (attack_best[i] >= 0) {
-      cat_snprintf(buf, sizeof(buf), "%s%d", (i > 0) ? "/" : "",
-                   attack_best[i]);
-    } else {
-      cat_snprintf(buf, sizeof(buf), "%s-", (i > 0) ? "/" : "");
-    }
-  }
-
-  return buf;
-}
-
-/**
-   Returns string with best defend values of units in city.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_defense(const struct city *pcity, const void *data)
-{
-  static char buf[32];
-  int defense_best[4] = {-1, -1, -1, -1}, i;
-
-  unit_list_iterate(pcity->tile->units, punit)
-  {
-    // What about allied units?  Should we just count them?
-    defense_best[3] = unit_type_get(punit)->defense_strength;
-
-    /* Now that the element is appended to the end of the list, we simply
-       do an insertion sort. */
-    for (i = 2; i >= 0 && defense_best[i] < defense_best[i + 1]; i--) {
-      int tmp = defense_best[i];
-
-      defense_best[i] = defense_best[i + 1];
-      defense_best[i + 1] = tmp;
-    }
-  }
-  unit_list_iterate_end;
-
-  buf[0] = '\0';
-  for (i = 0; i < 3; i++) {
-    if (defense_best[i] >= 0) {
-      cat_snprintf(buf, sizeof(buf), "%s%d", (i > 0) ? "/" : "",
-                   defense_best[i]);
-    } else {
-      cat_snprintf(buf, sizeof(buf), "%s-", (i > 0) ? "/" : "");
-    }
-  }
-
-  return buf;
-}
-
-/**
    Returns number of supported units written to string.
    Returned string is statically allocated and its contents change when
    this function is called again.
@@ -345,46 +71,6 @@ static QString cr_entry_supported(const struct city *pcity, const void *data)
 }
 
 /**
-   Returns number of present units written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_present(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  int num_present = unit_list_size(pcity->tile->units);
-
-  fc_snprintf(buf, sizeof(buf), "%2d", num_present);
-
-  return buf;
-}
-
-/**
-   Returns string listing amounts of resources.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_resources(const struct city *pcity, const void *data)
-{
-  static char buf[32];
-  fc_snprintf(buf, sizeof(buf), "%d/%d/%d", pcity->surplus[O_FOOD],
-              pcity->surplus[O_SHIELD], pcity->surplus[O_TRADE]);
-  return buf;
-}
-
-/**
-   Returns food surplus written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_foodplus(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_FOOD]);
-  return buf;
-}
-
-/**
    Returns production surplus written to string.
    Returned string is statically allocated and its contents change when
    this function is called again.
@@ -393,33 +79,6 @@ static QString cr_entry_prodplus(const struct city *pcity, const void *data)
 {
   static char buf[8];
   fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_SHIELD]);
-  return buf;
-}
-
-/**
-   Returns trade surplus written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_tradeplus(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_TRADE]);
-  return buf;
-}
-
-/**
-   Returns string describing resource output.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_output(const struct city *pcity, const void *data)
-{
-  static char buf[32];
-  int goldie = pcity->surplus[O_GOLD];
-
-  fc_snprintf(buf, sizeof(buf), "%3d/%d/%d", goldie, pcity->prod[O_LUXURY],
-              pcity->prod[O_SCIENCE]);
   return buf;
 }
 
@@ -441,18 +100,6 @@ static QString cr_entry_gold(const struct city *pcity, const void *data)
 }
 
 /**
-   Returns luxury output written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_luxury(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->prod[O_LUXURY]);
-  return buf;
-}
-
-/**
    Returns science output written to string.
    Returned string is statically allocated and its contents change when
    this function is called again.
@@ -465,76 +112,14 @@ static QString cr_entry_science(const struct city *pcity, const void *data)
 }
 
 /**
-   Returns number of turns before city grows written to string.
+   Returns material output written to string.
    Returned string is statically allocated and its contents change when
    this function is called again.
  */
-static QString cr_entry_growturns(const struct city *pcity, const void *data)
-{
-  int turns = city_turns_to_grow(pcity);
-  char buffer[8];
-  static char buf[32];
-
-  if (turns == FC_INFINITY) {
-    // 'never' wouldn't be easily translatable here.
-    fc_snprintf(buffer, sizeof(buffer), "---");
-  } else {
-    // Shrinking cities get a negative value.
-    fc_snprintf(buffer, sizeof(buffer), "%4d", turns);
-  }
-  fc_snprintf(buf, sizeof(buf), "%s (%d/%d)", buffer, pcity->food_stock,
-              city_granary_size(city_size_get(pcity)));
-  return buf;
-}
-
-/**
-   Returns pollution output written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_pollution(const struct city *pcity, const void *data)
+static QString cr_entry_material(const struct city *pcity, const void *data)
 {
   static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->pollution);
-  return buf;
-}
-
-/**
-   Returns number and output of trade routes written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_trade_routes(const struct city *pcity,
-                                     const void *data)
-{
-  static char buf[16];
-  int num = 0, value = 0;
-
-  trade_routes_iterate(pcity, proute)
-  {
-    num++;
-    value += proute->value;
-  }
-  trade_routes_iterate_end;
-
-  if (0 == num) {
-    sz_strlcpy(buf, "0");
-  } else {
-    fc_snprintf(buf, sizeof(buf), "%d (+%d)", num, value);
-  }
-  return buf;
-}
-
-/**
-   Returns number of build slots written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_build_slots(const struct city *pcity,
-                                    const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", city_build_slots(pcity));
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->prod[O_MATERIALS]);
   return buf;
 }
 
@@ -604,128 +189,6 @@ static QString cr_entry_build_cost(const struct city *pcity,
   return buf;
 }
 
-/**
- * Returns cost of buying current production only written to string.
- * Returned string is statically allocated and its contents change
- * when this function is called again.
- */
-static QString cr_entry_build_cost_gold(const struct city *pcity,
-                                        const void *data)
-{
-  Q_UNUSED(data)
-  char bufone[8];
-  static char buf[32];
-  int price;
-
-  if (city_production_has_flag(pcity, IF_GOLD) ||
-      city_production_has_flag(pcity, IF_NOTHING)) {
-    fc_snprintf(buf, sizeof(buf), "*");
-    return buf;
-  }
-  price = pcity->client.buy_cost;
-
-  if (price > 99999) {
-    fc_snprintf(bufone, sizeof(bufone), "---");
-  } else {
-    fc_snprintf(bufone, sizeof(bufone), "%d", price);
-  }
-  fc_snprintf(buf, sizeof(buf), "%s", bufone);
-  return buf;
-}
-
-/**
- * Returns current production turns to completion written to string.
- * Returned string is statically allocated and its contents change
- * when this function is called again.
- */
-static QString cr_entry_build_cost_turns(const struct city *pcity,
-                                         const void *data)
-{
-  Q_UNUSED(data)
-  char bufone[8];
-  static char buf[32];
-  int turns;
-
-  turns = city_production_turns_to_build(pcity, true);
-
-  if (turns > 999) {
-    fc_snprintf(bufone, sizeof(bufone), "--");
-  } else {
-    fc_snprintf(bufone, sizeof(bufone), "%3d", turns);
-  }
-  fc_snprintf(buf, sizeof(buf), "%s", bufone);
-  return buf;
-}
-
-/**
-   Returns corruption amount written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_corruption(const struct city *pcity,
-                                   const void *data)
-{
-  Q_UNUSED(data)
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", -(pcity->waste[O_TRADE]));
-  return buf;
-}
-
-/**
-   Returns waste amount written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_waste(const struct city *pcity, const void *data)
-{
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", -(pcity->waste[O_SHIELD]));
-  return buf;
-}
-
-/**
-   Returns risk percentage of plague written to string.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_plague_risk(const struct city *pcity,
-                                    const void *data)
-{
-  Q_UNUSED(data)
-  static char buf[8];
-  if (!game.info.illness_on) {
-    fc_snprintf(buf, sizeof(buf), " -.-");
-  } else {
-    fc_snprintf(buf, sizeof(buf), "%4.1f",
-                static_cast<float>(city_illness_calc(pcity, nullptr, nullptr,
-                                                     nullptr, nullptr))
-                    / 10.0);
-  }
-  return buf;
-}
-
-/**
-   Returns number of continent
- */
-static QString cr_entry_continent(const struct city *pcity, const void *data)
-{
-  Q_UNUSED(data)
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%3d", pcity->tile->continent);
-  return buf;
-}
-
-/**
-   Returns city cma description.
-   Returned string is statically allocated and its contents change when
-   this function is called again.
- */
-static QString cr_entry_cma(const struct city *pcity, const void *data)
-{
-  Q_UNUSED(data)
-  return cmafec_get_short_descr_of_city(pcity);
-}
-
 /* City report options (which columns get shown)
  * To add a new entry, you should just have to:
  * - add a function like those above
@@ -739,97 +202,24 @@ static const struct city_report_spec base_city_report_specs[] = {
     // CITY columns
     {true, -15, 0, nullptr, N_("?city:Name"), N_("City: Name"), nullptr,
      FUNC_TAG(cityname)},
-    {false, -15, 0, nullptr, N_("Nation"), N_("City: Nation"), nullptr,
-     FUNC_TAG(nation)},
-    {false, 3, 1, nullptr, N_("?Continent:Cn"), N_("City: Continent number"),
-     nullptr, FUNC_TAG(continent)},
-    {true, 2, 1, nullptr, N_("?size [short]:Sz"), N_("City: Size"), nullptr,
-     FUNC_TAG(size)},
-    {// TRANS: Header "It will take this many turns before city grows"
-     true, 14, 1, N_("?food (population):Grow"),
-     N_("?Stock/Target:(Have/Need)"), N_("City: Turns until growth/famine"),
-     nullptr, FUNC_TAG(growturns)},
-    {true, -8, 1, nullptr, N_("State"),
-     N_("City: State: Celebrating/Happy/Peace/Disorder"), nullptr,
-     FUNC_TAG(hstate_verbose)},
-    {false, 1, 1, nullptr, nullptr,
-     N_("City: Concise state: *=Celebrating, +=Happy, X=Disorder"), nullptr,
-     FUNC_TAG(hstate_concise)},
-    {true, 15, 1, nullptr, N_("?cma:Governor"), N_("City: Governor"),
-     nullptr, FUNC_TAG(cma)},
-    {false, 4, 1, N_("?plague risk [short]:Pla"), N_("(%)"),
-     N_("City: Plague risk per turn"), nullptr, FUNC_TAG(plague_risk)},
-
-    // CITIZEN columns
-    {false, 2, 1, nullptr, N_("?Happy workers:H"), N_("Citizens: Happy"),
-     nullptr, FUNC_TAG(happy)},
-    {false, 2, 1, nullptr, N_("?Content workers:C"), N_("Citizens: Content"),
-     nullptr, FUNC_TAG(content)},
-    {false, 2, 1, nullptr, N_("?Unhappy workers:U"), N_("Citizens: Unhappy"),
-     nullptr, FUNC_TAG(unhappy)},
-    {false, 2, 1, nullptr, N_("?Angry workers:A"), N_("Citizens: Angry"),
-     nullptr, FUNC_TAG(angry)},
-    {false, 10, 1, N_("?city:Citizens"),
-     N_("?happy/content/unhappy/angry:H/C/U/A"),
-     N_("Citizens: Concise: Happy/Content/Unhappy/Angry"), nullptr,
-     FUNC_TAG(workers)},
 
     // UNIT columns
-    {false, 8, 1, N_("Best"), N_("attack"), N_("Units: Best attackers"),
-     nullptr, FUNC_TAG(attack)},
-    {false, 8, 1, N_("Best"), N_("defense"), N_("Units: Best defenders"),
-     nullptr, FUNC_TAG(defense)},
-    {false, 2, 1, N_("Units"),
-     // TRANS: Header "Number of units inside city"
-     N_("?Present (units):Here"), N_("Units: Number present"), nullptr,
-     FUNC_TAG(present)},
-    {false, 2, 1, N_("Units"),
+    {true, 2, 1, N_("Units"),
      // TRANS: Header "Number of units supported by given city"
      N_("?Supported (units):Owned"), N_("Units: Number supported"), nullptr,
      FUNC_TAG(supported)},
-    // TRANS: "UpT" = "Units per turn"
-    {false, 3, 1, nullptr, N_("UpT"),
-     N_("Units: Maximum buildable per turn"), nullptr,
-     FUNC_TAG(build_slots)},
 
     // RESOURCE columns
-    {false, 10, 1, N_("Surplus"), N_("?food/production/trade:F/P/T"),
-     N_("Resources: Surplus Food, Production, Trade"), nullptr,
-     FUNC_TAG(resources)},
-    {true, 3, 1, nullptr, N_("?Food surplus [short]:+F"),
-     N_("Resources: Surplus Food"), nullptr, FUNC_TAG(foodplus)},
     {true, 3, 1, nullptr, N_("?Production surplus [short]:+P"),
      N_("Resources: Surplus Production"), nullptr, FUNC_TAG(prodplus)},
-    {false, 3, 1, nullptr, N_("?Production loss (waste) [short]:-P"),
-     N_("Resources: Waste (lost production)"), nullptr, FUNC_TAG(waste)},
-    {true, 3, 1, nullptr, N_("?Trade surplus [short]:+T"),
-     N_("Resources: Surplus Trade"), nullptr, FUNC_TAG(tradeplus)},
-    {true, 3, 1, nullptr, N_("?Trade loss (corruption) [short]:-T"),
-     N_("Resources: Corruption (lost trade)"), nullptr,
-     FUNC_TAG(corruption)},
-    {false, 1, 1, N_("?number_trade_routes:n"), N_("?number_trade_routes:R"),
-     N_("Resources: Number (and total value) of trade routes"), nullptr,
-     FUNC_TAG(trade_routes)},
-    {false, 3, 1, nullptr, N_("?pollution [short]:Pol"),
-     N_("Production: Pollution"), nullptr, FUNC_TAG(pollution)},
 
     // ECONOMY columns
-    {false, 10, 1, N_("Surplus"), N_("?gold/luxury/science:G/L/S"),
-     N_("Surplus: Gold, Luxuries, Science"), nullptr, FUNC_TAG(output)},
     {true, 3, 1, nullptr, N_("?Gold:G"), N_("Surplus: Gold"), nullptr,
      FUNC_TAG(gold)},
-    {false, 3, 1, nullptr, N_("?Luxury:L"), N_("Surplus: Luxury Goods"),
-     nullptr, FUNC_TAG(luxury)},
     {true, 3, 1, nullptr, N_("?Science:S"), N_("Surplus: Science"), nullptr,
      FUNC_TAG(science)},
-
-    // CULTURE columns
-    {false, 3, 1, nullptr, N_("?Culture:Clt"),
-     N_("Culture: History + Performance"), nullptr, FUNC_TAG(culture)},
-    {false, 3, 1, nullptr, N_("?History:Hst"),
-     N_("Culture: History (and gain per turn)"), nullptr, FUNC_TAG(history)},
-    {false, 3, 1, nullptr, N_("?Performance:Prf"),
-     N_("Culture: Performance"), nullptr, FUNC_TAG(performance)},
+    {true, 3, 1, nullptr, N_("?Materials:S"), N_("Surplus: Materials"), nullptr,
+     FUNC_TAG(material)},
 
     // PRODUCTION columns
     {true, 9, 1, N_("Production"), N_("Turns/Buy"),
@@ -837,10 +227,6 @@ static const struct city_report_spec base_city_report_specs[] = {
         translation */
      N_("Production: Turns/gold to complete"), nullptr,
      FUNC_TAG(build_cost)},
-    {false, 0, 1, N_("Buy"), N_("(Gold)"), N_("Production: Buy Cost"),
-     nullptr, FUNC_TAG(build_cost_gold)},
-    {false, 0, 1, N_("Finish"), N_("(Turns)"), N_("Production: Build Turns"),
-     nullptr, FUNC_TAG(build_cost_turns)},
     {true, 0, 1, N_("Currently Building"), N_("?Stock/Target:(Have/Need)"),
      N_("Production: Currently Building"), nullptr, FUNC_TAG(building)}};
 
@@ -884,47 +270,6 @@ void init_city_report_game_data()
       ARRAY_SIZE(base_city_report_specs) + specialist_count() + 1;
   city_report_specs = std::vector<city_report_spec>(num_creport_cols);
   p = &city_report_specs[0];
-
-  fc_snprintf(sp_explanations, sizeof(sp_explanations), "%s",
-              _("Specialists: "));
-  specialist_type_iterate(sp)
-  {
-    struct specialist *s = specialist_by_number(sp);
-
-    p->show = false;
-    p->width = 2;
-    p->space = 1;
-    p->title1 = Q_("?specialist:S");
-    p->title2 = specialist_abbreviation_translation(s);
-    fc_snprintf(sp_explanation[sp], sizeof(sp_explanation[sp]),
-                _("Specialists: %s"), specialist_plural_translation(s));
-    cat_snprintf(sp_explanations, sizeof(sp_explanations), "%s%s",
-                 (sp == 0) ? "" : ", ", specialist_plural_translation(s));
-    p->explanation = sp_explanation[sp];
-    p->data = s;
-    p->func = cr_entry_specialist;
-    p->tagname = specialist_rule_name(s);
-    p++;
-  }
-  specialist_type_iterate_end;
-
-  // Summary column for all specialists.
-  {
-    static char sp_summary[128];
-
-    p->show = false;
-    p->width = MAX(7, specialist_count() * 2 - 1);
-    p->space = 1;
-    p->title1 = _("Special");
-    fc_snprintf(sp_summary, sizeof(sp_summary), "%s",
-                specialists_abbreviation_string());
-    p->title2 = sp_summary;
-    p->explanation = sp_explanations;
-    p->data = nullptr;
-    p->func = cr_entry_specialists;
-    p->tagname = "specialists";
-    p++;
-  }
 
   memcpy(p, base_city_report_specs, sizeof(base_city_report_specs));
 

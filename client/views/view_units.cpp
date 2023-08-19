@@ -41,17 +41,12 @@ units_view::units_view() : QWidget()
 
   // Configure the units table
   QStringList slist;
-  slist << _("Unit Type") << _("★  Upgradable") << _("⚒  In Progress")
-        << _("⚔  Active") << _("Shield Upkeep") << _("Food Upkeep")
-        << _("Gold Upkeep") << QLatin1String("");
-  ui.units_label->setText(QString(_("Units:")));
+  slist << _("Unit Type") << _("⚒  In Progress")
+        << _("⚔  Active") << _("Gold Upkeep") << QLatin1String("");
   ui.units_widget->setColumnCount(slist.count());
   ui.units_widget->setHorizontalHeaderLabels(slist);
   ui.units_widget->setSortingEnabled(false);
   ui.units_widget->setAlternatingRowColors(true);
-  ui.upg_but->setText(_("Upgrade"));
-  ui.upg_but->setToolTip(_("Upgrade selected unit."));
-  ui.upg_but->setDisabled(true);
   ui.find_but->setText(_("Find Nearest"));
   ui.find_but->setToolTip(_("Center the map on the nearest unit in relation "
                             "to where the map is now."));
@@ -60,34 +55,11 @@ units_view::units_view() : QWidget()
   ui.disband_but->setToolTip(_("Disband all of the selected unit."));
   ui.disband_but->setDisabled(true);
 
-  // Configure the unitwaittime table
-  slist.clear();
-  slist << _("Unit Type") << _("Location") << _("Time left")
-        << QLatin1String("");
-  ui.uwt_widget->setColumnCount(slist.count());
-  ui.uwt_widget->setHorizontalHeaderLabels(slist);
-  ui.uwt_widget->setSortingEnabled(false);
-  ui.uwt_widget->setAlternatingRowColors(true);
-  ui.uwt_label->setText("Units Waiting:");
-
-  // Add shield icon for shield upkeep column
-  const QPixmap *spr =
-      tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.shield",
-                                  "citybar.shields", "", "", false);
-  ui.units_widget->horizontalHeaderItem(4)->setIcon(crop_sprite(spr));
-
-  // Add food icon for food upkeep column
-  spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.food",
-                                    "citybar.food", "", "", false);
-  ui.units_widget->horizontalHeaderItem(5)->setIcon(crop_sprite(spr));
-
   // Add gold icon for gold upkeep column
-  spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.gold",
+  const QPixmap* spr = tiles_lookup_sprite_tag_alt(tileset, LOG_VERBOSE, "upkeep.gold",
                                     "citybar.trade", "", "", false);
-  ui.units_widget->horizontalHeaderItem(6)->setIcon(crop_sprite(spr));
+  ui.units_widget->horizontalHeaderItem(3)->setIcon(crop_sprite(spr));
 
-  connect(ui.upg_but, &QAbstractButton::pressed, this,
-          &units_view::upgrade_units);
   connect(ui.find_but, &QAbstractButton::pressed, this,
           &units_view::find_nearest);
   connect(ui.disband_but, &QAbstractButton::pressed, this,
@@ -129,11 +101,8 @@ void units_view::update_view()
 
   // Variables for the nested loops
   int total_count = 0;  // Sum of unit type
-  int upg_count = 0;    // Sum of upgradable
   int in_progress = 0;  // Sum of in progress by unit type
   int total_gold = 0;   // Sum of gold upkeep
-  int total_shield = 0; // Sum of shield upkeep
-  int total_food = 0;   // Sum of food upkeep
   int max_row = 0;      // Max rows in the table widget
 
   for (int i = 0; i < entries_used; i++) {
@@ -145,7 +114,7 @@ void units_view::update_view()
     id = cid_encode_unit(putype);
 
     ui.units_widget->insertRow(max_row);
-    for (int j = 0; j < 7; j++) {
+    for (int j = 0; j < 4; j++) {
       QTableWidgetItem *item = new QTableWidgetItem;
       switch (j) {
       case 0:
@@ -158,45 +127,16 @@ void units_view::update_view()
         item->setTextAlignment(Qt::AlignLeft | Qt::TextAlignmentRole);
         break;
       case 1:
-        // # Upgradable
-        if (pentry->upg) {
-          item->setData(Qt::DisplayRole, "★");
-          upg_count++;
-        } else {
-          item->setData(Qt::DisplayRole, "-");
-        }
-        break;
-      case 2:
         // # In Progress
         item->setData(Qt::DisplayRole, pentry->in_prod);
         in_progress += pentry->in_prod;
         break;
-      case 3:
+      case 2:
         // # Active
         item->setData(Qt::DisplayRole, pentry->count);
         total_count += pentry->count;
         break;
-      case 4:
-        // Shield upkeep
-        if (pentry->shield_cost == 0) {
-          item->setText("-");
-          item->setTextAlignment(Qt::AlignCenter);
-        } else {
-          item->setData(Qt::DisplayRole, pentry->shield_cost);
-        }
-        total_shield += pentry->shield_cost;
-        break;
-      case 5:
-        // Food upkeep
-        if (pentry->food_cost == 0) {
-          item->setText("-");
-          item->setTextAlignment(Qt::AlignCenter);
-        } else {
-          item->setData(Qt::DisplayRole, pentry->food_cost);
-        }
-        total_food += pentry->food_cost;
-        break;
-      case 6:
+      case 3:
         // Gold upkeep
         if (pentry->gold_cost == 0) {
           item->setText("-");
@@ -216,7 +156,7 @@ void units_view::update_view()
   // Add a "footer" to the table showing the totals.
   ui.units_widget->setRowCount(max_row);
   ui.units_widget->insertRow(max_row);
-  for (int j = 0; j < 7; j++) {
+  for (int j = 0; j < 4; j++) {
     QTableWidgetItem *item_totals = new QTableWidgetItem;
     switch (j) {
     case 0:
@@ -225,28 +165,15 @@ void units_view::update_view()
       item_totals->setText(_("--------------------\nTotals:"));
       break;
     case 1:
-      // Upgradable
-      item_totals->setTextAlignment(Qt::AlignCenter);
-      item_totals->setText(QString(_("------\n%1")).arg(upg_count));
-      break;
-    case 2:
       // In Progress
       item_totals->setTextAlignment(Qt::AlignCenter);
       item_totals->setText(QString(_("------\n%1")).arg(in_progress));
       break;
-    case 3:
+    case 2:
       item_totals->setTextAlignment(Qt::AlignCenter);
       item_totals->setText(QString(_("------\n%1")).arg(total_count));
       break;
-    case 4:
-      item_totals->setTextAlignment(Qt::AlignCenter);
-      item_totals->setText(QString(_("------\n%1")).arg(total_shield));
-      break;
-    case 5:
-      item_totals->setTextAlignment(Qt::AlignCenter);
-      item_totals->setText(QString(_("------\n%1")).arg(total_food));
-      break;
-    case 6:
+    case 3:
       item_totals->setTextAlignment(Qt::AlignCenter);
       item_totals->setText(QString(_("------\n%1")).arg(total_gold));
       break;
@@ -255,10 +182,8 @@ void units_view::update_view()
   }
 
   if (max_row == 0) {
-    ui.units_label->setHidden(true);
     ui.units_widget->setHidden(true);
     ui.find_but->setHidden(true);
-    ui.upg_but->setHidden(true);
     ui.disband_but->setHidden(true);
   } else {
     ui.units_widget->resizeRowsToContents();
@@ -266,79 +191,6 @@ void units_view::update_view()
     ui.units_widget->horizontalHeader()->resizeSections(
         QHeaderView::ResizeToContents);
     ui.units_widget->verticalHeader()->setSectionResizeMode(
-        QHeaderView::ResizeToContents);
-  }
-
-  QTimer *timer = new QTimer(this);
-  connect(timer, &QTimer::timeout, this, &units_view::update_waiting);
-  timer->start(1000);
-
-  update_waiting();
-}
-
-/**
- * Function to load the units waiting table
- */
-void units_view::update_waiting()
-{
-  QFont f = QApplication::font();
-  QFontMetrics fm(f);
-  int h = fm.height() + 10;
-
-  ui.uwt_widget->setRowCount(0);
-  ui.uwt_widget->clearContents();
-
-  struct unit_waiting_entry unit_entries[U_LAST];
-
-  int entries_used = 0;
-  get_units_waiting_data(unit_entries, &entries_used);
-
-  max_row = 0;
-  for (int i = 0; i < entries_used; i++) {
-    struct unit_waiting_entry *pentry = unit_entries + i;
-    const struct unit_type *putype = pentry->type;
-
-    auto sprite = get_unittype_sprite(tileset, putype, direction8_invalid());
-    cid id = cid_encode_unit(putype);
-
-    ui.uwt_widget->insertRow(max_row);
-    for (int j = 0; j < 3; j++) {
-      auto item = new QTableWidgetItem;
-      switch (j) {
-      case 0:
-        // Unit type image sprite and name
-        if (sprite != nullptr) {
-          item->setData(Qt::DecorationRole, sprite->scaledToHeight(h));
-        }
-        item->setData(Qt::UserRole, id);
-        item->setTextAlignment(Qt::AlignLeft);
-        item->setText(utype_name_translation(putype));
-        break;
-      case 1:
-        // # Location
-        item->setTextAlignment(Qt::AlignCenter);
-        item->setText(QString(_("%1")).arg(pentry->city_name));
-        break;
-      case 2:
-        // # Time Left
-        item->setText(QString(_("%1")).arg(
-            format_simple_duration(abs(pentry->timer))));
-        break;
-      }
-      item->setTextAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
-      ui.uwt_widget->setItem(max_row, j, item);
-    }
-    max_row++;
-  }
-
-  if (max_row == 0) {
-    ui.uwt_label->setHidden(true);
-    ui.uwt_widget->setHidden(true);
-  } else {
-    ui.uwt_widget->setRowCount(max_row);
-    ui.uwt_widget->horizontalHeader()->resizeSections(
-        QHeaderView::ResizeToContents);
-    ui.uwt_widget->verticalHeader()->setSectionResizeMode(
         QHeaderView::ResizeToContents);
   }
 }
@@ -354,7 +206,6 @@ void units_view::selection_changed(const QItemSelection &sl,
   struct universal selected;
   QString upg;
 
-  ui.upg_but->setDisabled(true);
   ui.disband_but->setDisabled(true);
   ui.find_but->setDisabled(true);
 
@@ -373,13 +224,6 @@ void units_view::selection_changed(const QItemSelection &sl,
     if (counter > 0) {
       ui.disband_but->setDisabled(false);
       ui.find_but->setDisabled(false);
-    }
-    upg = ui.units_widget->item(curr_row, 1)->text();
-    if (upg != "-") {
-      ui.upg_but->setDisabled(false);
-    }
-    if (curr_row == max_row) {
-      ui.upg_but->setDisabled(true);
     }
   }
 }
@@ -543,8 +387,6 @@ void get_units_view_data(struct unit_view_entry *entries,
       int count = 0;           // Count of active unit type
       int in_progress = 0;     // Count of being produced
       int gold_cost = 0;       // Gold upkeep
-      int food_cost = 0;       // Food upkeep
-      int shield_cost = 0;     // Shield upkeep
       bool upgradable = false; // Unit type is upgradable
 
       unit_list_iterate(pplayer->units, punit)
@@ -558,8 +400,6 @@ void get_units_view_data(struct unit_view_entry *entries,
           // Only units with a home city have upkeep
           if (punit->homecity != 0) {
             gold_cost += punit->upkeep[O_GOLD];
-            food_cost += punit->upkeep[O_FOOD];
-            shield_cost += punit->upkeep[O_SHIELD];
           }
         }
       }
@@ -584,8 +424,6 @@ void get_units_view_data(struct unit_view_entry *entries,
       entries[*num_entries_used].in_prod = in_progress;
       entries[*num_entries_used].upg = upgradable;
       entries[*num_entries_used].gold_cost = gold_cost;
-      entries[*num_entries_used].food_cost = food_cost;
-      entries[*num_entries_used].shield_cost = shield_cost;
       (*num_entries_used)++;
     }
     unit_type_iterate_end;

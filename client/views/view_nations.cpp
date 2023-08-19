@@ -540,23 +540,9 @@ void plr_widget::nation_selected(const QItemSelection &sl,
       line.arg(_("Nation:"))
           .arg(
               QString(nation_adjective_for_player(pplayer)).toHtmlEscaped());
-  intel_str +=
-      line.arg(_("Ruler:"))
-          .arg(QString(ruler_title_for_player(pplayer, tbuf, sizeof(tbuf)))
-                   .toHtmlEscaped());
-  intel_str += line.arg(_("Government:")).arg(egov.toHtmlEscaped());
-  intel_str +=
-      line.arg(_("Capital:"))
-          .arg(QString(((!pcity) ? _("(Unknown)") : city_name_get(pcity)))
-                   .toHtmlEscaped());
   intel_str += line.arg(_("Gold:")).arg(egold.toHtmlEscaped());
   intel_str += line.arg(_("Science:")).arg(esci_acc.toHtmlEscaped());
   intel_str += line.arg(_("Materials:")).arg(emats.toHtmlEscaped());
-  intel_str += line.arg(_("Tax:")).arg(etax.toHtmlEscaped());
-  intel_str += line.arg(_("Science:")).arg(esci.toHtmlEscaped());
-  intel_str += line.arg(_("Luxury:")).arg(elux.toHtmlEscaped());
-  intel_str += line.arg(_("Researching:")).arg(res.toHtmlEscaped());
-  intel_str += line.arg(_("Culture:")).arg(cult.toHtmlEscaped());
   intel_str += QLatin1String("</table>");
 
   for (int i = 0; i < static_cast<int>(DS_LAST); i++) {
@@ -733,21 +719,8 @@ plr_report::plr_report() : QWidget()
   ui.setupUi(this);
 
   ui.meet_but->setText(_("Meet"));
-  ui.cancel_but->setText(_("Cancel Treaty"));
-  ui.withdraw_but->setText(_("Withdraw Vision"));
-  ui.toggle_ai_but->setText(_("Toggle AI Mode"));
-  ui.diplo_but->setText(_("Active Diplomacy"));
-  ui.diplo_but->setEnabled(false);
   connect(ui.meet_but, &QAbstractButton::pressed, this,
           &plr_report::req_meeeting);
-  connect(ui.cancel_but, &QAbstractButton::pressed, this,
-          &plr_report::plr_cancel_threaty);
-  connect(ui.withdraw_but, &QAbstractButton::pressed, this,
-          &plr_report::plr_withdraw_vision);
-  connect(ui.toggle_ai_but, &QAbstractButton::pressed, this,
-          &plr_report::toggle_ai_mode);
-  connect(ui.diplo_but, &QAbstractButton::pressed, this,
-          &plr_report::plr_diplomacy);
   setLayout(ui.layout);
   other_player = nullptr;
   index = 0;
@@ -757,7 +730,6 @@ plr_report::plr_report() : QWidget()
   }
   const bool has_meeting =
       (queen()->gimmeIndexOf(QStringLiteral("DDI")) > 0);
-  ui.diplo_but->setEnabled(has_meeting);
   update_top_bar_diplomacy_status(has_meeting);
   queen()->updateSidebarTooltips();
   ui.plr_wdg->set_pr_rep(this);
@@ -919,37 +891,15 @@ void plr_report::update_report(bool update_selection)
   header->resizeSection(header->count() - 1, QHeaderView::Stretch);
 
   ui.meet_but->setDisabled(true);
-  ui.cancel_but->setDisabled(true);
-  ui.withdraw_but->setDisabled(true);
-  ui.toggle_ai_but->setDisabled(true);
-  ui.plr_label->setText(ui.plr_wdg->intel_str);
-  ui.ally_label->setText(ui.plr_wdg->ally_str);
-  ui.tech_label->setText(ui.plr_wdg->tech_str);
   other_player = ui.plr_wdg->other_player;
   if (other_player == nullptr || !can_client_issue_orders()) {
     return;
-  }
-  if (nullptr != client.conn.playing
-      && other_player != client.conn.playing) {
-    // We keep button sensitive in case of DIPL_SENATE_BLOCKING, so that
-    // player can request server side to check requirements of those effects
-    // with omniscience
-    if (pplayer_can_cancel_treaty(client_player(), other_player)
-        != DIPL_ERROR) {
-      ui.cancel_but->setEnabled(true);
-    }
-    ui.toggle_ai_but->setEnabled(true);
-  }
-  if (gives_shared_vision(client_player(), other_player)
-      && !players_on_same_team(client_player(), other_player)) {
-    ui.withdraw_but->setEnabled(true);
   }
   if (can_meet_with_player(other_player)) {
     ui.meet_but->setEnabled(true);
   }
   const bool has_meeting =
       (queen()->gimmeIndexOf(QStringLiteral("DDI")) > 0);
-  ui.diplo_but->setEnabled(has_meeting);
   update_top_bar_diplomacy_status(has_meeting);
   ui.plr_wdg->restore_selection();
 }
