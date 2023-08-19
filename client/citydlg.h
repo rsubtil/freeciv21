@@ -303,10 +303,8 @@ private:
   void update_improvements();
   void update_units();
   void update_nation_table();
-  void update_cma_tab();
   void update_disabled();
   void update_sliders();
-  void update_prod_buttons();
   void change_production(bool next);
 
 private slots:
@@ -317,22 +315,7 @@ private slots:
   void show_targets_worklist();
   void buy();
   void dbl_click_p(QTableWidgetItem *item);
-  void item_selected(const QItemSelection &sl, const QItemSelection &ds);
-  void clear_worklist();
-  void save_worklist();
-  void worklist_up();
-  void worklist_down();
-  void worklist_del();
-  void display_worklist_menu(const QPoint);
   void disband_state_changed(bool allow_disband);
-  void cma_remove();
-  void cma_enable();
-  void cma_changed();
-  void cma_check_agent(const cm_parameter &params);
-  void cma_selected(const QItemSelection &sl, const QItemSelection &ds);
-  void cma_double_clicked(int row, int column);
-  void cma_context_menu(const QPoint p);
-  void save_cma();
   void city_rename();
 
 protected:

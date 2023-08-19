@@ -587,9 +587,6 @@ void city_label::mousePressEvent(QMouseEvent *event)
   if (!pcity) {
     return;
   }
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    return;
-  }
   num_citizens = pcity->size;
   nothing_width = (this->width() - num_citizens * w) / 2;
   i = 1 + (num_citizens * 5 / 200);
@@ -763,7 +760,6 @@ city_dialog::city_dialog(QWidget *parent) : QWidget(parent)
 {
   QFont f = QApplication::font();
   QFontMetrics fm(f);
-  QHeaderView *header;
 
   int h = 2 * fm.height() + 2;
   auto small_font = fcFont::instance()->getFont(fonts::notify_label);
@@ -780,12 +776,9 @@ city_dialog::city_dialog(QWidget *parent) : QWidget(parent)
   pcity = nullptr;
 
   // main tab
-  ui.lcity_name->setToolTip(_("Click to change city name"));
   ui.buy_button->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("help-donate")));
   connect(ui.buy_button, &QAbstractButton::clicked, this, &city_dialog::buy);
-  connect(ui.lcity_name, &QAbstractButton::clicked, this,
-          &city_dialog::city_rename);
   citizen_pixmap = nullptr;
   ui.bclose->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("city-close")));
@@ -801,92 +794,12 @@ city_dialog::city_dialog(QWidget *parent) : QWidget(parent)
   ui.prev_city_but->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("city-left")));
   ui.prev_city_but->setToolTip(_("Show previous city"));
-  ui.work_next_but->setIcon(
-      fcIcons::instance()->getIcon(QStringLiteral("go-down")));
-  ui.work_prev_but->setIcon(
-      fcIcons::instance()->getIcon(QStringLiteral("go-up")));
-  ui.work_add_but->setIcon(
-      fcIcons::instance()->getIcon(QStringLiteral("list-add")));
-  ui.work_rem_but->setIcon(
-      style()->standardIcon(QStyle::SP_DialogDiscardButton));
   ui.production_combo_p->setToolTip(_("Click to change current production"));
   ui.production_combo_p->setFixedHeight(h);
-  ui.p_table_p->setMinimumWidth(160);
-  ui.p_table_p->setContextMenuPolicy(Qt::CustomContextMenu);
-  header = ui.p_table_p->horizontalHeader();
-  header->setStretchLastSection(true);
-  connect(ui.p_table_p, &QWidget::customContextMenuRequested, this,
-          &city_dialog::display_worklist_menu);
   connect(ui.production_combo_p, &progress_bar::clicked, this,
           &city_dialog::show_targets);
-  connect(ui.work_add_but, &QAbstractButton::clicked, this,
-          &city_dialog::show_targets_worklist);
-  connect(ui.work_prev_but, &QAbstractButton::clicked, this,
-          &city_dialog::worklist_up);
-  connect(ui.work_next_but, &QAbstractButton::clicked, this,
-          &city_dialog::worklist_down);
-  connect(ui.work_rem_but, &QAbstractButton::clicked, this,
-          &city_dialog::worklist_del);
-  connect(ui.p_table_p, &QTableWidget::itemDoubleClicked, this,
-          &city_dialog::dbl_click_p);
-  connect(ui.p_table_p->selectionModel(),
-          &QItemSelectionModel::selectionChanged, this,
-          &city_dialog::item_selected);
 
   // governor tab
-  ui.qgbox->setTitle(_("Presets:"));
-
-  ui.cma_table->horizontalHeader()->setSectionResizeMode(
-      QHeaderView::Stretch);
-
-  connect(ui.cma_table->selectionModel(),
-          &QItemSelectionModel::selectionChanged, this,
-          &city_dialog::cma_selected);
-  connect(ui.cma_table, &QWidget::customContextMenuRequested, this,
-          &city_dialog::cma_context_menu);
-  connect(ui.cma_table, &QTableWidget::cellDoubleClicked, this,
-          &city_dialog::cma_double_clicked);
-
-  ui.cma_enable_but->setFocusPolicy(Qt::TabFocus);
-  connect(ui.cma_enable_but, &QAbstractButton::pressed, this,
-          &city_dialog::cma_enable);
-
-  ui.bsavecma->setText(_("Save"));
-  ui.bsavecma->setIcon(style()->standardIcon(QStyle::SP_DialogSaveButton));
-  connect(ui.bsavecma, &QAbstractButton::pressed, this,
-          &city_dialog::save_cma);
-
-  ui.nationality_group->setTitle(_("Nationality"));
-  ui.happiness_group->setTitle(_("Happiness"));
-  ui.label1->setText(_("Cities:"));
-  ui.label2->setText(_("Luxuries:"));
-  ui.label3->setText(_("Buildings:"));
-  ui.label4->setText(_("Nationality:"));
-  ui.label5->setText(_("Units:"));
-  ui.label6->setText(_("Wonders:"));
-  ui.label1->setFont(small_font);
-  ui.label2->setFont(small_font);
-  ui.label4->setFont(small_font);
-  ui.label3->setFont(small_font);
-  ui.label5->setFont(small_font);
-  ui.label6->setFont(small_font);
-  lab_table[0] = ui.lab_table1;
-  lab_table[1] = ui.lab_table2;
-  lab_table[2] = ui.lab_table3;
-  lab_table[3] = ui.lab_table4;
-  lab_table[4] = ui.lab_table5;
-  lab_table[5] = ui.lab_table6;
-  for (int x = 0; x < 6; x++) {
-    lab_table[5]->set_type(x);
-  }
-
-  ui.tabs_right->setTabText(0, _("General"));
-  ui.tabs_right->setTabText(1, _("Citizens"));
-  ui.tabs_right->setTabText(2, _("Governor"));
-
-  connect(ui.governor, &freeciv::governor_widget::parameters_changed, this,
-          &city_dialog::cma_check_agent);
-
   ui.present_units_list->set_oneliner(true);
 
   installEventFilter(this);
@@ -945,39 +858,8 @@ void city_dialog::update_disabled()
   ui.prev_city_but->setEnabled(can_edit);
   ui.next_city_but->setEnabled(can_edit);
   ui.buy_button->setEnabled(can_edit);
-  ui.cma_enable_but->setEnabled(can_edit);
   ui.production_combo_p->setEnabled(can_edit);
   ui.present_units_list->setEnabled(can_edit);
-  update_prod_buttons();
-}
-
-/**
-   Update sensitivity of buttons in production tab
- */
-void city_dialog::update_prod_buttons()
-{
-  ui.work_next_but->setEnabled(false);
-  ui.work_prev_but->setEnabled(false);
-  ui.work_add_but->setEnabled(false);
-  ui.work_rem_but->setEnabled(false);
-
-  if (can_client_issue_orders()
-      && city_owner(pcity) == client.conn.playing) {
-    ui.work_add_but->setEnabled(true);
-
-    if (selected_row_p >= 0 && selected_row_p < ui.p_table_p->rowCount()) {
-      ui.work_rem_but->setEnabled(true);
-    }
-
-    if (selected_row_p >= 0
-        && selected_row_p < ui.p_table_p->rowCount() - 1) {
-      ui.work_next_but->setEnabled(true);
-    }
-
-    if (selected_row_p > 0 && selected_row_p < ui.p_table_p->rowCount()) {
-      ui.work_prev_but->setEnabled(true);
-    }
-  }
 }
 
 /**
@@ -1080,189 +962,6 @@ void city_dialog::city_rename()
 }
 
 /**
-   Save cma dialog input
- */
-void city_dialog::save_cma()
-{
-  hud_input_box *ask = new hud_input_box(king()->central_wdg);
-
-  ask->set_text_title_definput(_("What should we name the preset?"),
-                               _("Name new preset"), _("new preset"));
-  ask->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ask, &hud_message_box::accepted, this, [=]() {
-    auto name = ask->input_edit.text();
-    if (!name.isEmpty()) {
-      const auto params = ui.governor->parameters();
-      cmafec_preset_add(qUtf8Printable(name), &params);
-      update_cma_tab();
-    }
-  });
-  ask->show();
-}
-
-/**
-   Enables cma slot, triggered by clicked button or changed cma
- */
-void city_dialog::cma_enable()
-{
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    cma_release_city(pcity);
-    return;
-  }
-
-  cma_changed();
-  update_cma_tab();
-}
-
-/**
-   Sliders moved and cma has been changed
- */
-void city_dialog::cma_changed()
-{
-  const auto params = ui.governor->parameters();
-  cma_put_city_under_agent(pcity, &params);
-}
-
-/**
-   Double click on some row ( column is unused )
- */
-void city_dialog::cma_double_clicked(int row, int column)
-{
-  Q_UNUSED(column)
-  const struct cm_parameter *param;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-  param = cmafec_preset_get_parameter(row);
-
-  cma_put_city_under_agent(pcity, param);
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    update_cma_tab();
-  }
-}
-
-/**
-   CMA has been selected from list
- */
-void city_dialog::cma_selected(const QItemSelection &sl,
-                               const QItemSelection &ds)
-{
-  Q_UNUSED(ds)
-  const struct cm_parameter *param;
-  QModelIndex index;
-  QModelIndexList indexes = sl.indexes();
-
-  if (indexes.isEmpty() || ui.cma_table->signalsBlocked()) {
-    return;
-  }
-
-  index = indexes.at(0);
-  int ind = index.row();
-
-  if (ui.cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
-    return;
-  }
-
-  param = cmafec_preset_get_parameter(ind);
-
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    cma_put_city_under_agent(pcity, param);
-  }
-
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    update_cma_tab();
-  } else {
-    update_sliders();
-  }
-}
-
-/**
-   Updates cma tab
- */
-void city_dialog::update_cma_tab()
-{
-  QString s;
-  QTableWidgetItem *item;
-  struct cm_parameter param;
-  int i;
-
-  ui.cma_table->clear();
-  ui.cma_table->setRowCount(0);
-
-  for (i = 0; i < cmafec_preset_num(); i++) {
-    item = new QTableWidgetItem;
-    item->setText(cmafec_preset_get_descr(i));
-    ui.cma_table->insertRow(i);
-    ui.cma_table->setItem(i, 0, item);
-  }
-
-  if (cmafec_preset_num() == 0) {
-    ui.cma_table->insertRow(0);
-    item = new QTableWidgetItem;
-    item->setText(_("No governor defined"));
-    ui.cma_table->setItem(0, 0, item);
-  }
-
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    // view->update(); sveinung - update map here ?
-    s = QString(cmafec_get_short_descr_of_city(pcity));
-    auto icon = style()->standardIcon(QStyle::SP_DialogApplyButton);
-    ui.cma_result_pix->setPixmap(icon.pixmap(32));
-    // TRANS: %1 is custom string chosen by player
-    ui.cma_result->setText(QString(_("<h3>Governor Enabled<br>(%1)</h3>"))
-                               .arg(s.toHtmlEscaped()));
-  } else {
-    auto icon = style()->standardIcon(QStyle::SP_DialogCancelButton);
-    ui.cma_result_pix->setPixmap(icon.pixmap(32));
-    ui.cma_result->setText(QString(_("<h3>Governor Disabled</h3>")));
-  }
-  ui.cma_result->setAlignment(Qt::AlignCenter);
-
-  if (cma_is_city_under_agent(pcity, nullptr)) {
-    cmafec_get_fe_parameter(pcity, &param);
-    i = cmafec_preset_get_index_of_parameter(
-        const_cast<struct cm_parameter *const>(&param));
-    if (i >= 0 && i < ui.cma_table->rowCount()) {
-      ui.cma_table->blockSignals(true);
-      ui.cma_table->setCurrentCell(i, 0);
-      ui.cma_table->blockSignals(false);
-    }
-
-    ui.cma_enable_but->setText(_("Disable"));
-  } else {
-    ui.cma_enable_but->setText(_("Enable"));
-  }
-  update_sliders();
-}
-
-/**
-   Removes selected CMA
- */
-void city_dialog::cma_remove()
-{
-  int i;
-  hud_message_box *ask;
-
-  i = ui.cma_table->currentRow();
-
-  if (i == -1 || cmafec_preset_num() == 0) {
-    return;
-  }
-
-  ask = new hud_message_box(this);
-  ask->set_text_title(_("Remove this preset?"), cmafec_preset_get_descr(i));
-  ask->setStandardButtons(QMessageBox::No | QMessageBox::Yes);
-  ask->setDefaultButton(QMessageBox::No);
-  ask->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ask, &hud_message_box::accepted, this, [=]() {
-    cmafec_preset_remove(i);
-    update_cma_tab();
-  });
-  ask->show();
-}
-
-/**
    Received signal about changed qcheckbox - allow disbanding city
  */
 void city_dialog::disband_state_changed(bool allow_disband)
@@ -1280,133 +979,6 @@ void city_dialog::disband_state_changed(bool allow_disband)
   if (!client_is_observer()) {
     dsend_packet_city_options_req(&client.conn, pcity->id, new_options);
   }
-}
-
-/**
-   Context menu on governor tab in city worklist
- */
-void city_dialog::cma_context_menu(const QPoint)
-{
-  QMenu *cma_menu = new QMenu(this);
-  QAction *cma_del_item;
-
-  cma_menu->setAttribute(Qt::WA_DeleteOnClose);
-  cma_del_item = cma_menu->addAction(_("Remove Governor"));
-  connect(cma_menu, &QMenu::triggered, this, [=](QAction *act) {
-    if (act == cma_del_item) {
-      cma_remove();
-    }
-  });
-
-  cma_menu->popup(QCursor::pos());
-}
-
-/**
-   Context menu on production tab in city worklist
- */
-void city_dialog::display_worklist_menu(const QPoint)
-{
-  QAction *action, *disband, *wl_save, *wl_clear, *wl_empty,
-      *submenu_buildings, *submenu_futures, *submenu_units, *submenu_wonders;
-  QMap<QString, cid> list;
-  QMap<QString, cid>::const_iterator map_iter;
-  QMenu *change_menu;
-  QMenu *insert_menu;
-  QMenu *list_menu;
-  QMenu *options_menu;
-  int city_id = pcity->id;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-  list_menu = new QMenu(this);
-  change_menu = list_menu->addMenu(_("Change worklist"));
-  insert_menu = list_menu->addMenu(_("Insert worklist"));
-  wl_clear = list_menu->addAction(_("Clear"));
-  connect(wl_clear, &QAction::triggered, this, &city_dialog::clear_worklist);
-  list.clear();
-
-  global_worklists_iterate(pgwl)
-  {
-    list.insert(global_worklist_name(pgwl), global_worklist_id(pgwl));
-  }
-  global_worklists_iterate_end;
-
-  if (list.count() == 0) {
-    wl_empty = change_menu->addAction(_("(no worklists defined)"));
-    insert_menu->addAction(wl_empty);
-  }
-
-  map_iter = list.constBegin();
-
-  while (map_iter != list.constEnd()) {
-    action = change_menu->addAction(map_iter.key());
-    action->setData(map_iter.value());
-
-    action = insert_menu->addAction(map_iter.key());
-    action->setData(map_iter.value());
-
-    ++map_iter;
-  }
-
-  wl_save = list_menu->addAction(_("Save worklist"));
-  connect(wl_save, &QAction::triggered, this, &city_dialog::save_worklist);
-  options_menu = list_menu->addMenu(_("Options"));
-  submenu_units = options_menu->addAction(_("Show units"));
-  submenu_buildings = options_menu->addAction(_("Show buildings"));
-  submenu_wonders = options_menu->addAction(_("Show wonders"));
-  submenu_futures = options_menu->addAction(_("Show future targets"));
-  submenu_futures->setCheckable(true);
-  submenu_wonders->setCheckable(true);
-  submenu_buildings->setCheckable(true);
-  submenu_units->setCheckable(true);
-  submenu_futures->setChecked(future_targets);
-  connect(submenu_futures, &QAction::triggered, this,
-          [=]() { future_targets = !future_targets; });
-  submenu_units->setChecked(show_units);
-  connect(submenu_units, &QAction::triggered, this,
-          [=]() { show_units = !show_units; });
-  submenu_buildings->setChecked(show_buildings);
-  connect(submenu_buildings, &QAction::triggered, this,
-          [=]() { show_buildings = !show_buildings; });
-  submenu_wonders->setChecked(show_wonders);
-  connect(submenu_wonders, &QAction::triggered, this,
-          [=]() { show_wonders = !show_wonders; });
-  disband = options_menu->addAction(_("Allow disbanding city"));
-  disband->setCheckable(true);
-  disband->setChecked(is_city_option_set(pcity, CITYO_DISBAND));
-  connect(disband, &QAction::triggered, this,
-          &city_dialog::disband_state_changed);
-
-  connect(change_menu, &QMenu::triggered, this, [=](QAction *act) {
-    QVariant id = act->data();
-    struct city *pcity = game_city_by_number(city_id);
-    const struct worklist *worklist;
-
-    if (!pcity) {
-      return;
-    }
-
-    fc_assert_ret(id.type() == QVariant::Int);
-    worklist = global_worklist_get(global_worklist_by_id(id.toInt()));
-    city_set_queue(pcity, worklist);
-  });
-
-  connect(insert_menu, &QMenu::triggered, this, [=](QAction *act) {
-    QVariant id = act->data();
-    struct city *pcity = game_city_by_number(city_id);
-    const struct worklist *worklist;
-
-    if (!pcity) {
-      return;
-    }
-
-    fc_assert_ret(id.type() == QVariant::Int);
-    worklist = global_worklist_get(global_worklist_by_id(id.toInt()));
-    city_queue_insert_worklist(pcity, selected_row_p + 1, worklist);
-  });
-
-  list_menu->popup(QCursor::pos());
 }
 
 /**
@@ -1471,50 +1043,6 @@ void city_dialog::update_citizens()
 
   ui.citizens_label->set_city(pcity);
   ui.citizens_label->setPixmap(*citizen_pixmap);
-
-  lab_table[FEELING_FINAL]->setPixmap(*citizen_pixmap);
-  lab_table[FEELING_FINAL]->setToolTip(text_happiness_wonders(pcity));
-
-  for (int k = 0; k < FEELING_LAST - 1; k++) {
-    lab_table[k]->set_city(pcity);
-    num_citizens = get_city_citizen_types(
-        pcity, static_cast<citizen_feeling>(k), categories);
-
-    for (j = 0, i = 0; i < num_citizens; i++, j++) {
-      dest_rect.moveTo(i * w, 0);
-      auto pix = get_citizen_sprite(tileset, categories[j], j, pcity);
-      p.begin(citizen_pixmap);
-      p.drawPixmap(dest_rect, *pix, source_rect);
-      p.end();
-    }
-
-    lab_table[k]->setPixmap(*citizen_pixmap);
-
-    switch (k) {
-    case FEELING_BASE:
-      lab_table[k]->setToolTip(text_happiness_cities(pcity));
-      break;
-
-    case FEELING_LUXURY:
-      lab_table[k]->setToolTip(text_happiness_luxuries(pcity));
-      break;
-
-    case FEELING_EFFECT:
-      lab_table[k]->setToolTip(text_happiness_buildings(pcity));
-      break;
-
-    case FEELING_NATIONALITY:
-      lab_table[k]->setToolTip(text_happiness_nationality(pcity));
-      break;
-
-    case FEELING_MARTIAL:
-      lab_table[k]->setToolTip(text_happiness_units(pcity));
-      break;
-
-    default:
-      break;
-    }
-  }
 }
 
 /**
@@ -1533,8 +1061,6 @@ void city_dialog::refresh()
     update_building();
     update_improvements();
     update_units();
-    update_nation_table();
-    update_cma_tab();
     update_disabled();
     ui.icon->set_city(pcity->id);
     ui.upkeep->set_city(pcity->id);
@@ -1555,92 +1081,6 @@ void city_dialog::refresh()
 
   updateGeometry();
   update();
-}
-
-void city_dialog::update_sliders()
-{
-  cm_parameter params;
-  if (!cma_is_city_under_agent(pcity, &params)) {
-    if (ui.cma_table->currentRow() == -1 || cmafec_preset_num() == 0) {
-      return;
-    }
-    params = *cmafec_preset_get_parameter(ui.cma_table->currentRow());
-  }
-
-  ui.governor->set_parameters(params);
-}
-
-/**
-   Updates nationality table in happiness tab
- */
-void city_dialog::update_nation_table()
-{
-  QFont f = QApplication::font();
-  QFontMetrics fm(f);
-  QString str;
-  QStringList info_list;
-  QTableWidgetItem *item;
-  char buf[8];
-  citizens nationality_i;
-  int h;
-  int i = 0;
-
-  h = fm.height() + 6;
-  ui.nationality_table->clear();
-  ui.nationality_table->setRowCount(0);
-  info_list.clear();
-  info_list << _("#") << _("Flag") << _("Nation");
-  ui.nationality_table->setHorizontalHeaderLabels(info_list);
-
-  citizens_iterate(pcity, pslot, nationality)
-  {
-    ui.nationality_table->insertRow(i);
-
-    for (int j = 0; j < ui.nationality_table->columnCount(); j++) {
-      item = new QTableWidgetItem;
-
-      switch (j) {
-      case 0:
-        nationality_i = citizens_nation_get(pcity, pslot);
-
-        if (nationality_i == 0) {
-          str = QStringLiteral("-");
-        } else {
-          fc_snprintf(buf, sizeof(buf), "%d", nationality_i);
-          str = QString(buf);
-        }
-
-        item->setText(str);
-        break;
-
-      case 1: {
-        auto sprite = get_nation_flag_sprite(
-            tileset, nation_of_player(player_slot_get_player(pslot)));
-
-        if (sprite != nullptr) {
-          item->setData(Qt::DecorationRole, sprite->scaledToHeight(h));
-        } else {
-          item->setText(QStringLiteral("FLAG MISSING"));
-        }
-      } break;
-
-      case 2:
-        item->setText(
-            nation_adjective_for_player(player_slot_get_player(pslot)));
-        break;
-
-      default:
-        break;
-      }
-      ui.nationality_table->setItem(i, j, item);
-    }
-    i++;
-  }
-  citizens_iterate_end;
-  ui.nationality_table->horizontalHeader()->setStretchLastSection(false);
-  ui.nationality_table->resizeColumnsToContents();
-  ui.nationality_table->resizeRowsToContents();
-  ui.nationality_table->horizontalHeader()->setStretchLastSection(true);
 }
 
 /**
@@ -1795,25 +1235,6 @@ void city_dialog::update_units()
   ui.curr_units->setText(QString(buf));
 }
 
-/**
-   Selection changed in production tab, in worklist tab
- */
-void city_dialog::item_selected(const QItemSelection &sl,
-                                const QItemSelection &ds)
-{
-  Q_UNUSED(ds)
-  QModelIndex index;
-  QModelIndexList indexes = sl.indexes();
-
-  if (indexes.isEmpty()) {
-    return;
-  }
-
-  index = indexes.at(0);
-  selected_row_p = index.row();
-  update_prod_buttons();
-}
-
 void city_dialog::get_city(bool next)
 {
   int size, i, j;
@@ -1951,7 +1372,6 @@ void city_dialog::update_improvements()
   }
 
   city_get_queue(pcity, &queue);
-  ui.p_table_p->setRowCount(worklist_length(&queue));
 
   for (int i = 0; i < worklist_length(&queue); i++) {
     struct universal target = queue.entries[i];
@@ -2006,14 +1426,8 @@ void city_dialog::update_improvements()
         qitem->setText(QString::number(cost));
         break;
       }
-      ui.p_table_p->setItem(i, col, qitem);
     }
   }
-
-  ui.p_table_p->horizontalHeader()->setStretchLastSection(false);
-  ui.p_table_p->resizeColumnsToContents();
-  ui.p_table_p->resizeRowsToContents();
-  ui.p_table_p->horizontalHeader()->setStretchLastSection(true);
 
   ui.upkeep->refresh();
 
@@ -2046,128 +1460,6 @@ void city_dialog::show_targets_worklist()
                              selected_row_p, show_units, false, show_wonders,
                              show_buildings);
   pw->show();
-}
-
-/**
-   Clears worklist in production page
- */
-void city_dialog::clear_worklist()
-{
-  struct worklist empty;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  worklist_init(&empty);
-  city_set_worklist(pcity, &empty);
-}
-
-/**
-   Move current item on worklist up
- */
-void city_dialog::worklist_up()
-{
-  QModelIndex index;
-  struct worklist queue;
-  struct universal *target;
-
-  if (selected_row_p < 1 || selected_row_p >= ui.p_table_p->rowCount()) {
-    return;
-  }
-
-  target = new universal;
-  city_get_queue(pcity, &queue);
-  worklist_peek_ith(&queue, target, selected_row_p);
-  worklist_remove(&queue, selected_row_p);
-  worklist_insert(&queue, target, selected_row_p - 1);
-  city_set_queue(pcity, &queue);
-  index = ui.p_table_p->model()->index(selected_row_p - 1, 0);
-  ui.p_table_p->setCurrentIndex(index);
-  delete target;
-}
-
-/**
-   Remove current item on worklist
- */
-void city_dialog::worklist_del()
-{
-  QTableWidgetItem *item;
-
-  if (selected_row_p < 0 || selected_row_p >= ui.p_table_p->rowCount()) {
-    return;
-  }
-
-  item = ui.p_table_p->item(selected_row_p, 0);
-  dbl_click_p(item);
-  update_prod_buttons();
-}
-
-/**
-   Move current item on worklist down
- */
-void city_dialog::worklist_down()
-{
-  QModelIndex index;
-  struct worklist queue;
-  struct universal *target;
-
-  if (selected_row_p < 0 || selected_row_p >= ui.p_table_p->rowCount() - 1) {
-    return;
-  }
-
-  target = new universal;
-  city_get_queue(pcity, &queue);
-  worklist_peek_ith(&queue, target, selected_row_p);
-  worklist_remove(&queue, selected_row_p);
-  worklist_insert(&queue, target, selected_row_p + 1);
-  city_set_queue(pcity, &queue);
-  index = ui.p_table_p->model()->index(selected_row_p + 1, 0);
-  ui.p_table_p->setCurrentIndex(index);
-  delete target;
-}
-
-/**
-   Save worklist
- */
-void city_dialog::save_worklist()
-{
-  hud_input_box *ask = new hud_input_box(king()->central_wdg);
-  int city_id = pcity->id;
-
-  ask->set_text_title_definput(_("What should we name new worklist?"),
-                               _("Save current worklist"),
-                               _("New worklist"));
-  ask->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ask, &hud_message_box::accepted, [=]() {
-    struct global_worklist *gw;
-    struct worklist queue;
-    QByteArray ask_bytes;
-    QString text;
-    struct city *pcity = game_city_by_number(city_id);
-
-    ask_bytes = ask->input_edit.text().toLocal8Bit();
-    text = ask_bytes.data();
-    if (!text.isEmpty()) {
-      ask_bytes = text.toLocal8Bit();
-      gw = global_worklist_new(ask_bytes.data());
-      city_get_queue(pcity, &queue);
-      global_worklist_set(gw, &queue);
-    }
-  });
-  ask->show();
-}
-
-/**
- * Triggers a governor update if the parameters changed.
- */
-void city_dialog::cma_check_agent(const cm_parameter &params)
-{
-  cm_parameter current;
-  if (cma_is_city_under_agent(pcity, &current) && !(current == params)) {
-    cma_changed();
-    update_cma_tab();
-  }
 }
 
 /**
