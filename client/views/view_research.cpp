@@ -121,7 +121,7 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
       dsend_packet_player_research(&client.conn, tech);
       break;
     case TECH_UNKNOWN:
-      dsend_packet_player_tech_goal(&client.conn, tech);
+      //dsend_packet_player_tech_goal(&client.conn, tech);
       break;
     case TECH_KNOWN:
       break;
@@ -266,24 +266,14 @@ science_report::science_report() : QWidget()
                                     QSizePolicy::Expanding);
   QSizePolicy size_fixed_policy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-  goal_combo = new QComboBox();
   info_label = new QLabel();
-  progress = new progress_bar(this);
   progress_label = new QLabel();
-  researching_combo = new QComboBox();
   auto sci_layout = new QGridLayout();
   res_diag = new research_diagram();
   auto scroll = new QScrollArea();
 
-  progress->setTextVisible(true);
   progress_label->setSizePolicy(size_fixed_policy);
   sci_layout->addWidget(progress_label, 0, 0, 1, 8);
-  sci_layout->addWidget(researching_combo, 1, 0, 1, 4);
-  researching_combo->setSizePolicy(size_fixed_policy);
-  sci_layout->addWidget(progress, 1, 5, 1, 4);
-  progress->setSizePolicy(size_fixed_policy);
-  sci_layout->addWidget(goal_combo, 2, 0, 1, 4);
-  goal_combo->setSizePolicy(size_fixed_policy);
   sci_layout->addWidget(info_label, 2, 5, 1, 4);
   info_label->setSizePolicy(size_fixed_policy);
 
@@ -294,14 +284,6 @@ science_report::science_report() : QWidget()
   scroll->setWidget(res_diag);
   scroll->setSizePolicy(size_expanding_policy);
   sci_layout->addWidget(scroll, 4, 0, 1, 10);
-
-  QObject::connect(researching_combo,
-                   QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-                   &science_report::current_tech_changed);
-
-  QObject::connect(goal_combo,
-                   QOverload<int>::of(&QComboBox::currentIndexChanged), this,
-                   &science_report::goal_tech_changed);
 
   setLayout(sci_layout);
 }
@@ -362,26 +344,16 @@ void science_report::update_report()
   auto research = research_get(client_player());
   if (!research) {
     // Global observer
-    goal_combo->clear();
-    researching_combo->clear();
     info_label->setText(QString());
     progress_label->setText(QString());
     res_diag->reset();
     return;
   }
 
-  int total;
-  int done = research->bulbs_researched;
   QVariant qvar, qres;
   double not_used;
   QString str;
   qlist_item item;
-
-  if (research->researching != A_UNSET) {
-    total = research->client.researching_cost;
-  } else {
-    total = -1;
-  }
 
   curr_list = new QList<qlist_item>;
   goal_list = new QList<qlist_item>;
@@ -390,17 +362,6 @@ void science_report::update_report()
   info_label->setAlignment(Qt::AlignHCenter);
   info_label->setText(get_science_goal_text(research->tech_goal));
   str = get_science_target_text(&not_used);
-  progress->setFormat(str);
-  progress->setMinimum(0);
-  progress->setMaximum(total);
-  progress->set_pixmap(static_cast<int>(research->researching));
-
-  if (done <= total) {
-    progress->setValue(done);
-  } else {
-    done = total;
-    progress->setValue(done);
-  }
 
   /** Collect all techs which are reachable in the next step. */
   advance_index_iterate(A_FIRST, i)
@@ -433,77 +394,6 @@ void science_report::update_report()
   std::sort(goal_list->begin(), goal_list->end(), comp_less_than);
   std::sort(curr_list->begin(), curr_list->end(), comp_less_than);
 
-  /** fill combo boxes */
-  researching_combo->blockSignals(true);
-  goal_combo->blockSignals(true);
-
-  researching_combo->clear();
-  goal_combo->clear();
-  for (int i = 0; i < curr_list->count(); i++) {
-    QIcon ic;
-
-    auto sp = get_tech_sprite(tileset, curr_list->at(i).id);
-    if (sp) {
-      ic = QIcon(*sp);
-    }
-    qvar = curr_list->at(i).id;
-    researching_combo->insertItem(i, ic, curr_list->at(i).tech_str, qvar);
-  }
-
-  for (int i = 0; i < goal_list->count(); i++) {
-    QIcon ic;
-
-    auto sp = get_tech_sprite(tileset, goal_list->at(i).id);
-    if (sp) {
-      ic = QIcon(*sp);
-    }
-    qvar = goal_list->at(i).id;
-    goal_combo->insertItem(i, ic, goal_list->at(i).tech_str, qvar);
-  }
-
-  /** set current tech and goal */
-  qres = research->researching;
-  if (qres == A_UNSET || is_future_tech(research->researching)) {
-    researching_combo->insertItem(
-        0,
-        research_advance_name_translation(research, research->researching),
-        A_UNSET);
-    researching_combo->setCurrentIndex(0);
-  } else {
-    for (int i = 0; i < researching_combo->count(); i++) {
-      qvar = researching_combo->itemData(i);
-
-      if (qvar == qres) {
-        researching_combo->setCurrentIndex(i);
-      }
-    }
-  }
-
-  qres = research->tech_goal;
-
-  if (qres == A_UNSET) {
-    goal_combo->insertItem(0, Q_("?tech:None"), A_UNSET);
-    goal_combo->setCurrentIndex(0);
-  } else {
-    for (int i = 0; i < goal_combo->count(); i++) {
-      qvar = goal_combo->itemData(i);
-
-      if (qvar == qres) {
-        goal_combo->setCurrentIndex(i);
-      }
-    }
-  }
-
-  researching_combo->blockSignals(false);
-  goal_combo->blockSignals(false);
-
-  if (client_is_observer()) {
-    researching_combo->setDisabled(true);
-    goal_combo->setDisabled(true);
-  } else {
-    researching_combo->setDisabled(false);
-    goal_combo->setDisabled(false);
-  }
   update_reqtree();
 }
 
@@ -511,38 +401,6 @@ void science_report::update_report()
    Calls update for research_diagram
  */
 void science_report::update_reqtree() { res_diag->update_reqtree(); }
-
-/**
-   Slot used when combo box with current tech changes
- */
-void science_report::current_tech_changed(int changed_index)
-{
-  QVariant qvar;
-
-  qvar = researching_combo->itemData(changed_index);
-
-  if (researching_combo->hasFocus()) {
-    if (can_client_issue_orders()) {
-      dsend_packet_player_research(&client.conn, qvar.toInt());
-    }
-  }
-}
-
-/**
-   Slot used when combo box with goal have been changed
- */
-void science_report::goal_tech_changed(int changed_index)
-{
-  QVariant qvar;
-
-  qvar = goal_combo->itemData(changed_index);
-
-  if (goal_combo->hasFocus()) {
-    if (can_client_issue_orders()) {
-      dsend_packet_player_tech_goal(&client.conn, qvar.toInt());
-    }
-  }
-}
 
 /**
    Update the science report.

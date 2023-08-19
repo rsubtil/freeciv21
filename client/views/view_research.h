@@ -70,9 +70,6 @@ struct qlist_item {
 class science_report : public QWidget {
   Q_OBJECT
 
-  QComboBox *goal_combo;
-  QComboBox *researching_combo;
-  progress_bar *progress;
   QLabel *info_label;
   QLabel *progress_label;
   QList<qlist_item> *curr_list{nullptr};
@@ -90,10 +87,6 @@ public:
 private:
   void update_reqtree();
   int index{0};
-
-private slots:
-  void current_tech_changed(int index);
-  void goal_tech_changed(int index);
 };
 
 void popdown_science_report();
