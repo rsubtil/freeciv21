@@ -1933,7 +1933,7 @@ void unit_unset_removal_callback(struct unit *punit)
    We remove the unit and see if it's disappearance has affected the homecity
    and the city it was in.
  */
-static void server_remove_unit_full(struct unit *punit, bool transported,
+void server_remove_unit_full(struct unit *punit, bool transported,
                                     enum unit_loss_reason reason)
 {
   struct packet_unit_remove packet;
@@ -2057,7 +2057,7 @@ static void server_remove_unit_full(struct unit *punit, bool transported,
    We remove the unit and see if it's disappearance has affected the homecity
    and the city it was in.
  */
-static void server_remove_unit(struct unit *punit,
+void server_remove_unit(struct unit *punit,
                                enum unit_loss_reason reason)
 {
   server_remove_unit_full(punit, unit_transported(punit), reason);
@@ -2200,6 +2200,7 @@ static void wipe_unit_full(struct unit *punit, bool transported,
   case ULR_PLAYER_DIED:
   case ULR_DETONATED:
   case ULR_MISSILE:
+  case ULR_ADMIN:
     break;
   }
 
@@ -4875,10 +4876,6 @@ bool execute_orders(struct unit *punit, const bool fresh)
         log_debug("  orders resulted in combat.");
         send_unit_info(nullptr, punit);
         return true;
-      }
-
-      if(res) {
-        log_warning("[metric]%s moved to (%d, %d)", unit_link(punit), TILE_XY(dst_tile));
       }
 
       if (!res) {

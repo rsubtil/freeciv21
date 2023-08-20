@@ -3527,10 +3527,6 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
 
   tile* transport_to = map_transports_get(s_transport_to);
 
-  log_warning("[metric]%s transport: moved from \"%s\" (%d, %d) to \"%s\" (%d, %d)",
-              unit_link(punit), s_transport_from.toUtf8().data(), TILE_XY(punit->tile),
-              s_transport_to.toUtf8().data(), TILE_XY(transport_to));
-
   // TODO: Register this info properly for spies to get
   unit_move(punit, transport_to, 100, nullptr, false, false);
 

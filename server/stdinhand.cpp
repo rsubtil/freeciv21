@@ -65,6 +65,7 @@
 #include "srv_log.h"
 #include "srv_main.h"
 #include "techtools.h"
+#include "unittools.h"
 #include "voting.h"
 
 /* server/savegame */
@@ -3048,7 +3049,42 @@ static bool admin_command(struct connection *caller, char *str, bool check)
                 qUtf8Printable(player_name(pplayer)));
     send_player_info_c(pplayer, nullptr);
   } else if (arg.count() > 0
-             && strcmp(qUtf8Printable(arg.at(0)), "tech") == 0) {
+             && strcmp(qUtf8Printable(arg.at(0)), "add-unit") == 0) {
+    struct player *pplayer;
+    enum m_pre_result match_result;
+
+    if (arg.count() != 5) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    QString type_str = arg.at(1);
+    unit_type *punittype = utype_by_name_prefix(type_str.toUtf8(), &match_result);
+
+    if (!punittype) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Unknown unit type.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+
+    pplayer =
+        player_by_name_prefix(qUtf8Printable(arg.at(2)), &match_result);
+    if (pplayer == nullptr) {
+      cmd_reply_no_such_player(CMD_ADMIN, caller, qUtf8Printable(arg.at(2)),
+                               match_result);
+      return true;
+    }
+
+    int x = arg.at(3).toInt();
+    int y = arg.at(4).toInt();
+
+    create_unit(pplayer, map_pos_to_tile(&wld.map, x, y), punittype, 0, 0, 1);
+
+    log_warning("Add unit %s to %s at %d,%d", utype_rule_name(punittype),
+                player_name(pplayer), x, y);
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "rm-unit") == 0) {
     struct player *pplayer;
     enum m_pre_result match_result;
 
@@ -3058,159 +3094,20 @@ static bool admin_command(struct connection *caller, char *str, bool check)
                 command_synopsis(command_by_number(CMD_ADMIN)));
       return true;
     }
-    pplayer =
-        player_by_name_prefix(qUtf8Printable(arg.at(1)), &match_result);
-    if (pplayer == nullptr) {
-      cmd_reply_no_such_player(CMD_ADMIN, caller, qUtf8Printable(arg.at(1)),
-                               match_result);
-      return true;
-    }
-    if (BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_TECH)) {
-      BV_CLR(pplayer->server.debug, PLAYER_DEBUG_TECH);
-      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s tech no longer debugged"),
-                player_name(pplayer));
-    } else {
-      BV_SET(pplayer->server.debug, PLAYER_DEBUG_TECH);
-      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s tech debugged"),
-                player_name(pplayer));
-      // TODO: print some info about the player here
-    }
-  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "info") == 0) {
-    int cities = 0, players = 0, units = 0, citizen_count = 0;
 
-    players_iterate(plr)
-    {
-      players++;
-      city_list_iterate(plr->cities, pcity)
-      {
-        cities++;
-        citizen_count += city_size_get(pcity);
-      }
-      city_list_iterate_end;
-      units += unit_list_size(plr->units);
-    }
-    players_iterate_end;
-    qInfo(_("players=%d cities=%d citizens=%d units=%d"), players, cities,
-          citizen_count, units);
-    notify_conn(game.est_connections, nullptr, E_AI_DEBUG, ftc_log,
-                _("players=%d cities=%d citizens=%d units=%d"), players,
-                cities, citizen_count, units);
-  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "city") == 0) {
-    int x, y;
-    struct tile *ptile;
-    struct city *pcity;
+    int unit_id = arg.at(1).toInt();
 
-    if (arg.count() != 3) {
+    struct unit *punit = game_unit_by_number(unit_id);
+    if(!punit) {
       cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
+                _("Unknown unit id.  Usage:\n%s"),
                 command_synopsis(command_by_number(CMD_ADMIN)));
       return true;
     }
-    if (!str_to_int(qUtf8Printable(arg.at(1)), &x)
-        || !str_to_int(qUtf8Printable(arg.at(2)), &y)) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
-                _("Value 2 & 3 must be integer."));
-      return true;
-    }
-    if (!(ptile = map_pos_to_tile(&(wld.map), x, y))) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Bad map coordinates."));
-      return true;
-    }
-    pcity = tile_city(ptile);
-    if (!pcity) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
-                _("No city at this coordinate."));
-      return true;
-    }
-    if (pcity->server.debug) {
-      pcity->server.debug = false;
-      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s no longer debugged"),
-                city_name_get(pcity));
-    } else {
-      pcity->server.debug = true;
-      CITY_LOG(LOG_NORMAL, pcity, "debugged");
-    }
-  } else if (arg.count()
-             && strcmp(qUtf8Printable(arg.at(0)), "units") == 0) {
-    int x, y;
-    struct tile *ptile;
+    log_warning("Remove unit %s from %s", unit_name_translation(punit),
+                player_name(punit->owner));
 
-    if (arg.count() != 3) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
-                command_synopsis(command_by_number(CMD_ADMIN)));
-      return true;
-    }
-    if (!str_to_int(qUtf8Printable(arg.at(1)), &x)
-        || !str_to_int(qUtf8Printable(arg.at(2)), &y)) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
-                _("Value 2 & 3 must be integer."));
-      return true;
-    }
-    if (!(ptile = map_pos_to_tile(&(wld.map), x, y))) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Bad map coordinates."));
-      return true;
-    }
-    unit_list_iterate(ptile->units, punit)
-    {
-      if (punit->server.debug) {
-        punit->server.debug = false;
-        cmd_reply(CMD_ADMIN, caller, C_OK, _("%s %s no longer debugged."),
-                  nation_adjective_for_player(unit_owner(punit)),
-                  unit_name_translation(punit));
-      } else {
-        punit->server.debug = true;
-        UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
-                 nation_rule_name(nation_of_unit(punit)),
-                 unit_name_translation(punit));
-      }
-    }
-    unit_list_iterate_end;
-  } else if (arg.count()
-             && strcmp(qUtf8Printable(arg.at(0)), "timing") == 0) {
-    TIMING_RESULTS();
-  } else if (arg.count() > 0
-             && strcmp(qUtf8Printable(arg.at(0)), "ferries") == 0) {
-    if (game.server.debug[DEBUG_FERRIES]) {
-      game.server.debug[DEBUG_FERRIES] = false;
-      cmd_reply(CMD_ADMIN, caller, C_OK,
-                _("Ferry system is no longer "
-                  "in debug mode."));
-    } else {
-      game.server.debug[DEBUG_FERRIES] = true;
-      cmd_reply(CMD_ADMIN, caller, C_OK, _("Ferry system in debug mode."));
-    }
-  } else if (arg.count() > 0
-             && strcmp(qUtf8Printable(arg.at(0)), "unit") == 0) {
-    int id;
-    struct unit *punit;
-
-    if (arg.count() != 2) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
-                _("Undefined argument.  Usage:\n%s"),
-                command_synopsis(command_by_number(CMD_ADMIN)));
-      return true;
-    }
-    if (!str_to_int(qUtf8Printable(arg.at(1)), &id)) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Value 2 must be integer."));
-      return true;
-    }
-    if (!(punit = game_unit_by_number(id))) {
-      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Unit %d does not exist."),
-                id);
-      return true;
-    }
-    if (punit->server.debug) {
-      punit->server.debug = false;
-      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s %s no longer debugged."),
-                nation_adjective_for_player(unit_owner(punit)),
-                unit_name_translation(punit));
-    } else {
-      punit->server.debug = true;
-      UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
-               nation_rule_name(nation_of_unit(punit)),
-               unit_name_translation(punit));
-    }
+    server_remove_unit(punit, ULR_ADMIN);
   } else {
     cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),

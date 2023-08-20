@@ -1349,6 +1349,30 @@ const char *uclass_rule_name(const struct unit_class *pclass)
   return rule_name_get(&pclass->name);
 }
 
+static const char *utype_name_by_number(int i)
+{
+  return rule_name_get(&utype_by_number(i)->name);
+}
+
+/**
+   Find unittype by its name prefix
+ */
+struct unit_type *utype_by_name_prefix(const char *name,
+                                     enum m_pre_result *result)
+{
+  int ind;
+
+  *result = match_prefix(utype_name_by_number, utype_count(),
+                         MAX_LEN_NAME - 1, fc_strncasequotecmp,
+                         effectivestrlenquote, name, &ind);
+
+  if (*result < M_PRE_AMBIGUOUS) {
+    return utype_by_number(ind);
+  } else {
+    return nullptr;
+  }
+}
+
 /**
    Return a string with all the names of units with this flag. If "alts" is
    set, separate with "or", otherwise "and". Return FALSE if no unit with

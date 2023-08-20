@@ -70,6 +70,8 @@
 #define SPECENUM_VALUE23NAME "caught"
 #define SPECENUM_VALUE24 ULR_TRANSPORT_LOST
 #define SPECENUM_VALUE24NAME "transport_lost"
+#define SPECENUM_VALUE25 ULR_ADMIN
+#define SPECENUM_VALUE25NAME "removed by admin"
 #include "specenum_gen.h"
 
 // battle related
@@ -143,6 +145,11 @@ unit_change_owner(struct unit *punit, struct player *pplayer, int homecity,
 void unit_set_removal_callback(struct unit *punit,
                                void (*callback)(struct unit *punit));
 void unit_unset_removal_callback(struct unit *punit);
+
+void server_remove_unit(struct unit *punit,
+                               enum unit_loss_reason reason);
+void server_remove_unit_full(struct unit *punit, bool transported,
+                             enum unit_loss_reason reason);
 
 // sending to client
 void package_unit(struct unit *punit, struct packet_unit_info *packet);

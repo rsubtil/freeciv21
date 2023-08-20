@@ -579,8 +579,9 @@ struct unit_type *unit_type_by_translated_name(const char *name);
 
 const char *unit_rule_name(const struct unit *punit);
 const char *utype_rule_name(const struct unit_type *punittype);
+struct unit_type *utype_by_name_prefix(const char *name, enum m_pre_result *result);
 
-const char *unit_name_translation(const struct unit *punit);
+    const char *unit_name_translation(const struct unit *punit);
 const char *utype_name_translation(const struct unit_type *punittype);
 
 const char *utype_values_string(const struct unit_type *punittype);
