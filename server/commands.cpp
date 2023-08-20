@@ -290,8 +290,7 @@ static struct command commands[] = {
      N_("switch <mode>"),
      N_("Switch server mode to regular gameplay and spy gameplay."),
      // TRANS: Don't translate text between ''
-     N_("Switch modes, internal"),
-     nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},
+     N_("Switch modes, internal"), nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},
     {"observe", ALLOW_INFO,
      // TRANS: translate text between [] only
      N_("observe [connection-name] [player-name]"),
@@ -692,6 +691,17 @@ static struct command commands[] = {
         "mapimg colortest"),
      N_("Create image files of the world/player map."), nullptr, mapimg_help,
      CMD_ECHO_ADMINS, VCF_NONE, 50},
+     {"admin", ALLOW_ADMIN,
+     // TRANS: translate text between <> only
+     N_("admin give <gold|science|material> <player> <amount-abs>\n"
+        "admin give <gold|science|material> <player> <amount-rel>%\n"
+        "admin add-effect <effect_id> <player>\n"
+        "admin rm-effect <effect_id> <player>\n"
+        "admin add-unit <unit_type> <player>\n"
+        "admin rm-unit <unit_type> <player>"),
+     N_("Admin commands."),
+     N_("Admin commands."),
+     nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},
     {"rfcstyle", ALLOW_HACK,
      // no translatable parameters
      SYN_ORIG_("rfcstyle"),
@@ -700,7 +710,8 @@ static struct command commands[] = {
     {"serverid", ALLOW_INFO,
      // no translatable parameters
      SYN_ORIG_("serverid"), N_("Simply returns the id of the server."),
-     nullptr, nullptr, CMD_ECHO_NONE, VCF_NONE, 0}};
+     nullptr, nullptr, CMD_ECHO_NONE, VCF_NONE, 0},
+};
 
 /**
    Return command by its number.

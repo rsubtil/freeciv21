@@ -2974,6 +2974,252 @@ static bool debug_command(struct connection *caller, char *str, bool check)
 }
 
 /**
+   Admin commands
+ */
+static bool admin_command(struct connection *caller, char *str, bool check)
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+  QStringList arg;
+
+  if (game.info.is_new_game) {
+    cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+              _("Can only use this command once game has begun."));
+    return false;
+  }
+  if (check) {
+    return true; // whatever!
+  }
+
+  if (str != nullptr && qstrlen(str) > 0) {
+    sz_strlcpy(buf, str);
+    arg =
+        QString(buf).split(QRegularExpression(REG_EXP), Qt::SkipEmptyParts);
+    remove_quotes(arg);
+  }
+
+  // Give
+  if (!arg.isEmpty()
+      && strcmp(qUtf8Printable(arg.at(0)), "give") == 0) {
+    struct player *pplayer;
+    enum m_pre_result match_result;
+
+    if (arg.count() != 4) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument. Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    QString type = arg.at(1);
+    if (type != "gold" && type != "science" && type != "material") {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument. Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+
+    pplayer =
+        player_by_name_prefix(qUtf8Printable(arg.at(2)), &match_result);
+    if (pplayer == nullptr) {
+      cmd_reply_no_such_player(CMD_ADMIN, caller, qUtf8Printable(arg.at(2)),
+                               match_result);
+      return true;
+    }
+    QString amount_str = arg.at(3);
+    if (amount_str.contains("%")) {
+      amount_str.remove("%");
+      int amount = amount_str.toInt();
+      if(type == "gold")
+          pplayer->economic.gold += pplayer->economic.gold * amount / 100;
+      else if(type == "science")
+          pplayer->economic.science_acc += pplayer->economic.science_acc * amount / 100;
+      else if(type == "material")
+          pplayer->economic.materials += pplayer->economic.materials * amount / 100;
+    } else {
+      int amount = amount_str.toInt();
+      if(type == "gold")
+          pplayer->economic.gold += amount;
+      else if(type == "science")
+          pplayer->economic.science_acc += amount;
+      else if(type == "material")
+          pplayer->economic.materials += amount;
+    }
+
+    log_warning("Give %s %s to %s", qUtf8Printable(type), qUtf8Printable(amount_str),
+                qUtf8Printable(player_name(pplayer)));
+    send_player_info_c(pplayer, nullptr);
+  } else if (arg.count() > 0
+             && strcmp(qUtf8Printable(arg.at(0)), "tech") == 0) {
+    struct player *pplayer;
+    enum m_pre_result match_result;
+
+    if (arg.count() != 2) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    pplayer =
+        player_by_name_prefix(qUtf8Printable(arg.at(1)), &match_result);
+    if (pplayer == nullptr) {
+      cmd_reply_no_such_player(CMD_ADMIN, caller, qUtf8Printable(arg.at(1)),
+                               match_result);
+      return true;
+    }
+    if (BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_TECH)) {
+      BV_CLR(pplayer->server.debug, PLAYER_DEBUG_TECH);
+      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s tech no longer debugged"),
+                player_name(pplayer));
+    } else {
+      BV_SET(pplayer->server.debug, PLAYER_DEBUG_TECH);
+      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s tech debugged"),
+                player_name(pplayer));
+      // TODO: print some info about the player here
+    }
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "info") == 0) {
+    int cities = 0, players = 0, units = 0, citizen_count = 0;
+
+    players_iterate(plr)
+    {
+      players++;
+      city_list_iterate(plr->cities, pcity)
+      {
+        cities++;
+        citizen_count += city_size_get(pcity);
+      }
+      city_list_iterate_end;
+      units += unit_list_size(plr->units);
+    }
+    players_iterate_end;
+    qInfo(_("players=%d cities=%d citizens=%d units=%d"), players, cities,
+          citizen_count, units);
+    notify_conn(game.est_connections, nullptr, E_AI_DEBUG, ftc_log,
+                _("players=%d cities=%d citizens=%d units=%d"), players,
+                cities, citizen_count, units);
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "city") == 0) {
+    int x, y;
+    struct tile *ptile;
+    struct city *pcity;
+
+    if (arg.count() != 3) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    if (!str_to_int(qUtf8Printable(arg.at(1)), &x)
+        || !str_to_int(qUtf8Printable(arg.at(2)), &y)) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Value 2 & 3 must be integer."));
+      return true;
+    }
+    if (!(ptile = map_pos_to_tile(&(wld.map), x, y))) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Bad map coordinates."));
+      return true;
+    }
+    pcity = tile_city(ptile);
+    if (!pcity) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("No city at this coordinate."));
+      return true;
+    }
+    if (pcity->server.debug) {
+      pcity->server.debug = false;
+      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s no longer debugged"),
+                city_name_get(pcity));
+    } else {
+      pcity->server.debug = true;
+      CITY_LOG(LOG_NORMAL, pcity, "debugged");
+    }
+  } else if (arg.count()
+             && strcmp(qUtf8Printable(arg.at(0)), "units") == 0) {
+    int x, y;
+    struct tile *ptile;
+
+    if (arg.count() != 3) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    if (!str_to_int(qUtf8Printable(arg.at(1)), &x)
+        || !str_to_int(qUtf8Printable(arg.at(2)), &y)) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Value 2 & 3 must be integer."));
+      return true;
+    }
+    if (!(ptile = map_pos_to_tile(&(wld.map), x, y))) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Bad map coordinates."));
+      return true;
+    }
+    unit_list_iterate(ptile->units, punit)
+    {
+      if (punit->server.debug) {
+        punit->server.debug = false;
+        cmd_reply(CMD_ADMIN, caller, C_OK, _("%s %s no longer debugged."),
+                  nation_adjective_for_player(unit_owner(punit)),
+                  unit_name_translation(punit));
+      } else {
+        punit->server.debug = true;
+        UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
+                 nation_rule_name(nation_of_unit(punit)),
+                 unit_name_translation(punit));
+      }
+    }
+    unit_list_iterate_end;
+  } else if (arg.count()
+             && strcmp(qUtf8Printable(arg.at(0)), "timing") == 0) {
+    TIMING_RESULTS();
+  } else if (arg.count() > 0
+             && strcmp(qUtf8Printable(arg.at(0)), "ferries") == 0) {
+    if (game.server.debug[DEBUG_FERRIES]) {
+      game.server.debug[DEBUG_FERRIES] = false;
+      cmd_reply(CMD_ADMIN, caller, C_OK,
+                _("Ferry system is no longer "
+                  "in debug mode."));
+    } else {
+      game.server.debug[DEBUG_FERRIES] = true;
+      cmd_reply(CMD_ADMIN, caller, C_OK, _("Ferry system in debug mode."));
+    }
+  } else if (arg.count() > 0
+             && strcmp(qUtf8Printable(arg.at(0)), "unit") == 0) {
+    int id;
+    struct unit *punit;
+
+    if (arg.count() != 2) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    if (!str_to_int(qUtf8Printable(arg.at(1)), &id)) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Value 2 must be integer."));
+      return true;
+    }
+    if (!(punit = game_unit_by_number(id))) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Unit %d does not exist."),
+                id);
+      return true;
+    }
+    if (punit->server.debug) {
+      punit->server.debug = false;
+      cmd_reply(CMD_ADMIN, caller, C_OK, _("%s %s no longer debugged."),
+                nation_adjective_for_player(unit_owner(punit)),
+                unit_name_translation(punit));
+    } else {
+      punit->server.debug = true;
+      UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
+               nation_rule_name(nation_of_unit(punit)),
+               unit_name_translation(punit));
+    }
+  } else {
+    cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+              _("Undefined argument.  Usage:\n%s"),
+              command_synopsis(command_by_number(CMD_ADMIN)));
+  }
+  return true;
+}
+
+/**
    Helper to validate an argument referring to a server setting.
    Sends error message and returns nullptr on failure.
  */
@@ -4719,6 +4965,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return explain_option(caller, arg, check);
   case CMD_DEBUG:
     return debug_command(caller, arg, check);
+  case CMD_ADMIN:
+    return admin_command(caller, arg, check);
   case CMD_SET:
     return set_command(caller, arg, check);
   case CMD_TEAM:
