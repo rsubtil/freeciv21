@@ -17,8 +17,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04]
-        compiler: [gcc, clang]
-        build_type: ["", Release, Debug, RelWithDebInfo]
+        # compiler: [gcc, clang]
+        compiler: [gcc]
+        #build_type: ["", Release, Debug, RelWithDebInfo]
+        build_type: ["", Release]
         exclude:
           - compiler: clang
             build_type: RelWithDebInfo
@@ -66,13 +68,14 @@ jobs:
         run: |
           cmake --build build --target package
       - name: Upload package
-        uses: softprops/action-gh-release@v1
+        uses: actions/upload-artifact@v3
         if: |
-          startsWith(github.ref, 'refs/tags/')
-            && matrix.compiler == 'gcc'
+            matrix.compiler == 'gcc'
             && matrix.build_type == 'Release'
         with:
-          files: |
+          name:
+            ubuntu
+          path: |
             build/Linux-x86_64/freeciv21_*_amd64.deb
             build/Linux-x86_64/freeciv21_*_amd64.deb.sha256
 
@@ -199,85 +202,85 @@ jobs:
       - name: Building
         run: cmake --build build --config Debug
 
-  os_x:
-    name: "macOS"
-    runs-on: macos-latest
-    needs: clang-format
-    env:
-      MACOSX_DEPLOYMENT_TARGET: 10.15
-      VCPKG_BUILD_TYPE: release
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-      - name: Install build tools
-        run: |
-          brew update
-          brew install \
-            cmake \
-            ninja \
-            gettext \
-            create-dmg
-          brew link gettext --force
-      - uses: lukka/run-vcpkg@v10
-        name: Install dependencies
-        with:
-          vcpkgGitCommitId: 50fd3d9957195575849a49fa591e645f1d8e7156
-      - name: Build
-        uses: lukka/run-cmake@v10
-        with:
-          configurePreset: 'fullrelease-macos'
-          buildPreset: 'fullrelease-macos'
-      - name: Split Branch Name
-        env:
-          BRANCH: ${{github.ref_name}}
-        id: split
-        run: echo "fragment=${BRANCH##*/}" >> $GITHUB_OUTPUT
-      - name: Create App Bundle
-        run: |
-          mkdir -p Freeciv21.app/Contents/MacOS Freeciv21.app/Contents/Resources
-          cp dist/Info.plist Freeciv21.app/Contents/
-          cp -r .install/share/freeciv21/* Freeciv21.app/Contents/Resources
-          cp .install/bin/freeciv21-* Freeciv21.app/Contents/MacOS
-          mkdir client.iconset
-          cp data/icons/16x16/freeciv21-client.png client.iconset/icon_16x16.png
-          cp data/icons/32x32/freeciv21-client.png client.iconset/icon_16x16@2x.png
-          cp data/icons/32x32/freeciv21-client.png client.iconset/icon_32x32.png
-          cp data/icons/64x64/freeciv21-client.png client.iconset/icon_32x32@2x.png
-          cp data/icons/128x128/freeciv21-client.png client.iconset/icon_128x128.png
-          iconutil -c icns client.iconset
-          cp client.icns Freeciv21.app/Contents/Resources
-          mkdir staging
-          mv Freeciv21.app staging
-          create-dmg \
-            --volname "Freeciv21 Installer" \
-            --volicon "client.icns" \
-            --window-pos 200 120 \
-            --window-size 800 400 \
-            --icon-size 100 \
-            --icon "Freeciv21.app" 200 190 \
-            --hide-extension "Freeciv21.app" \
-            --app-drop-link 600 185 \
-            "Freeciv21-${{steps.split.outputs.fragment}}.dmg" \
-            "staging/"
-          shasum -a 256 Freeciv21-${{steps.split.outputs.fragment}}.dmg > Freeciv21-${{steps.split.outputs.fragment}}.dmg.sha256
-      - name: Debug
-        if: failure()
-        run: |
-          cat CMakeCache.txt
-          echo ${{steps.split.outputs.fragment}}
-      - name: Upload package
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-            Freeciv21-*.dmg
-            Freeciv21-*.dmg.sha256
-      - name: Upload a build
-        uses: actions/upload-artifact@v3
-        with:
-          name: macOS-dmg
-          path: Freeciv21-*.dmg
+#  os_x:
+#    name: "macOS"
+#    runs-on: macos-latest
+#    needs: clang-format
+#    env:
+#      MACOSX_DEPLOYMENT_TARGET: 10.15
+#      VCPKG_BUILD_TYPE: release
+#    steps:
+#      - uses: actions/checkout@v3
+#        with:
+#          fetch-depth: 0
+#      - name: Install build tools
+#        run: |
+#          brew update
+#          brew install \
+#            cmake \
+#            ninja \
+#            gettext \
+#            create-dmg
+#          brew link gettext --force
+#      - uses: lukka/run-vcpkg@v10
+#        name: Install dependencies
+#        with:
+#          vcpkgGitCommitId: 50fd3d9957195575849a49fa591e645f1d8e7156
+#      - name: Build
+#        uses: lukka/run-cmake@v10
+#        with:
+#          configurePreset: 'fullrelease-macos'
+#          buildPreset: 'fullrelease-macos'
+#      - name: Split Branch Name
+#        env:
+#          BRANCH: ${{github.ref_name}}
+#        id: split
+#        run: echo "fragment=${BRANCH##*/}" >> $GITHUB_OUTPUT
+#      - name: Create App Bundle
+#        run: |
+#          mkdir -p Freeciv21.app/Contents/MacOS Freeciv21.app/Contents/Resources
+#          cp dist/Info.plist Freeciv21.app/Contents/
+#          cp -r .install/share/freeciv21/* Freeciv21.app/Contents/Resources
+#          cp .install/bin/freeciv21-* Freeciv21.app/Contents/MacOS
+#          mkdir client.iconset
+#          cp data/icons/16x16/freeciv21-client.png client.iconset/icon_16x16.png
+#          cp data/icons/32x32/freeciv21-client.png client.iconset/icon_16x16@2x.png
+#          cp data/icons/32x32/freeciv21-client.png client.iconset/icon_32x32.png
+#          cp data/icons/64x64/freeciv21-client.png client.iconset/icon_32x32@2x.png
+#          cp data/icons/128x128/freeciv21-client.png client.iconset/icon_128x128.png
+#          iconutil -c icns client.iconset
+#          cp client.icns Freeciv21.app/Contents/Resources
+#          mkdir staging
+#          mv Freeciv21.app staging
+#          create-dmg \
+#            --volname "Freeciv21 Installer" \
+#            --volicon "client.icns" \
+#            --window-pos 200 120 \
+#            --window-size 800 400 \
+#            --icon-size 100 \
+#            --icon "Freeciv21.app" 200 190 \
+#            --hide-extension "Freeciv21.app" \
+#            --app-drop-link 600 185 \
+#            "Freeciv21-${{steps.split.outputs.fragment}}.dmg" \
+#            "staging/"
+#          shasum -a 256 Freeciv21-${{steps.split.outputs.fragment}}.dmg > Freeciv21-${{steps.split.outputs.fragment}}.dmg.sha256
+#      - name: Debug
+#        if: failure()
+#        run: |
+#          cat CMakeCache.txt
+#          echo ${{steps.split.outputs.fragment}}
+#      - name: Upload package
+#        uses: softprops/action-gh-release@v1
+#        if: startsWith(github.ref, 'refs/tags/')
+#        with:
+#          files: |
+#            Freeciv21-*.dmg
+#            Freeciv21-*.dmg.sha256
+#      - name: Upload a build
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: macOS-dmg
+#          path: Freeciv21-*.dmg
 
   wasm:
     name: "WebAssembly"
