@@ -122,7 +122,8 @@ page_network::page_network(QWidget *parent, fc_client *gui)
   ui.lan_label->setText(_("Internet servers:"));
   ui.wan_label->setText(_("Local servers:"));
 
-  ui.connect_host_edit->setText(client_url().host());
+  //ui.connect_host_edit->setText(client_url().host());
+  ui.connect_host_edit->setText("4xsocialdeduction.vps.tecnico.ulisboa.pt");
   ui.connect_port_edit->setText(QString::number(client_url().port()));
   //ui.connect_login_edit->setText(client_url().userName());
   ui.connect_login_edit->setText(king->qt_settings.server_username);
