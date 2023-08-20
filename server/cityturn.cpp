@@ -2094,6 +2094,17 @@ static bool worklist_change_build_target(struct player *pplayer,
  */
 void choose_build_target(struct player *pplayer, struct city *pcity)
 {
+  // Default to the nothing improvement
+  improvement_iterate(pimprove)
+  {
+    if (improvement_has_flag(pimprove, IF_NOTHING)) {
+      pcity->production.kind = VUT_IMPROVEMENT;
+      pcity->production.value.building = pimprove;
+      return;
+    }
+  }
+  improvement_iterate_end;
+
   // Pick the next thing off the worklist.
   if (worklist_change_build_target(pplayer, pcity)) {
     return;

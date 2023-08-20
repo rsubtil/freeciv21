@@ -45,7 +45,7 @@
        <number>0</number>
       </property>
       <item row="1" column="1">
-       <layout class="QVBoxLayout" name="verticalLayout_9" stretch="0,0,0,0,0,100">
+       <layout class="QVBoxLayout" name="verticalLayout_9" stretch="0,0,0,100">
         <item>
          <widget class="QPushButton" name="lcity_name">
           <property name="enabled">
@@ -66,36 +66,7 @@
          </widget>
         </item>
         <item>
-         <widget class="city_label" name="citizens_label">
-          <property name="minimumSize">
-           <size>
-            <width>200</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>citizens</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="cityIconInfoLabel" name="info_icon_label" native="true"/>
-        </item>
-        <item>
-         <widget class="QPushButton" name="buy_button">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>50</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>buy</string>
-          </property>
-         </widget>
         </item>
         <item>
          <widget class="progress_bar" name="production_combo_p">
@@ -104,6 +75,12 @@
             <horstretch>0</horstretch>
             <verstretch>50</verstretch>
            </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>200</width>
+            <height>0</height>
+           </size>
           </property>
           <property name="value">
            <number>24</number>
@@ -296,129 +273,6 @@
      </item>
     </layout>
    </item>
-   <item>
-    <spacer name="horizontalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="QWidget" name="widget_2" native="true">
-     <property name="autoFillBackground">
-      <bool>true</bool>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout_7">
-      <property name="spacing">
-       <number>0</number>
-      </property>
-      <property name="leftMargin">
-       <number>0</number>
-      </property>
-      <property name="topMargin">
-       <number>0</number>
-      </property>
-      <property name="rightMargin">
-       <number>0</number>
-      </property>
-      <property name="bottomMargin">
-       <number>0</number>
-      </property>
-      <item>
-       <widget class="QScrollArea" name="scrollArea_2">
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Plain</enum>
-        </property>
-        <property name="horizontalScrollBarPolicy">
-         <enum>Qt::ScrollBarAlwaysOff</enum>
-        </property>
-        <property name="sizeAdjustPolicy">
-         <enum>QAbstractScrollArea::AdjustToContents</enum>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents_2">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>152</width>
-           <height>786</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <property name="bottomMargin">
-           <number>50</number>
-          </property>
-          <item>
-           <widget class="city_info" name="info_wdg" native="true">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="curr_impr">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="supp_units">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="text">
-             <string>TextLabel</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <spacer name="verticalSpacer_2">
-            <property name="orientation">
-             <enum>Qt::Vertical</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
-             <size>
-              <width>20</width>
-              <height>40</height>
-             </size>
-            </property>
-           </spacer>
-          </item>
-         </layout>
-        </widget>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -426,17 +280,6 @@
    <class>progress_bar</class>
    <extends>QProgressBar</extends>
    <header>citydlg.h</header>
-  </customwidget>
-  <customwidget>
-   <class>city_label</class>
-   <extends>QLabel</extends>
-   <header>citydlg.h</header>
-  </customwidget>
-  <customwidget>
-   <class>city_info</class>
-   <extends>QWidget</extends>
-   <header>citydlg.h</header>
-   <container>1</container>
   </customwidget>
   <customwidget>
    <class>unit_list_widget</class>

@@ -231,6 +231,8 @@ void hIcon::createIcons()
               fcIcons::instance()->getIcon(QStringLiteral("hsci")));
   hash.insert(QStringLiteral("resize"),
               fcIcons::instance()->getIcon(QStringLiteral("resize")));
+  hash.insert(QStringLiteral("materials"),
+              fcIcons::instance()->getIcon(QStringLiteral("hmaterials")));
 }
 
 QIcon hIcon::get(const QString &id) { return hash.value(id, QIcon()); }

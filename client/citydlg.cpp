@@ -28,7 +28,6 @@
 #include "fcintl.h"
 #include "support.h"
 // common
-#include "citizens.h"
 #include "city.h"
 #include "game.h"
 
@@ -497,34 +496,19 @@ void cityIconInfoLabel::initLayout()
 {
   QHBoxLayout *l = new QHBoxLayout();
   labs[0].setPixmap(
-      (hIcon::i()->get(QStringLiteral("foodplus"))).pixmap(pixHeight));
+      (hIcon::i()->get(QStringLiteral("gold"))).pixmap(pixHeight));
   l->addWidget(&labs[0]);
   l->addWidget(&labs[1]);
 
   labs[2].setPixmap(
-      (hIcon::i()->get(QStringLiteral("prodplus"))).pixmap(pixHeight));
+      (hIcon::i()->get(QStringLiteral("science"))).pixmap(pixHeight));
   l->addWidget(&labs[2]);
   l->addWidget(&labs[3]);
 
   labs[4].setPixmap(
-      (hIcon::i()->get(QStringLiteral("gold"))).pixmap(pixHeight));
+      (hIcon::i()->get(QStringLiteral("materials"))).pixmap(pixHeight));
   l->addWidget(&labs[4]);
   l->addWidget(&labs[5]);
-
-  labs[6].setPixmap(
-      (hIcon::i()->get(QStringLiteral("science"))).pixmap(pixHeight));
-  l->addWidget(&labs[6]);
-  l->addWidget(&labs[7]);
-
-  labs[8].setPixmap(
-      (hIcon::i()->get(QStringLiteral("tradeplus"))).pixmap(pixHeight));
-  l->addWidget(&labs[8]);
-  l->addWidget(&labs[9]);
-
-  labs[10].setPixmap(
-      (hIcon::i()->get(QStringLiteral("resize"))).pixmap(pixHeight));
-  l->addWidget(&labs[10]);
-  l->addWidget(&labs[11]);
 
   setLayout(l);
 }
@@ -536,74 +520,18 @@ void cityIconInfoLabel::updateText()
     return;
   }
 
-  labs[1].setText(QString::number(pcity->surplus[O_FOOD]));
-  labs[0].setToolTip(get_city_dialog_output_text(pcity, O_FOOD));
-  labs[1].setToolTip(get_city_dialog_output_text(pcity, O_FOOD));
+  labs[1].setText(QString::number(pcity->surplus[O_GOLD]));
+  labs[0].setToolTip(get_city_dialog_output_text(pcity, O_GOLD));
+  labs[1].setToolTip(get_city_dialog_output_text(pcity, O_GOLD));
 
-  labs[3].setText(QString::number(pcity->surplus[O_SHIELD]));
-  labs[2].setToolTip(get_city_dialog_output_text(pcity, O_SHIELD));
-  labs[3].setToolTip(get_city_dialog_output_text(pcity, O_SHIELD));
+  labs[3].setText(QString::number(pcity->surplus[O_SCIENCE]));
+  labs[2].setToolTip(get_city_dialog_output_text(pcity, O_SCIENCE));
+  labs[3].setToolTip(get_city_dialog_output_text(pcity, O_SCIENCE));
 
-  labs[5].setText(QString::number(pcity->surplus[O_GOLD]));
-  labs[4].setToolTip(get_city_dialog_output_text(pcity, O_GOLD));
-  labs[5].setToolTip(get_city_dialog_output_text(pcity, O_GOLD));
-
-  labs[7].setText(QString::number(pcity->surplus[O_SCIENCE]));
-  labs[6].setToolTip(get_city_dialog_output_text(pcity, O_SCIENCE));
-  labs[7].setToolTip(get_city_dialog_output_text(pcity, O_SCIENCE));
-
-  labs[9].setText(QString::number(pcity->surplus[O_TRADE]));
-  labs[8].setToolTip(get_city_dialog_output_text(pcity, O_TRADE));
-  labs[9].setToolTip(get_city_dialog_output_text(pcity, O_TRADE));
-
-  if (city_turns_to_grow(pcity) < 1000) {
-    grow_time = QString::number(city_turns_to_grow(pcity));
-  } else {
-    grow_time = QStringLiteral("∞");
-  }
-  labs[11].setText(grow_time);
-  labs[10].setToolTip(get_city_dialog_growth_value(pcity));
-  labs[11].setToolTip(get_city_dialog_growth_value(pcity));
+  labs[5].setText(QString::number(pcity->surplus[O_MATERIALS]));
+  labs[4].setToolTip(get_city_dialog_output_text(pcity, O_MATERIALS));
+  labs[5].setToolTip(get_city_dialog_output_text(pcity, O_MATERIALS));
 }
-
-/**
-   city_label is used only for showing citizens icons
-   and was created only to catch mouse events
- */
-city_label::city_label(QWidget *parent) : QLabel(parent)
-{
-  type = FEELING_FINAL;
-}
-
-void city_label::set_type(int x) { type = x; }
-/**
-   Mouse handler for city_label
- */
-void city_label::mousePressEvent(QMouseEvent *event)
-{
-  int citnum, i, num_citizens, nothing_width;
-  int w = tileset_small_sprite_width(tileset);
-
-  if (!pcity) {
-    return;
-  }
-  num_citizens = pcity->size;
-  nothing_width = (this->width() - num_citizens * w) / 2;
-  i = 1 + (num_citizens * 5 / 200);
-  w = w / i;
-  citnum = (event->x() - nothing_width) / w;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  city_rotate_specialist(pcity, citnum);
-}
-
-/**
-   Just sets target city for city_label
- */
-void city_label::set_city(city *pciti) { pcity = pciti; }
 
 city_info::city_info(QWidget *parent) : QWidget(parent)
 {
@@ -633,36 +561,9 @@ city_info::city_info(QWidget *parent) : QWidget(parent)
   };
 
   QLabel *dummy;
-  std::tie(dummy, m_food) = create_labels(_("<B>Food:</B>"));
-  std::tie(dummy, m_granary) = create_labels(_("Granary:"));
-  std::tie(dummy, m_size) = create_labels(_("Citizens:"));
-  std::tie(dummy, m_growth) = create_labels(_("Change in:"));
-
-  info_grid_layout->addItem(new QSpacerItem(0, 9),
-                            info_grid_layout->rowCount(), 0);
-
-  std::tie(dummy, m_production) = create_labels(_("<B>Production:</B>"));
-  std::tie(dummy, m_waste) = create_labels(_("Waste:"));
-
-  info_grid_layout->addItem(new QSpacerItem(0, 9),
-                            info_grid_layout->rowCount(), 0);
-
-  std::tie(dummy, m_trade) = create_labels(_("<B>Trade:</B>"));
-  std::tie(dummy, m_corruption) = create_labels(_("Corruption:"));
   std::tie(dummy, m_gold) = create_labels(_("Gold:"));
-  std::tie(dummy, m_science_acc) = create_labels(_("Science (acc):"));
-  std::tie(dummy, m_materials) = create_labels(_("Materials:"));
   std::tie(dummy, m_science) = create_labels(_("Science:"));
-  std::tie(dummy, m_luxury) = create_labels(_("Luxury:"));
-
-  info_grid_layout->addItem(new QSpacerItem(0, 9),
-                            info_grid_layout->rowCount(), 0);
-
-  std::tie(dummy, m_culture) = create_labels(_("Culture:"));
-  std::tie(dummy, m_pollution) = create_labels(_("Pollution:"));
-  std::tie(m_plague_label, m_plague) = create_labels(_("Plague risk:"));
-  std::tie(dummy, m_stolen) = create_labels(_("Tech Stolen:"));
-  std::tie(dummy, m_airlift) = create_labels(_("Airlift:"));
+  std::tie(dummy, m_materials) = create_labels(_("Materials:"));
 }
 
 void city_info::update_labels(struct city *pcity)
@@ -776,10 +677,6 @@ city_dialog::city_dialog(QWidget *parent) : QWidget(parent)
   pcity = nullptr;
 
   // main tab
-  ui.buy_button->setIcon(
-      fcIcons::instance()->getIcon(QStringLiteral("help-donate")));
-  connect(ui.buy_button, &QAbstractButton::clicked, this, &city_dialog::buy);
-  citizen_pixmap = nullptr;
   ui.bclose->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("city-close")));
   ui.bclose->setToolTip(_("Close city dialog"));
@@ -857,7 +754,6 @@ void city_dialog::update_disabled()
       can_client_issue_orders() && city_owner(pcity) == client.conn.playing;
   ui.prev_city_but->setEnabled(can_edit);
   ui.next_city_but->setEnabled(can_edit);
-  ui.buy_button->setEnabled(can_edit);
   ui.production_combo_p->setEnabled(can_edit);
   ui.present_units_list->setEnabled(can_edit);
 }
@@ -867,7 +763,6 @@ void city_dialog::update_disabled()
  */
 city_dialog::~city_dialog()
 {
-  delete citizen_pixmap;
   removeEventFilter(this);
 }
 
@@ -982,70 +877,6 @@ void city_dialog::disband_state_changed(bool allow_disband)
 }
 
 /**
-   Enables/disables buy buttons depending on gold
- */
-void city_dialog::update_buy_button()
-{
-  QString str;
-  int value;
-
-  ui.buy_button->setEnabled(false);
-
-  if (!client_is_observer() && client.conn.playing != nullptr) {
-    value = pcity->client.buy_cost;
-    str = QString(PL_("Buy (%1 gold)", "Buy (%1 gold)", value))
-              .arg(QString::number(value));
-
-    if (client.conn.playing->economic.gold >= value && value != 0) {
-      ui.buy_button->setEnabled(true);
-    }
-  } else {
-    str = QString(_("Buy"));
-  }
-
-  ui.buy_button->setText(str);
-}
-
-/**
-   Redraws citizens for city_label (citizens_label)
- */
-void city_dialog::update_citizens()
-{
-  enum citizen_category categories[MAX_CITY_SIZE];
-  int i, j, width, height;
-  QPainter p;
-  int num_citizens =
-      get_city_citizen_types(pcity, FEELING_FINAL, categories);
-  int w = tileset_small_sprite_width(tileset);
-  int h = tileset_small_sprite_height(tileset);
-
-  i = 1 + (num_citizens * 5 / 200);
-  w = w / i;
-  QRect source_rect(0, 0, w, h);
-  QRect dest_rect(0, 0, w, h);
-  width = w * num_citizens;
-  height = h;
-
-  if (citizen_pixmap) {
-    citizen_pixmap->detach();
-    delete citizen_pixmap;
-  }
-
-  citizen_pixmap = new QPixmap(width, height);
-
-  for (j = 0, i = 0; i < num_citizens; i++, j++) {
-    dest_rect.moveTo(i * w, 0);
-    auto pix = get_citizen_sprite(tileset, categories[j], j, pcity);
-    p.begin(citizen_pixmap);
-    p.drawPixmap(dest_rect, *pix, source_rect);
-    p.end();
-  }
-
-  ui.citizens_label->set_city(pcity);
-  ui.citizens_label->setPixmap(*citizen_pixmap);
-}
-
-/**
    Various refresh after getting new info/reply from server
  */
 void city_dialog::refresh()
@@ -1056,8 +887,6 @@ void city_dialog::refresh()
   if (pcity) {
     update_title();
     update_info_label();
-    update_buy_button();
-    update_citizens();
     update_building();
     update_improvements();
     update_units();
@@ -1088,7 +917,6 @@ void city_dialog::refresh()
  */
 void city_dialog::update_info_label()
 {
-  ui.info_wdg->update_labels(pcity);
   ui.info_icon_label->setCity(pcity);
   ui.info_icon_label->updateText();
 }
@@ -1217,10 +1045,6 @@ void city_dialog::update_units()
     units = pcity->units_supported;
   }
 
-  n = unit_list_size(units);
-  fc_snprintf(buf, sizeof(buf), _("Supported units: %d"), n);
-  ui.supp_units->setText(QString(buf));
-
   if (nullptr != client.conn.playing
       && city_owner(pcity) != client.conn.playing) {
     units = pcity->client.info_units_present;
@@ -1301,46 +1125,6 @@ void city_dialog::update_building()
           .arg(city_production_name_translation(pcity), str));
 
   ui.production_combo_p->updateGeometry();
-}
-
-/**
-   Buy button. Shows message box asking for confirmation
- */
-void city_dialog::buy()
-{
-  char buf[1024], buf2[1024];
-  const char *name = city_production_name_translation(pcity);
-  int value = pcity->client.buy_cost;
-  hud_message_box *ask;
-  int city_id = pcity->id;
-
-  if (!can_client_issue_orders()) {
-    return;
-  }
-
-  ask = new hud_message_box(queen()->city_overlay);
-  fc_snprintf(buf2, ARRAY_SIZE(buf2),
-              PL_("Treasury contains %d gold.", "Treasury contains %d gold.",
-                  client_player()->economic.gold),
-              client_player()->economic.gold);
-  fc_snprintf(buf, ARRAY_SIZE(buf),
-              PL_("Buy %s for %d gold?", "Buy %s for %d gold?", value), name,
-              value);
-  ask->set_text_title(buf, buf2);
-  ask->setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
-  ask->setDefaultButton(QMessageBox::Cancel);
-  ask->button(QMessageBox::Yes)->setText(_("Yes Buy"));
-  ask->setAttribute(Qt::WA_DeleteOnClose);
-  connect(ask, &hud_message_box::accepted, this, [=]() {
-    struct city *pcity = game_city_by_number(city_id);
-
-    if (!pcity) {
-      return;
-    }
-
-    city_buy_production(pcity);
-  });
-  ask->show();
 }
 
 /**
@@ -1430,8 +1214,6 @@ void city_dialog::update_improvements()
   }
 
   ui.upkeep->refresh();
-
-  ui.curr_impr->setText(QString(_("Improvements: upkeep %1")).arg(upkeep));
 }
 
 /**

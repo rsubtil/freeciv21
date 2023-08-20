@@ -449,8 +449,9 @@ QString get_city_dialog_output_text(const struct city *pcity,
    * to "Total surplus" */
   struct city_sum *sum = city_sum_new(Q_("?city_surplus:%+4.0f : %s"));
 
-  city_sum_add(sum, pcity->citizen_base[otype],
-               Q_("?city_surplus:Citizens"));
+  // Cities always produce 1 of each base resource
+  city_sum_add(sum, 1,
+               Q_("?city_surplus:Base"));
 
   // Hack to get around the ugliness of add_tax_income.
   memset(tax, 0, O_LAST * sizeof(*tax));
@@ -496,7 +497,20 @@ QString get_city_dialog_output_text(const struct city *pcity,
   }
 
   for (priority = 0; priority < 2; priority++) {
-    enum effect_type eft[] = {EFT_OUTPUT_BONUS, EFT_OUTPUT_BONUS_2};
+    enum effect_type eft[] = {EFT_OUTPUT_BONUS, EFT_OUTPUT_BONUS_2, EFT_OUTPUT_BONUS};
+    switch(otype) {
+      case O_GOLD:
+        eft[2] = EFT_BASE_GOLD_OUTPUT;
+        break;
+      case O_SCIENCE:
+        eft[2] = EFT_BASE_SCIENCE_OUTPUT;
+        break;
+      case O_SHIELD:
+        eft[2] = EFT_BASE_MATERIAL_OUTPUT;
+        break;
+      default:
+        continue;
+    }
 
     {
       int base = city_sum_total(sum), bonus = 100;

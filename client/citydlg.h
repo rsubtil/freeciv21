@@ -232,28 +232,8 @@ public:
 private:
   void initLayout();
   struct city *pcity{nullptr};
-  QLabel labs[12];
+  QLabel labs[6];
   int pixHeight;
-};
-
-/****************************************************************************
-  city_label is used only for showing citizens icons
-  and was created to catch mouse events
-****************************************************************************/
-class city_label : public QLabel {
-  Q_OBJECT
-
-public:
-  city_label(QWidget *parent = 0);
-  void set_city(struct city *pcity);
-  void set_type(int);
-
-private:
-  struct city *pcity{nullptr};
-  int type;
-
-protected:
-  void mousePressEvent(QMouseEvent *event) override;
 };
 
 class city_info : public QWidget {
@@ -279,11 +259,9 @@ class city_dialog : public QWidget {
   Q_OBJECT
   Q_DISABLE_COPY(city_dialog);
   Ui::FormCityDlg ui;
-  QPixmap *citizen_pixmap;
   bool future_targets{false}, show_units{true}, show_wonders{true},
       show_buildings{true};
   int selected_row_p;
-  city_label *lab_table[6];
 
 public:
   city_dialog(QWidget *parent = 0);
@@ -298,8 +276,6 @@ private:
   void update_title();
   void update_building();
   void update_info_label();
-  void update_buy_button();
-  void update_citizens();
   void update_improvements();
   void update_units();
   void update_nation_table();
@@ -313,7 +289,6 @@ private slots:
   void get_city(bool next);
   void show_targets();
   void show_targets_worklist();
-  void buy();
   void dbl_click_p(QTableWidgetItem *item);
   void disband_state_changed(bool allow_disband);
   void city_rename();

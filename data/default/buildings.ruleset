@@ -116,7 +116,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-build_cost	= 999
+build_cost	= 65535
 upkeep		= 0
 sabotage	= 0
 helptext	= _("\

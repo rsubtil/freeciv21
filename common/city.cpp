@@ -1790,6 +1790,8 @@ bool city_production_gets_caravan_shields(const struct universal *tgt)
 int city_change_production_penalty(const struct city *pcity,
                                    const struct universal *target)
 {
+  return 0;
+
   int shield_stock_after_adjustment;
   enum production_class_type orig_class;
   enum production_class_type new_class;

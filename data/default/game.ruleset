@@ -580,13 +580,6 @@ target_reqs    =
       "Extra",        "Transport",    "Local", TRUE
     }
 
-[actionenabler_mining]
-action        = "Build Mine"
-actor_reqs    =
-    { "type",          "name",         "range"
-      "UnitFlag",      "Settlers",     "Local"
-    }
-
 [actionenabler_sabotage_city]
 action = "Sabotage (City)"
 actor_reqs =
@@ -610,23 +603,23 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local"
     }
 
-;[actionenabler_sabotage_city_investigate_science]
-;action = "Investigate Science City"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
-;
-;[actionenabler_sabotage_city_investigate_materials]
-;action = "Investigate Materials City"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
+[actionenabler_sabotage_city_investigate_science]
+action = "Investigate Science City"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+
+[actionenabler_sabotage_city_investigate_materials]
+action = "Investigate Materials City"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
 
 [actionenabler_sabotage_city_steal_gold]
 action = "Steal Gold City"
@@ -637,23 +630,23 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local"
     }
 
-;[actionenabler_sabotage_city_steal_science]
-;action = "Steal Science City"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
-;
-;[actionenabler_sabotage_city_steal_materials]
-;action = "Steal Materials City"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "DiplRel",      "War",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
+[actionenabler_sabotage_city_steal_science]
+action = "Steal Science City"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+
+[actionenabler_sabotage_city_steal_materials]
+action = "Steal Materials City"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "DiplRel",      "War",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
 
 [actionenabler_sabotage_building]
 action = "Sabotage (Building)"
@@ -675,21 +668,21 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local"
     }
 
-;[actionenabler_sabotage_building_investigate_science]
-;action = "Investigate Science Building"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
-;
-;[actionenabler_sabotage_building_investigate_materials]
-;action = "Investigate Materials Building"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
+[actionenabler_sabotage_building_investigate_science]
+action = "Investigate Science Building"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
+
+[actionenabler_sabotage_building_investigate_materials]
+action = "Investigate Materials Building"
+actor_reqs    =
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
+    }
 
 [actionenabler_sabotage_building_steal_gold]
 action = "Steal Gold Building"
@@ -699,132 +692,27 @@ actor_reqs    =
       "UnitState",    "OnLivableTile", "Local"
     }
 
-;[actionenabler_sabotage_building_steal_science]
-;action = "Steal Science Building"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
-;
-;[actionenabler_sabotage_building_steal_materials]
-;action = "Steal Materials Building"
-;actor_reqs    =
-;    { "type",         "name",          "range"
-;      "UnitFlag",     "Spy",           "Local"
-;      "UnitState",    "OnLivableTile", "Local"
-;    }
-
-[actionenabler_build_city_pioneer]
-action = "Found City"
+[actionenabler_sabotage_building_steal_science]
+action = "Steal Science Building"
 actor_reqs    =
-    { "type",   "name", "range"
-      "UnitFlag", "Cities", "Local"
-      "UnitState", "OnLivableTile", "Local"
-      "MinMoveFrags", "1", "Local"
-    }
-target_reqs    =
-    { "type",   "name", "range", "present"
-      "CityTile", "Claimed", "Local", FALSE
-      "TerrainFlag","NoCities","Local",FALSE
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
     }
 
-[actionenabler_build_city_domestic]
-action = "Found City"
+[actionenabler_sabotage_building_steal_materials]
+action = "Steal Materials Building"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "Cities", "Local", TRUE
-      "UnitState", "OnLivableTile", "Local", TRUE
-      "MinMoveFrags", "1", "Local", TRUE
-      "DiplRel", "Foreign", "Local", FALSE
-    }
-target_reqs    =
-    { "type",        "name",     "range", "present"
-      "CityTile",    "Claimed",  "Local", TRUE
-      "TerrainFlag", "NoCities", "Local", FALSE
+    { "type",         "name",          "range"
+      "UnitFlag",     "Spy",           "Local"
+      "UnitState",    "OnLivableTile", "Local"
     }
 
-[actionenabler_join_city]
-action = "Join City"
+[actionenabler_disband_unit]
+action = "Disband Unit"
 actor_reqs    =
-    { "type",   "name", "range", "present"
-      "UnitFlag", "AddToCity", "Local", TRUE
-      "DiplRel", "Foreign", "Local", FALSE
-      "MinMoveFrags", "1", "Local", TRUE
-    }
-
-[actionenabler_attack_native]
-action = "Attack"
-actor_reqs    =
-    { "type",          "name",         "range", "present"
-      "UnitFlag",      "NonMil",       "Local", FALSE
-      "UnitClassFlag", "Missile",      "Local", FALSE
-      "MinMoveFrags",  "1",            "Local", TRUE
-      "UnitState",     "OnNativeTile", "Local", TRUE
-      "DiplRel",       "War",          "Local", TRUE
-    }
-
-[actionenabler_attack_marines]
-action = "Attack"
-actor_reqs    =
-    { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
-      "UnitClassFlag", "Missile", "Local", FALSE
-      "MinMoveFrags",  "1",       "Local", TRUE
-      "UnitFlag",      "Marines", "Local", TRUE
-      "DiplRel",       "War",     "Local", TRUE
-    }
-
-[actionenabler_attack_att_from_non_native]
-action = "Attack"
-actor_reqs    =
-    { "type",          "name",             "range", "present"
-      "UnitFlag",      "NonMil",           "Local", FALSE
-      "UnitClassFlag", "Missile",          "Local", FALSE
-      "MinMoveFrags",  "1",                "Local", TRUE
-      "UnitClassFlag", "AttFromNonNative", "Local", TRUE
-      "DiplRel",       "War",              "Local", TRUE
-    }
-
-[actionenabler_explode_missile]
-action = "Suicide Attack"
-actor_reqs    =
-    { "type",          "name",    "range", "present"
-      "UnitFlag",      "NonMil",  "Local", FALSE
-      "UnitClassFlag", "Missile", "Local", TRUE
-      "MinMoveFrags",  "1",       "Local", TRUE
-      "DiplRel",       "War",     "Local", TRUE
-    }
-
-[actionenabler_conquer_city_native]
-action = "Conquer City"
-actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
-      "UnitState",      "OnLivableTile", "Local", TRUE
-    }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
-    }
-
-[actionenabler_conquer_city_marines]
-action = "Conquer City 2"
-actor_reqs    =
-    { "type",           "name",          "range", "present"
-      "UnitClassFlag",  "CanOccupyCity", "Local", TRUE
-      "UnitFlag",       "NonMil",        "Local", FALSE
-      "DiplRel",        "War",           "Local", TRUE
-      "MinMoveFrags",   "1",             "Local", TRUE
-      "UnitFlag",       "Marines",       "Local", TRUE
-      "UnitState",      "OnLivableTile", "Local", FALSE
-    }
-target_reqs    =
-    { "type",           "name",          "range", "present"
-      "MaxUnitsOnTile", "0",             "Local", TRUE
+    { "type",     "name",   "range"
+      "UnitFlag", "Public", "Local"
     }
 
 [borders]
