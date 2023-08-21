@@ -334,15 +334,13 @@ void diplo_wdg::show_menu(int player)
 {
   int other_player;
   struct player *pgiver, *pother;
-  enum diplstate_type ds;
   QAction *all_advancs;
   QAction *some_action;
-  QAction *world_map, *sea_map;
   QMap<QString, int> city_list;
   QMap<QString, int>::const_iterator city_iter;
   QMap<QString, Tech_type_id> adv_list;
   QMap<QString, Tech_type_id>::const_iterator adv_iter;
-  QMenu *map_menu, *adv_menu, *city_menu, *pacts_menu;
+  QMenu *adv_menu, *city_menu;
   QMenu *menu = new QMenu(this);
   int id;
 
@@ -354,58 +352,6 @@ void diplo_wdg::show_menu(int player)
   }
   pgiver = player_by_number(player);
   pother = player_by_number(other_player);
-
-  // Maps
-  map_menu = menu->addMenu(_("Maps"));
-  world_map = new QAction(_("World-map"), this);
-  connect(world_map, &QAction::triggered, this,
-          &diplo_wdg::world_map_clause);
-  map_menu->addAction(world_map);
-  sea_map = new QAction(_("Sea-map"), this);
-  connect(sea_map, &QAction::triggered, this, &diplo_wdg::sea_map_clause);
-  map_menu->addAction(sea_map);
-
-  // Trading: advances
-  if (game.info.trading_tech) {
-    const struct research *gresearch = research_get(pgiver);
-    const struct research *oresearch = research_get(pother);
-    adv_menu = menu->addMenu(_("Advances"));
-    advance_iterate(A_FIRST, padvance)
-    {
-      Tech_type_id i = advance_number(padvance);
-
-      if (research_invention_state(gresearch, i) == TECH_KNOWN
-          && research_invention_gettable(oresearch, i,
-                                         game.info.tech_trade_allow_holes)
-          && (research_invention_state(oresearch, i) == TECH_UNKNOWN
-              || research_invention_state(oresearch, i)
-                     == TECH_PREREQS_KNOWN)) {
-        adv_list.insert(advance_name_translation(padvance), i);
-      }
-    }
-    advance_iterate_end;
-
-    // All advances
-    all_advancs = new QAction(_("All advances"), this);
-    connect(all_advancs, &QAction::triggered, this,
-            &diplo_wdg::all_advances);
-    adv_menu->addAction(all_advancs);
-    adv_menu->addSeparator();
-
-    // QMap is sorted by default when iterating
-    adv_iter = adv_list.constBegin();
-    if (adv_list.count() > 0) {
-      while (adv_iter != adv_list.constEnd()) {
-        id = adv_iter.value();
-        some_action = adv_menu->addAction(adv_iter.key());
-        connect(some_action, &QAction::triggered, this,
-                [=]() { give_advance(id); });
-        ++adv_iter;
-      }
-    } else {
-      adv_menu->setDisabled(true);
-    }
-  }
 
   // Trading: cities.
   if (game.info.trading_city) {
@@ -429,45 +375,6 @@ void diplo_wdg::show_menu(int player)
       }
     } else {
       city_menu->setDisabled(true);
-    }
-  }
-  some_action = new QAction(_("Give shared vision"), this);
-  connect(some_action, &QAction::triggered, this,
-          &diplo_wdg::give_shared_vision);
-  menu->addAction(some_action);
-  if (gives_shared_vision(pgiver, pother)) {
-    some_action->setDisabled(true);
-  }
-  some_action = new QAction(_("Give embassy"), this);
-  connect(some_action, &QAction::triggered, this, &diplo_wdg::give_embassy);
-  menu->addAction(some_action);
-  if (player_has_real_embassy(pother, pgiver)) {
-    some_action->setDisabled(true);
-  }
-
-  // Pacts
-  if (player_by_number(curr_player) == client_player()) {
-    pacts_menu = menu->addMenu(_("Pacts"));
-    ds = player_diplstate_get(pgiver, pother)->type;
-    some_action = new QAction(Q_("?diplomatic_state:Cease-fire"), this);
-    connect(some_action, &QAction::triggered, this,
-            &diplo_wdg::pact_ceasfire);
-    pacts_menu->addAction(some_action);
-    if (ds == DS_CEASEFIRE || ds == DS_TEAM) {
-      some_action->setDisabled(true);
-    }
-    some_action = new QAction(Q_("?diplomatic_state:Peace"), this);
-    connect(some_action, &QAction::triggered, this, &diplo_wdg::pact_peace);
-    pacts_menu->addAction(some_action);
-    if (ds == DS_PEACE || ds == DS_TEAM) {
-      some_action->setDisabled(true);
-    }
-    some_action = new QAction(Q_("?diplomatic_state:Alliance"), this);
-    connect(some_action, &QAction::triggered, this,
-            &diplo_wdg::pact_allianze);
-    pacts_menu->addAction(some_action);
-    if (ds == DS_ALLIANCE || ds == DS_TEAM) {
-      some_action->setDisabled(true);
     }
   }
 
