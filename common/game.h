@@ -130,6 +130,7 @@ struct civ_game {
       int diplbulbcost;
       int diplgoldcost;
       int diplsciencecost;
+      int diplmaterialcost;
       int incite_gold_loss_chance;
       int incite_gold_capt_chance;
       int dispersion;
@@ -400,6 +401,10 @@ extern struct world wld;
 #define GAME_MIN_DIPLSCIENCECOST 0
 #define GAME_MAX_DIPLSCIENCECOST 100
 
+#define GAME_DEFAULT_DIPLMATERIALCOST 0
+#define GAME_MIN_DIPLMATERIALCOST 0
+#define GAME_MAX_DIPLMATERIALCOST 100
+
 #define GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE 0
 #define GAME_MIN_INCITE_GOLD_LOSS_CHANCE 0
 #define GAME_MAX_INCITE_GOLD_LOSS_CHANCE 100
@@ -618,6 +623,7 @@ extern struct world wld;
 #define GAME_DEFAULT_TRADING_GOLD true
 #define GAME_DEFAULT_TRADING_CITY true
 #define GAME_DEFAULT_TRADING_SCIENCE true
+#define GAME_DEFAULT_TRADING_MATERIAL true
 
 #define GAME_DEFAULT_CARAVAN_BONUS_STYLE CBS_CLASSIC
 

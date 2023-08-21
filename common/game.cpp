@@ -289,6 +289,7 @@ static void game_defaults(bool keep_ruleset_value)
   game.info.trading_city = GAME_DEFAULT_TRADING_CITY;
   game.info.trading_gold = GAME_DEFAULT_TRADING_GOLD;
   game.info.trading_science = GAME_DEFAULT_TRADING_SCIENCE;
+  game.info.trading_material = GAME_DEFAULT_TRADING_MATERIAL;
   game.info.trading_tech = GAME_DEFAULT_TRADING_TECH;
   game.info.turn = 0;
   game.info.warminglevel = 0; // set later
@@ -338,6 +339,7 @@ static void game_defaults(bool keep_ruleset_value)
     game.server.diplbulbcost = GAME_DEFAULT_DIPLBULBCOST;
     game.server.diplgoldcost = GAME_DEFAULT_DIPLGOLDCOST;
     game.server.diplsciencecost = GAME_DEFAULT_DIPLSCIENCECOST;
+    game.server.diplmaterialcost = GAME_DEFAULT_DIPLMATERIALCOST;
     game.server.incite_gold_loss_chance =
         GAME_DEFAULT_INCITE_GOLD_LOSS_CHANCE;
     game.server.incite_gold_capt_chance =

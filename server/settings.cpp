@@ -1951,6 +1951,15 @@ static struct setting settings[] = {
             nullptr, nullptr, nullptr, GAME_MIN_DIPLSCIENCECOST,
             GAME_MAX_DIPLSCIENCECOST, GAME_DEFAULT_DIPLSCIENCECOST),
 
+    GEN_INT("diplmaterialcost", game.server.diplmaterialcost, SSET_RULES,
+            SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+            N_("Penalty when getting materials from treaty"),
+            N_("When transferring materials in diplomatic treaties, this "
+               "percentage of the agreed sum is lost to both parties; it is "
+               "deducted from the donor but not received by the recipient."),
+            nullptr, nullptr, nullptr, GAME_MIN_DIPLMATERIALCOST,
+            GAME_MAX_DIPLMATERIALCOST, GAME_DEFAULT_DIPLMATERIALCOST),
+
     GEN_INT("incite_gold_loss_chance", game.server.incite_gold_loss_chance,
             SSET_RULES, SSET_SCIENCE, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
             N_("Probability of gold loss during inciting revolt"),
@@ -2127,12 +2136,21 @@ static struct setting settings[] = {
                 "not allowed."),
              nullptr, nullptr, GAME_DEFAULT_TRADING_CITY),
 
-    GEN_BOOL("trading_science", game.info.trading_science, SSET_RULES,
-             SSET_SOCIOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
-             N_("Science trading"),
-             N_("If turned off, trading science in the diplomacy dialog is not "
-                "allowed."),
-             nullptr, nullptr, GAME_DEFAULT_TRADING_SCIENCE),
+    GEN_BOOL(
+        "trading_science", game.info.trading_science, SSET_RULES,
+        SSET_SOCIOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+        N_("Science trading"),
+        N_("If turned off, trading science in the diplomacy dialog is not "
+           "allowed."),
+        nullptr, nullptr, GAME_DEFAULT_TRADING_SCIENCE),
+
+    GEN_BOOL(
+        "trading_material", game.info.trading_material, SSET_RULES,
+        SSET_SOCIOLOGY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+        N_("Material trading"),
+        N_("If turned off, trading materials in the diplomacy dialog is not "
+           "allowed."),
+        nullptr, nullptr, GAME_DEFAULT_TRADING_MATERIAL),
 
     GEN_ENUM("caravan_bonus_style", game.info.caravan_bonus_style,
              SSET_RULES, SSET_ECONOMICS, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
@@ -2387,8 +2405,8 @@ static struct setting settings[] = {
             nullptr, nullptr, nullptr, GAME_MIN_REVOLUTION_LENGTH,
             GAME_MAX_REVOLUTION_LENGTH, GAME_DEFAULT_REVOLUTION_LENGTH),
 
-    GEN_BOOL("fogofwar", game.info.fogofwar, SSET_RULES_FLEXIBLE, SSET_MILITARY,
-             SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
+    GEN_BOOL("fogofwar", game.info.fogofwar, SSET_RULES_FLEXIBLE,
+             SSET_MILITARY, SSET_RARE, ALLOW_NONE, ALLOW_BASIC,
              N_("Whether to enable fog of war"),
              N_("If this is enabled, only those units and cities within the "
                 "vision range of your own units and cities will be revealed "

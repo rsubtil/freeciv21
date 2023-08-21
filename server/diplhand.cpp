@@ -300,6 +300,13 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                             "you can't accept treaty."));
             return;
           }
+        case CLAUSE_MATERIAL:
+          if (pplayer->economic.materials < pclause->value) {
+            notify_player(pplayer, nullptr, E_DIPLOMACY, ftc_server,
+                          _("You don't have enough materials, "
+                            "you can't accept treaty."));
+            return;
+          }
         default:; // nothing
         }
       }
@@ -446,6 +453,19 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
             goto cleanup;
           }
           break;
+        case CLAUSE_MATERIAL:
+          if (pother->economic.materials < pclause->value) {
+            notify_player(pplayer, nullptr, E_DIPLOMACY, ftc_server,
+                          _("The %s don't have the promised amount "
+                            "of materials! Treaty canceled!"),
+                          nation_plural_for_player(pother));
+            notify_player(pother, nullptr, E_DIPLOMACY, ftc_server,
+                          _("The %s don't have the promised amount "
+                            "of materials! Treaty canceled!"),
+                          nation_plural_for_player(pother));
+            goto cleanup;
+          }
+          break;
         default:; // nothing
         }
       }
@@ -538,6 +558,16 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         notify_player(pdest, nullptr, E_DIPLOMACY, ftc_server,
                       PL_("You get %d science.", "You get %d science.", received),
                       received);
+      } break;
+      case CLAUSE_MATERIAL: {
+        int received =
+            pclause->value * (100 - game.server.diplmaterialcost) / 100;
+        pgiver->economic.materials -= pclause->value;
+        pdest->economic.materials += received;
+        notify_player(
+            pdest, nullptr, E_DIPLOMACY, ftc_server,
+            PL_("You get %d material.", "You get %d materials.", received),
+            received);
       } break;
       case CLAUSE_MAP:
         give_map_from_player_to_player(pgiver, pdest);

@@ -227,24 +227,30 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
   case CLAUSE_CITY:
     pcity = game_city_by_number(pclause->value);
     if (pcity) {
-      fc_snprintf(buf, bufsiz, _("The %s give %s"),
+      fc_snprintf(buf, bufsiz, _("%s will give %s"),
                   nation_plural_for_player(pclause->from),
                   city_name_get(pcity));
     } else {
-      fc_snprintf(buf, bufsiz, _("The %s give an unknown city"),
+      fc_snprintf(buf, bufsiz, _("%s will give an unknown city"),
                   nation_plural_for_player(pclause->from));
     }
     break;
   case CLAUSE_GOLD:
     fc_snprintf(
         buf, bufsiz,
-        PL_("The %s give %d gold", "The %s give %d gold", pclause->value),
+        PL_("%s will give %d gold", "%s will give %d gold", pclause->value),
         nation_plural_for_player(pclause->from), pclause->value);
     break;
   case CLAUSE_SCIENCE:
     fc_snprintf(
         buf, bufsiz,
-        PL_("The %s give %d science", "The %s give %d science", pclause->value),
+        PL_("%s will give %d science", "%s will give %d science", pclause->value),
+        nation_plural_for_player(pclause->from), pclause->value);
+    break;
+  case CLAUSE_MATERIAL:
+    fc_snprintf(
+        buf, bufsiz,
+        PL_("%s will give %d material", "%s will give %d materials", pclause->value),
         nation_plural_for_player(pclause->from), pclause->value);
     break;
   case CLAUSE_MAP:

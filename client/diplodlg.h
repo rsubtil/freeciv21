@@ -38,6 +38,8 @@ class diplo_wdg : public QWidget {
   QSpinBox *gold_edit2;
   QSpinBox *science_edit1;
   QSpinBox *science_edit2;
+  QSpinBox *material_edit1;
+  QSpinBox *material_edit2;
   QTableWidget *text_edit;
 
 public:
@@ -59,6 +61,8 @@ private slots:
   void gold_changed2(int val);
   void science_changed1(int val);
   void science_changed2(int val);
+  void material_changed1(int val);
+  void material_changed2(int val);
   void pact_allianze();
   void pact_ceasfire();
   void pact_peace();

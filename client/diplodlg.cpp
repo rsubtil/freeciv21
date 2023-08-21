@@ -62,6 +62,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from)
   QLabel *goldlab2;
   QLabel *sciencelab1;
   QLabel *sciencelab2;
+  QLabel *materiallab1;
+  QLabel *materiallab2;
   QPushButton *add_clause1;
   QPushButton *add_clause2;
   const QPixmap *sprite, *sprite2;
@@ -161,6 +163,10 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from)
   sciencelab1->setAlignment(Qt::AlignRight);
   sciencelab2 = new QLabel(_("Science:"));
   sciencelab2->setAlignment(Qt::AlignRight);
+  materiallab1 = new QLabel(_("Material:"));
+  materiallab1->setAlignment(Qt::AlignRight);
+  materiallab2 = new QLabel(_("Material:"));
+  materiallab2->setAlignment(Qt::AlignRight);
   gold_edit1 = new QSpinBox;
   gold_edit2 = new QSpinBox;
   gold_edit1->setMinimum(0);
@@ -189,6 +195,20 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from)
           &diplo_wdg::science_changed1);
   connect(science_edit2, qOverload<int>(&QSpinBox::valueChanged), this,
           &diplo_wdg::science_changed2);
+  material_edit1 = new QSpinBox;
+  material_edit2 = new QSpinBox;
+  material_edit1->setMinimum(0);
+  material_edit2->setMinimum(0);
+  material_edit1->setMaximum(std::numeric_limits<std::int32_t>::max());
+  material_edit2->setMaximum(std::numeric_limits<std::int32_t>::max());
+  material_edit1->setFocusPolicy(Qt::ClickFocus);
+  material_edit2->setFocusPolicy(Qt::ClickFocus);
+  material_edit1->setEnabled(game.info.trading_material);
+  material_edit2->setEnabled(game.info.trading_material);
+  connect(material_edit1, qOverload<int>(&QSpinBox::valueChanged), this,
+          &diplo_wdg::material_changed1);
+  connect(material_edit2, qOverload<int>(&QSpinBox::valueChanged), this,
+          &diplo_wdg::material_changed2);
   add_clause1 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
                                 _("Add Clause..."));
   add_clause2 = new QPushButton(style()->standardIcon(QStyle::SP_ArrowRight),
@@ -201,13 +221,17 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from)
           &diplo_wdg::show_menu_p1);
   layout->addWidget(goldlab1, 8, 4);
   layout->addWidget(sciencelab1, 9, 4);
+  layout->addWidget(materiallab1, 10, 4);
   layout->addWidget(goldlab2, 3, 4);
   layout->addWidget(sciencelab2, 4, 4);
+  layout->addWidget(materiallab2, 5, 4);
   layout->addWidget(gold_edit1, 8, 5);
   layout->addWidget(science_edit1, 9, 5);
+  layout->addWidget(material_edit1, 10, 5);
   layout->addWidget(gold_edit2, 3, 5);
   layout->addWidget(science_edit2, 4, 5);
-  layout->addWidget(add_clause1, 8, 6);
+  layout->addWidget(material_edit2, 5, 5);
+  layout->addWidget(add_clause1, 9, 6);
   layout->addWidget(add_clause2, 3, 6);
 
   text_edit = new QTableWidget();
@@ -225,7 +249,7 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from)
           &diplo_wdg::dbl_click);
   text_edit->clearContents();
   text_edit->setRowCount(0);
-  layout->addWidget(text_edit, 11, 0, 8, 11);
+  layout->addWidget(text_edit, 13, 0, 8, 11);
   accept_treaty = new QPushButton(
       style()->standardIcon(QStyle::SP_DialogYesButton), _("Accept treaty"));
   cancel_treaty = new QPushButton(
@@ -234,8 +258,8 @@ diplo_wdg::diplo_wdg(int counterpart, int initiated_from)
           &diplo_wdg::response_accept);
   connect(cancel_treaty, &QAbstractButton::clicked, this,
           &diplo_wdg::response_cancel);
-  layout->addWidget(accept_treaty, 19, 5);
-  layout->addWidget(cancel_treaty, 19, 6);
+  layout->addWidget(accept_treaty, 21, 5);
+  layout->addWidget(cancel_treaty, 21, 6);
 
   if (client_player_number() != counterpart) {
     label4->setToolTip(text_tooltip);
@@ -325,6 +349,24 @@ void diplo_wdg::science_changed2(int val)
 {
   dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
                                            CLAUSE_SCIENCE, val);
+}
+
+/**
+ * Material changed on first spinner
+ */
+void diplo_wdg::material_changed1(int val)
+{
+  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
+                                           CLAUSE_MATERIAL, val);
+}
+
+/**
+ * Material changed on second spinner
+ */
+void diplo_wdg::material_changed2(int val)
+{
+  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
+                                           CLAUSE_MATERIAL, val);
 }
 
 /**

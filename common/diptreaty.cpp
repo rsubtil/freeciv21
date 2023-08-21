@@ -214,6 +214,14 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
       old_clause->value = val;
       return true;
     }
+    if (type == CLAUSE_MATERIAL && old_clause->type == CLAUSE_MATERIAL
+        && old_clause->from == pfrom) {
+      // material clause there, different value
+      ptreaty->accept0 = false;
+      ptreaty->accept1 = false;
+      old_clause->value = val;
+      return true;
+    }
   }
   clause_list_iterate_end;
 
@@ -298,6 +306,9 @@ bool clause_enabled(enum clause_type type, struct player *from,
     return false;
   }
   if(!game.info.trading_science && type == CLAUSE_SCIENCE) {
+    return false;
+  }
+  if (!game.info.trading_material && type == CLAUSE_MATERIAL) {
     return false;
   }
 
