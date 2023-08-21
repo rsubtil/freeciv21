@@ -719,8 +719,12 @@ plr_report::plr_report() : QWidget()
   ui.setupUi(this);
 
   ui.meet_but->setText(_("Meet"));
+  ui.diplo_but->setText(_("Active Requests"));
+  ui.diplo_but->setEnabled(false);
   connect(ui.meet_but, &QAbstractButton::pressed, this,
           &plr_report::req_meeeting);
+  connect(ui.diplo_but, &QAbstractButton::pressed, this,
+          &plr_report::plr_diplomacy);
   setLayout(ui.layout);
   other_player = nullptr;
   index = 0;
@@ -730,6 +734,7 @@ plr_report::plr_report() : QWidget()
   }
   const bool has_meeting =
       (queen()->gimmeIndexOf(QStringLiteral("DDI")) > 0);
+  ui.diplo_but->setEnabled(has_meeting);
   update_top_bar_diplomacy_status(has_meeting);
   queen()->updateSidebarTooltips();
   ui.plr_wdg->set_pr_rep(this);
@@ -900,6 +905,7 @@ void plr_report::update_report(bool update_selection)
   }
   const bool has_meeting =
       (queen()->gimmeIndexOf(QStringLiteral("DDI")) > 0);
+  ui.diplo_but->setEnabled(has_meeting);
   update_top_bar_diplomacy_status(has_meeting);
   ui.plr_wdg->restore_selection();
 }
