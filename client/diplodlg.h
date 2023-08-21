@@ -48,6 +48,7 @@ public:
   void update_wdg();
   void set_index(int ind);
   int get_index();
+  void handle_resources_spinbars(struct player *pfrom, enum clause_type type, int value);
   struct Treaty treaty;
 
 private slots:

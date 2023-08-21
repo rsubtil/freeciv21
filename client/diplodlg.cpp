@@ -320,8 +320,13 @@ void diplo_wdg::closeEvent(QCloseEvent *event)
  */
 void diplo_wdg::gold_changed1(int val)
 {
-  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
-                                           CLAUSE_GOLD, val);
+  if (val > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
+                                             CLAUSE_GOLD, val);
+  } else {
+    dsend_packet_diplomacy_remove_clause_req(&client.conn, player2, player2,
+                                             CLAUSE_GOLD, val);
+  }
 }
 
 /**
@@ -329,8 +334,13 @@ void diplo_wdg::gold_changed1(int val)
  */
 void diplo_wdg::gold_changed2(int val)
 {
-  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
-                                           CLAUSE_GOLD, val);
+  if (val > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
+                                             CLAUSE_GOLD, val);
+  } else {
+    dsend_packet_diplomacy_remove_clause_req(&client.conn, player2, player1,
+                                             CLAUSE_GOLD, val);
+  }
 }
 
 /**
@@ -338,8 +348,13 @@ void diplo_wdg::gold_changed2(int val)
  */
 void diplo_wdg::science_changed1(int val)
 {
-  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
-                                           CLAUSE_SCIENCE, val);
+  if (val > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
+                                             CLAUSE_SCIENCE, val);
+  } else {
+    dsend_packet_diplomacy_remove_clause_req(&client.conn, player2, player2,
+                                             CLAUSE_SCIENCE, val);
+  }
 }
 
 /**
@@ -347,8 +362,13 @@ void diplo_wdg::science_changed1(int val)
  */
 void diplo_wdg::science_changed2(int val)
 {
-  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
-                                           CLAUSE_SCIENCE, val);
+  if (val > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
+                                             CLAUSE_SCIENCE, val);
+  } else {
+    dsend_packet_diplomacy_remove_clause_req(&client.conn, player2, player1,
+                                             CLAUSE_SCIENCE, val);
+  }
 }
 
 /**
@@ -356,8 +376,13 @@ void diplo_wdg::science_changed2(int val)
  */
 void diplo_wdg::material_changed1(int val)
 {
-  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
-                                           CLAUSE_MATERIAL, val);
+  if (val > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player2,
+                                             CLAUSE_MATERIAL, val);
+  } else {
+    dsend_packet_diplomacy_remove_clause_req(&client.conn, player2, player2,
+                                             CLAUSE_MATERIAL, val);
+  }
 }
 
 /**
@@ -365,8 +390,13 @@ void diplo_wdg::material_changed1(int val)
  */
 void diplo_wdg::material_changed2(int val)
 {
-  dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
-                                           CLAUSE_MATERIAL, val);
+  if (val > 0) {
+    dsend_packet_diplomacy_create_clause_req(&client.conn, player2, player1,
+                                             CLAUSE_MATERIAL, val);
+  } else {
+    dsend_packet_diplomacy_remove_clause_req(&client.conn, player2, player1,
+                                             CLAUSE_MATERIAL, val);
+  }
 }
 
 /**
@@ -375,14 +405,13 @@ void diplo_wdg::material_changed2(int val)
 void diplo_wdg::show_menu(int player)
 {
   int other_player;
-  struct player *pgiver, *pother;
-  QAction *all_advancs;
+  struct player *pgiver;
   QAction *some_action;
   QMap<QString, int> city_list;
   QMap<QString, int>::const_iterator city_iter;
   QMap<QString, Tech_type_id> adv_list;
   QMap<QString, Tech_type_id>::const_iterator adv_iter;
-  QMenu *adv_menu, *city_menu;
+  QMenu *city_menu;
   QMenu *menu = new QMenu(this);
   int id;
 
@@ -393,7 +422,6 @@ void diplo_wdg::show_menu(int player)
     other_player = player1;
   }
   pgiver = player_by_number(player);
-  pother = player_by_number(other_player);
 
   // Trading: cities.
   if (game.info.trading_city) {
@@ -905,6 +933,7 @@ void handle_diplomacy_create_clause(int counterpart, int giver,
   dd = qobject_cast<diplo_dlg *>(w);
   dw = dd->find_widget(counterpart);
   add_clause(&dw->treaty, player_by_number(giver), type, value);
+  dw->handle_resources_spinbars(player_by_number(giver), type, value);
   dw->update_wdg();
 }
 
@@ -951,7 +980,53 @@ void handle_diplomacy_remove_clause(int counterpart, int giver,
   dd = qobject_cast<diplo_dlg *>(w);
   dw = dd->find_widget(counterpart);
   remove_clause(&dw->treaty, player_by_number(giver), type, value);
+  dw->handle_resources_spinbars(player_by_number(giver), type, 0);
   dw->update_wdg();
+}
+
+void diplo_wdg::handle_resources_spinbars(struct player *pfrom, enum clause_type type, int value)
+{
+  if (pfrom == client_player()) {
+    switch (type) {
+    case CLAUSE_GOLD:
+      gold_edit2->blockSignals(true);
+      gold_edit2->setValue(value);
+      gold_edit2->blockSignals(false);
+      break;
+    case CLAUSE_SCIENCE:
+      science_edit2->blockSignals(true);
+      science_edit2->setValue(value);
+      science_edit2->blockSignals(false);
+      break;
+    case CLAUSE_MATERIAL:
+      material_edit2->blockSignals(true);
+      material_edit2->setValue(value);
+      material_edit2->blockSignals(false);
+      break;
+    default:
+      break;
+    }
+  } else {
+    switch (type) {
+    case CLAUSE_GOLD:
+      gold_edit1->blockSignals(true);
+      gold_edit1->setValue(value);
+      gold_edit1->blockSignals(false);
+      break;
+    case CLAUSE_SCIENCE:
+      science_edit1->blockSignals(true);
+      science_edit1->setValue(value);
+      science_edit1->blockSignals(false);
+      break;
+    case CLAUSE_MATERIAL:
+      material_edit1->blockSignals(true);
+      material_edit1->setValue(value);
+      material_edit1->blockSignals(false);
+      break;
+    default:
+      break;
+    }
+  }
 }
 
 /**
