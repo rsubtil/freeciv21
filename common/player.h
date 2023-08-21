@@ -13,6 +13,7 @@
 #pragma once
 
 // common
+#include "shared.h"
 #include "city.h"
 #include "effects.h"
 #include "spaceship.h"
@@ -341,6 +342,13 @@ struct player {
       int huts; // How many huts this player has found
 
       int bulbs_last_turn; // Number of bulbs researched last turn only.
+
+      int gold_last_turn;
+      int science_last_turn;
+      int materials_last_turn;
+      struct report_info *gold_report;
+      struct report_info *science_report;
+      struct report_info *materials_report;
     } server;
 
     struct {

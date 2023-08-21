@@ -271,3 +271,52 @@ static inline struct cf_sequence cf_end()
 }
 
 bool formats_match(const char *format1, const char *format2);
+
+struct report_info {
+  report_info() {
+    curr = head;
+  }
+
+  void append(short val) {
+    *curr++ = val;
+    if (curr == tail) {
+      curr = head;
+    }
+  }
+
+  short get_curr() {
+    return *curr;
+  }
+
+  void move() {
+    curr++;
+    if (curr >= tail) {
+      curr = head;
+    }
+  }
+
+  int get_curr_idx() {
+    return curr - head;
+  }
+
+  void set_curr_idx(int i) {
+    curr = head + i;
+  }
+
+  short* get_raw() {
+    return head;
+  }
+
+  void fill(int value) {
+    memset(head, value, sizeof(data));
+  }
+
+  short size() {
+    return sizeof(data) / sizeof(short);
+  }
+
+private:
+  short *curr;
+  short data[360];
+  short *head = data, *tail = data + sizeof(data) / sizeof(short);
+};

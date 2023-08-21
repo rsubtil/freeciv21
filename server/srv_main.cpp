@@ -1477,6 +1477,9 @@ void end_phase()
                       "not placed."));
     }
 
+    pplayer->server.gold_last_turn = pplayer->economic.gold;
+    pplayer->server.science_last_turn = pplayer->economic.science_acc;
+    pplayer->server.materials_last_turn = pplayer->economic.materials;
     update_city_activities(pplayer);
     update_buildings(pplayer);
     city_thaw_workers_queue();
@@ -1485,6 +1488,14 @@ void end_phase()
     /* reduce the number of bulbs by the amount needed for tech upkeep and
      * check for finished research */
     update_bulbs(pplayer, -player_tech_upkeep(pplayer), true);
+
+    int gold_delta = pplayer->economic.gold - pplayer->server.gold_last_turn;
+    int science_delta = pplayer->economic.science_acc - pplayer->server.science_last_turn;
+    int materials_delta = pplayer->economic.materials - pplayer->server.materials_last_turn;
+    pplayer->server.gold_report->append(gold_delta);
+    pplayer->server.science_report->append(science_delta);
+    pplayer->server.materials_report->append(materials_delta);
+
     flush_packets();
   }
   alive_phase_players_iterate_end;

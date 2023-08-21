@@ -377,6 +377,11 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
                                        struct player *plr,
                                        struct vision_site *pdcity,
                                        const char *citystr);
+static bool sg_load_player_report(struct loaddata *loading,
+                                  struct player *plr,
+                                  struct report_info *preport,
+                                  const char* key_data,
+                                  const char* key_idx);
 static void sg_save_players(struct savedata *saving);
 static void sg_save_player_main(struct savedata *saving, struct player *plr);
 static void sg_save_player_cities(struct savedata *saving,
@@ -387,6 +392,11 @@ static void sg_save_player_attributes(struct savedata *saving,
                                       struct player *plr);
 static void sg_save_player_vision(struct savedata *saving,
                                   struct player *plr);
+static bool sg_save_player_report(struct savedata *saving,
+                                  struct player *plr,
+                                  struct report_info *preport,
+                                  const char* key_data,
+                                  const char* key_idx);
 
 static void sg_load_researches(struct loaddata *loading);
 static void sg_save_researches(struct savedata *saving);
@@ -3751,6 +3761,21 @@ static void sg_load_players(struct loaddata *loading)
   }
   players_iterate_end;
 
+  // Load resource reports
+  players_iterate(pplayer)
+  {
+    pplayer->server.gold_report = new report_info();
+    pplayer->server.science_report = new report_info();
+    pplayer->server.materials_report = new report_info();
+    sg_load_player_report(loading, pplayer, pplayer->server.gold_report, "player%d.gold_report_data", "player%d.gold_report_idx");
+    sg_check_ret();
+    sg_load_player_report(loading, pplayer, pplayer->server.science_report, "player%d.science_report_data", "player%d.science_report_idx");
+    sg_check_ret();
+    sg_load_player_report(loading, pplayer, pplayer->server.materials_report, "player%d.materials_report_data", "player%d.materials_report_idx");
+    sg_check_ret();
+  }
+  players_iterate_end;
+
   // Check shared vision.
   players_iterate(pplayer)
   {
@@ -3875,6 +3900,9 @@ static void sg_save_players(struct savedata *saving)
     sg_save_player_units(saving, pplayer);
     sg_save_player_attributes(saving, pplayer);
     sg_save_player_vision(saving, pplayer);
+    sg_save_player_report(saving, pplayer, pplayer->server.gold_report, "player%d.gold_report_data", "player%d.gold_report_idx");
+    sg_save_player_report(saving, pplayer, pplayer->server.science_report, "player%d.science_report_data", "player%d.science_report_idx");
+    sg_save_player_report(saving, pplayer, pplayer->server.materials_report, "player%d.materials_report_data", "player%d.materials_report_idx");
   }
   players_iterate_end;
 }
@@ -4119,6 +4147,18 @@ static void sg_load_player_main(struct loaddata *loading, struct player *plr)
       loading->file, 0, "player%d.infrapts", plrno);
   plr->server.bulbs_last_turn = secfile_lookup_int_default(
       loading->file, 0, "player%d.research.bulbs_last_turn", plrno);
+  if (!secfile_lookup_int(loading->file, &plr->server.gold_last_turn,
+                          "player%d.gold_last_turn", plrno)) {
+    plr->server.gold_last_turn = 0;
+  }
+  if (!secfile_lookup_int(loading->file, &plr->server.science_last_turn,
+                          "player%d.science_last_turn", plrno)) {
+    plr->server.science_last_turn = 0;
+  }
+  if (!secfile_lookup_int(loading->file, &plr->server.materials_last_turn,
+                          "player%d.materials_last_turn", plrno)) {
+    plr->server.materials_last_turn = 0;
+  }
 
   // Traits
   if (plr->nation) {
@@ -4487,6 +4527,12 @@ static void sg_save_player_main(struct savedata *saving, struct player *plr)
                      "player%d.infrapts", plrno);
   secfile_insert_int(saving->file, plr->server.bulbs_last_turn,
                      "player%d.research.bulbs_last_turn", plrno);
+  secfile_insert_int(saving->file, plr->server.gold_last_turn,
+                     "player%d.gold_last_turn", plrno);
+  secfile_insert_int(saving->file, plr->server.science_last_turn,
+                     "player%d.science_last_turn", plrno);
+  secfile_insert_int(saving->file, plr->server.materials_last_turn,
+                     "player%d.materials_last_turn", plrno);
 
   // Save traits
   {
@@ -6944,6 +6990,57 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   }
 
   pdcity->hp = secfile_lookup_int_default(loading->file, 480, "%s.hp", citystr);
+
+  return true;
+}
+
+static bool sg_load_player_report(struct loaddata *loading,
+                                  struct player *plr,
+                                  struct report_info *preport,
+                                  const char* key_data,
+                                  const char* key_idx)
+{
+  int plrno = player_number(plr);
+
+  const char* str = secfile_lookup_str(loading->file, key_data, plrno);
+  if (str == nullptr) {
+    log_warning("Report for %s non existing. Filling with zero...", key_data);
+    preport->fill(0);
+    return true;
+  }
+
+  char* token = strtok(const_cast<char*>(str), ";");
+  while(token) {
+    int value;
+    if (!str_to_int(token, &value)) {
+      preport->append(0);
+    } else {
+      preport->append(value);
+    }
+    token = strtok(nullptr, ";");
+  }
+
+  preport->set_curr_idx((short)secfile_lookup_int_default(loading->file, 0,
+                                                          key_idx, plrno));
+
+  return true;
+}
+
+static bool sg_save_player_report(struct savedata *saving,
+                                  struct player *plr,
+                                  struct report_info *preport,
+                                  const char* key_data,
+                                  const char* key_idx)
+{
+  int plrno = player_number(plr);
+
+  std::ostringstream oss;
+  short* raw = preport->get_raw();
+  for(int i = 0; i < preport->size(); i++) {
+    oss << raw[i] << ";";
+  }
+  secfile_insert_str(saving->file, oss.str().c_str(), key_data, plrno);
+  secfile_insert_int(saving->file, preport->get_curr_idx(), key_idx, plrno);
 
   return true;
 }
