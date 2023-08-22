@@ -3360,7 +3360,8 @@ static void city_handle_capture(struct city *pcity)
 
   // Cities recover HP each turn, and lose HP by the difference between foreign and local units.
   int delta = game.info.city_recover_hitpoints;
-  struct player* attacker = nullptr;
+  struct player** attackers = new player*[4];
+  int num_attackers = 0;
   city_map_iterate_without_index(radius_sq, cx, cy)
   {
     struct tile *ptile = city_map_to_tile(pcity->tile, radius_sq, cx, cy);
@@ -3370,8 +3371,15 @@ static void city_handle_capture(struct city *pcity)
       if (utype_has_flag(punit->utype, UTYF_PUBLIC)) {
         if (unit_owner(punit) != pplayer) {
           delta -= 1;
-          if(!attacker) {
-            attacker = unit_owner(punit);
+          bool found = false;
+          for(int i = 0; i < num_attackers; i++) {
+            if(attackers[i] == unit_owner(punit)) {
+              found = true;
+              break;
+            }
+          }
+          if(!found) {
+            attackers[num_attackers++] = unit_owner(punit);
           }
         } else {
           delta += 1;
@@ -3383,12 +3391,32 @@ static void city_handle_capture(struct city *pcity)
   city_map_iterate_without_index_end;
 
   // Check attacker. If noone was claiming this city, set it to first seen unit.
-  // If city stopped being claimed, clear attacker
-  if(pcity->attacker && !attacker) {
+  // If city stopped being claimed by everyone, clear attacker
+  if(pcity->attacker && num_attackers == 0) {
     pcity->attacker = nullptr;
-  } else if(!pcity->attacker && attacker) {
-    pcity->attacker = attacker;
+  // If the original attacker left, assign a new one
+  } else if(pcity->attacker) {
+    bool found = false;
+    for(int i = 0; i < num_attackers; i++) {
+      if(attackers[i] == pcity->attacker) {
+        found = true;
+        break;
+      }
+    }
+    if(!found) {
+      for(int i = 0; i < num_attackers; i++) {
+        if(attackers[i] != pplayer) {
+          pcity->attacker = attackers[i];
+          break;
+        }
+      }
+    }
+  // Else if there's no attacker, we got new ones. Assign the first
+  } else if(!pcity->attacker && num_attackers != 0) {
+    pcity->attacker = attackers[0];
   }
+
+  delete[] attackers;
 
   // Change HP.
   pcity->hp = std::clamp(pcity->hp + delta, 0, game.info.city_start_hitpoints);

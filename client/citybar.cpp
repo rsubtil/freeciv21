@@ -832,6 +832,32 @@ QRect polished_citybar_painter::paint(QPainter &painter,
   }
   painter.drawRoundedRect(QRectF(x, y, width + 2, height - 1), 7, 7);
 
+  // City HP
+  // If city is at full HP, no point is showing the bar
+  if (pcity->hp < game.info.city_start_hitpoints) {
+    float hp_ratio = pcity->hp / (float) game.info.city_start_hitpoints;
+    int ihp = CLIP(0, std::ceil(hp_ratio * citybar->hp.size - 1),
+                   citybar->hp.size - 1);
+    QPixmap *hp = citybar->hp.p[ihp];
+
+    int info_half_width = std::ceil(width / 2);
+    int bar_half_width = std::ceil(hp->width() / 2);
+    int bar_half_height = std::ceil(hp->height() / 2);
+
+    painter.drawPixmap(QRect(x + info_half_width - bar_half_width,
+                             y + height + bar_half_height, hp->width(),
+                             hp->height()),
+                       *hp);
+    if (pcity->attacker) {
+      painter.setPen(QColor(255, 255, 255, 255));
+      painter.drawText(QRect(x + info_half_width - bar_half_width,
+                             y + height + bar_half_height + hp->height(),
+                             hp->width(), hp->height()),
+                       Qt::AlignCenter,
+                       QString(player_name(pcity->attacker)));
+    }
+  }
+
   // Draw the text
   line.paint(painter, QPointF(x + 1, y + 1));
 
@@ -878,23 +904,6 @@ QRect polished_citybar_painter::paint(QPainter &painter,
     x = std::min(x, trade_x);
     width = std::max(width, trade_width);
     height += trade_line.height() + 2;
-  }
-
-  // City HP
-  // If city is at full HP, no point is showing the bar
-  if (city_owner(pcity) == client_player() && pcity->hp < game.info.city_start_hitpoints) {
-    float hp_ratio = pcity->hp / (float) game.info.city_start_hitpoints;
-    int ihp = CLIP(0, std::ceil(hp_ratio * citybar->hp.size - 1),
-                  citybar->hp.size - 1);
-    QPixmap *hp = citybar->hp.p[ihp];
-
-    int info_half_width = std::ceil(width / 2);
-    int bar_half_width = std::ceil(hp->width() / 2);
-    int bar_half_height = std::ceil(hp->height() / 2);
-
-    painter.drawPixmap(QRect(x + info_half_width - bar_half_width, y + height + bar_half_height,
-                              hp->width(), hp->height()),
-                      *hp);
   }
   return QRect(x, y, std::ceil(width + 2), std::ceil(height));
 }

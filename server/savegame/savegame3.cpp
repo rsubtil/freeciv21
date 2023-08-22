@@ -5013,6 +5013,7 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int radius_sq = secfile_lookup_int_default(loading->file, -1,
                                              "%s.city_radius_sq", citystr);
   city_map_radius_sq_set(pcity, radius_sq);
+  pcity->hp = secfile_lookup_int_default(loading->file, 480, "%s.hp", citystr);
 
   city_tile_iterate(radius_sq, city_tile(pcity), ptile)
   {
@@ -5334,6 +5335,7 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_int(saving->file, attacker_id,
                        "%s.attacker", buf);
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
+    secfile_insert_int(saving->file, pcity->hp, "%s.hp", buf);
 
     j = 0;
     specialist_type_iterate(sp)
@@ -6849,7 +6851,7 @@ static void sg_load_player_vision(struct loaddata *loading,
     char buf[32];
     fc_snprintf(buf, sizeof(buf), "player%d.dc%d", plrno, i);
 
-    pdcity = vision_site_new(0, nullptr, nullptr);
+    pdcity = vision_site_new(0, nullptr, nullptr, nullptr);
     if (sg_load_player_vision_city(loading, plr, pdcity, buf)) {
       change_playertile_site(map_get_player_tile(pdcity->location, plr),
                              pdcity);
@@ -6914,6 +6916,10 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   pdcity->owner = player_by_number(id);
   sg_warn_ret_val(nullptr != pdcity->owner, false,
                   "%s has invalid owner (%d); skipping.", citystr, id);
+  id = secfile_lookup_int_default(loading->file, -1, "%s.attacker", citystr);
+  pdcity->attacker = player_by_number(id);
+  //sg_warn_ret_val(nullptr != pdcity->attacker, false,
+  //                "%s has invalid attacker (%d); skipping.", citystr, id);
 
   sg_warn_ret_val(
       secfile_lookup_int(loading->file, &pdcity->identity, "%s.id", citystr),
@@ -6988,8 +6994,6 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   } else {
     pdcity->capital = CAPITAL_NOT;
   }
-
-  pdcity->hp = secfile_lookup_int_default(loading->file, 480, "%s.hp", citystr);
 
   return true;
 }
@@ -7171,6 +7175,9 @@ static void sg_save_player_vision(struct savedata *saving,
       secfile_insert_int(saving->file,
                          player_number(vision_site_owner(pdcity)),
                          "%s.owner", buf);
+      secfile_insert_int(saving->file,
+                         player_number(vision_site_attacker(pdcity)),
+                         "%s.attacker", buf);
 
       secfile_insert_int(saving->file, vision_site_size_get(pdcity),
                          "%s.size", buf);
@@ -7185,7 +7192,6 @@ static void sg_save_player_vision(struct savedata *saving,
                          buf);
       secfile_insert_str(saving->file, capital_type_name(pdcity->capital),
                          "%s.capital", buf);
-      secfile_insert_int(saving->file, pdcity->hp, "%s.hp", buf);
 
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement.order. */

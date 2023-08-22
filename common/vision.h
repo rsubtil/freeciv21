@@ -114,6 +114,7 @@ struct vision_site {
   char name[MAX_LEN_NAME];
   struct tile *location; // Cannot be nullptr
   struct player *owner;  // May be nullptr, always check!
+  struct player *attacker;
 
   int identity;  // city > IDENTITY_NUMBER_ZERO
   citizens size; // city size (0 <= size <= MAX_CITY_SIZE)
@@ -131,9 +132,11 @@ struct vision_site {
 };
 
 #define vision_site_owner(v) ((v)->owner)
+#define vision_site_attacker(v) ((v)->attacker)
 void vision_site_destroy(struct vision_site *psite);
 struct vision_site *vision_site_new(int identity, struct tile *location,
-                                    struct player *owner);
+                                    struct player *owner,
+                                    struct player *attacker);
 struct vision_site *vision_site_new_from_city(const struct city *pcity);
 void vision_site_update_from_city(struct vision_site *psite,
                                   const struct city *pcity);

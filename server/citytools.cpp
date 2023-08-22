@@ -2144,6 +2144,10 @@ static void package_dumb_city(struct player *pplayer, struct tile *ptile,
   packet->city_image = pdcity->city_image;
   packet->capital = pdcity->capital;
   packet->hp = pdcity->hp;
+  if(vision_site_attacker(pdcity) != nullptr)
+    packet->attacker = player_number(vision_site_attacker(pdcity));
+  else
+    packet->attacker = -1;
   packet->happy = pdcity->happy;
   packet->unhappy = pdcity->unhappy;
   packet->improvements = pdcity->improvements;
@@ -2642,6 +2646,11 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
   packet->city_image = get_city_bonus(pcity, EFT_CITY_IMAGE);
   packet->capital = pcity->capital;
   packet->hp = pcity->hp;
+  if (pcity->attacker) {
+    packet->attacker = player_number(pcity->attacker);
+  } else {
+    packet->attacker = -1;
+  }
   packet->steal = pcity->steal;
 
   packet->rally_point_length = pcity->rally_point.length;

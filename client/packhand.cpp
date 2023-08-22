@@ -864,6 +864,9 @@ void handle_city_info(const struct packet_city_info *packet)
     powner->primary_capital_id = 0;
   }
   pcity->hp = packet->hp;
+  if (packet->attacker != -1) {
+    pcity->attacker = player_by_number(packet->attacker);
+  }
   pcity->client.city_image = packet->city_image;
   pcity->steal = packet->steal;
 
@@ -1188,6 +1191,10 @@ void handle_city_short_info(const struct packet_city_short_info *packet)
 
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
+  pcity->hp = packet->hp;
+  if(packet->attacker != -1) {
+    pcity->attacker = player_by_number(packet->attacker);
+  }
 
   improvement_iterate(pimprove)
   {

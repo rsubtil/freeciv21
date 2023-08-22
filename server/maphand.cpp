@@ -1515,7 +1515,7 @@ static void really_give_tile_info_from_player_to_player(struct player *pfrom,
         if (!dest_tile->site) {
           /* We cannot assign new vision site with change_playertile_site(),
            * since location is not yet set up for new site */
-          dest_tile->site = vision_site_new(0, ptile, nullptr);
+          dest_tile->site = vision_site_new(0, ptile, nullptr, nullptr);
           *dest_tile->site = *from_tile->site;
         }
         /* Note that we don't care if receiver knows vision source city

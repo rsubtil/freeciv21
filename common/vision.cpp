@@ -70,13 +70,15 @@ void vision_site_destroy(struct vision_site *psite) { delete[] psite; }
    Returns the basic structure.
  */
 struct vision_site *vision_site_new(int identity, struct tile *location,
-                                    struct player *owner)
+                                    struct player *owner,
+                                    struct player *attacker)
 {
   vision_site *psite = new vision_site[1]();
 
   psite->identity = identity;
   psite->location = location;
   psite->owner = owner;
+  psite->attacker = attacker;
 
   return psite;
 }
@@ -87,7 +89,7 @@ struct vision_site *vision_site_new(int identity, struct tile *location,
 struct vision_site *vision_site_new_from_city(const struct city *pcity)
 {
   struct vision_site *psite =
-      vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity));
+      vision_site_new(pcity->id, city_tile(pcity), city_owner(pcity), pcity->attacker);
 
   vision_site_size_set(psite, city_size_get(pcity));
   sz_strlcpy(psite->name, city_name_get(pcity));
@@ -106,6 +108,7 @@ void vision_site_update_from_city(struct vision_site *psite,
   fc_assert_ret(psite->location == pcity->tile);
 
   psite->owner = city_owner(pcity);
+  psite->attacker = pcity->attacker;
 
   vision_site_size_set(psite, city_size_get(pcity));
   sz_strlcpy(psite->name, city_name_get(pcity));

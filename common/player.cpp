@@ -1101,6 +1101,8 @@ bool player_can_see_city_externals(const struct player *pow_player,
   fc_assert_ret_val(target_city, false);
   fc_assert_ret_val(pow_player, false);
 
+  return true;
+
   if (can_player_see_city_internals(pow_player, target_city)) {
     // City internals includes city externals.
     return true;
