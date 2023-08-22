@@ -757,6 +757,9 @@ int player_index(const struct player *pplayer)
  */
 int player_number(const struct player *pplayer)
 {
+  if (pplayer == nullptr) {
+    return -1;
+  }
   fc_assert_ret_val(nullptr != pplayer, -1);
   return player_slot_index(pplayer->slot);
 }

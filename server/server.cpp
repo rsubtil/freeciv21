@@ -334,7 +334,7 @@ server::server()
   }
   // Start pulsing
   m_pulse_timer = new QTimer(this);
-  m_pulse_timer->start(1000);
+  m_pulse_timer->start(100);
   connect(m_pulse_timer, &QTimer::timeout, this, &server::pulse);
 
   m_ready = true;
@@ -1045,6 +1045,8 @@ void server::quit_idle()
   }
 }
 
+int iter = 0;
+
 /**
    Called every second.
  */
@@ -1054,25 +1056,29 @@ void server::pulse()
   QMutexLocker lock(&s_stdin_mutex);
 #endif
 
-  send_pings();
+  if(iter == 0) {
+    send_pings();
 
-  get_lanserver_announcement();
+    get_lanserver_announcement();
 
-  // if we've waited long enough after a failure, respond to the client
-  conn_list_iterate(game.all_connections, pconn)
-  {
-    if (srvarg.auth_enabled && !pconn->server.is_closing
-        && pconn->server.status != AS_ESTABLISHED) {
-      auth_process_status(pconn);
+    // if we've waited long enough after a failure, respond to the client
+    conn_list_iterate(game.all_connections, pconn)
+    {
+      if (srvarg.auth_enabled && !pconn->server.is_closing
+          && pconn->server.status != AS_ESTABLISHED) {
+        auth_process_status(pconn);
+      }
     }
+    conn_list_iterate_end
+
+    finish_unit_waits();
+
+    call_ai_refresh();
+    script_server_signal_emit("pulse");
+    (void) send_server_info_to_metaserver(META_REFRESH);
   }
-  conn_list_iterate_end
-
-  finish_unit_waits();
-
-  call_ai_refresh();
-  script_server_signal_emit("pulse");
-  (void) send_server_info_to_metaserver(META_REFRESH);
+  iter += 1;
+  iter %= 10;
   if (current_turn_timeout() > 0 && S_S_RUNNING == server_state()
       && game.server.phase_timer
       && (timer_read_seconds(game.server.phase_timer)

@@ -6917,9 +6917,7 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   sg_warn_ret_val(nullptr != pdcity->owner, false,
                   "%s has invalid owner (%d); skipping.", citystr, id);
   id = secfile_lookup_int_default(loading->file, -1, "%s.attacker", citystr);
-  pdcity->attacker = player_by_number(id);
-  //sg_warn_ret_val(nullptr != pdcity->attacker, false,
-  //                "%s has invalid attacker (%d); skipping.", citystr, id);
+  pdcity->attacker = id > -1 ? player_by_number(id) : nullptr;
 
   sg_warn_ret_val(
       secfile_lookup_int(loading->file, &pdcity->identity, "%s.id", citystr),
@@ -7176,7 +7174,9 @@ static void sg_save_player_vision(struct savedata *saving,
                          player_number(vision_site_owner(pdcity)),
                          "%s.owner", buf);
       secfile_insert_int(saving->file,
-                         player_number(vision_site_attacker(pdcity)),
+                         vision_site_attacker(pdcity)
+                              ? player_number(vision_site_attacker(pdcity))
+                              : -1,
                          "%s.attacker", buf);
 
       secfile_insert_int(saving->file, vision_site_size_get(pdcity),
