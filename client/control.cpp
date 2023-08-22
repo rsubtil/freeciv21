@@ -819,9 +819,9 @@ unit *find_visible_unit(const ::tile *ptile)
   }
 
   // If a city is here, return nothing (unit hidden by city).
-  if (tile_city(ptile)) {
-    return nullptr;
-  }
+  //if (tile_city(ptile)) {
+  //  return nullptr;
+  //}
 
   /* Iterate through the units to find the best one we prioritize this way:
        1: owned transporter.
