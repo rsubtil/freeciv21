@@ -288,10 +288,17 @@ struct report_info {
     return *curr;
   }
 
-  void move() {
+  void move_next() {
     curr++;
     if (curr >= tail) {
       curr = head;
+    }
+  }
+
+  void move_prev() {
+    curr--;
+    if (curr < head) {
+      curr = tail - 1;
     }
   }
 
