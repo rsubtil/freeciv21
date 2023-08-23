@@ -216,7 +216,7 @@ graphic_alt = "-"
 help = _("Allows the construction of R&D centers on bases, increasing it's science output.")
 
 [advance_renewable_energy]
-name = _("Renewable Energies")
+name = _("Renewable Energy")
 req1 = "Laboratories"
 req2 = "Scolarships"
 cost = 150
@@ -258,12 +258,22 @@ help = _("Allows the construction of R&D centers on bases, increasing it's scien
 [advance_salary_boost]
 name = _("Salary Boost")
 req1 = "Research & Development"
-req2 = "Renewable Energies"
+req2 = "Renewable Energy"
 cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
 help = _("Allows you to double a bases's loyalty, but by doubling unit costs.")
+
+[advance_bank]
+name = _("Bank")
+req1 = "Free Market"
+req2 = "None"
+cost = 150
+flags = ""
+graphic = "a.alphabet"
+graphic_alt = "-"
+help = _("Allows the construction of Banks on bases, increasing it's gold output.")
 
 [advance_salary_cut]
 name = _("Salary Cuts")
@@ -276,7 +286,7 @@ graphic_alt = "-"
 help = _("Make all the base's units have no maintenance costs, but by reducing a base's loyalty to 25%.")
 
 [advance_company_vehicles]
-name = _("Company Vehicles")
+name = _("Company Vehicle")
 req1 = "Factory"
 req2 = "None"
 cost = 150

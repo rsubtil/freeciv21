@@ -60,6 +60,18 @@ value   = 1
 type    = "Upkeep_Factor"
 value	= 1
 
+[effect_base_spy_steal_gold]
+type   = "Spy_Steal_Gold_Pct"
+value  = 20
+
+[effect_base_spy_steal_science]
+type   = "Spy_Steal_Science_Pct"
+value  = 20
+
+[effect_base_spy_steal_material]
+type   = "Spy_Steal_Material_Pct"
+value  = 10
+
 [effect_improvement_research_center]
 type = "Base_Science_Output"
 value = 1
@@ -93,8 +105,8 @@ reqs =
     }
 
 [effect_mechanic_scolarships]
-type = "Enable_Buy_Science"
-value = 1
+type = "Base_Unit_Scientist_Cost_Pct"
+value = -50
 reqs =
     { "type", "name", "range"
       "Tech", "Scolarships", "Player"
@@ -124,10 +136,156 @@ reqs =
       "Tech", "Refinery", "Player"
     }
 
-[effect_building_infrastructure]
+[effect_base_infrastructure]
 type = "Base_Production_Rate_Pct"
 value = 15
 reqs =
     { "type", "name", "range"
       "Tech", "Infrastructure", "Player"
+    }
+
+[effect_base_rnd]
+type = "Base_Science_Output"
+value = 2
+reqs =
+    { "type", "name", "range"
+      "Building", "Research & Development Division", "City"
+    }
+
+[effect_renewable_energy]
+type = "Base_Improvement_Cost_Pct"
+value = -50
+reqs =
+    { "type", "name", "range"
+      "Tech", "Renewable Energy", "Player"
+    }
+
+[effect_public_transports]
+type = "Enable_Public_Transport"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Tech", "Public Transport", "Player"
+    }
+
+[effect_base_factory]
+type = "Base_Material_Output"
+value = 2
+reqs =
+    { "type", "name", "range"
+      "Building", "Factory", "City"
+    }
+
+[effect_4day_week]
+type = "Building_Science_Output_Pct"
+value = 50
+reqs =
+    { "type", "name", "range"
+      "Tech", "4-Day Work Week", "Player"
+    }
+
+[effect_improvement_salary_boost_units]
+type = "Base_Unit_Cost_Mod"
+value = 200
+reqs =
+    { "type", "name", "range"
+      "Building", "Salary Boosts", "City"
+    }
+
+[effect_improvement_salary_boost_loyalty]
+type = "Base_Loyalty_Mod"
+value = 200
+reqs =
+    { "type", "name", "range"
+      "Building", "Salary Boosts", "City"
+    }
+
+[effect_improvement_bank]
+type = "Base_Gold_Output"
+value = 3
+reqs =
+    { "type", "name", "range"
+      "Building", "Bank", "City"
+    }
+
+[effect_improvement_salary_cuts_units]
+type = "Base_Unit_Cost_Mod"
+value = 0
+reqs =
+    { "type", "name", "range"
+      "Building", "Salary Cuts", "City"
+    }
+
+[effect_improvement_salary_cuts_loyalty]
+type = "Base_Loyalty_Mod"
+value = 25
+reqs =
+    { "type", "name", "range"
+      "Building", "Salary Cuts", "City"
+    }
+
+[effect_company_vehicle]
+type = "Move_Bonus"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Tech", "Company Vehicle", "Player"
+      "UnitFlag", "Public", "Local"
+    }
+
+[effect_building_modern_materials]
+type = "Building_Material_Output_Pct"
+value = 25
+reqs =
+    { "type", "name", "range"
+      "Tech", "Modern Materials", "Player"
+    }
+
+[effect_telecommunications]
+type = "Unit_Vision_Radius_Sq"
+value = 2
+reqs =
+    { "type", "name", "range"
+      "Tech", "Telecommunications", "Player",
+      "UnitFlag", "Spy", "Local"
+    }
+
+[effect_inflation]
+type = "Base_Gold_Output_Mod"
+value = 200
+reqs =
+    { "type", "name", "range"
+      "Tech", "Inflation", "Player"
+    }
+
+[effect_railroad_stocks]
+type = "Enable_Wiretap_Identity_Reveal"
+value = 1
+reqs =
+    { "type", "name", "range"
+      "Tech", "Railroad Stocks", "Player"
+    }
+
+[effect_improvement_space_program]
+type = "Base_Science_Output"
+value = 3
+reqs =
+    { "type", "name", "range"
+      "Building", "Space Program", "City"
+    }
+
+[effect_financial_rescue]
+type = "Base_Unit_Cost_Pct"
+value = -50
+reqs =
+    { "type", "name", "range"
+      "Tech", "Financial Rescue", "Player"
+    }
+
+[effect_video_surveillance]
+type = "Spy_Steal_Material_Pct"
+value = -5
+reqs =
+    { "type", "name", "range"
+      "Tech", "Video Surveillance", "Player"
     }

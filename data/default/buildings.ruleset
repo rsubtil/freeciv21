@@ -76,31 +76,8 @@ sabotage	= 0
 sound		= "b_palace"
 sound_alt	= "b_generic"
 helptext	= _("\
-Makes a city the capital and the center of your government.\
- Corruption in other cities is related to how far away from the\
- capital they are, except when the government is Democracy or\
- Communism. On top of this, corruption in your capital itself is\
- half of what it would otherwise be (as if it had a Courthouse).\
-"), _("\
-The cost to enemy Diplomats and Spies of inciting a revolt in a\
- city also depends upon the city's distance from the capital\
- (under all forms of government). Your capital city itself cannot\
- be incited to revolt, and enjoys a bonus when enemy agents try\
- to evade your own agents stationed in the city, or sabotage your\
- buildings.\
-"), _("\
-Take good care of your capital, as its loss may result in your\
- empire plunging into civil war. Losing your current palace also\
- results in losing whatever spaceship you might have.\
-"), _("\
-If the capital is in a dangerous location, or a more central capital\
- would give a better corruption distribution, you can move your palace\
- by rebuilding it in another city.\
-"),
-; /* xgettext:no-c-format */
-_("\
-Under Despotism the city containing the palace gains a +75%\
- production bonus, and under Monarchy a +50% production bonus.\
+The main building in your research base. Always produces 1 of \
+each resource.
 ")
 
 [building_none]
@@ -184,4 +161,132 @@ sabotage	= 0
 helptext	= _("\
 A Logistics Center gives more space for your engineers to work,\
  improving your base's material production by 1.
+")
+
+[building_rnd]
+name		= _("Research & Development Division")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Research & Development", "Player"
+  }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+;build_cost	= 300
+build_cost = 3
+upkeep		= 1
+sabotage	= 0
+helptext	= _("\
+Establishes a dedicated Research & Development division,\
+ improving your base's science production by 2.
+")
+
+[building_factory]
+name		= _("Factory")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Factory", "Player"
+  }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+;build_cost	= 300
+build_cost = 3
+upkeep		= 1
+sabotage	= 0
+helptext	= _("\
+Gives your engineers a dedicated Factory to work under, \
+ improving your base's material production by 2.
+")
+
+[building_salary_boost]
+name		= _("Salary Boosts")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range", "present"
+    "Tech", "Salary Boost", "Player", TRUE
+    "Building", "Salary Cuts", "City", FALSE
+  }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+;build_cost	= 60
+build_cost = 3
+upkeep		= 0
+sabotage	= 0
+helptext	= _("\
+Doubles the salaries from this base's units. This will double the unit maintenance \
+ cost from this base, but will improve the base's loyalty by 100%.
+")
+
+[building_bank]
+name		= _("Bank")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Bank", "Player"
+  }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+;build_cost	= 300
+build_cost = 3
+upkeep		= 1
+sabotage	= 0
+helptext	= _("\
+Establishes a Bank inside your base, \
+ improving your base's gold production by 3.
+")
+
+[building_salary_cuts]
+name		= _("Salary Cuts")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range", "present"
+    "Tech", "Salary Cuts", "Player", TRUE
+    "Building", "Salary Boosts", "City", FALSE
+  }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+;build_cost	= 60
+build_cost = 3
+upkeep		= 0
+sabotage	= 0
+helptext	= _("\
+Cuts all salaries from this base's units. This will remove all unit maintenance \
+ costs from this base, but will reduce the base's loyalty by 75%.
+")
+
+[building_space_program]
+name		= _("Space Program")
+genus		= "Improvement"
+reqs	=
+  { "type", "name", "range"
+    "Tech", "Space Program", "Player"
+  }
+graphic	= "b.palace"
+graphic_alt	= "-"
+obsolete_by	=
+    { "type", "name", "range"
+    }
+;build_cost	= 600
+build_cost = 3
+upkeep		= 0
+sabotage	= 0
+helptext	= _("\
+Establishes a formal Space Program in your base, \
+ increasing your base's science output by 3.
 ")

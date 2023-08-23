@@ -1204,8 +1204,6 @@ QString effect_type_unit_text(effect_type type, int value)
     return QString(_("%1 material")).arg(value);
   case EFT_BUILDING_MATERIAL_OUTPUT:
     return QString(_("%1% material")).arg(value);
-  case EFT_PUBLIC_UNITS_MOVE_RATE:
-    return QString(_("%1% move rate")).arg(value);
   case EFT_BASE_PRODUCTION_RATE:
     return QString(_("%1% production rate")).arg(value);
   case EFT_ENABLE_BUY_SCIENCE:
@@ -1260,6 +1258,17 @@ QString effect_type_unit_text(effect_type type, int value)
   case EFT_WONDER_VISIBLE:
   case EFT_NATION_INTELLIGENCE:
   case EFT_ENABLE_PUBLIC_TRANSPORT_ALL:
+  case EFT_BASE_UNIT_SCIENTIST_COST_PCT:
+  case EFT_BASE_IMPROVEMENT_COST_PCT:
+  case EFT_ENABLE_PUBLIC_TRANSPORT:
+  case EFT_BASE_UNIT_COST_MOD:
+  case EFT_BASE_LOYALTY_MOD:
+  case EFT_ENABLE_WIRETAP_IDENTITY_REVEAL:
+  case EFT_SPY_STEAL_GOLD_PCT:
+  case EFT_SPY_STEAL_SCIENCE_PCT:
+  case EFT_SPY_STEAL_MATERIAL_PCT:
+  case EFT_BASE_GOLD_OUTPUT_MOD:
+  case EFT_BASE_UNIT_COST_PCT:
   case EFT_COUNT:
     return QStringLiteral("%1").arg(value);
   }
