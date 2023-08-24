@@ -713,7 +713,7 @@ void update_bulbs(struct player *pplayer, int bulbs, bool check_tech)
       break;
     }
 
-    tech_researched(research);
+    //tech_researched(research);
   } while (false && research->researching != A_UNSET);
 }
 
@@ -1016,7 +1016,7 @@ void choose_tech(struct research *research, Tech_type_id tech)
     if (is_future_tech(research->researching)
         && (research->bulbs_researched
             >= research_total_bulbs_required(research, tech, false))) {
-      tech_researched(research);
+      //tech_researched(research);
     }
   } else {
     if (research->researching == tech) {
@@ -1050,7 +1050,7 @@ void choose_tech(struct research *research, Tech_type_id tech)
     research->got_tech_multi = false;
     if (research->bulbs_researched
         >= research_total_bulbs_required(research, tech, false)) {
-      tech_researched(research);
+      //tech_researched(research);
     }
     return;
   }
@@ -1071,7 +1071,7 @@ void choose_tech(struct research *research, Tech_type_id tech)
   research->researching = tech;
   if (research->bulbs_researched
       >= research_total_bulbs_required(research, tech, false)) {
-    tech_researched(research);
+    //tech_researched(research);
   }
 }
 
@@ -1360,6 +1360,7 @@ void handle_player_research(struct player *pplayer, int tech)
 {
   struct research *research = research_get(pplayer);
   research->researching = tech;
+  research->tech_goal = A_UNSET;
 
   if (tech != A_FUTURE && !valid_advance_by_number(tech)) {
     return;
@@ -1371,6 +1372,32 @@ void handle_player_research(struct player *pplayer, int tech)
   }
 
   choose_tech(research, tech);
+
+  // If player has accumulated enough science for this tech, research it.
+  //if (pplayer->economic.science_acc
+  //  >= research_total_bulbs_required(research, tech, false)) {
+  //  research->bulbs_researched += pplayer->economic.science_acc;
+  //  pplayer->economic.science_acc -= research_total_bulbs_required(research, tech, false);
+  //  tech_researched(research);
+  //}
+
+  // Notify players sharing the same research.
+  send_research_info(research, nullptr);
+}
+
+void handle_player_research_curr(struct player *pplayer)
+{
+  struct research *research = research_get(pplayer);
+  int tech = research->researching;
+
+  if (tech == A_FUTURE || tech == A_NONE || tech == A_UNSET) {
+    return;
+  }
+
+  if (tech != A_FUTURE
+      && research_invention_state(research, tech) != TECH_PREREQS_KNOWN) {
+    return;
+  }
 
   // If player has accumulated enough science for this tech, research it.
   if (pplayer->economic.science_acc
@@ -1400,11 +1427,12 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   if ((tech_goal != A_FUTURE
        && (!valid_advance_by_number(tech_goal)
            || !research_invention_reachable(research, tech_goal)))
-      || (tech_goal == A_NONE)
+      || (tech_goal == A_UNSET)
       || (TECH_KNOWN == research_invention_state(research, tech_goal))) {
     tech_goal = A_UNSET;
   }
 
+  research->researching = A_UNSET;
   choose_tech_goal(research, tech_goal);
 
   // Notify players sharing the same research.

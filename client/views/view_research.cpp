@@ -48,14 +48,6 @@ extern QString get_tooltip_improvement(impr_type *building,
 extern QString get_tooltip_unit(struct unit_type *unit, bool ext);
 
 /**
-   Compare unit_items (used for techs) by name
- */
-bool comp_less_than(const qlist_item &q1, const qlist_item &q2)
-{
-  return (q1.tech_str < q2.tech_str);
-}
-
-/**
    Constructor for research diagram
  */
 research_diagram::research_diagram(QWidget *parent) : QWidget(parent)
@@ -115,15 +107,18 @@ void research_diagram::mousePressEvent(QMouseEvent *event)
   req_tooltip_help *rttp;
   int i;
 
+  if(tech == A_NONE) return;
+
   if (event->button() == Qt::LeftButton && can_client_issue_orders()) {
     switch (research_invention_state(research_get(client_player()), tech)) {
     case TECH_PREREQS_KNOWN:
       dsend_packet_player_research(&client.conn, tech);
       break;
     case TECH_UNKNOWN:
-      //dsend_packet_player_tech_goal(&client.conn, tech);
+      dsend_packet_player_tech_goal(&client.conn, tech);
       break;
     case TECH_KNOWN:
+    dsend_packet_player_research(&client.conn, tech);
       break;
     }
   } else if (event->button() == Qt::RightButton) {
@@ -209,7 +204,7 @@ void research_diagram::mouseMoveEvent(QMouseEvent *event)
       tooltip_pos = event->globalPos();
       if (!timer_active) {
         timer_active = true;
-        QTimer::singleShot(500, this, &research_diagram::show_tooltip);
+        QTimer::singleShot(5, this, &research_diagram::show_tooltip);
       }
     }
   }
@@ -266,16 +261,22 @@ science_report::science_report() : QWidget()
                                     QSizePolicy::Expanding);
   QSizePolicy size_fixed_policy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
+  name_label = new QLabel();
   info_label = new QLabel();
-  progress_label = new QLabel();
+  research_button = new QPushButton();
   auto sci_layout = new QGridLayout();
   res_diag = new research_diagram();
   auto scroll = new QScrollArea();
 
-  progress_label->setSizePolicy(size_fixed_policy);
-  sci_layout->addWidget(progress_label, 0, 0, 1, 8);
-  sci_layout->addWidget(info_label, 2, 5, 1, 4);
   info_label->setSizePolicy(size_fixed_policy);
+  name_label->setSizePolicy(size_fixed_policy);
+  research_button->setSizePolicy(size_fixed_policy);
+  connect(research_button, &QAbstractButton::pressed, this, [=]() {
+    send_packet_player_research_curr(&client.conn);
+  });
+  sci_layout->addWidget(name_label, 0, 0, 1, 4);
+  sci_layout->addWidget(info_label, 1, 0, 1, 4);
+  sci_layout->addWidget(research_button, 0, 6, 2, 2);
 
   size = res_diag->size();
   res_diag->setMinimumSize(size);
@@ -295,8 +296,6 @@ science_report::science_report() : QWidget()
  */
 science_report::~science_report()
 {
-  delete curr_list;
-  delete goal_list;
   queen()->removeRepoDlg(QStringLiteral("SCI"));
 }
 
@@ -336,16 +335,12 @@ void science_report::reset_tree()
  */
 void science_report::update_report()
 {
-  delete curr_list;
-  delete goal_list;
-  curr_list = nullptr;
-  goal_list = nullptr;
-
   auto research = research_get(client_player());
   if (!research) {
     // Global observer
+    name_label->setText(QString(_("Select a research...")));
     info_label->setText(QString());
-    progress_label->setText(QString());
+    research_button->setEnabled(false);
     res_diag->reset();
     return;
   }
@@ -353,46 +348,35 @@ void science_report::update_report()
   QVariant qvar, qres;
   double not_used;
   QString str;
-  qlist_item item;
+  char buf[8192];
+  buf[0] = '\0';
 
-  curr_list = new QList<qlist_item>;
-  goal_list = new QList<qlist_item>;
-  progress_label->setText(science_dialog_text());
-  progress_label->setAlignment(Qt::AlignHCenter);
+  int tech = research->tech_goal != A_UNSET ? research->tech_goal : research->researching;
+  struct advance *vap = valid_advance_by_number(tech);
+  if(vap && vap->helptext) {
+    for (const auto &text : qAsConst(*vap->helptext)) {
+      cat_snprintf(buf, sizeof(buf), "%s\n", _(qUtf8Printable(text)));
+    }
+  }
+
+  info_label->setText(QString(buf));
   info_label->setAlignment(Qt::AlignHCenter);
-  info_label->setText(get_science_goal_text(research->tech_goal));
+  name_label->setAlignment(Qt::AlignHCenter);
+  name_label->setText(research_advance_rule_name(research, tech));
   str = get_science_target_text(&not_used);
-
-  /** Collect all techs which are reachable in the next step. */
-  advance_index_iterate(A_FIRST, i)
-  {
-    if (TECH_PREREQS_KNOWN == research->inventions[i].state) {
-      item.tech_str =
-          QString::fromUtf8(advance_name_translation(advance_by_number(i)));
-      item.id = i;
-      curr_list->append(item);
-    }
+  if(tech != A_NONE && tech != A_UNSET) {
+    research_button->setEnabled(
+      (client_player()->economic.science_acc >= research->client.researching_cost) &&
+      (research_invention_state(research_get(client_player()), tech) == TECH_PREREQS_KNOWN));
+    QString str = QString(_("Research \"%1\"\n(costs %2 science points)"))
+                .arg(research_advance_rule_name(research, tech))
+                .arg(research->client.researching_cost);
+    research_button->setText(str);
+  } else {
+    research_button->setText(_("No selected research..."));
+    research_button->setEnabled(false);
   }
-  advance_index_iterate_end;
 
-  /** Collect all techs which are reachable in next 10 steps. */
-  advance_index_iterate(A_FIRST, i)
-  {
-    if (research_invention_reachable(research, i)
-        && TECH_KNOWN != research->inventions[i].state
-        && (i == research->tech_goal
-            || 10 >= research->inventions[i].num_required_techs)) {
-      item.tech_str =
-          QString::fromUtf8(advance_name_translation(advance_by_number(i)));
-      item.id = i;
-      goal_list->append(item);
-    }
-  }
-  advance_index_iterate_end;
-
-  /** sort both lists */
-  std::sort(goal_list->begin(), goal_list->end(), comp_less_than);
-  std::sort(curr_list->begin(), curr_list->end(), comp_less_than);
 
   update_reqtree();
 }

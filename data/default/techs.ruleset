@@ -123,7 +123,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of Research Centers on bases, increasing it's science output.")
+helptext = _("Allows the construction of Research Centers on bases, increasing it's science output.")
 
 [advance_investment_centers]
 name = _("Investment Centers")
@@ -133,7 +133,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of Investment Centers on bases, increasing it's gold output.")
+helptext = _("Allows the construction of Investment Centers on bases, increasing it's gold output.")
 
 [advance_logistics_centers]
 name = _("Logistics Centers")
@@ -143,7 +143,7 @@ cost = 50
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of Logistics Centers on bases, increasing it's material output.")
+helptext = _("Allows the construction of Logistics Centers on bases, increasing it's material output.")
 
 [advance_labs]
 name = _("Laboratories")
@@ -153,7 +153,7 @@ cost = 85
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Improves your universities by establishing laboratories, increasing science output by 50%.")
+helptext = _("Improves your universities by establishing laboratories, increasing science output by 50%.")
 
 [advance_scolarships]
 name = _("Scolarships")
@@ -163,7 +163,7 @@ cost = 120
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Reduce scientists unit cost by 50%.")
+helptext = _("Reduce scientists unit cost by 50%.")
 
 [advance_free_market]
 name = _("Free Market")
@@ -173,7 +173,7 @@ cost = 100
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows you to trade resources with any other player (provided they have researched this too).")
+helptext = _("Allows you to trade resources with any other player (provided they have researched this too).")
 
 [advance_venture_capital]
 name = _("Venture Capital")
@@ -183,7 +183,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Gives extra funding to your banks, increasing gold output by 100%.")
+helptext = _("Gives extra funding to your banks, increasing gold output by 100%.")
 
 [advance_refinery]
 name = _("Refinery")
@@ -193,7 +193,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Improves your factories with refineries, increasing material output by 50%.")
+helptext = _("Improves your factories with refineries, increasing material output by 50%.")
 
 [advance_infrastructure]
 name = _("Infrastructure")
@@ -203,7 +203,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Provides better service and access to your bases, increasing unit/improvement production speed by 15%.")
+helptext = _("Provides better service and access to your bases, increasing unit/improvement production speed by 15%.")
 
 [advance_rnd]
 name = _("Research & Development")
@@ -213,7 +213,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of R&D centers on bases, increasing it's science output.")
+helptext = _("Allows the construction of R&D centers on bases, increasing it's science output.")
 
 [advance_renewable_energy]
 name = _("Renewable Energy")
@@ -223,7 +223,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Reduces improvement maintenance costs by 50%.")
+helptext = _("Reduces improvement maintenance costs by 50%.")
 
 [advance_public_transport]
 name = _("Public Transport")
@@ -233,7 +233,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows any unit to use public transports.")
+helptext = _("Allows any unit to use public transports.")
 
 [advance_factory]
 name = _("Factory")
@@ -243,7 +243,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of factories on bases, increasing it's material output.")
+helptext = _("Allows the construction of factories on bases, increasing it's material output.")
 
 [advance_4day_week]
 name = _("4-day Work Week")
@@ -253,7 +253,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of R&D centers on bases, increasing it's science output.")
+helptext = _("Allows the construction of R&D centers on bases, increasing it's science output.")
 
 [advance_salary_boost]
 name = _("Salary Boost")
@@ -263,7 +263,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows you to double a bases's loyalty, but by doubling unit costs.")
+helptext = _("Allows you to double a bases's loyalty, but by doubling unit costs.")
 
 [advance_bank]
 name = _("Bank")
@@ -273,7 +273,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of Banks on bases, increasing it's gold output.")
+helptext = _("Allows the construction of Banks on bases, increasing it's gold output.")
 
 [advance_salary_cut]
 name = _("Salary Cuts")
@@ -283,7 +283,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Make all the base's units have no maintenance costs, but by reducing a base's loyalty to 25%.")
+helptext = _("Make all the base's units have no maintenance costs, but by reducing a base's loyalty to 25%.")
 
 [advance_company_vehicles]
 name = _("Company Vehicle")
@@ -293,7 +293,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Double all public unit's movement speed (spies are not affected).")
+helptext = _("Double all public unit's movement speed (spies are not affected).")
 
 [advance_modern_materials]
 name = _("Modern Materials")
@@ -303,7 +303,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Introduces modern materials and processes in your factories, increasing material output by 25%.")
+helptext = _("Introduces modern materials and processes in your factories, increasing material output by 25%.")
 
 [advance_telecommunications]
 name = _("Telecommunications")
@@ -313,7 +313,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Increases spies' view range by 2 tile.")
+helptext = _("Increases spies' view range by 2 tile.")
 
 [advance_inflation]
 name = _("Inflation")
@@ -323,7 +323,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Get more government help to support costs. Bases gold output is doubled.")
+helptext = _("Get more government help to support costs. Bases gold output is doubled.")
 
 [advance_railroad_stocks]
 name = _("Railroad Stocks")
@@ -333,7 +333,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Increase influence in public transports, allowing any wiretaps to reveal player identity.")
+helptext = _("Increase influence in public transports, allowing any wiretaps to reveal player identity.")
 
 [advance_space_program]
 name = _("Space Program")
@@ -343,7 +343,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Allows the construction of Space Programs on bases, increasing it's science output.")
+helptext = _("Allows the construction of Space Programs on bases, increasing it's science output.")
 
 [advance_tax_evasion]
 name = _("Tax Evasion")
@@ -353,7 +353,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Converts 50% of the expended science directly into gold.")
+helptext = _("Converts 50% of the expended science directly into gold.")
 
 [advance_financial_rescue]
 name = _("Financial Rescue")
@@ -363,7 +363,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Reduces all unit maintenance costs by 50%.")
+helptext = _("Reduces all unit maintenance costs by 50%.")
 
 [advance_automation]
 name = _("Automation")
@@ -373,7 +373,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Converts 25% of the expended science directly into materials.")
+helptext = _("Converts 25% of the expended science directly into materials.")
 
 [advance_video_surveillance]
 name = _("Video Surveillance")
@@ -383,4 +383,4 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-help = _("Lowers stolen materials by spies from 10% to 7.5%.")
+helptext = _("Lowers stolen materials by spies from 10% to 7.5%.")

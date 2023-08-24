@@ -70,10 +70,9 @@ struct qlist_item {
 class science_report : public QWidget {
   Q_OBJECT
 
+  QLabel *name_label;
   QLabel *info_label;
-  QLabel *progress_label;
-  QList<qlist_item> *curr_list{nullptr};
-  QList<qlist_item> *goal_list{nullptr};
+  QPushButton *research_button;
   research_diagram *res_diag;
 
 public:
@@ -90,4 +89,3 @@ private:
 };
 
 void popdown_science_report();
-bool comp_less_than(const qlist_item &q1, const qlist_item &q2);

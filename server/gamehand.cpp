@@ -890,8 +890,8 @@ void send_year_to_clients()
   lsend_packet_new_year(game.est_connections, &apacket);
 
   // Hmm, clients could add this themselves based on above packet?
-  notify_conn(game.est_connections, nullptr, E_NEXT_YEAR, ftc_any,
-              _("Year: %s"), calendar_text());
+  //notify_conn(game.est_connections, nullptr, E_NEXT_YEAR, ftc_any,
+  //            _("Year: %s"), calendar_text());
 }
 
 /**

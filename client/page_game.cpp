@@ -130,7 +130,6 @@ pageGame::pageGame(QWidget *parent)
   sw_science->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("research")));
   sw_science->setCheckable(true);
-  sw_science->setRightClick(top_bar_right_click_science);
 
   // Government view (F7)
   sw_gov = new top_bar_widget(_("Government"), QStringLiteral("GOV"),

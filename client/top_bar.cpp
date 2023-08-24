@@ -369,56 +369,6 @@ void top_bar_right_click_diplomacy()
 }
 
 /**
-   Right click for science, allowing to choose current tech
- */
-void top_bar_right_click_science()
-{
-  QMenu *menu;
-  QAction *act;
-  QVariant qvar;
-  QVector<qlist_item> curr_list;
-  qlist_item item;
-
-  if (!client_is_observer()) {
-    struct research *research = research_get(client_player());
-
-    advance_index_iterate(A_FIRST, i)
-    {
-      if (TECH_PREREQS_KNOWN == research->inventions[i].state
-          && research->researching != i) {
-        item.tech_str = QString::fromUtf8(
-            advance_name_translation(advance_by_number(i)));
-        item.id = i;
-        curr_list.append(item);
-      }
-    }
-    advance_index_iterate_end;
-    if (curr_list.isEmpty()) {
-      return;
-    }
-    std::sort(curr_list.begin(), curr_list.end(), comp_less_than);
-    menu = new QMenu(king()->central_wdg);
-    for (int i = 0; i < curr_list.count(); i++) {
-      QIcon ic;
-
-      qvar = curr_list.at(i).id;
-      auto sp = get_tech_sprite(tileset, curr_list.at(i).id);
-      if (sp) {
-        ic = QIcon(*sp);
-      }
-      act = new QAction(ic, curr_list.at(i).tech_str, queen()->mapview_wdg);
-      act->setData(qvar);
-      act->setProperty("scimenu", true);
-      menu->addAction(act);
-      QObject::connect(act, &QAction::triggered, queen()->sw_science,
-                       &top_bar_widget::someSlot);
-    }
-    menu->setAttribute(Qt::WA_DeleteOnClose);
-    menu->popup(QCursor::pos());
-  }
-}
-
-/**
    Left click for science, allowing to close/open
  */
 void top_bar_left_click_science()

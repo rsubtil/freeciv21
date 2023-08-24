@@ -2889,8 +2889,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
                       const nation_set *nations_to_show)
 {
   struct advance *vap = valid_advance_by_number(i);
-  struct universal source = {.value = {.advance = vap}, .kind = VUT_ADVANCE};
-  int flagid;
 
   fc_assert_ret(nullptr != buf && 0 < bufsz && nullptr != user_text);
   fc_strlcpy(buf, user_text, bufsz);
@@ -2898,6 +2896,15 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (nullptr == vap) {
     qCritical("Unknown tech %d.", i);
     return;
+  }
+
+  if (nullptr != vap->helptext) {
+    if (strlen(buf) > 0) {
+      CATLSTR(buf, bufsz, "\n");
+    }
+    for (const auto &text : qAsConst(*vap->helptext)) {
+      cat_snprintf(buf, bufsz, "%s\n", _(qUtf8Printable(text)));
+    }
   }
 
   if (game.control.num_tech_classes > 0) {
@@ -2909,58 +2916,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     }
   }
 
-  if (nullptr != pplayer) {
-    const struct research *presearch = research_get(pplayer);
-
-    if (research_invention_state(presearch, i) != TECH_KNOWN) {
-      if (research_invention_state(presearch, i) == TECH_PREREQS_KNOWN) {
-        int bulbs = research_total_bulbs_required(presearch, i, false);
-
-        cat_snprintf(buf, bufsz,
-                     PL_("Starting now, researching %s would need %d bulb.",
-                         "Starting now, researching %s would need %d bulbs.",
-                         bulbs),
-                     advance_name_translation(vap), bulbs);
-      } else if (research_invention_reachable(presearch, i)) {
-        /* Split string into two to allow localization of two pluralizations.
-         */
-        char buf2[MAX_LEN_MSG];
-        int bulbs = research_goal_bulbs_required(presearch, i);
-
-        fc_snprintf(
-            buf2, ARRAY_SIZE(buf2),
-            /* TRANS: appended to another sentence. Preserve the
-             * leading space. */
-            PL_(" The whole project will require %d bulb to complete.",
-                " The whole project will require %d bulbs to complete.",
-                bulbs),
-            bulbs);
-        cat_snprintf(buf, bufsz,
-                     // TRANS: last %s is a sentence pluralized separately.
-                     PL_("To research %s you need to research %d other"
-                         " technology first.%s",
-                         "To research %s you need to research %d other"
-                         " technologies first.%s",
-                         research_goal_unknown_techs(presearch, i) - 1),
-                     advance_name_translation(vap),
-                     research_goal_unknown_techs(presearch, i) - 1, buf2);
-      } else {
-        CATLSTR(buf, bufsz, _("You cannot research this technology."));
-      }
-      if (!techs_have_fixed_costs()
-          && research_invention_reachable(presearch, i)) {
-        CATLSTR(buf, bufsz,
-                // TRANS: preserve leading space
-                _(" This number may vary depending on what "
-                  "other players research.\n"));
-      } else {
-        CATLSTR(buf, bufsz, "\n");
-      }
-    }
-
-    CATLSTR(buf, bufsz, "\n");
-  }
-
   if (requirement_vector_size(&vap->research_reqs) > 0) {
     CATLSTR(buf, bufsz, _("Requirements to research:\n"));
     requirement_vector_iterate(&vap->research_reqs, preq)
@@ -2969,144 +2924,6 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     }
     requirement_vector_iterate_end;
     CATLSTR(buf, bufsz, "\n");
-  }
-
-  insert_allows(&source, buf + qstrlen(buf), bufsz - qstrlen(buf),
-                // TRANS: bullet point; note trailing space
-                Q_("?bullet:* "));
-
-  {
-    int j;
-
-    for (j = 0; j < MAX_NUM_TECH_LIST; j++) {
-      if (game.rgame.global_init_techs[j] == A_LAST) {
-        break;
-      } else if (game.rgame.global_init_techs[j] == i) {
-        CATLSTR(buf, bufsz,
-                _("* All players start the game with knowledge of this "
-                  "technology.\n"));
-        break;
-      }
-    }
-  }
-
-  /* Assume no-one will set the same tech in both global and nation
-   * init_tech... */
-  for (const auto &pnation : nations) {
-    // Avoid mentioning nations not in current set.
-    if (nations_to_show && !nation_is_in_set(&pnation, nations_to_show)) {
-      continue;
-    }
-    for (int j = 0; j < MAX_NUM_TECH_LIST; j++) {
-      if (pnation.init_techs[j] == A_LAST) {
-        break;
-      } else if (pnation.init_techs[j] == i) {
-        cat_snprintf(buf, bufsz,
-                     // TRANS: %s is a nation plural
-                     _("* The %s start the game with knowledge of this "
-                       "technology.\n"),
-                     nation_plural_translation(&pnation));
-        break;
-      }
-    }
-  } // iterate over nations - pnation
-
-  // Explain the effects of root_reqs.
-  {
-    bv_techs roots, rootsofroots;
-
-    BV_CLR_ALL(roots);
-    BV_CLR_ALL(rootsofroots);
-    advance_root_req_iterate(vap, proot)
-    {
-      if (proot == vap) {
-        /* Don't say anything at all if this tech is a self-root-req one;
-         * assume that the ruleset help will explain how to get it. */
-        BV_CLR_ALL(roots);
-        break;
-      }
-      BV_SET(roots, advance_number(proot));
-      if (advance_requires(proot, AR_ROOT) != proot) {
-        /* Now find out what roots each of this tech's root_req has, so that
-         * we can suppress them. If tech A has roots B/C, and B has root C,
-         * it's not worth saying that A needs C, and can lead to overwhelming
-         * lists. */
-        /* (Special case: don't do this if the root is a self-root-req tech,
-         * since it would appear in its own root iteration; in the scenario
-         * where S is a self-root tech that is root for T, this would prevent
-         * S appearing in T's help.) */
-        // FIXME this is quite inefficient
-        advance_root_req_iterate(proot, prootroot)
-        {
-          BV_SET(rootsofroots, advance_number(prootroot));
-        }
-        advance_root_req_iterate_end;
-      }
-    }
-    advance_root_req_iterate_end;
-
-    // Filter out all but the direct root reqs.
-    BV_CLR_ALL_FROM(roots, rootsofroots);
-
-    if (BV_ISSET_ANY(roots)) {
-      QVector<QString> root_techs;
-      root_techs.reserve(A_LAST);
-      size_t n_roots = 0;
-
-      advance_index_iterate(A_FIRST, root)
-      {
-        if (BV_ISSET(roots, root)) {
-          root_techs.append(
-              advance_name_translation(advance_by_number(root)));
-        }
-      }
-      advance_index_iterate_end;
-      fc_assert(n_roots > 0);
-      cat_snprintf(buf, bufsz,
-                   // TRANS: 'and'-separated list of techs
-                   _("* Only those who know %s can acquire this "
-                     "technology (by any means).\n"),
-                   qUtf8Printable(strvec_to_and_list(root_techs)));
-    }
-  }
-
-  if (advance_has_flag(i, TF_BONUS_TECH)) {
-    cat_snprintf(buf, bufsz,
-                 _("* The first player to learn %s gets"
-                   " an immediate advance.\n"),
-                 advance_name_translation(vap));
-  }
-
-  for (flagid = TECH_USER_1; flagid <= TECH_USER_LAST; flagid++) {
-    if (advance_has_flag(i, static_cast<tech_flag_id>(flagid))) {
-      const char *helptxt =
-          tech_flag_helptxt(static_cast<tech_flag_id>(flagid));
-
-      if (helptxt != nullptr) {
-        // TRANS: bullet point; note trailing space
-        CATLSTR(buf, bufsz, Q_("?bullet:* "));
-        CATLSTR(buf, bufsz, _(helptxt));
-        CATLSTR(buf, bufsz, "\n");
-      }
-    }
-  }
-
-  /* FIXME: bases -- but there is no good way to find out which bases a tech
-   * can enable currently, so we have to remain silent. */
-
-  if (game.info.tech_upkeep_style != TECH_UPKEEP_NONE) {
-    CATLSTR(buf, bufsz,
-            _("* To preserve this technology for our nation some bulbs "
-              "are needed each turn.\n"));
-  }
-
-  if (nullptr != vap->helptext) {
-    if (strlen(buf) > 0) {
-      CATLSTR(buf, bufsz, "\n");
-    }
-    for (const auto &text : qAsConst(*vap->helptext)) {
-      cat_snprintf(buf, bufsz, "%s\n\n", _(qUtf8Printable(text)));
-    }
   }
 }
 
