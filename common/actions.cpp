@@ -884,7 +884,7 @@ static void hard_code_actions()
       ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
   actions[ACTION_WIRETAP] = unit_action_new(
       ACTION_WIRETAP, ACTRES_WIRETAP, ATK_TILE, ASTK_EXTRA,
-      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
   actions[ACTION_SABOTAGE_CITY] = unit_action_new(
       ACTION_SABOTAGE_CITY, ACTRES_SABOTAGE_CITY, ATK_CITY, ASTK_NONE,
       ACT_TGT_COMPL_SIMPLE, true, true, MAK_STAYS, 0, 0, false);

@@ -1629,10 +1629,22 @@ void mr_menu::menus_sensitive()
           i.value()->setEnabled(true);
         }
 
-        struct extra_type *pextra = next_extra(punits, EC_ROAD);
+        struct extra_type *pextra = next_extra(punits, EC_TRANSPORT);
 
         if (pextra != nullptr) {
           i.value()->setText(QString(_("Transport")));
+        }
+       } break;
+
+      case WIRETAP: {
+        if (can_units_do_activity(punits, ACTIVITY_WIRETAP)) {
+          i.value()->setEnabled(true);
+        }
+
+        struct extra_type *pextra = next_extra(punits, EC_TRANSPORT);
+
+        if (pextra != nullptr) {
+          i.value()->setText(QString(_("Place Wiretap")));
         }
        } break;
 
@@ -2144,9 +2156,8 @@ void mr_menu::slot_wiretap() {
      * not good! */
     /* Enable the button for adding to a city in all cases, so we
        get an eventual error message from the server if we try. */
-    if (utype_can_do_action(unit_type_get(punit),
-                                   ACTION_WIRETAP)) {
-      request_new_unit_activity(punit, ACTIVITY_PLANT);
+    if (utype_can_do_action(unit_type_get(punit), ACTION_WIRETAP)) {
+      request_do_action(ACTION_WIRETAP, punit->id, tile_index(unit_tile(punit)), 0, nullptr);
       return;
     }
   }

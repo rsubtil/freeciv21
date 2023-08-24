@@ -126,7 +126,7 @@ static std::vector<fc_shortcut> default_shortcuts()
       {SC_TRANSPORT, fc_shortcut::keyboard, Qt::Key_T, Qt::AllButtons,
        Qt::ShiftModifier, _("Transport")},
       {SC_WIRETAP, fc_shortcut::keyboard, Qt::Key_W, Qt::AllButtons,
-       Qt::ShiftModifier, _("Wiretap")},
+       Qt::ShiftModifier, _("Place Wiretap")},
       {SC_SABOTAGE_CITY, fc_shortcut::keyboard, Qt::Key_S, Qt::AllButtons,
        Qt::NoModifier, _("Sabotage")},
       {SC_SABOTAGE_BUILDING, fc_shortcut::keyboard, Qt::Key_S, Qt::AllButtons,
