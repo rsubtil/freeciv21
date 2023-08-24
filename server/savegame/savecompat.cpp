@@ -1597,6 +1597,7 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
     case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
     case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+    case ACTIVITY_WIRETAP:
       action_iterate(act_id)
       {
         struct action *paction = action_by_number(act_id);

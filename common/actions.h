@@ -239,6 +239,8 @@ _   ._       Copyright (c) 1996-2021 Freeciv21 and Freeciv contributors.
 #define SPECENUM_VALUE90NAME "Steal Science Building"
 #define SPECENUM_VALUE91 ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS
 #define SPECENUM_VALUE91NAME "Steal Materials Building"
+#define SPECENUM_VALUE92 ACTION_WIRETAP
+#define SPECENUM_VALUE92NAME "Place Wiretap"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"

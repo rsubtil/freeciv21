@@ -118,6 +118,9 @@ static bool city_build(struct player *pplayer, struct unit *punit,
 static bool do_transport(struct player *pplayer, struct unit *punit,
                          struct tile *ptile, const char *name,
                          const struct action *paction);
+static bool do_wiretap(struct player *pplayer, struct unit *punit,
+                         struct tile *ptile, const char *name,
+                         const struct action *paction);
 static bool do_unit_establish_trade(struct player *pplayer,
                                     struct unit *punit,
                                     struct city *pcity_dest,
@@ -833,6 +836,7 @@ static struct player *need_war_player_hlp(const struct unit *actor,
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_WIRETAP:
   case ACTRES_SABOTAGE_CITY:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -3222,6 +3226,11 @@ bool unit_perform_action(struct player *pplayer, const int actor_id,
         action_type, actor_unit, target_tile,
         do_transport(pplayer, actor_unit, target_tile, name, paction));
     break;
+  case ACTRES_WIRETAP:
+    ACTION_STARTED_UNIT_TILE(
+        action_type, actor_unit, target_tile,
+        do_wiretap(pplayer, actor_unit, target_tile, name, paction));
+    break;
   case ACTRES_SABOTAGE_CITY:
   case ACTRES_SABOTAGE_BUILDING:
     // Handled by packet, no need to do anything
@@ -3541,6 +3550,26 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
 
   return true;
 }
+
+static bool do_wiretap(struct player *pplayer, struct unit *punit,
+                       struct tile *ptile, const char *name,
+                       const struct action *paction)
+{
+  // Sanity check: The actor still exists.
+  fc_assert_ret_val(pplayer, false);
+  fc_assert_ret_val(punit, false);
+  fc_assert_ret_val(ptile, false);
+
+  QString s_transport_from(punit->tile->label);
+
+  tile* transport_from = map_transports_get(s_transport_from);
+  fc_assert_ret_val(transport_from, false);
+
+  // TODO: Implement
+
+  return true;
+}
+
 
 /**
    Handle change in unit activity.

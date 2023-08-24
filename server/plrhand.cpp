@@ -1350,6 +1350,8 @@ static void package_player_info(struct player *plr,
   } else {
     packet->infrapoints = 0;
   }
+
+  packet->wiretap = plr->wiretap ? tile_index(plr->wiretap) : -1;
 }
 
 /**

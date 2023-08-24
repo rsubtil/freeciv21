@@ -830,6 +830,7 @@ static char activity2char(enum unit_activity activity)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     return '?';
   case ACTIVITY_LAST:
     break;
@@ -3831,6 +3832,13 @@ static void sg_load_players(struct loaddata *loading)
   }
   players_iterate_end;
 
+  players_iterate(pplayer)
+  {
+    pplayer->wiretap = index_to_tile((&wld.map), secfile_lookup_int_default(
+        loading->file, -1, "player%d.wiretap", player_number(pplayer)));
+  }
+  players_iterate_end;
+
   // Check shared vision.
   players_iterate(pplayer)
   {
@@ -3958,6 +3966,13 @@ static void sg_save_players(struct savedata *saving)
     sg_save_player_report(saving, pplayer, pplayer->server.gold_report, "player%d.gold_report_data", "player%d.gold_report_idx");
     sg_save_player_report(saving, pplayer, pplayer->server.science_report, "player%d.science_report_data", "player%d.science_report_idx");
     sg_save_player_report(saving, pplayer, pplayer->server.materials_report, "player%d.materials_report_data", "player%d.materials_report_idx");
+  }
+  players_iterate_end;
+
+  players_iterate(pplayer)
+  {
+    secfile_insert_int(saving->file, pplayer->wiretap ? tile_index(pplayer->wiretap) : -1,
+                  "player%d.wiretap", player_number(pplayer));
   }
   players_iterate_end;
 }

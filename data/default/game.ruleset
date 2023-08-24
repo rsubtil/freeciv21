@@ -580,6 +580,18 @@ target_reqs    =
       "Extra",        "Transport",    "Local", TRUE
     }
 
+[actionenabler_wiretap]
+action        = "Place Wiretap"
+actor_reqs    =
+    { "type",          "name",         "range"
+      "UnitFlag",      "Spy",          "Local"
+      "GameMode",      "Passive",      "Local"
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "Extra",        "Transport",    "Local", TRUE
+    }
+
 [actionenabler_sabotage_city]
 action = "Sabotage (City)"
 actor_reqs =

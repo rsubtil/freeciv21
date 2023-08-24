@@ -95,7 +95,8 @@ enum shortcut_id {
   SC_VIEW_DRAG = 61,
   SC_TRANSPORT = 62,
   SC_SABOTAGE_CITY = 63,
-  SC_SABOTAGE_BUILDING = 64
+  SC_SABOTAGE_BUILDING = 64,
+  SC_WIRETAP = 65,
 };
 
 /**************************************************************************

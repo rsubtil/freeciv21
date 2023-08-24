@@ -882,6 +882,9 @@ static void hard_code_actions()
   actions[ACTION_TRANSPORT] = unit_action_new(
       ACTION_TRANSPORT, ACTRES_TRANSPORT, ATK_TILE, ASTK_EXTRA,
       ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
+  actions[ACTION_WIRETAP] = unit_action_new(
+      ACTION_WIRETAP, ACTRES_WIRETAP, ATK_TILE, ASTK_EXTRA,
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
   actions[ACTION_SABOTAGE_CITY] = unit_action_new(
       ACTION_SABOTAGE_CITY, ACTRES_SABOTAGE_CITY, ATK_CITY, ASTK_NONE,
       ACT_TGT_COMPL_SIMPLE, true, true, MAK_STAYS, 0, 0, false);
@@ -1709,6 +1712,7 @@ int action_get_act_time(const struct action *paction,
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
+  case ACTIVITY_WIRETAP:
     return ACT_TIME_INSTANTANEOUS;
   case ACTIVITY_EXPLORE:
   case ACTIVITY_IDLE:
@@ -1808,6 +1812,7 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_WIRETAP:
   case ACTRES_SABOTAGE_CITY:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -1901,6 +1906,7 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_SPY_SPREAD_PLAGUE:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_WIRETAP:
   case ACTRES_SABOTAGE_CITY:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -2885,6 +2891,7 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_WIRETAP:
     // No hard unit type requirements.
     break;
   }
@@ -3081,6 +3088,7 @@ static enum fc_tristate action_hard_reqs_actor(
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_WIRETAP:
     // No hard unit requirements.
     break;
   }
@@ -3935,6 +3943,7 @@ static enum fc_tristate is_action_possible(
   } break;
 
   case ACTRES_TRANSPORT:
+  case ACTRES_WIRETAP:
     // Only if unit has move points available
     if (actor_unit->moves_left <= 0) {
       return TRI_NO;
@@ -4864,6 +4873,7 @@ static struct act_prob action_prob(
   case ACTRES_MINE:
   case ACTRES_IRRIGATE:
   case ACTRES_TRANSPORT:
+  case ACTRES_WIRETAP:
   case ACTRES_SABOTAGE_CITY:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -5837,6 +5847,7 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_SPY_ATTACK:
   case ACTRES_NONE:
   case ACTRES_TRANSPORT:
+  case ACTRES_WIRETAP:
   case ACTRES_SABOTAGE_CITY:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTRES_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -6262,6 +6273,8 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_build_mine";
   case ACTION_TRANSPORT:
     return "ui_name_transport";
+  case ACTION_WIRETAP:
+    return "ui_name_wiretap";
   case ACTION_SABOTAGE_CITY:
     return "ui_name_sabotage_city";
   case ACTION_SABOTAGE_BUILDING:
@@ -6648,6 +6661,7 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_WIRETAP:
   case ACTION_SABOTAGE_CITY:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -6759,6 +6773,7 @@ int action_min_range_default(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_WIRETAP:
   case ACTION_SABOTAGE_CITY:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -6863,6 +6878,7 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_WIRETAP:
   case ACTION_SABOTAGE_CITY:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -6983,6 +6999,7 @@ int action_max_range_default(int act)
   case ACTION_TRANSPORT_DISEMBARK2:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_WIRETAP:
   case ACTION_SABOTAGE_CITY:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -7110,6 +7127,7 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_WIRETAP:
   case ACTION_SABOTAGE_CITY:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
@@ -7224,6 +7242,7 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_NUKE:
   case ACTION_SPY_ATTACK:
   case ACTION_TRANSPORT:
+  case ACTION_WIRETAP:
   case ACTION_SABOTAGE_CITY:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE:

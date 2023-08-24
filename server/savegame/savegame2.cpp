@@ -638,6 +638,7 @@ static char activity2char(enum unit_activity activity)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     return '?';
   case ACTIVITY_LAST:
     break;

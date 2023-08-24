@@ -305,6 +305,8 @@ struct player {
   int history; /* National level culture - does not include culture of
                 * individual cities. */
 
+  struct tile* wiretap; // Null for none.
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */

@@ -120,6 +120,7 @@ static void road(QVariant data1, QVariant data2);
 static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
 static void transport(QVariant data1, QVariant data2);
+static void wiretap(QVariant data1, QVariant data2);
 static void sabotage(QVariant data1, QVariant data2);
 static void sabotage_building(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
@@ -262,6 +263,7 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_TRANSPORT] = transport;
+  action_function[ACTION_WIRETAP] = wiretap;
   action_function[ACTION_SABOTAGE_CITY] = sabotage;
   action_function[ACTION_SABOTAGE_BUILDING] = sabotage_building;
   action_function[ACTION_IRRIGATE] = irrigate;
@@ -2570,6 +2572,16 @@ static void mine(QVariant data1, QVariant data2)
     Action "Transport" for choice dialog
  */
 static void transport(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+
+  dsend_packet_transport_req(&client.conn, actor_id);
+}
+
+/**
+    Action "Place Wiretap" for choice dialog
+ */
+static void wiretap(QVariant data1, QVariant data2)
 {
   int actor_id = data1.toInt();
 

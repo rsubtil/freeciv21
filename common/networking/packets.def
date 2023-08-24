@@ -992,6 +992,8 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   SINT32 multiplier_target[MAX_NUM_MULTIPLIERS:multip_count];
 
   BV_INTEL_VISIBLE visible; add-cap(player-intel-visibility)
+
+  TILE wiretap;
 end
 
 PACKET_PLAYER_PHASE_DONE = 52; cs, dsend

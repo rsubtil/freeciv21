@@ -793,6 +793,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     /* do nothing - these activities have no effect
        on terrain type or tile extras */
     return false;

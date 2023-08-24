@@ -2461,6 +2461,8 @@ void handle_player_info(const struct packet_player_info *pinfo)
   }
   multipliers_iterate_end;
 
+  pplayer->wiretap = index_to_tile(&(wld.map), pinfo->wiretap);
+
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the
    * correct conn back into the player->connections list */
@@ -4932,6 +4934,7 @@ static action_id auto_attack_act(const struct act_prob *act_probs)
       case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
       case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
       case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+      case ACTION_WIRETAP:
         // An interesting non attack action has been found.
         return ACTION_NONE;
         break;

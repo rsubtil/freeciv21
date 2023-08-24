@@ -888,6 +888,10 @@ void mr_menu::setup_menus()
   shortcuts->link_action(SC_TRANSPORT, act);
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
+  act = menu->addAction(_("Place Wiretap"));
+  shortcuts->link_action(SC_WIRETAP, act);
+  menu_list.insert(WIRETAP, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_wiretap);
   act = menu->addAction(_("Sabotage (City)"));
   shortcuts->link_action(SC_SABOTAGE_CITY, act);
   menu_list.insert(SABOTAGE_CITY, act);
@@ -2126,6 +2130,24 @@ void mr_menu::slot_transport() {
     if (utype_can_do_action(unit_type_get(punit),
                                    ACTION_TRANSPORT)) {
       dsend_packet_transport_req(&client.conn, punit->id);
+      return;
+    }
+  }
+}
+
+/**
+   Action "WIRETAP"
+*/
+void mr_menu::slot_wiretap() {
+  for (const auto punit : get_units_in_focus()) {
+    /* FIXME: this can provide different actions for different units...
+     * not good! */
+    /* Enable the button for adding to a city in all cases, so we
+       get an eventual error message from the server if we try. */
+    if (utype_can_do_action(unit_type_get(punit),
+                                   ACTION_WIRETAP)) {
+      request_new_unit_activity(punit, ACTIVITY_PLANT);
+      return;
     }
   }
 }

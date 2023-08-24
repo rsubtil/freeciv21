@@ -823,6 +823,7 @@ static void unit_activity_complete(struct unit *punit)
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
+  case ACTIVITY_WIRETAP:
     // TODO: Implement
     unit_activity_done = true;
     break;
@@ -1080,6 +1081,7 @@ static void update_unit_activity(struct unit *punit, time_t now)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     // settler may become veteran when doing something useful
     if (maybe_become_veteran_real(punit, true)) {
       notify_unit_experience(punit);
@@ -4035,6 +4037,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     set_unit_activity(punit, ACTIVITY_IDLE);
     break;
   };
@@ -5307,6 +5310,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
       case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
       case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+      case ACTIVITY_WIRETAP:
         qCritical("at index %d, use action rather than activity %d.", i,
                   orders[i].activity);
         return false;
