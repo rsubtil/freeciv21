@@ -326,6 +326,9 @@ static void sg_save_ruledata(struct savedata *saving);
 static void sg_load_random(struct loaddata *loading);
 static void sg_save_random(struct savedata *saving);
 
+static void sg_load_transport_reports(struct loaddata *loading);
+static void sg_save_transport_reports(struct savedata *saving);
+
 static void sg_load_script(struct loaddata *loading);
 static void sg_save_script(struct savedata *saving);
 
@@ -465,6 +468,8 @@ void savegame3_load(struct section_file *file)
   sg_load_game(loading);
   // [random]
   sg_load_random(loading);
+  // [transport_reports]
+  sg_load_transport_reports(loading);
   // [settings]
   sg_load_settings(loading);
   // [ruledata]
@@ -529,6 +534,8 @@ static void savegame3_save_real(struct section_file *file,
   sg_save_game(saving);
   // [random]
   sg_save_random(saving);
+  // [transport_reports]
+  sg_save_transport_reports(saving);
   // [script]
   sg_save_script(saving);
   // [settings]
@@ -2278,6 +2285,54 @@ static void sg_save_random(struct savedata *saving)
     secfile_insert_str(saving->file, state.data(), "random.state");
   } else {
     secfile_insert_bool(saving->file, false, "random.saved");
+  }
+}
+
+/* =======================================================================
+ * Load / save transport reports.
+ * ======================================================================= */
+
+/**
+   Load '[transport_reports]'.
+ */
+static void sg_load_transport_reports(struct loaddata *loading)
+{
+  // Check status and return if not OK (sg_success != TRUE).
+  sg_check_ret();
+
+  int count = secfile_lookup_int_default(loading->file, 0,
+                                         "transport_reports.count");
+  auto reports = map_transport_reports_get();
+  for(int i = 0; i < count; i++) {
+    struct transport_report *tr = new transport_report();
+    if(!secfile_lookup_int(loading->file, &(tr->turn), "transport_reports.data%d.turn", i)) {delete tr; continue;}
+    tr->from = QString(secfile_lookup_str(loading->file, "transport_reports.data%d.from", i));
+    tr->to = QString(secfile_lookup_str(loading->file, "transport_reports.data%d.to", i));
+    tr->unit_name = QString(secfile_lookup_str(loading->file, "transport_reports.data%d.unit_name", i));
+    tr->player = QString(secfile_lookup_str(loading->file, "transport_reports.data%d.player", i));
+    reports->append(tr);
+  }
+}
+
+/**
+   Save '[random]'.
+ */
+static void sg_save_transport_reports(struct savedata *saving)
+{
+  // Check status and return if not OK (sg_success != TRUE).
+  sg_check_ret();
+
+  auto reports = map_transport_reports_get();
+
+  secfile_insert_int(saving->file, reports->size(), "transport_reports.count");
+  int idx = 0;
+  for(struct transport_report* tr : *reports) {
+    secfile_insert_int(saving->file, tr->turn, "transport_reports.data%d.turn", idx);
+    secfile_insert_str(saving->file, qUtf8Printable(tr->from), "transport_reports.data%d.from", idx);
+    secfile_insert_str(saving->file, qUtf8Printable(tr->to), "transport_reports.data%d.to", idx);
+    secfile_insert_str(saving->file, qUtf8Printable(tr->unit_name), "transport_reports.data%d.unit_name", idx);
+    secfile_insert_str(saving->file, qUtf8Printable(tr->player), "transport_reports.data%d.player", idx);
+    idx++;
   }
 }
 

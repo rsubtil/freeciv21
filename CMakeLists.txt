@@ -102,10 +102,10 @@ if (FREECIV_BUILD_LIBSERVER)
 endif()
 
 # Always add tools, conditionals are inside
-add_subdirectory(tools)
+#add_subdirectory(tools)
 
 # Add docs
-add_subdirectory(docs)
+#add_subdirectory(docs)
 
 # Use Auto Revision variables to convert some templates to real files at build
 # time. Avoid overwriting if the version didn't change.

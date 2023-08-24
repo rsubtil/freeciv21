@@ -1678,6 +1678,11 @@ struct building *map_buildings_get(struct tile *tile)
   return nullptr;
 }
 
+QVector<struct transport_report*>* map_transport_reports_get()
+{
+  return &wld.map.transport_reports;
+}
+
 int map_base_empty_count()
 {
   if (nullptr != wld.map.bases_empty) {

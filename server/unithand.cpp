@@ -3527,9 +3527,17 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
 
   tile* transport_to = map_transports_get(s_transport_to);
 
-  // TODO: Register this info properly for spies to get
+  struct transport_report* tr = new transport_report();
+  tr->turn = game.info.turn;
+  tr->from = s_transport_from;
+  tr->to = s_transport_to;
+  tr->unit_name = QString(unit_rule_name(punit));
+  tr->player = QString(player_name(pplayer));
+  map_transport_reports_get()->append(tr);
+
   unit_move(punit, transport_to, 100, nullptr, false, false);
 
+  // TODO: reveal info when wiretaps are active
 
   return true;
 }

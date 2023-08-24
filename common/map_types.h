@@ -76,6 +76,7 @@ struct civ_map {
   struct tile *tiles;
   QHash<struct tile *, struct startpos *> *startpos_table;
   QHash<QString, struct tile *> *transport_tiles;
+  QVector<struct transport_report*> transport_reports;
   struct building_list *buildings;
   struct base_empty_list *bases_empty;
 

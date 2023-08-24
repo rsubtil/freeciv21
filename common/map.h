@@ -39,6 +39,14 @@ static const bool C_PERCENT = true;
 
 #define ALL_DIRECTIONS_CARDINAL() topo_has_flag((CURRENT_TOPOLOGY), TF_HEX)
 
+struct transport_report {
+  int turn;
+  QString from;
+  QString to;
+  QString unit_name;
+  QString player;
+};
+
 bool map_is_empty();
 void map_init(struct civ_map *imap, bool server_side);
 void map_init_topology();
@@ -97,6 +105,8 @@ QVector<QString>* map_transports_get_names(struct player *pplayer,
 int map_buildings_count();
 struct building* map_buildings_add(const char* rulename, struct tile *building);
 struct building* map_buildings_get(struct tile *tile);
+
+QVector<struct transport_report*>* map_transport_reports_get();
 
 int map_base_empty_count();
 struct base_empty *map_base_empty_add(struct tile *tile);
