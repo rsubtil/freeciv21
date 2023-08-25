@@ -1833,7 +1833,7 @@ void start_game()
                   _("%s lost control cmdlevel on "
                     "game start.  Use voting from now on."),
                   pconn->username);
-      conn_set_access(pconn, ALLOW_BASIC, false);
+      conn_set_access(pconn, ALLOW_NONE, false);
     }
   }
   conn_list_iterate_end;

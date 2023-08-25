@@ -270,7 +270,7 @@ static struct command commands[] = {
      // TRANS: translate text between <> only
      N_("aitoggle <player-name>"), N_("Toggle AI status of player."),
      nullptr, nullptr, CMD_ECHO_ADMINS, VCF_NONE, 50},
-    {"take", ALLOW_INFO,
+    {"take", ALLOW_ADMIN,
      // TRANS: translate text between [] and <> only
      N_("take [connection-name] <player-name>"),
      N_("Take over a player's place in the game."),
@@ -291,7 +291,7 @@ static struct command commands[] = {
      N_("Switch server mode to regular gameplay and spy gameplay."),
      // TRANS: Don't translate text between ''
      N_("Switch modes, internal"), nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},
-    {"observe", ALLOW_INFO,
+    {"observe", ALLOW_ADMIN,
      // TRANS: translate text between [] only
      N_("observe [connection-name] [player-name]"),
      N_("Observe a player or the whole game."),

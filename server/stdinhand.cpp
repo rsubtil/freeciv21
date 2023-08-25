@@ -82,8 +82,8 @@
 
 #define OPTION_NAME_SPACE 25
 #define REG_EXP "\\s+(?=([^\"]*\"[^\"]*\")*[^\"]*$)"
-static enum cmdlevel default_access_level = ALLOW_BASIC;
-static enum cmdlevel first_access_level = ALLOW_BASIC;
+static enum cmdlevel default_access_level = ALLOW_NONE;
+static enum cmdlevel first_access_level = ALLOW_NONE;
 
 typedef QHash<QString, time_t> kickhash;
 Q_GLOBAL_STATIC(kickhash, kick_table_by_addr)
