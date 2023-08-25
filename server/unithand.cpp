@@ -3547,6 +3547,18 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
   unit_move(punit, transport_to, 100, nullptr, false, false);
 
   // TODO: reveal info when wiretaps are active
+  players_iterate(iter_pplayer)
+  {
+    if(iter_pplayer->wiretap == transport_to) {
+      struct sabotage_info* info = s_info.new_sabotage_info(false);
+      info->player_src = pplayer;
+      info->player_tgt = iter_pplayer;
+      info->player_send_to = iter_pplayer;
+      info->info = "A " + std::string(unit_rule_name(punit)) + " was seen travelling to " + s_transport_to.toStdString() + ".";
+      s_info.send_sabotage_info_tgt(info);
+    }
+  }
+  players_iterate_end
 
   return true;
 }
