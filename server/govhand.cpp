@@ -294,36 +294,43 @@ void handle_sabotage_info_req(struct player *pplayer)
 {
   // DEBUG: Bogus info
   struct packet_sabotage_info info;
-  info.last_sabotage_self_id = 0;
-  info.last_sabotage_other_id = -1;
+  info.last_sabotage_self_id = pplayer->server.last_sabotage_self_id;
+  info.last_sabotage_other_id = pplayer->server.last_sabotage_other_id;
 
   send_packet_sabotage_info(pplayer->current_conn, &info);
 }
 
 void handle_sabotage_info_self_req(struct player *pplayer, int id)
 {
-  // DEBUG: Bogus info, for now
-  struct packet_sabotage_info_self info;
+  struct sabotage_info *info = s_info.find_cached_sabotage(id);
+  if(info && info->player_tgt == pplayer && info->player_send_to == pplayer) {
+    struct packet_sabotage_info_self pkt;
+    pkt.id = id;
+    pkt.actionable = info->actionable;
+    pkt.turn = info->turn;
+    // For safety, don't send the src player
+    pkt.player_src = -1;
+    pkt.player_tgt = player_number(info->player_tgt);
+    strcpy(pkt.info, info->info.c_str());
 
-  info.id = id;
-  info.turn = 1;
-  strcpy(info.info, "Someone stole 295 gold from one of your bases/buildings!");
-
-  send_packet_sabotage_info_self(pplayer->current_conn, &info);
+    send_packet_sabotage_info_self(pplayer->current_conn, &pkt);
+  }
 }
 
 void handle_sabotage_info_other_req(struct player *pplayer, int id)
 {
-  struct sabotage_info* info = s_info.find_cached_sabotage(id);
+  struct sabotage_info *info = s_info.find_cached_sabotage(id);
+  if(info && info->player_src == pplayer && info->player_send_to == pplayer) {
+    struct packet_sabotage_info_other pkt;
+    pkt.id = id;
+    pkt.actionable = info->actionable;
+    pkt.turn = info->turn;
+    pkt.player_src = player_number(info->player_src);
+    pkt.player_tgt = player_number(info->player_tgt);
+    strcpy(pkt.info, info->info.c_str());
 
-  if(!info) return;
-
-  struct packet_sabotage_info_other other_info;
-  other_info.id = info->id;
-  other_info.turn = info->turn;
-  strcpy(other_info.info, info->info.c_str());
-
-  send_packet_sabotage_info_other(pplayer->current_conn, &other_info);
+    send_packet_sabotage_info_other(pplayer->current_conn, (const struct packet_sabotage_info_other* ) &pkt);
+  }
 }
 
 void spy_send_error(struct player *pplayer, const char *msg)

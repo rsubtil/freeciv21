@@ -58,8 +58,8 @@ public:
   static sabotages_report *instance();
 
   void update_info(int last_sabotage_self_id, int last_sabotage_other_id);
-  void update_self_info(int id, int turn, const char *info);
-  void update_other_info(int id, int turn, const char *info);
+  void update_self_info(const struct packet_sabotage_info_self *info);
+  void update_other_info(const struct packet_sabotage_info_other *info);
 
 private:
   sabotages_report();

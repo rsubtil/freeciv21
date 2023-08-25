@@ -20,6 +20,7 @@
 #include "shared.h"
 // common
 #include "fc_types.h"
+#include "game.h"
 #include "name_translation.h"
 #include "requirements.h"
 #include "networking/packets.h"
@@ -140,7 +141,11 @@ extern struct government_info g_info;
 
 struct sabotage_info {
   int id;
+  bool actionable;
   int turn;
+  struct player* player_src;
+  struct player* player_tgt;
+  struct player* player_send_to;
   std::string info;
 };
 
@@ -151,10 +156,12 @@ private:
   int id = -1;
 
 public:
-  struct sabotage_info *new_sabotage_info()
+  struct sabotage_info *new_sabotage_info(bool actionable)
   {
     struct sabotage_info *sabotage = new struct sabotage_info();
     sabotage->id = ++id;
+    sabotage->actionable = actionable;
+    sabotage->turn = game.info.turn;
     cached_sabotages.push_back(sabotage);
     return sabotage;
   }
@@ -178,15 +185,34 @@ public:
     cached_sabotages.clear();
   }
 
-  void alert_players(const player* p1, const player* p2) {
-    // TODO: Alert p2 later
-    struct packet_sabotage_info info;
-    info.last_sabotage_self_id = 0;
-    info.last_sabotage_other_id = id;
+  void send_sabotage_info_src(struct sabotage_info* info) {
+    fc_assert(info && info->player_src != nullptr);
+    info->player_src->server.last_sabotage_other_id = MAX(
+      info->player_src->server.last_sabotage_other_id, info->id
+    );
+    alert_player(info->player_src);
+  }
 
-    conn_list_iterate(p1->connections, pconn)
+  void send_sabotage_info_tgt(struct sabotage_info* info) {
+    fc_assert(info && info->player_tgt != nullptr);
+    info->player_tgt->server.last_sabotage_self_id = MAX(
+      info->player_tgt->server.last_sabotage_self_id, info->id
+    );
+    // For safety, unset the src player ptr while sending
+    struct player *tmp = info->player_src;
+    info->player_src = nullptr;
+    alert_player(info->player_tgt);
+    info->player_src = tmp;
+  }
+
+  void alert_player(const player* p) {
+    struct packet_sabotage_info info;
+    info.last_sabotage_self_id = p->server.last_sabotage_self_id;
+    info.last_sabotage_other_id = p->server.last_sabotage_other_id;
+
+    conn_list_iterate(p->connections, pconn)
     {
-      if(pconn->playing == p1) {
+      if(pconn->playing == p) {
         send_packet_sabotage_info(pconn, &info);
         break;
       }

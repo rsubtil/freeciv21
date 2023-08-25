@@ -177,22 +177,22 @@ void sabotages_report::update_info(int last_sabotage_self_id, int last_sabotage_
   }
 }
 
-void sabotages_report::update_self_info(int id, int turn, const char *info)
+void sabotages_report::update_self_info(const struct packet_sabotage_info_self *info)
 {
-  cached_last_self_id = MAX(cached_last_self_id, id);
+  cached_last_self_id = MAX(cached_last_self_id, info->id);
   QLabel *label = new QLabel();
   label->setWordWrap(true);
   label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-  label->setText(QString::number(turn) + ": " + QString(info));
+  label->setText(QString::number(info->turn) + ": " + QString(info->info));
   m_sabotages_self_widget->layout()->addWidget(label);
 }
 
-void sabotages_report::update_other_info(int id, int turn, const char *info)
+void sabotages_report::update_other_info(const struct packet_sabotage_info_other *info)
 {
-  cached_last_other_id = MAX(cached_last_other_id, id);
+  cached_last_other_id = MAX(cached_last_other_id, info->id);
   QLabel *label = new QLabel();
   label->setWordWrap(true);
   label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-  label->setText(QString::number(turn) + ": " + QString(info));
+  label->setText(QString::number(info->turn) + ": " + QString(info->info));
   m_sabotages_other_widget->layout()->addWidget(label);
 }

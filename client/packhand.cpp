@@ -5545,14 +5545,14 @@ void handle_sabotage_info(int last_sabotage_self_id, int last_sabotage_other_id)
   sabotages_report::instance()->update_info(last_sabotage_self_id, last_sabotage_other_id);
 }
 
-void handle_sabotage_info_self(int id, int turn, char const* info)
+void handle_sabotage_info_self(const struct packet_sabotage_info_self *packet)
 {
-  sabotages_report::instance()->update_self_info(id, turn, info);
+  sabotages_report::instance()->update_self_info(packet);
 }
 
-void handle_sabotage_info_other(int id, int turn, char const* info)
+void handle_sabotage_info_other(const struct packet_sabotage_info_other *packet)
 {
-  sabotages_report::instance()->update_other_info(id, turn, info);
+  sabotages_report::instance()->update_other_info(packet);
 }
 
 void handle_sabotage_error(const char* msg)

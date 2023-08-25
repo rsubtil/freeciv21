@@ -39,32 +39,38 @@ bool diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
 bool diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                        struct city *pcity, Impr_type_id improvement,
                        const struct action *paction);
-bool spy_steal_gold(struct player *act_player, struct unit *act_unit,
+void spy_steal_gold(struct player *act_player, struct player* tgt_player, float ratio);
+bool spy_steal_gold_city(struct player *act_player, struct unit *act_unit,
                     struct city *tgt_city, const struct action *paction);
 bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
                              struct tile *tgt_tile, struct extra_type* tgt_extra,
                              const struct action *paction);
-bool spy_steal_science(struct player *act_player, struct unit *act_unit,
+void spy_steal_science(struct player *act_player, struct player* tgt_player, float ratio);
+bool spy_steal_science_city(struct player *act_player, struct unit *act_unit,
                        struct city *tgt_city, const struct action *paction);
 bool spy_steal_science_building(struct player *act_player, struct unit *act_unit,
                                 struct tile *tgt_tile, struct extra_type* tgt_extra,
                                 const struct action *paction);
-bool spy_steal_materials(struct player *act_player, struct unit *act_unit,
+void spy_steal_materials(struct player *act_player, struct player* tgt_player, float ratio);
+bool spy_steal_materials_city(struct player *act_player, struct unit *act_unit,
                          struct city *tgt_city, const struct action *paction);
 bool spy_steal_materials_building(struct player *act_player, struct unit *act_unit,
                                   struct tile *tgt_tile, struct extra_type* tgt_extra,
                                   const struct action *paction);
-bool spy_investigate_gold(struct player *act_player, struct unit *act_unit,
+void spy_investigate_gold(struct player *act_player, struct player* tgt_player);
+bool spy_investigate_gold_city(struct player *act_player, struct unit *act_unit,
                           struct city *tgt_city, const struct action *paction);
 bool spy_investigate_gold_building(struct player *act_player, struct unit *act_unit,
                                    struct tile *tgt_tile, struct extra_type* tgt_extra,
                                    const struct action *paction);
-bool spy_investigate_science(struct player *act_player, struct unit *act_unit,
+void spy_investigate_science(struct player *act_player, struct player* tgt_player);
+bool spy_investigate_science_city(struct player *act_player, struct unit *act_unit,
                              struct city *tgt_city, const struct action *paction);
 bool spy_investigate_science_building(struct player *act_player, struct unit *act_unit,
                                       struct tile *tgt_tile, struct extra_type* tgt_extra,
                                       const struct action *paction);
-bool spy_investigate_materials(struct player *act_player, struct unit *act_unit,
+void spy_investigate_materials(struct player *act_player, struct player* tgt_player);
+bool spy_investigate_materials_city(struct player *act_player, struct unit *act_unit,
                                struct city *tgt_city, const struct action *paction);
 bool spy_investigate_materials_building(struct player *act_player, struct unit *act_unit,
                                         struct tile *tgt_tile, struct extra_type* tgt_extra,

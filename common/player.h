@@ -351,6 +351,9 @@ struct player {
       struct report_info *gold_report;
       struct report_info *science_report;
       struct report_info *materials_report;
+
+      int last_sabotage_self_id;
+      int last_sabotage_other_id;
     } server;
 
     struct {

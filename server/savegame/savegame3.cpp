@@ -329,6 +329,9 @@ static void sg_save_random(struct savedata *saving);
 static void sg_load_transport_reports(struct loaddata *loading);
 static void sg_save_transport_reports(struct savedata *saving);
 
+static void sg_load_sabotages(struct loaddata *loading);
+static void sg_save_sabotages(struct savedata *saving);
+
 static void sg_load_script(struct loaddata *loading);
 static void sg_save_script(struct savedata *saving);
 
@@ -490,6 +493,8 @@ void savegame3_load(struct section_file *file)
   sg_load_history(loading);
   // [mapimg]
   sg_load_mapimg(loading);
+  // [sabotages]
+  sg_load_sabotages(loading);
   // [script] -- must come last as may reference game objects
   sg_load_script(loading);
   // [post_load_compat]; needs the game loaded by [savefile]
@@ -536,6 +541,8 @@ static void savegame3_save_real(struct section_file *file,
   sg_save_random(saving);
   // [transport_reports]
   sg_save_transport_reports(saving);
+  // [sabotages]
+  sg_save_sabotages(saving);
   // [script]
   sg_save_script(saving);
   // [settings]
@@ -2316,7 +2323,7 @@ static void sg_load_transport_reports(struct loaddata *loading)
 }
 
 /**
-   Save '[random]'.
+   Save '[transport_reports]'.
  */
 static void sg_save_transport_reports(struct savedata *saving)
 {
@@ -2333,6 +2340,59 @@ static void sg_save_transport_reports(struct savedata *saving)
     secfile_insert_str(saving->file, qUtf8Printable(tr->to), "transport_reports.data%d.to", idx);
     secfile_insert_str(saving->file, qUtf8Printable(tr->unit_name), "transport_reports.data%d.unit_name", idx);
     secfile_insert_str(saving->file, qUtf8Printable(tr->player), "transport_reports.data%d.player", idx);
+    idx++;
+  }
+}
+
+/* =======================================================================
+ * Load / save sabotages.
+ * ======================================================================= */
+
+/**
+   Load '[sabotages]'.
+ */
+static void sg_load_sabotages(struct loaddata *loading)
+{
+  // Check status and return if not OK (sg_success != TRUE).
+  sg_check_ret();
+
+  int count = secfile_lookup_int_default(loading->file, 0,
+                                         "sabotages.count");
+  for(int i = 0; i < count; i++) {
+    struct sabotage_info *si = new sabotage_info();
+    if(!secfile_lookup_int(loading->file, &(si->id), "sabotages.data%d.id", i)) {delete si; continue;}
+    si->actionable = secfile_lookup_bool_default(loading->file, false, "sabotages.data%d.actionable", i);
+    si->turn = secfile_lookup_int_default(loading->file, 0, "sabotages.data%d.turn", i);
+    int player_src_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_src", i);
+    int player_tgt_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_tgt", i);
+    int player_send_to_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_send_to", i);
+    si->player_src = player_by_number(player_src_id);
+    si->player_tgt = player_by_number(player_tgt_id);
+    si->player_send_to = player_by_number(player_send_to_id);
+    si->info = secfile_lookup_str(loading->file, "sabotages.data%d.info", i);
+
+    s_info.cached_sabotages.push_back(si);
+  }
+}
+
+/**
+   Save '[sabotages]'.
+ */
+static void sg_save_sabotages(struct savedata *saving)
+{
+  // Check status and return if not OK (sg_success != TRUE).
+  sg_check_ret();
+
+  secfile_insert_int(saving->file, s_info.cached_sabotages.size(), "sabotages.count");
+  int idx = 0;
+  for(struct sabotage_info* si : s_info.cached_sabotages) {
+    secfile_insert_int(saving->file, si->id, "sabotages.data%d.id", idx);
+    secfile_insert_bool(saving->file, si->actionable, "sabotages.data%d.actionable", idx);
+    secfile_insert_int(saving->file, si->turn, "sabotages.data%d.turn", idx);
+    secfile_insert_int(saving->file, player_number(si->player_src), "sabotages.data%d.player_src", idx);
+    secfile_insert_int(saving->file, player_number(si->player_tgt), "sabotages.data%d.player_tgt", idx);
+    secfile_insert_int(saving->file, player_number(si->player_send_to), "sabotages.data%d.player_send_to", idx);
+    secfile_insert_str(saving->file, si->info.c_str(), "sabotages.data%d.info", idx);
     idx++;
   }
 }
@@ -4229,6 +4289,14 @@ static void sg_load_player_main(struct loaddata *loading, struct player *plr)
                           "player%d.materials_last_turn", plrno)) {
     plr->server.materials_last_turn = 0;
   }
+  if (!secfile_lookup_int(loading->file, &plr->server.last_sabotage_self_id,
+                          "player%d.last_sabotage_self_id", plrno)) {
+    plr->server.last_sabotage_self_id = -1;
+  }
+  if (!secfile_lookup_int(loading->file, &plr->server.last_sabotage_other_id,
+                          "player%d.last_sabotage_other_id", plrno)) {
+    plr->server.last_sabotage_other_id = -1;
+  }
 
   // Traits
   if (plr->nation) {
@@ -4603,6 +4671,10 @@ static void sg_save_player_main(struct savedata *saving, struct player *plr)
                      "player%d.science_last_turn", plrno);
   secfile_insert_int(saving->file, plr->server.materials_last_turn,
                      "player%d.materials_last_turn", plrno);
+  secfile_insert_int(saving->file, plr->server.last_sabotage_self_id,
+                     "player%d.last_sabotage_self_id", plrno);
+  secfile_insert_int(saving->file, plr->server.last_sabotage_other_id,
+                     "player%d.last_sabotage_other_id", plrno);
 
   // Save traits
   {

@@ -3048,7 +3048,7 @@ bool unit_perform_action(struct player *pplayer, const int actor_id,
     // Difference is caused by data in the action structure.
     ACTION_STARTED_UNIT_CITY(
         action_type, actor_unit, pcity,
-        spy_steal_gold(pplayer, actor_unit, pcity, paction));
+        spy_steal_gold_city(pplayer, actor_unit, pcity, paction));
     break;
   case ACTRES_STEAL_MAPS:
     // Difference is caused by data in the action structure.
@@ -3565,7 +3565,7 @@ static bool do_wiretap(struct player *pplayer, struct unit *punit,
   tile* transport_from = map_transports_get(s_transport_from);
   fc_assert_ret_val(transport_from, false);
 
-  // TODO: Implement
+  pplayer->wiretap = transport_from;
 
   return true;
 }

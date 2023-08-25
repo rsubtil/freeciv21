@@ -310,7 +310,7 @@ type GOVERNMENT         = sint8(Government_type_id)
 type IMPROVEMENT        = uint8(Impr_type_id)
 type MULTIPLIER         = uint8(Multiplier_type_id)
 type NATION             = sint16(Nation_type_id)
-type PLAYER             = UINT16
+type PLAYER             = SINT16
 type ATTACKER           = SINT16
 type RESEARCH           = UINT8
 type RESOURCE           = uint8(Resource_type_id)
@@ -2484,9 +2484,12 @@ PACKET_SABOTAGE_INFO_SELF_REQ = 270; cs
   UINT32 id;
 end
 
-PACKET_SABOTAGE_INFO_SELF = 271; sc, lsend
+PACKET_SABOTAGE_INFO_SELF = 271; sc, handle-via-packet
   UINT32 id;
+  BOOL actionable;
   UINT32 turn;
+  PLAYER player_src;
+  PLAYER player_tgt;
   STRING info[MAX_LEN_CONTENT];
 end
 
@@ -2494,9 +2497,12 @@ PACKET_SABOTAGE_INFO_OTHER_REQ = 272; cs
   UINT32 id;
 end
 
-PACKET_SABOTAGE_INFO_OTHER = 273; sc, lsend
+PACKET_SABOTAGE_INFO_OTHER = 273; sc, handle-via-packet
   UINT32 id;
+  BOOL actionable;
   UINT32 turn;
+  PLAYER player_src;
+  PLAYER player_tgt;
   STRING info[MAX_LEN_CONTENT];
 end
 

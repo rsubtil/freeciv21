@@ -77,7 +77,7 @@ sound		= "b_palace"
 sound_alt	= "b_generic"
 helptext	= _("\
 The main building in your research base. Always produces 1 of \
-each resource.
+each resource.\
 ")
 
 [building_none]
@@ -118,7 +118,7 @@ upkeep		= 1
 sabotage	= 0
 helptext	= _("\
 A Research Center gives more space for your scientists to work,\
- improving your base's science production by 1.
+ improving your base's science production by 1.\
 ")
 
 [building_investment_center]
@@ -139,7 +139,7 @@ upkeep		= 0
 sabotage	= 0
 helptext	= _("\
 An Investment Center gives more space for your bankers to work,\
- improving your base's gold production by 1.
+ improving your base's gold production by 1.\
 ")
 
 [building_logistics_center]
@@ -160,7 +160,7 @@ upkeep		= 1
 sabotage	= 0
 helptext	= _("\
 A Logistics Center gives more space for your engineers to work,\
- improving your base's material production by 1.
+ improving your base's material production by 1.\
 ")
 
 [building_rnd]
@@ -181,7 +181,7 @@ upkeep		= 1
 sabotage	= 0
 helptext	= _("\
 Establishes a dedicated Research & Development division,\
- improving your base's science production by 2.
+ improving your base's science production by 2.\
 ")
 
 [building_factory]
@@ -202,7 +202,7 @@ upkeep		= 1
 sabotage	= 0
 helptext	= _("\
 Gives your engineers a dedicated Factory to work under, \
- improving your base's material production by 2.
+ improving your base's material production by 2.\
 ")
 
 [building_salary_boost]
@@ -224,7 +224,7 @@ upkeep		= 0
 sabotage	= 0
 helptext	= _("\
 Doubles the salaries from this base's units. This will double the unit maintenance \
- cost from this base, but will improve the base's loyalty by 100%.
+ cost from this base, but will improve the base's loyalty by 100%.\
 ")
 
 [building_bank]
@@ -245,7 +245,7 @@ upkeep		= 1
 sabotage	= 0
 helptext	= _("\
 Establishes a Bank inside your base, \
- improving your base's gold production by 3.
+ improving your base's gold production by 3.\
 ")
 
 [building_salary_cuts]
@@ -267,7 +267,7 @@ upkeep		= 0
 sabotage	= 0
 helptext	= _("\
 Cuts all salaries from this base's units. This will remove all unit maintenance \
- costs from this base, but will reduce the base's loyalty by 75%.
+ costs from this base, but will reduce the base's loyalty by 75%.\
 ")
 
 [building_space_program]
@@ -288,5 +288,5 @@ upkeep		= 0
 sabotage	= 0
 helptext	= _("\
 Establishes a formal Space Program in your base, \
- increasing your base's science output by 3.
+ increasing your base's science output by 3.\
 ")
