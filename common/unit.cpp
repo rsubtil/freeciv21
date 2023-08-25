@@ -513,6 +513,7 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_MINE:
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
+    return true;
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
@@ -525,7 +526,6 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
-    return true;
   case ACTIVITY_IDLE:
   case ACTIVITY_FORTIFIED:
   case ACTIVITY_SENTRY:
@@ -1094,6 +1094,9 @@ static void set_unit_activity_internal(struct unit *punit,
  */
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 {
+  if(activity_requires_target(new_activity)) {
+    log_warning("a");
+  }
   fc_assert_ret(!activity_requires_target(new_activity));
 
   if (new_activity == ACTIVITY_FORTIFYING

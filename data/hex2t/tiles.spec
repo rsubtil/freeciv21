@@ -145,6 +145,7 @@ tiles = { "row", "column","tag"
   7, 3, "t.coast_color"
 
   7, 4, "user.attention"
+  7, 4, "user.wiretap"
   7, 5, "tx.fog"
 
 ; darkness

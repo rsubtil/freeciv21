@@ -3546,10 +3546,9 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
 
   unit_move(punit, transport_to, 100, nullptr, false, false);
 
-  // TODO: reveal info when wiretaps are active
   players_iterate(iter_pplayer)
   {
-    if(iter_pplayer->wiretap == transport_to) {
+    if(iter_pplayer->wiretap == transport_to && unit_owner(punit) != iter_pplayer) {
       struct sabotage_info* info = s_info.new_sabotage_info(false);
       info->player_src = pplayer;
       info->player_tgt = iter_pplayer;

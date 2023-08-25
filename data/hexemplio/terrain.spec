@@ -137,6 +137,7 @@ tiles = { "row", "column","tag"
  5, 0, "t.blend.lake"
  0, 4, "t.blend.arctic"										;[?]
  5, 3, "user.attention"										;[GS]
+ 6, 4, "user.wiretap"										;[GS]
  5, 4, "tx.fog"
 ; 5, 6, "t.l0.charcoal1"									;[?]
 ; 5, 7, "t.l0.compass1"										;[CA][PA]

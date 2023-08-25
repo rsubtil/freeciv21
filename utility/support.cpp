@@ -413,6 +413,9 @@ bool fc_strrep(char *str, size_t len, const char *search,
 size_t fc_strlcpy(char *dest, const char *src, size_t n)
 {
   fc_assert_ret_val(nullptr != dest, -1);
+  if(src == nullptr) {
+    log_warning("a");
+  }
   fc_assert_ret_val(nullptr != src, -1);
   fc_assert_ret_val(0 < n, -1);
 

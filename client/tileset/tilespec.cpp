@@ -225,6 +225,7 @@ struct named_sprites {
   } path;
   struct {
     QPixmap *attention;
+    QPixmap *wiretap;
   } user;
   struct {
     QPixmap *fog, **fullfog;
@@ -2804,6 +2805,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   t->max_upkeep_height = calculate_max_upkeep_height(t);
 
   SET_SPRITE(user.attention, "user.attention");
+  SET_SPRITE(user.wiretap, "user.wiretap");
 
   SET_SPRITE_OPT(path.s[GTS_MP_LEFT].specific, "path.normal");
   SET_SPRITE_OPT(path.s[GTS_EXHAUSTED_MP].specific, "path.exhausted_mp");
@@ -4785,6 +4787,9 @@ fill_sprite_array(struct tileset *t, enum mapview_layer layer,
     fill_city_overlays_sprite_array(t, sprs, ptile, citymode);
     if (mapdeco_is_crosshair_set(ptile)) {
       sprs.emplace_back(t, t->sprites.user.attention);
+    }
+    if (client_player() && client_player()->wiretap && client_player()->wiretap == ptile) {
+      sprs.emplace_back(t, t->sprites.user.wiretap);
     }
     break;
 

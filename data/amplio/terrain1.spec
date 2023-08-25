@@ -144,6 +144,7 @@ tiles = { "row", "column", "tag"
  15,  3, "t.blend.coast"
  15,  3, "t.blend.lake"
  15,  4, "user.attention"
+ 15,  4, "user.wiretap"
  15,  5, "tx.fog"
 
 ;goto path sprites

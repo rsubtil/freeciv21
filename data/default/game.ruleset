@@ -378,9 +378,6 @@ ui_name_sabotage_unit_escape = _("%sSabotage Enemy Unit%s")
 ; /* TRANS: _Bribe Enemy Unit (3% chance of success). */
 ui_name_bribe_unit = _("%sBribe Enemy Unit%s")
 
-; /* TRANS: _Sabotage City (3% chance of success). */
-ui_name_sabotage_city = _("%sSabotage City%s")
-
 ; /* TRANS: _Sabotage City Escape (3% chance of success). */
 ui_name_sabotage_city_escape = _("%sSabotage City Escape%s")
 
@@ -522,12 +519,16 @@ ui_name_transport_disembark_2 = _("%sDisembark from non native%s")
 ; /* TRANS: _Embark (100% chance of success). */
 ui_name_transport_embark = _("%sEmbark%s")
 
+ui_name_transport = _("Transport")
+ui_name_wiretap = _("Place Wiretap")
+ui_name_sabotage_city = _("Sabotage (City)")
 ui_name_sabotage_city_investigate_gold = _("%sInvestigate (Gold)%s")
 ui_name_sabotage_city_investigate_science = _("%sInvestigate (Science)%s")
 ui_name_sabotage_city_investigate_materials = _("%sInvestigate (Materials)%s")
 ui_name_sabotage_city_steal_gold = _("%sSteal (Gold)%s")
 ui_name_sabotage_city_steal_science = _("%sSteal (Science)%s")
 ui_name_sabotage_city_steal_materials = _("%sSteal (Materials)%s")
+ui_name_sabotage_building = _("Sabotage (Building)")
 ui_name_sabotage_building_investigate_gold = _("%sInvestigate (Gold)%s")
 ui_name_sabotage_building_investigate_science = _("%sInvestigate (Science)%s")
 ui_name_sabotage_building_investigate_materials = _("%sInvestigate (Materials)%s")
