@@ -1381,6 +1381,11 @@ void bounce_unit(struct unit *punit, bool verbose, bounce_reason reason,
     return;
   }
 
+  // Don't bounce spies
+  if (utype_has_flag(unit_type_get(punit), UTYF_SPY)) {
+    return;
+  }
+
   const auto pplayer = unit_owner(punit);
   const auto punit_tile = unit_tile(punit);
 
@@ -1511,6 +1516,10 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
    * transport. */
   unit_list_iterate_safe(pplayer->units, punit)
   {
+    // Don't bounce spies
+    if (utype_has_flag(unit_type_get(punit), UTYF_SPY)) {
+      continue;
+    }
     ptile = unit_tile(punit);
     pcity = tile_city(ptile);
     if (nullptr != pcity && !pplayers_allied(city_owner(pcity), pplayer)) {
@@ -1526,6 +1535,10 @@ static void throw_units_from_illegal_cities(struct player *pplayer,
   // Sanity check.
   unit_list_iterate(pplayer->units, punit)
   {
+    // Don't bounce spies
+    if (utype_has_flag(unit_type_get(punit), UTYF_SPY)) {
+      continue;
+    }
     ptile = unit_tile(punit);
     pcity = tile_city(ptile);
     fc_assert_msg(

@@ -178,6 +178,10 @@ public:
     }
   }
 
+  void set_last_id(int id) {
+    this->id = id;
+  }
+
   void reset() {
     for(struct sabotage_info* sabotage : cached_sabotages) {
       delete sabotage;

@@ -2051,6 +2051,9 @@ static void sg_load_game(struct loaddata *loading)
   game.info.coolinglevel =
       secfile_lookup_int_default(loading->file, 0, "game.coolinglevel");
 
+  game.info.game_mode =
+      (game_mode)secfile_lookup_int_default(loading->file, RS_GAME_MODE_ACTIVE, "game.gamemode");
+
   // Global advances.
   str = secfile_lookup_str_default(loading->file, nullptr,
                                    "game.global_advances");
@@ -2182,6 +2185,7 @@ static void sg_save_game(struct savedata *saving)
   secfile_insert_int(saving->file, game.info.cooling, "game.cooling");
   secfile_insert_int(saving->file, game.info.coolinglevel,
                      "game.coolinglevel");
+  secfile_insert_int(saving->file, game.info.game_mode, "game.gamemode");
   /* For debugging purposes only.
    * Do not save it if it's 0 (not known);
    * this confuses people reading this 'document' less than
@@ -2358,6 +2362,7 @@ static void sg_load_sabotages(struct loaddata *loading)
 
   int count = secfile_lookup_int_default(loading->file, 0,
                                          "sabotages.count");
+  s_info.set_last_id(count-1);
   for(int i = 0; i < count; i++) {
     struct sabotage_info *si = new sabotage_info();
     if(!secfile_lookup_int(loading->file, &(si->id), "sabotages.data%d.id", i)) {delete si; continue;}
