@@ -3399,7 +3399,7 @@ static void message_options_init()
       E_LOG_ERROR,       E_SETTING,       E_VOTE_NEW,     E_VOTE_RESOLVED,
       E_VOTE_ABORTED,    E_UNIT_LOST_ATT, E_UNIT_WIN_ATT,
   };
-  int all[] = {E_LOG_FATAL, E_SCRIPT, E_DEPRECATION_WARNING, E_MESSAGE_WALL};
+  int all[] = {E_LOG_FATAL, E_SCRIPT, E_DEPRECATION_WARNING, E_MESSAGE_WALL, E_DIPLOMACY};
   int i;
 
   for (i = 0; i <= event_type_max(); i++) {
