@@ -3553,7 +3553,11 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
       info->player_src = pplayer;
       info->player_tgt = iter_pplayer;
       info->player_send_to = iter_pplayer;
-      info->info = "A " + std::string(unit_rule_name(punit)) + " was seen travelling to " + s_transport_to.toStdString() + ".";
+      info->info = "A " +
+        (get_player_bonus(iter_pplayer, EFT_ENABLE_WIRETAP_IDENTITY_REVEAL) > 0 ? std::string(player_name(pplayer)) + " " : std::string(""))
+        + std::string(unit_rule_name(punit))
+        + " was seen travelling to "
+        + s_transport_to.toStdString() + ".";
       s_info.send_sabotage_info_tgt(info);
     }
   }

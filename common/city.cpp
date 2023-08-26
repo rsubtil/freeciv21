@@ -3102,6 +3102,7 @@ void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 
     pcity->prod[out] = 1 + get_city_output_bonus(pcity, get_output_type(out), effect);
   }
+  pcity->prod[O_GOLD] *= get_player_bonus(city_owner(pcity), EFT_BASE_GOLD_OUTPUT_MOD) / 100.0f;
   // O_SHIELD (production) is treated differently due to the effect being on percentage
   pcity->prod[O_SHIELD] = 1;
   set_surpluses(pcity);
