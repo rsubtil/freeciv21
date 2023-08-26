@@ -253,7 +253,7 @@ cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-helptext = _("Allows the construction of R&D centers on bases, increasing it's science output.")
+helptext = _("Establishes a 4-day work week, improving science production by 50% in universities.")
 
 [advance_salary_boost]
 name = _("Salary Boost")
@@ -265,15 +265,15 @@ graphic = "a.alphabet"
 graphic_alt = "-"
 helptext = _("Allows you to double a bases's loyalty, but by doubling unit costs.")
 
-[advance_bank]
-name = _("Bank")
+[advance_stock_exchange]
+name = _("Stock Exchange")
 req1 = "Free Market"
 req2 = "None"
 cost = 150
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-helptext = _("Allows the construction of Banks on bases, increasing it's gold output.")
+helptext = _("Allows the construction of Stock Exchanges on bases, increasing it's gold output.")
 
 [advance_salary_cut]
 name = _("Salary Cuts")

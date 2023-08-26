@@ -72,6 +72,30 @@ value  = 20
 type   = "Spy_Steal_Material_Pct"
 value  = 10
 
+[effect_base_scientist_unit_cost]
+type   = "Base_Unit_Scientist_Cost_Pct"
+value  = 100
+
+[effect_base_unit_cost]
+type   = "Base_Unit_Cost_Pct"
+value  = 100
+
+[effect_base_production_rate]
+type   = "Base_Production_Rate_Pct"
+value  = 100
+
+[effect_base_unit_cost_mod]
+type   = "Base_Unit_Cost_Mod"
+value  = 100
+
+[effect_base_loyalty_mod]
+type   = "Base_Loyalty_Mod"
+value  = 100
+
+[effect_base_gold_output_mod]
+type   = "Base_Gold_Output_Mod"
+value  = 100
+
 [effect_improvement_research_center]
 type = "Base_Science_Output"
 value = 1
@@ -186,7 +210,7 @@ reqs =
 
 [effect_improvement_salary_boost_units]
 type = "Base_Unit_Cost_Mod"
-value = 200
+value = 100
 reqs =
     { "type", "name", "range"
       "Building", "Salary Boosts", "City"
@@ -194,23 +218,23 @@ reqs =
 
 [effect_improvement_salary_boost_loyalty]
 type = "Base_Loyalty_Mod"
-value = 200
+value = 100
 reqs =
     { "type", "name", "range"
       "Building", "Salary Boosts", "City"
     }
 
-[effect_improvement_bank]
+[effect_improvement_stock_exchange]
 type = "Base_Gold_Output"
 value = 3
 reqs =
     { "type", "name", "range"
-      "Building", "Bank", "City"
+      "Building", "Stock Exchange", "City"
     }
 
 [effect_improvement_salary_cuts_units]
 type = "Base_Unit_Cost_Mod"
-value = 0
+value = -100
 reqs =
     { "type", "name", "range"
       "Building", "Salary Cuts", "City"
@@ -218,7 +242,7 @@ reqs =
 
 [effect_improvement_salary_cuts_loyalty]
 type = "Base_Loyalty_Mod"
-value = 25
+value = -75
 reqs =
     { "type", "name", "range"
       "Building", "Salary Cuts", "City"
@@ -252,7 +276,7 @@ reqs =
 
 [effect_inflation]
 type = "Base_Gold_Output_Mod"
-value = 200
+value = 100
 reqs =
     { "type", "name", "range"
       "Tech", "Inflation", "Player"

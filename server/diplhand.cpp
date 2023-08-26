@@ -899,6 +899,21 @@ void handle_diplomacy_init_meeting_req(struct player *pplayer,
     return;
   }
 
+  if (get_player_bonus(pplayer, EFT_ENABLE_TRADE) < 1) {
+    notify_player(pplayer, nullptr, E_DIPLOMACY, ftc_server,
+                  _("You need to research Free Market to be able to "
+                    "negotiate with other nations."));
+    return;
+  }
+
+  if (get_player_bonus(pother, EFT_ENABLE_TRADE) < 1) {
+    notify_player(pplayer, nullptr, E_DIPLOMACY, ftc_server,
+                  _("%s has not researched Free Market, "
+                    "so you can't negotiate with them yet."),
+                  player_name(pother));
+    return;
+  }
+
   if (could_meet_with_player(pplayer, pother)) {
     auto *ptreaty = new Treaty;
     init_treaty(ptreaty, pplayer, pother);

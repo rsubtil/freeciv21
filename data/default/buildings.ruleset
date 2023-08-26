@@ -227,12 +227,12 @@ Doubles the salaries from this base's units. This will double the unit maintenan
  cost from this base, but will improve the base's loyalty by 100%.\
 ")
 
-[building_bank]
-name		= _("Bank")
+[building_stock_exchange]
+name		= _("Stock Exchange")
 genus		= "Improvement"
 reqs	=
   { "type", "name", "range"
-    "Tech", "Bank", "Player"
+    "Tech", "Stock Exchange", "Player"
   }
 graphic	= "b.palace"
 graphic_alt	= "-"
@@ -241,7 +241,7 @@ obsolete_by	=
     }
 ;build_cost	= 300
 build_cost = 3
-upkeep		= 1
+upkeep		= 0
 sabotage	= 0
 helptext	= _("\
 Establishes a Bank inside your base, \
