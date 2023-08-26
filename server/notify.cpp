@@ -711,9 +711,9 @@ static bool event_cache_match(const struct event_cache_data *pdata,
                               const struct player *pplayer,
                               bool is_global_observer, bool include_public)
 {
-  if (server_state() != pdata->server_state) {
-    return false;
-  }
+  //if (server_state() != pdata->server_state) {
+  //  return false;
+  //}
 
   if (server_state() == S_S_RUNNING && game.info.turn < pdata->packet.turn
       && game.info.turn
@@ -751,11 +751,11 @@ void send_pending_events(struct connection *pconn, bool include_public)
                           include_public)) {
       if (game.server.event_cache.info) {
         // add turn and time to the message
-        strftime(timestr, sizeof(timestr), "%H:%M:%S",
+        strftime(timestr, sizeof(timestr), "%D/%M %H:%M:%S",
                  localtime(&pdata->timestamp));
         pcm = pdata->packet;
-        fc_snprintf(pcm.message, sizeof(pcm.message), "(T%d - %s) %s",
-                    pdata->packet.turn, timestr, pdata->packet.message);
+        fc_snprintf(pcm.message, sizeof(pcm.message), "(%s) %s",
+                    timestr, pdata->packet.message);
         notify_conn_packet(pconn->self, &pcm, false);
       } else {
         notify_conn_packet(pconn->self, &pdata->packet, false);
