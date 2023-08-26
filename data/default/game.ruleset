@@ -181,7 +181,7 @@ gold_upkeep_style = "City"
 output_granularity = 1
 
 ; With how much HP cities start
-city_start_hitpoints = 15
+city_start_hitpoints = 30
 
 ; How much HP city recovers per turn
 city_recover_hitpoints = 1

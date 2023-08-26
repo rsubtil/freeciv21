@@ -834,8 +834,8 @@ QRect polished_citybar_painter::paint(QPainter &painter,
 
   // City HP
   // If city is at full HP, no point is showing the bar
-  if (pcity->hp < game.info.city_start_hitpoints) {
-    float hp_ratio = pcity->hp / (float) game.info.city_start_hitpoints;
+  if (pcity->hp < pcity->max_hp) {
+    float hp_ratio = pcity->hp / (float) pcity->max_hp;
     int ihp = CLIP(0, std::ceil(hp_ratio * citybar->hp.size - 1),
                    citybar->hp.size - 1);
     QPixmap *hp = citybar->hp.p[ihp];

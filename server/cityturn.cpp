@@ -3355,6 +3355,10 @@ static void city_handle_capture(struct city *pcity)
   // Only enabled during strategy mode
   if(game.info.game_mode != GM_ACTIVE) return;
 
+  // Always compute what the max HP (there are more efficient ways to do this,
+  // but I don't time to figure them out lol)
+  pcity->max_hp = city_max_hp(pcity);
+
   struct player *pplayer = city_owner(pcity);
   int radius_sq = city_map_radius_sq_get(pcity);
 
@@ -3419,7 +3423,7 @@ static void city_handle_capture(struct city *pcity)
   delete[] attackers;
 
   // Change HP.
-  pcity->hp = std::clamp(pcity->hp + delta, 0, game.info.city_start_hitpoints);
+  pcity->hp = std::clamp(pcity->hp + delta, 0, pcity->max_hp);
   //log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);
 
   // If HP == 0, city loses ownership.

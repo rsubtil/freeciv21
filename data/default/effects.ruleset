@@ -262,7 +262,7 @@ reqs =
 
 [effect_company_vehicle]
 type = "Move_Bonus"
-value = 1
+value = 100
 reqs =
     { "type", "name", "range"
       "Tech", "Company Vehicle", "Player"

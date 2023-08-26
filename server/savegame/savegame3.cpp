@@ -5160,7 +5160,9 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   int radius_sq = secfile_lookup_int_default(loading->file, -1,
                                              "%s.city_radius_sq", citystr);
   city_map_radius_sq_set(pcity, radius_sq);
-  pcity->hp = secfile_lookup_int_default(loading->file, 480, "%s.hp", citystr);
+  pcity->max_hp = secfile_lookup_int_default(loading->file, city_max_hp(pcity),
+                                             "%s.max_hp", citystr);
+  pcity->hp = secfile_lookup_int_default(loading->file, pcity->max_hp, "%s.hp", citystr);
 
   city_tile_iterate(radius_sq, city_tile(pcity), ptile)
   {
@@ -5482,6 +5484,7 @@ static void sg_save_player_cities(struct savedata *saving,
     secfile_insert_int(saving->file, attacker_id,
                        "%s.attacker", buf);
     secfile_insert_int(saving->file, city_size_get(pcity), "%s.size", buf);
+    secfile_insert_int(saving->file, pcity->max_hp, "%s.max_hp", buf);
     secfile_insert_int(saving->file, pcity->hp, "%s.hp", buf);
 
     j = 0;

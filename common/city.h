@@ -289,6 +289,7 @@ struct city {
   int style;
   enum capital_type capital;
   int hp;
+  int max_hp;
   struct player *attacker; // nullptr if not under attack; indicated rightfull owner if multiple players attack
 
   // the people
@@ -613,6 +614,8 @@ bool city_can_grow_to(const struct city *pcity, int pop_size);
 bool city_can_change_build(const struct city *pcity);
 
 void city_choose_build_default(struct city *pcity);
+
+int city_max_hp(const struct city *pcity);
 
 // textual representation of buildings
 

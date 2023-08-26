@@ -254,10 +254,6 @@ void dio_put_uint16_raw(struct raw_data_out *dout, int value)
   uint16_t x = qToBigEndian(uint16_t(value));
   FC_STATIC_ASSERT(sizeof(x) == 2, uint16_not_2_bytes);
 
-  if(qFromBigEndian(x) != value) {
-    log_warning("didn't fit");
-  }
-
   FIELD_RANGE_TEST((int) qFromBigEndian(x) != value, ,
                    "Trying to put %d into 16 bits; "
                    "it will result %d at receiving side.",

@@ -59,8 +59,7 @@ float utype_move_rate(const struct unit_type *utype, const struct tile *ptile,
 
   /* Add on effects bonus (Magellan's Expedition, Lighthouse,
    * Nuclear Power). */
-  move_rate += (get_unittype_bonus(pplayer, ptile, utype, EFT_MOVE_BONUS)
-                * SINGLE_MOVE);
+  move_rate *= (100 + get_unittype_bonus(pplayer, ptile, utype, EFT_MOVE_BONUS)) / 100.0f;
 
   /* Don't let the move_rate be less than min_speed unless the base_move_rate
    * is also less than min_speed. */

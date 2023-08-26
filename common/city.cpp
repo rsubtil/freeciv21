@@ -1081,6 +1081,11 @@ void city_choose_build_default(struct city *pcity)
   }
 }
 
+int city_max_hp(const struct city *pcity)
+{
+  return game.info.city_start_hitpoints * get_city_bonus(pcity, EFT_BASE_LOYALTY_MOD) / 100.0f;
+}
+
 #ifndef city_name_get
 /**
    Return the name of the city.
@@ -1198,7 +1203,11 @@ int city_total_unit_gold_upkeep(const struct city *pcity)
 
   gold_needed += int(ceil(scientist_upkeep * get_player_bonus(city_owner(pcity), EFT_BASE_UNIT_SCIENTIST_COST_PCT) / 100.0f));
 
-  return gold_needed * get_player_bonus(city_owner(pcity), EFT_BASE_UNIT_COST_PCT) / 100.0f;
+  // Two different ratios: PCT (%) is meant as cumulative bonus, while for MOD (x) only one element should be setting it temporarily.
+  gold_needed *= get_player_bonus(city_owner(pcity), EFT_BASE_UNIT_COST_PCT) / 100.0f;
+  gold_needed *= get_city_bonus(pcity, EFT_BASE_UNIT_COST_MOD) / 100.0f;
+
+  return gold_needed;
 }
 
 /**
@@ -3360,7 +3369,8 @@ struct city *create_city_virtual(struct player *pplayer, struct tile *ptile,
   pcity->capital = CAPITAL_NOT;
   city_size_set(pcity, 1);
   pcity->specialists[DEFAULT_SPECIALIST] = 1;
-  pcity->hp = game.info.city_start_hitpoints;
+  pcity->max_hp = city_max_hp(pcity);
+  pcity->hp = pcity->max_hp;
 
   output_type_iterate(o) { pcity->bonus[o] = 100; }
   output_type_iterate_end;
