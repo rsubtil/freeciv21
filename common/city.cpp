@@ -1179,6 +1179,7 @@ int city_total_impr_gold_upkeep(const struct city *pcity)
 int city_total_unit_gold_upkeep(const struct city *pcity)
 {
   int gold_needed = 0;
+  int scientist_upkeep = 0;
 
   if (!pcity || !pcity->units_supported
       || unit_list_size(pcity->units_supported) < 1) {
@@ -1187,11 +1188,17 @@ int city_total_unit_gold_upkeep(const struct city *pcity)
 
   unit_list_iterate(pcity->units_supported, punit)
   {
-    gold_needed += punit->upkeep[O_GOLD];
+    if(!strcmp(unit_rule_name(punit), "unit_scientist")) {
+      scientist_upkeep += punit->upkeep[O_GOLD];
+    } else {
+      gold_needed += punit->upkeep[O_GOLD];
+    }
   }
   unit_list_iterate_end;
 
-  return gold_needed;
+  gold_needed += int(ceil(scientist_upkeep * get_player_bonus(city_owner(pcity), EFT_BASE_UNIT_SCIENTIST_COST_PCT) / 100.0f));
+
+  return gold_needed * get_player_bonus(city_owner(pcity), EFT_BASE_UNIT_COST_PCT) / 100.0f;
 }
 
 /**
