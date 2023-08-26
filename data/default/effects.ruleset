@@ -80,6 +80,10 @@ value  = 100
 type   = "Base_Unit_Cost_Pct"
 value  = 100
 
+[effect_base_improvement_cost]
+type   = "Base_Improvement_Cost_Pct"
+value  = 100
+
 [effect_base_production_rate]
 type   = "Base_Production_Rate_Pct"
 value  = 100

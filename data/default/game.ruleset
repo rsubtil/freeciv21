@@ -570,11 +570,23 @@ quiet_actions = "Transport Disembark 2", "Conquer City 2"
 ;
 ; */ <-- avoid gettext warnings
 
-[actionenabler_transport]
+[actionenabler_transport_spy]
 action        = "Transport"
 actor_reqs    =
     { "type",          "name",         "range"
       "UnitFlag",      "Spy",          "Local"
+    }
+target_reqs    =
+    { "type",         "name",         "range", "present"
+      "Extra",        "Transport",    "Local", TRUE
+    }
+
+[actionenabler_transport_public]
+action        = "Transport"
+actor_reqs    =
+    { "type",          "name",              "range"
+      "UnitFlag",      "Public",            "Local"
+      "Tech",          "Public Transport",  "Player"
     }
 target_reqs    =
     { "type",         "name",         "range", "present"

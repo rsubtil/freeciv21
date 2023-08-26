@@ -1169,7 +1169,7 @@ int city_total_impr_gold_upkeep(const struct city *pcity)
   }
   city_built_iterate_end;
 
-  return gold_needed;
+  return gold_needed * get_player_bonus(city_owner(pcity), EFT_BASE_IMPROVEMENT_COST_PCT) / 100.0f;
 }
 
 /**
