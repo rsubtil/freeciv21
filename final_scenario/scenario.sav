@@ -1,20 +1,20 @@
 
 [scenario]
-game_version=7924701
+game_version=6111801
 is_scenario=FALSE
 
 [savefile]
 options=" +version3"
 version=50
 reason="User request"
-revision="3.1.49147.1-alpha"
+revision="3.1.31018.1-alpha"
 rulesetdir="spacerace"
-improvement_size=5
-improvement_vector="Palace","Nothing","Research Center","Investment Center","Logistics Center"
-technology_size=27
-technology_vector="A_NONE","Research Centers","Investment Centers","Logistics Centers","Laboratories","Scolarships","Free Market","Venture Capital","Refinery","Infrastructure","Research & Development","Renewable Energies","Public Transport","Factory","4-day Work Week","Salary Boost","Salary Cuts","Company Vehicles","Modern Materials","Telecommunications","Inflation","Railroad Stocks","Space Program","Tax Evasion","Financial Rescue","Automation","Video Surveillance"
-activities_size=38
-activities_vector="Idle","Pollution","Unused Road","Mine","Irrigate","Fortified","Fortress","Sentry","Unused Railroad","Pillage","Goto","Explore","Transform","Unused","Unused Airbase","Fortifying","Fallout","Unused Patrol","Base","Road","Convert","Cultivate","Plant","Transport","Sabotage (City)","Sabotage (Building)","Investigate Gold (City)","Investigate Science (City)","Investigate Materials (City)","Steal Gold (City)","Steal Science (City)","Steal Materials (City)","Investigate Gold (Building)","Investigate Science (Building)","Investigate Materials (Building)","Steal Gold (Building)","Steal Science (Building)","Steal Materials (Building)"
+improvement_size=11
+improvement_vector="Palace","Nothing","Research Center","Investment Center","Logistics Center","Research & Development Division","Factory","Salary Boosts","Stock Exchange","Salary Cuts","Space Program"
+technology_size=28
+technology_vector="A_NONE","Research Centers","Investment Centers","Logistics Centers","Laboratories","Scolarships","Free Market","Venture Capital","Refinery","Infrastructure","Research & Development","Renewable Energy","Public Transport","Factory","4-day Work Week","Salary Boost","Stock Exchange","Salary Cuts","Company Vehicle","Modern Materials","Telecommunications","Inflation","Railroad Stocks","Space Program","Tax Evasion","Financial Rescue","Automation","Video Surveillance"
+activities_size=39
+activities_vector="Idle","Pollution","Unused Road","Mine","Irrigate","Fortified","Fortress","Sentry","Unused Railroad","Pillage","Goto","Explore","Transform","Unused","Unused Airbase","Fortifying","Fallout","Unused Patrol","Base","Road","Convert","Cultivate","Plant","Transport","Sabotage (City)","Sabotage (Building)","Investigate Gold (City)","Investigate Science (City)","Investigate Materials (City)","Steal Gold (City)","Steal Science (City)","Steal Materials (City)","Investigate Gold (Building)","Investigate Science (Building)","Investigate Materials (Building)","Steal Gold (Building)","Steal Science (Building)","Steal Materials (Building)","Place Wiretap"
 specialists_size=3
 specialists_vector="elvis","scientist","taxman"
 trait_size=4
@@ -26,8 +26,8 @@ diplstate_type_size=7
 diplstate_type_vector="Armistice","War","Cease-fire","Peace","Alliance","Never met","Team"
 city_options_size=3
 city_options_vector="Disband","Sci_Specialists","Tax_Specialists"
-action_size=92
-action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Sabotage Unit","Sabotage Unit Escape","Capture Units","Found City","Join City","Steal Maps","Steal Maps Escape","Bombard","Bombard 2","Bombard 3","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Recycle Unit","Disband Unit","Home City","Upgrade Unit","Paradrop Unit","Airlift Unit","Attack","Suicide Attack","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Heal Unit","Transform Terrain","Cultivate","Plant","Pillage","Fortify","Build Road","Convert Unit","Build Base","Build Mine","Build Irrigation","Clean Pollution","Clean Fallout","Transport Alight","Transport Unload","Transport Disembark","Transport Disembark 2","Transport Board","Transport Embark","Spread Plague","Spy Attack","User Action 1","User Action 2","User Action 3","Transport","Sabotage (City)","Investigate Gold City","Investigate Science City","Investigate Materials City","Steal Gold City","Steal Science City","Steal Materials City","Sabotage (Building)","Investigate Gold Building","Investigate Science Building","Investigate Materials Building","Steal Gold Building","Steal Science Building","Steal Materials Building"
+action_size=93
+action_vector="Establish Embassy","Establish Embassy Stay","Investigate City","Investigate City Spend Unit","Poison City","Poison City Escape","Steal Gold","Steal Gold Escape","Sabotage City","Sabotage City Escape","Targeted Sabotage City","Targeted Sabotage City Escape","Sabotage City Production","Sabotage City Production Escape","Steal Tech","Steal Tech Escape Expected","Targeted Steal Tech","Targeted Steal Tech Escape Expected","Incite City","Incite City Escape","Establish Trade Route","Enter Marketplace","Help Wonder","Bribe Unit","Sabotage Unit","Sabotage Unit Escape","Capture Units","Found City","Join City","Steal Maps","Steal Maps Escape","Bombard","Bombard 2","Bombard 3","Suitcase Nuke","Suitcase Nuke Escape","Explode Nuclear","Nuke City","Nuke Units","Destroy City","Expel Unit","Recycle Unit","Disband Unit","Home City","Upgrade Unit","Paradrop Unit","Airlift Unit","Attack","Suicide Attack","Surgical Strike Building","Surgical Strike Production","Conquer City","Conquer City 2","Heal Unit","Transform Terrain","Cultivate","Plant","Pillage","Fortify","Build Road","Convert Unit","Build Base","Build Mine","Build Irrigation","Clean Pollution","Clean Fallout","Transport Alight","Transport Unload","Transport Disembark","Transport Disembark 2","Transport Board","Transport Embark","Spread Plague","Spy Attack","User Action 1","User Action 2","User Action 3","Transport","Sabotage (City)","Investigate Gold City","Investigate Science City","Investigate Materials City","Steal Gold City","Steal Science City","Steal Materials City","Sabotage (Building)","Investigate Gold Building","Investigate Science Building","Investigate Materials Building","Steal Gold Building","Steal Science Building","Steal Materials Building","Place Wiretap"
 action_decision_size=3
 action_decision_vector="nothing","passive","active"
 server_side_agent_size=3
@@ -74,7 +74,8 @@ warminglevel=5
 nuclearwinter=0
 cooling=0
 coolinglevel=5
-global_advances="100000000000000000000000000"
+gamemode=0
+global_advances="1000000000000000000000000000"
 last_turn_change_time=0
 save_players=TRUE
 ai_types="classic"
@@ -82,7 +83,13 @@ save_known=TRUE
 
 [random]
 saved=TRUE
-state="3769896490 2254403034 153076206 1577939711 2446641407 2709612116 3282928533 3946555452 103952044 113598939 2330938414 3367259758 1288449931 1281735690 2701375813 83438068 548461800 2920488806 2274502676 3230825130 1881886789 3408749417 638916524 3624232841 2622465313 2706915551 1382838831 1274734328 858726664 2662099795 877413722 2285480919 877640760 1258709264 4214608100 1226524379 464480692 4101278588 857655760 1399187808 1589755609 3594037553 593591674 488178593 3180072756 4042792745 1791250459 720072979 3640428420 4245863425 3175996084 1491209254 115457240 342997259 2785959129 2605773205 793665112 2593568010 1870806151 1103130324 3250233666 941643994 3949953593 2406493713 3847794201 3079250512 1379262376 2832000153 2793307477 55608819 111729299 1501818688 2797765359 2279890987 293492453 2477153025 2044142378 2591689588 3900327461 3729720511 482604074 331397738 1433966604 3406242119 622482831 220796735 2043107946 650255294 732647527 1693383058 2934225610 3533617285 2581142164 236936840 593418558 2830673815 3897693013 3310207867 969098426 4020803522 2083627050 2956282711 615057443 3048460365 2826984128 1403578995 751684995 961836129 3310272949 2122352612 3166124703 350502034 390722510 1715060709 2844388062 3643077067 1518367697 3952678596 3535718988 2187116860 1351760836 1666733180 3740201922 4046541937 3158912290 3729231869 2782779279 475637168 4116405868 537165088 1428948767 269752285 2968308912 3788132572 2089789136 2888314535 1703286907 643489510 2988890296 2651923966 784145941 2824679578 240032223 2161910601 2758973713 3626093600 3469638632 4065883476 4005599936 4217452452 396751630 1829869750 1668989925 2133375060 680232700 1080546606 4228715091 285126377 982661489 2964240506 4273833904 3336197977 1006150261 3446838898 2494896319 708390008 4031400789 3574304669 3788045787 682764410 856359384 3452309052 275175397 2352995019 3747671032 3693692057 2543188917 1974467491 3349391201 3328995537 1892475098 3199910525 1430768430 3634707474 470645452 1402463605 1409326046 1728694332 3781505049 3856210083 4107376011 2639362434 1084104295 1544068320 3127642572 4061777486 3808321218 3748853562 3820046955 2105404438 4104954541 458348614 2202823815 1023907348 3712913152 2048021444 2313607473 1918114301 1131161615 1402934516 1679091494 4112342312 124362033 3533554569 1720488485 2909988900 3207946982 916547495 1960721975 1768625982 2244537317 494628058 237216056 1038130808 3586125257 2020474524 80480014 11124480 1780259457 253359762 1549097797 4024853790 667996670 2123066190 2071151411 4142402842 1856593990 3401551742 2765648018 903506331 796606120 500165141 589524040 1603451808 1378696247 1264952088 3886857359 3954022862 375242607 2531133296 2056154285 786502860 3992061019 2889929338 2378942454 2227124478 945477517 1235684778 3925260879 1817452787 2144582568 424612562 2016342118 1139060768 1480173021 2289636720 1386769900 1383315813 3481643292 1425195747 2155729250 1801364020 1380161327 1221556054 3035898516 2522791333 1603014688 2988826312 1477896836 4077344035 2127877414 200727481 1752349423 3821881332 2121794339 2095220847 1393972442 490168849 77348530 584563668 1867815882 1995158247 230386254 2854337028 3640892055 2999906223 2049245310 3677644910 571678704 1893419019 2821242761 734794769 420257694 3769270737 2043399972 661077725 856751508 2608427862 3687868419 1989704780 834856968 3037477642 3844771645 1341245807 902756834 2265489502 3847636496 1823611684 3358258096 179466525 2135113025 2001440006 1314093601 2018858537 2882120307 4278379667 2115835182 4049546198 3155434512 596379342 1002819193 1138218592 154520834 1834408654 3645088366 1155104045 4085744564 199158286 1510050475 665200343 3248808495 2996501039 3095852150 4192091339 1726278455 3995322516 1802832639 3646206625 499498106 2989034252 2983188838 3645332814 3537736345 1687990096 329184800 1181952410 2889156872 3480459383 1099111652 2180685480 3368575741 1792523145 1948438217 1511520580 4270795831 3897037101 1276344721 3576055284 2106772586 2846136231 106697300 1127214975 3128950295 4177234000 1331593557 1191303851 460487304 3542638468 2457740128 1083132721 2050921826 3288422795 993847000 152329154 1608601295 3931141103 395110187 2768931027 2075849621 788713299 1253259454 72874720 3351395682 3535531037 2349614592 813093040 2353658768 2956861715 2516318559 1121512714 2725656845 1664222825 826484515 4184549760 822534908 789891235 1474086460 1497431692 3011353507 53620466 3491782305 2034505473 2020189781 107020826 3997650504 2820874543 226856500 1882960974 3764058904 350890386 3828158631 2630218245 224071923 2737161768 2134986962 2237343047 1995498996 2155934460 2693066240 2628578962 1903789420 1790034456 4128457875 2395325623 3252891666 4022262477 1062521866 878143559 3283937775 3846905285 2886613961 1687884404 3334938212 1311853869 1611513491 348317818 4222731356 2540406817 2138900392 621347748 2298012496 2124921885 2304709097 146885047 56778171 3239348244 2536768885 3839678273 2422510025 2323169619 4195840346 2710787513 4271372998 2851103760 1772995963 3826443263 654853947 1273593736 3995948503 2247840750 1502201648 3793617470 2973844589 2678897726 840559530 1052944280 640506478 1470308240 1370071334 2451176004 2630921182 3130222104 2877274940 3637713967 2581944057 1648492574 574223230 4130228838 956170925 423949820 351531026 2773671762 3730752870 3256764259 2580565686 3555281232 3468514661 1991549657 3960743850 1400049426 3913133235 1039125511 2973035151 237201521 2416346648 2225530966 3903860046 550811689 414867022 1423897249 2448021092 1742264513 1540850333 3762218903 1019082188 784670360 30161594 3923631703 2907855282 3784182401 935354452 4241691827 3250222817 2321865037 3373420230 863843294 1930768221 4259338686 1756193477 1759728219 877899020 208996510 3200629019 750435101 4177575245 2485882147 3268158167 3198864974 294655276 760108462 3370038799 2905930293 2794264993 2888417072 1022004564 2824526125 1091775735 1696570908 96408040 2180615842 2583917366 2826592041 4199798856 3946835703 3918685008 1599790312 3875571671 1847731746 2777706836 3872047709 644170410 864503676 2074303479 1445985673 2123910700 1852308188 3761125540 1644826706 2142694295 709319881 2203627116 460861805 1294230143 3537452106 1288863317 1201838353 3362591252 1145754603 768029118 3805929857 2940841649 175273600 872479934 214318874 3729311315 1762409944 2990941788 1522301394 2826917584 2595306564 498204641 1111234836 1429157244 2259299769 3234405999 894603109 1361806254 3058779165 3716279058 863820062 316853514 2436633459 1384338397 1483141688 2461740342 647050043 4078615610 1516916540 3362422310 1405807761 394534107 2196344511 3748897289 852621441 626707050 3747952778 890567452 2314872953 674681494 2086467292 1110130365 2595147075 1575045554 599902007 624"
+state="1245303440 1790231717 4282866568 1761084244 3486837875 926246203 2127388845 233440798 729429476 2479892677 3390879858 1203060251 2100765544 142774899 360911896 4286633172 629681932 2305317705 1574928469 1251746447 1107054239 1936536359 620988532 2507929026 2734531014 2654819806 3424010951 1862475816 3148903914 195074749 815863271 3764006679 2304924999 825643886 2236240088 4176972547 3016598388 3809507004 1210450683 815176665 3422821562 2969580844 1506861740 1618943944 841270382 90101882 3912780365 1244669967 1929845544 1864735698 2467457193 1405981151 1400247247 2857872382 3643504422 901506566 503350558 2748309649 3807608835 929146991 3956904067 3909178586 2866120852 2185839916 3733858277 2989236892 3697559729 3328001892 3437370065 2522725220 915608188 857740583 497740235 4088822204 54365392 3706410945 2097610620 967321868 292395046 2720539773 920420430 1190634152 2028112557 2991225824 3151289485 3511351275 1712082387 20273478 2355802412 780555620 810589037 2336564753 3736688378 436763600 1622349923 3945488098 3219843168 2711052304 1998521968 3582882394 3532267739 2095729286 3508697761 2224313871 1352036466 1006751888 1511487402 9567320 2408793895 3371387111 2119682860 1856975616 912064535 209154496 3696925734 1274579953 918797570 4129127098 1825056794 2378803289 4167886833 2605397092 1980183373 2291276451 1128776495 969275358 167232398 757832931 2327057311 4169768288 470667945 3646242787 268683759 2690610075 3767234148 2477992521 468727905 3843999470 3830599822 890012858 3474576358 717614160 3591134341 3953123194 1469434206 2825386100 3502057861 2929409168 1545921418 351357871 3766493161 940404187 2814732699 1870662039 3342962919 895246792 1074738455 1296237276 4246474904 759382805 3630710655 4273651848 1540000586 1566608863 1234979858 745192417 949800443 2013315604 2828919032 3010861312 3021164025 2419516288 18101291 3302529332 1874553459 2082909244 266275782 3922325993 3579702579 681879822 716079527 1988854626 3350291383 756345316 3401917148 1544026311 1116906913 2423546128 2590422511 618841247 413989915 2896617829 870934909 2260853736 2136184764 2643298829 1147535482 2481730989 1543696023 3133468513 2477769412 2297970699 2842901585 2896268914 3965865428 2799262350 2409368681 406460756 2559570156 1989400874 3138694407 1601697425 2101137067 160361856 1727753482 1524057395 3268055303 2377255630 2734503126 786840825 496458406 3935082664 3076787233 2283910014 9227705 3287860828 1258363546 50053873 3515022239 2683195986 1497716471 3602584082 3118386582 1219501215 2727315144 1401645133 3414070564 2777828478 2062285698 1110430507 2433019871 321908275 314265416 2099841864 4272875439 1355395908 720094832 1948567156 1146181576 2400848283 198324886 1754664967 779190245 1440413124 384232427 119718304 731790618 3559292967 2397923275 2943945461 1920473116 235535642 4056246748 2769845699 1450967510 1596676255 1642624389 3766166541 2357428714 3237403005 478410263 3483248305 3368919761 1682902493 3908159116 4181028679 2732360093 724298625 1905755927 426707167 2388228937 1491248693 3215381171 3415936939 4252276167 173983218 2589606605 1989496494 307502669 343329940 2405355771 1036112213 450465839 1268349053 2560561849 2141378922 2825414312 2863720659 3447796643 1606134841 1000281495 543277489 1014586173 650775746 4247574633 3406555928 3537914588 3263490274 2803826540 2403043946 967627563 1152049172 208818373 1633350046 3972273757 2202544173 2332458163 931233098 2000821134 3352435766 215146907 3343843504 2326349541 3930080204 3225768159 1481022703 3403629305 2375695075 1991748031 1303090664 3883015457 700988905 1341561463 2051805248 1904836342 817470223 1499630734 136269042 468569150 192604575 3516227638 457987838 3871602586 1759779103 4234948127 3460773366 1713522339 2014292504 3582151409 2084066712 2547646477 232825846 2922868322 1268154093 1809414750 1673280393 4050649496 4022273557 1185886844 1159659435 4158730569 2489791130 989625569 1871703695 2842210796 3219591185 2856025437 679643345 816403348 617460962 3308824256 700494314 1616825126 3036966962 2052239705 135748656 158956552 2090332144 2989746928 1105830101 424241997 3507012718 1939685729 3155038656 1105110493 133501439 2517168530 1375189230 4283514768 448535011 689034261 3334826502 2875039664 2848009946 2010440962 3982535598 248596029 1685916110 3358790934 288488101 592684276 1856478123 4025083986 1218066475 718048094 61877151 2329239540 1143695919 60666098 1195338440 4243386372 1509680737 799576534 3374547480 740440701 2341733069 4107470257 3628872093 1969904725 1479597006 92444 1436010677 4036203405 2796289619 742806252 1101754467 3057628585 3402860748 1754037654 402943505 3872088184 2547547858 3891687542 4148254917 2549891078 3644081066 659862995 351348098 737020999 1560742396 2678675571 2936653363 1503636223 1895176641 899945891 2160333377 2158657729 152701348 2984823972 3773418752 181219342 2691990248 3153082559 3668144740 2807772265 3509107094 2629216665 923075641 1961527451 1160529428 642152791 3179845100 2479536802 2424493197 3917289320 2522845029 1295822398 2282089411 1208087462 2789246565 4050168696 4123696052 2313359431 262153610 442983533 754359061 3210005054 4195736935 3969620966 76375198 2395603326 395701754 3490850210 720740502 3690349661 775920456 3053950516 3561684196 1499374799 3360935396 1057182386 2477964791 1632956498 1024771152 6713793 2959999176 2277483248 4142139369 4162752397 897866471 1785181566 36894413 2111571550 1944579489 1377765137 3166045821 4189793630 3813310689 4023689154 1906546912 2888625867 1176618799 3208864992 4109329544 2036065169 1144660516 764021355 2720064627 3529151764 2782740917 4172057161 710890495 2652432943 232362211 3996160811 1255463415 1196859026 282920275 1052645197 580263251 763882128 2223193236 2413088568 2444294221 1336544731 1723435541 402787099 1046612137 2553250104 2567470834 2204374392 1749401958 536980485 4196367383 2100987064 1293286026 782030178 2033666520 2225732700 406088172 2200366496 2291478580 1673570515 1352569982 3528867549 52301531 1523784407 1850973493 2048064438 1975747605 511598842 3420056837 3965038182 4198650090 1909755206 2984923098 1922548125 3273217367 2335173947 2099936317 2319011129 3802658305 2801612713 2738555393 839018102 4113839140 3095890452 2974616367 2876156400 210723754 3571763839 549455813 4285082496 3800282683 2623470380 1543674744 2562285787 2869347913 3380905318 895087962 4144418375 845828637 2304469302 766208236 3381824451 1757585916 3634319221 1724065541 1234278864 3465130646 121988110 1161390038 4087460002 3738225156 1618822144 2015315462 4050271164 2420707097 498561872 2841384315 364219106 937262718 3579225109 581762020 2437595119 1455901415 4182183215 3720843311 3446902006 851640590 3457427553 4016525140 3543801329 3576108686 624"
+
+[transport_reports]
+count=0
+
+[sabotages]
+count=0
 
 [script]
 code=$$
@@ -102,9 +109,12 @@ set={"name","value","gamestart"
 "conquercost",0,0
 "diplbulbcost",0,0
 "diplgoldcost",0,0
+"diplmaterialcost",0,0
 "diplomacy","ALL","ALL"
 "diplsciencecost",0,0
 "dispersion",0,0
+"ec_info",FALSE,FALSE
+"ec_turns",65535,65535
 "flatpoles",100,100
 "foggedborders",FALSE,FALSE
 "fogofwar",TRUE,TRUE
@@ -170,6 +180,7 @@ set={"name","value","gamestart"
 "tradeworldrelpct",50,50
 "trading_city",TRUE,TRUE
 "trading_gold",TRUE,TRUE
+"trading_material",TRUE,TRUE
 "trading_science",TRUE,TRUE
 "trading_tech",TRUE,TRUE
 "traitdistribution","FIXED","FIXED"
@@ -177,7 +188,7 @@ set={"name","value","gamestart"
 "xsize",32,32
 "ysize",64,64
 }
-set_count=86
+set_count=90
 gamestart_valid=TRUE
 
 [ruledata]
@@ -277,8 +288,8 @@ label_18_59="Green Networks"
 label_4_60="Spideradio"
 startpos_count=3
 startpos={"x","y","exclude","nations"
-2,9,FALSE,"Green"
 28,57,FALSE,"Yellow"
+2,9,FALSE,"Green"
 4,60,FALSE,"Purple"
 }
 e00_0000="00000000000000000000000000000000"
@@ -1564,8 +1575,8 @@ k00_0063="ffffffffffffffffffffffffffffffff"
 
 [players]
 nplayers=4
-destroyed_wonders="00000"
-identity_number_used=279
+destroyed_wonders="00000000000"
+identity_number_used=285
 shuffled_player_0=3
 shuffled_player_1=1
 shuffled_player_2=0
@@ -1575,7 +1586,7 @@ shuffled_player_3=2
 ai_type="classic"
 name="Yellow"
 username="yellow"
-unassigned_user=TRUE
+unassigned_user=FALSE
 color.r=234
 color.g=186
 color.b=0
@@ -1615,6 +1626,11 @@ rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
+gold_last_turn=0
+science_last_turn=0
+materials_last_turn=0
+last_sabotage_self_id=-1
+last_sabotage_other_id=-1
 trait={"val","mod"
 50,0
 50,0
@@ -1625,13 +1641,13 @@ achievement_count=0
 got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
-lost_wonders="00000"
+lost_wonders="00000000000"
 history=0
 hut_count=0
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-57,28,180,0,-1,1,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Slick Corps","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+57,28,180,0,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Slick Corps","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -2794,12 +2810,19 @@ map_u03_0060="00000000000000000000000000000000"
 map_u03_0061="00000000000000000000000000000000"
 map_u03_0062="00000000000000000000000000000000"
 map_u03_0063="00000000000000000000000000000000"
-dc={"y","x","id","owner","size","occupied","walls","happy","unhappy","style","city_image","capital","hp","improvements","name"
-7,27,181,1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Alpha.com"
-9,2,172,2,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","SaturNetworks"
-60,4,179,3,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Spideradio"
+dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy","style","city_image","capital","improvements","name"
+7,27,181,1,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Alpha.com"
+9,2,172,2,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","SaturNetworks"
+60,4,179,3,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Spideradio"
 }
 dc_total=3
+gold_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+gold_report_idx=0
+science_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+science_report_idx=0
+materials_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+materials_report_idx=0
+wiretap=-1
 
 [score0]
 happy=0
@@ -2872,6 +2895,11 @@ rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
+gold_last_turn=0
+science_last_turn=0
+materials_last_turn=0
+last_sabotage_self_id=-1
+last_sabotage_other_id=-1
 trait={"val","mod"
 50,0
 50,0
@@ -2882,13 +2910,13 @@ achievement_count=0
 got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
-lost_wonders="00000"
+lost_wonders="00000000000"
 history=0
 hut_count=1
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen1","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-7,27,181,1,-1,1,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Alpha.com","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen1","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+7,27,181,1,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Alpha.com","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -4051,12 +4079,19 @@ map_u03_0060="00000000000000000000000000000000"
 map_u03_0061="00000000000000000000000000000000"
 map_u03_0062="00000000000000000000000000000000"
 map_u03_0063="00000000000000000000000000000000"
-dc={"y","x","id","owner","size","occupied","walls","happy","unhappy","style","city_image","capital","hp","improvements","name"
-9,2,172,2,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","SaturNetworks"
-57,28,180,0,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Slick Corps"
-60,4,179,3,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Spideradio"
+dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy","style","city_image","capital","improvements","name"
+9,2,172,2,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","SaturNetworks"
+57,28,180,0,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Slick Corps"
+60,4,179,3,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Spideradio"
 }
 dc_total=3
+gold_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+gold_report_idx=0
+science_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+science_report_idx=0
+materials_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+materials_report_idx=0
+wiretap=-1
 
 [score1]
 happy=0
@@ -4129,6 +4164,11 @@ rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
+gold_last_turn=0
+science_last_turn=0
+materials_last_turn=0
+last_sabotage_self_id=-1
+last_sabotage_other_id=-1
 trait={"val","mod"
 50,0
 50,0
@@ -4139,22 +4179,22 @@ achievement_count=0
 got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
-lost_wonders="00000"
+lost_wonders="00000000000"
 history=0
 hut_count=0
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-9,2,172,2,-1,1,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"SaturNetworks","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+9,2,172,2,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"SaturNetworks","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
-212,3,7,"2",2,0,10,0,"","unit_engineer",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-211,3,11,"7",2,0,10,0,"","unit_banker",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-210,2,13,"4",2,0,10,0,"","unit_scientist",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-209,3,8,"7",2,0,10,0,"","Spy",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-207,3,10,"6",2,0,10,0,"","Spy",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
-206,2,11,"7",2,0,10,0,"","Spy",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+218,3,7,"6",2,0,10,0,"","Spy",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+217,3,11,"2",2,0,10,0,"","Spy",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+216,2,13,"2",2,0,10,0,"","Spy",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+215,2,11,"3",2,0,10,0,"","unit_engineer",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+214,3,10,"3",2,0,10,0,"","unit_banker",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
+213,3,8,"8",2,0,10,0,"","unit_scientist",0,0,-1,0,0,-1,FALSE,1.000000,0,1,-1,FALSE,0,0,0,0,0,0,0,0,0,FALSE,FALSE,-1,"",0,-1,-1,FALSE,0,0,FALSE,FALSE,"-","-","-",-1,-1,-1
 }
 map_t0000="+hpgg+mphgppgpf+phmg+ghhffmphfgh"
 map_t0001="ppgphfpdhhmffgppggmmfhpfhdhggfdd"
@@ -5308,12 +5348,19 @@ map_u03_0060="00000000000000000000000000000000"
 map_u03_0061="00000000000000000000000000000000"
 map_u03_0062="00000000000000000000000000000000"
 map_u03_0063="00000000000000000000000000000000"
-dc={"y","x","id","owner","size","occupied","walls","happy","unhappy","style","city_image","capital","hp","improvements","name"
-7,27,181,1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Alpha.com"
-57,28,180,0,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Slick Corps"
-60,4,179,3,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Spideradio"
+dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy","style","city_image","capital","improvements","name"
+7,27,181,1,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Alpha.com"
+57,28,180,0,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Slick Corps"
+60,4,179,3,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Spideradio"
 }
 dc_total=3
+gold_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+gold_report_idx=0
+science_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+science_report_idx=0
+materials_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+materials_report_idx=0
+wiretap=-1
 
 [score2]
 happy=0
@@ -5346,7 +5393,7 @@ total=0
 ai_type="classic"
 name="Purple"
 username="purple"
-unassigned_user=FALSE
+unassigned_user=TRUE
 color.r=138
 color.g=43
 color.b=226
@@ -5386,6 +5433,11 @@ rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=0
+gold_last_turn=0
+science_last_turn=0
+materials_last_turn=0
+last_sabotage_self_id=-1
+last_sabotage_other_id=-1
 trait={"val","mod"
 50,0
 50,0
@@ -5396,13 +5448,13 @@ achievement_count=0
 got_first_city=TRUE
 revolution_finishes=-1
 spaceship.state=0
-lost_wonders="00000"
+lost_wonders="00000000000"
 history=0
 hut_count=0
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-60,4,179,3,-1,1,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Spideradio","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+60,4,179,3,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,0,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Spideradio","Building","Nothing","None","(none)",0,0,0,0,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -6565,12 +6617,19 @@ map_u03_0060="00000000000000000000000000000000"
 map_u03_0061="00000000000000000000000000000000"
 map_u03_0062="00000000000000000000000000000000"
 map_u03_0063="00000000000000000000000000000000"
-dc={"y","x","id","owner","size","occupied","walls","happy","unhappy","style","city_image","capital","hp","improvements","name"
-7,27,181,1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Alpha.com"
-9,2,172,2,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","SaturNetworks"
-57,28,180,0,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not",480,"10000","Slick Corps"
+dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy","style","city_image","capital","improvements","name"
+7,27,181,1,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Alpha.com"
+9,2,172,2,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","SaturNetworks"
+57,28,180,0,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Slick Corps"
 }
 dc_total=3
+gold_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+gold_report_idx=0
+science_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+science_report_idx=0
+materials_report_data="0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;"
+materials_report_idx=0
+wiretap=-1
 
 [score3]
 happy=0
@@ -6601,78 +6660,25 @@ total=0
 
 [research]
 r={"number","goal_name","techs","futuretech","bulbs_before","saved_name","bulbs","now_name","got_tech","done"
-0,"A_UNSET",1,0,0,"A_UNSET",0,"A_UNSET",FALSE,"100000000000000000000000000"
-1,"A_UNSET",1,0,0,"",0,"A_UNSET",TRUE,"100000000000000000000000000"
-2,"A_UNSET",1,0,0,"A_UNSET",0,"A_UNSET",FALSE,"100000000000000000000000000"
-3,"A_UNSET",1,0,0,"A_UNSET",0,"A_UNSET",FALSE,"100000000000000000000000000"
+0,"A_UNSET",1,0,0,"A_UNSET",0,"A_UNSET",FALSE,"1000000000000000000000000000"
+1,"A_UNSET",1,0,0,"",0,"A_UNSET",TRUE,"1000000000000000000000000000"
+2,"A_UNSET",1,0,0,"A_UNSET",0,"A_UNSET",FALSE,"1000000000000000000000000000"
+3,"A_UNSET",1,0,0,"A_UNSET",0,"A_UNSET",FALSE,"1000000000000000000000000000"
 }
 count=4
 
 [event_cache]
 events={"turn","phase","timestamp","x","y","server_state","event","target","message"
-1,0,1687108939,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687108939,48,43,"S_S_RUNNING","E_CITY_BUILD","0001","[c fg=\"#8B0000\"]You have founded [l tgt=\"city\" id=146 name=\"City no. 10\" /].[/c]"
-1,0,1687108943,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
-1,0,1687108945,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
-1,0,1687108947,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
-1,0,1687109047,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
-1,0,1687109057,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
-1,0,1687109106,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
-1,0,1687109115,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
-1,0,1687109157,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Purple (Human, Alive).[/c]"
-1,0,1687109176,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
-1,0,1687109301,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
-1,0,1687109306,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
-1,0,1687109310,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
-1,0,1687109316,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Purple (Human, Alive).[/c]"
-1,0,1687111140,-1,-1,"S_S_INITIAL","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Trying to put 300 into 8 bits; it will result 44 at receiving side.[/c]"
-1,0,1687111142,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
-1,0,1687111143,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#00FF00\" bg=\"#115511\"]All players are ready; starting game.[/c]"
-1,0,1687111144,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#0000FF\"] *** Server set to edit mode by ricardo from localhost (player Yellow)! *** [/c]"
-1,0,1687111159,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
-1,0,1687111184,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111184,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111225,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#0000FF\"] *** Edit mode canceled by ricardo from localhost (player Blue). *** [/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in city_refresh_vision() [citytools.c::3154]: assertion '(pcity->server.vision)->radius_sq[V_MAIN] >= (pcity->server.vision)->radius_sq[V_INVIS]' failed.[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111243,-1,-1,"S_S_RUNNING","E_TECH_LEARNED","0100","[c fg=\"#8B0000\"]Learned Alphabet. Scientists do not know what to research next.[/c]"
-1,0,1687111243,28,42,"S_S_RUNNING","E_HUT_TECH","0100","You found Alphabet in ancient scrolls of wisdom."
-1,0,1687111248,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111248,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111248,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111248,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111253,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111253,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111256,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111256,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111256,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111256,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*1 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*2 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*3 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*4 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*5 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*5 has been removed from the game.[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*4 has been removed from the game.[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*3 has been removed from the game.[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*2 has been removed from the game.[/c]"
+0,0,1693160516,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*1 has been removed from the game.[/c]"
 1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
 1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
 1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
@@ -6866,8 +6872,71 @@ events={"turn","phase","timestamp","x","y","server_state","event","target","mess
 1,0,1692371317,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
 1,0,1692371320,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
 1,0,1692371324,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Purple (Human, Alive).[/c]"
+1,0,1693160282,-1,-1,"S_S_INITIAL","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Trying to put 300 into 8 bits; it will result 44 at receiving side.[/c]"
+1,0,1693160285,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#00FF00\" bg=\"#115511\"]All players are ready; starting game.[/c]"
+1,0,1693160293,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#0000FF\"] *** Server set to edit mode by ricardo from localhost (player Purple)! *** [/c]"
+1,0,1693160296,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
+1,0,1693160308,7,33,"S_S_RUNNING","E_UNIT_RELOCATED","0010","[c fg=\"#8B0000\"]Moved your [l tgt=\"unit\" id=209 name=\"Spy\" /] due to changing terrain.[/c]"
+1,0,1693160308,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160308,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160320,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
+1,0,1693160321,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
+1,0,1693160323,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
+1,0,1693160332,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160332,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160333,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160346,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160346,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160346,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160346,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160346,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160346,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160349,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160349,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160349,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160349,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160349,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160349,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160351,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160351,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160351,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160351,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160351,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160351,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160358,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160358,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160360,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160360,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160363,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160363,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160367,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
+1,0,1693160367,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
+1,0,1693160372,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
+1,0,1693160373,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
+1,0,1693160382,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
+1,0,1693160384,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
+1,0,1693160386,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Purple (Human, Alive).[/c]"
+1,0,1693160388,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
+1,0,1693160391,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
 }
-count=256
+count=266
 
 [history]
 turn=-2
