@@ -745,9 +745,6 @@ void chat_widget::make_link(struct tile *ptile)
 QString apply_tags(QString str, const struct text_tag_list *tags,
                    QColor bg_color)
 {
-  if(str.contains("p:{") || str.contains("b:{")) {
-    log_warning("Here");
-  }
   int start, stop, last_i;
   QString str_col;
   QString color;

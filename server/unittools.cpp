@@ -3457,13 +3457,11 @@ static void unit_enter_building(struct unit *punit)
       // Do not remove buildings already belonging to that player
       if (building_belongs_to(pbuilding, pplayer)
           && building_belongs_to_unit(pbuilding, punit)) {
-        log_warning("Here");
         continue;
       }
 
       // Do not remove buildings if unit cannot even do that
       if (!building_can_be_removed_by(pextra, punit)) {
-        log_warning("Here2");
         continue;
       }
 
