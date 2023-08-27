@@ -1,18 +1,18 @@
 
 [scenario]
-game_version=48439401
+game_version=6111801
 is_scenario=FALSE
 
 [savefile]
 options=" +version3"
 version=50
 reason="User request"
-revision="3.1.454294.1-alpha"
+revision="3.1.31018.1-alpha"
 rulesetdir="spacerace"
 improvement_size=11
-improvement_vector="Palace","Nothing","Research Center","Investment Center","Logistics Center","Research & Development Division","Factory","Salary Boosts","Bank","Salary Cuts","Space Program"
+improvement_vector="Palace","Nothing","Research Center","Investment Center","Logistics Center","Research & Development Division","Factory","Salary Boosts","Stock Exchange","Salary Cuts","Space Program"
 technology_size=28
-technology_vector="A_NONE","Research Centers","Investment Centers","Logistics Centers","Laboratories","Scolarships","Free Market","Venture Capital","Refinery","Infrastructure","Research & Development","Renewable Energy","Public Transport","Factory","4-day Work Week","Salary Boost","Bank","Salary Cuts","Company Vehicle","Modern Materials","Telecommunications","Inflation","Railroad Stocks","Space Program","Tax Evasion","Financial Rescue","Automation","Video Surveillance"
+technology_vector="A_NONE","Research Centers","Investment Centers","Logistics Centers","Laboratories","Scolarships","Free Market","Venture Capital","Refinery","Infrastructure","Research & Development","Renewable Energy","Public Transport","Factory","4-day Work Week","Salary Boost","Stock Exchange","Salary Cuts","Company Vehicle","Modern Materials","Telecommunications","Inflation","Railroad Stocks","Space Program","Tax Evasion","Financial Rescue","Automation","Video Surveillance"
 activities_size=39
 activities_vector="Idle","Pollution","Unused Road","Mine","Irrigate","Fortified","Fortress","Sentry","Unused Railroad","Pillage","Goto","Explore","Transform","Unused","Unused Airbase","Fortifying","Fallout","Unused Patrol","Base","Road","Convert","Cultivate","Plant","Transport","Sabotage (City)","Sabotage (Building)","Investigate Gold (City)","Investigate Science (City)","Investigate Materials (City)","Steal Gold (City)","Steal Science (City)","Steal Materials (City)","Investigate Gold (Building)","Investigate Science (Building)","Investigate Materials (Building)","Steal Gold (Building)","Steal Science (Building)","Steal Materials (Building)","Place Wiretap"
 specialists_size=3
@@ -60,13 +60,13 @@ level="Easy"
 phase_mode="Concurrent"
 phase_mode_stored="Concurrent"
 phase=0
-scoreturn=845
+scoreturn=878
 timeoutint=0
 timeoutintinc=0
 timeoutinc=0
 timeoutincmult=1
 timeoutcounter=1
-turn=825
+turn=850
 year=-4000
 year_0_hack=FALSE
 globalwarming=0
@@ -76,15 +76,15 @@ nuclearwinter=0
 cooling=0
 coolinglevel=5
 gamemode=0
-global_advances="1111111111111111111111110101"
-last_turn_change_time=6
+global_advances="1111111111111111011111110101"
+last_turn_change_time=2
 save_players=TRUE
 ai_types="classic"
 save_known=TRUE
 
 [random]
 saved=TRUE
-state="2473900931 326858033 4024112598 1776407405 3292999787 1255357915 1487622089 1227210060 1247803513 480646765 3350948317 1740814404 3498708740 1367524161 3094473307 2388546758 1148578624 1672690863 2291600583 4245401424 1146872423 3356685849 219805996 4282735422 1098795516 2636641366 3703617080 989066011 1141050837 1808020684 3074453131 568714597 1015480880 1678040236 1393623271 3501909459 3886902326 176618577 3149246571 323059584 3890027531 1159004251 3420640160 3627363547 1524425298 3407066336 518779717 3144791793 4279100713 742152793 4180199556 1817611351 100716282 370687496 606536622 4205283991 3728938826 510810683 97582936 3799523137 2574989212 1017286466 3261423647 1403566194 4214772150 1568124652 3212651383 1614018652 4099989144 2836572677 3284179676 1013541528 1775507404 1181790014 2183066704 3271008085 3785123356 3620098187 1698846300 871124397 3166504801 4159549904 3305375709 355056381 2711855206 1565868506 3835250471 2103089524 831478673 3704602769 2137001726 3036526104 3222603507 2491505364 540119148 2271454917 4282619065 2898243936 1393669991 3099032175 3566030860 2610742360 3322539556 4095254419 239787816 3271729592 3955433985 4051158451 393745634 1085478470 733349657 2170887768 196418310 2037800295 2774504647 3866324262 1960490545 2108430436 307409173 3136306812 3242097635 1673508304 101867258 848146990 4200933997 1593278213 2626638838 1629964945 2838353934 454180900 1092762376 2071469859 2388261204 3284608789 2805049978 3049198786 218751582 3796882895 2402737673 2971919045 119090074 536300977 1070189514 1341429309 790452364 2711564705 431251893 2520624492 2856595402 2532380260 1778754312 3701044522 1514326415 3667097458 356229943 1240701937 3864261713 698979651 4034067363 2655422351 2119538115 2235083170 2028027449 3947240189 3859402304 2470004072 2777975488 2297036341 2807224566 3595337663 2927304343 46975381 222239672 3353606876 2045264441 2507728142 2693557865 1458858294 2038338208 4019228847 1116343147 2609746646 1393559189 2835920995 3171761384 2062810445 837567396 849476293 271893797 281532879 2914586873 1769271474 737006089 961911202 2706110162 893667388 641518511 3823290146 1999291151 338330946 96872520 3597597129 442882686 360916297 2450664390 998477570 636616713 2587018200 2228619016 750343715 1327373792 1598177109 2739048780 173532081 2992505864 1926407114 3379733507 3528570112 2464749196 2949803744 2039049839 528427345 2889037159 391547407 315580382 4059708284 3560347931 2631437485 869653675 3597128482 2294945661 4017396623 1141942590 3166974619 2054272716 3591432802 3490184923 4049064180 755256155 610821724 3640436152 1712587049 4139958259 2365472386 870948186 4158532766 2698500111 2961228062 3057263906 3887458883 1159577440 2559046192 2174322536 4114061514 3623538491 106317563 1525135679 3395651416 2720216081 1547695355 3755469678 3368873856 1976997924 1725111231 1977720551 1455245629 942070605 1452413650 86157603 2823205812 472993530 3150948653 1863906892 1409910749 2483315558 3510470261 2851588183 2881149380 662844610 1389929930 3641836176 2853129851 3416414287 3413277075 732649511 2133952852 2671216384 857713505 2736173312 4008956644 967545890 1171140166 3076270203 1728298139 2428642084 3356667245 2990138799 3222295838 790865112 1513228599 1801354253 220486494 1806427582 3418394695 3149244963 3205061430 176647084 2122953374 4209707988 1979199095 2403508686 4223626624 1844045723 4173743387 1582702779 1356138091 2019885049 3929108115 4243075665 1851755722 560625249 3557941571 3648505737 196764426 1690195519 3076245745 876065590 1141743898 26902119 3352261943 215795486 3259241331 3551431126 2978171696 3200574954 4222233495 3272210951 449212214 3938820052 402331862 1666943851 4118329411 3714994156 1230270659 1273762339 131089756 64957355 1220599669 806056025 613887291 1767621656 2888425108 989143585 1381542384 2158680739 1946181977 2554857909 1823567342 497359725 2139746028 2532168613 2715051656 3778810237 2973970268 3888976690 2851008205 87957649 1903957023 2267543048 1988888705 3671512310 2948203322 2232428085 2246119066 874186795 4008839556 3686600284 2371028266 1772476832 3162020631 2094073417 2572711311 1647787264 290717968 4077865231 2090308283 2700021924 1228278035 3913590424 749233090 3990884022 2457936870 4294460551 4000432632 339359400 2014772385 1803710592 2765424491 2956550043 2751130225 32657632 2197983971 2993943697 836077348 2495829184 1733470946 1546160445 2792159658 1111005267 546560446 1072340363 3472780706 3275163758 4087141144 3437956966 814312791 2867552302 1102428608 167805921 225687099 622036375 1231615591 2497195730 1935827911 2304300971 2567489211 3383975281 1844331160 1446588284 3226225550 1720333648 3537114302 1301507557 1747870755 3747747872 3222597538 2256820682 3041243825 1338278340 1576746120 192702051 3301059908 1408877018 2208567121 1998823298 1800558892 1873111897 1921358194 3408529631 3923914977 3039813443 2940652806 1153557467 1902667662 1218156170 3098863182 1167502733 3912255049 169198044 2423753477 1190743097 362565500 639302655 4247357388 1324402810 1247773328 2732262848 3380716985 2613363150 3573726794 498555831 946386812 3861071369 1663255646 1302916456 868958350 2727352878 2847955962 458627560 1333241245 351893082 2328023476 1768679881 3863005824 1001757128 992267542 3510766419 1148393903 1310634868 944432497 1524139238 1600950126 1605365492 1915282379 1610679303 1181199034 898331547 3968825390 276527621 367442149 180834387 3313020547 1458303341 2939935724 2460302463 1822512325 2772100022 1027313824 3104889970 3819881619 436813115 2193738214 1868778690 4189514522 137664168 1900985128 3350405167 3675399130 1862408046 3383870936 556871136 2022582791 3000495284 1817462015 1956772785 2543423412 1857182946 686018297 228422947 2005192091 1596794935 1184466066 375917337 3484451137 431264554 356564846 1621581553 1634119037 29806589 1208996872 967235426 2891131331 4159360538 318263485 1165905902 2512604926 2888128014 640817315 492368026 1301662380 4189594070 2548075751 1316236711 3183961757 481776563 302177644 4157100083 1716098442 1021371196 1532583298 3794714539 3215457215 4201537013 1584669378 2219079085 3771663221 3344827882 852530021 4186907259 1787564935 2803334401 3197457067 1535258009 1544609379 2278192022 2107487551 3337518390 89107204 3585710712 1005447039 1330761367 660718439 473644747 2461631297 1203984671 369053846 2269502527 504772558 241115363 3483056748 1084050565 3479405675 692518910 2908564668 4122590447 2954938090 2747888135 3122648784 195705260 1523221449 2805756511 2611283461 1039437534 2076774310 4090843198 2818332521 299477669 322911426 1406667259 649127515 2467762516 1830360535 3200020807 2123452295 3618819375 3763057007 2031112950 1026432441 749323165 2366121932 3590981770 3067038828 3099227034 3140525470 599"
+state="2964575804 1356993368 2712009473 70825346 2402899591 4145811122 739525278 81731692 1855221975 657155341 3248507650 2501896760 2101996668 1425965066 242206695 4249851679 1942755924 2225539279 1622400285 141245704 2329468970 2411622066 3227736823 723732321 3831827092 4263010361 1909195461 2497762122 3830011801 973566710 303389632 2870033137 1002842513 224764889 1806964848 2738160726 3247333099 2120872290 2805735798 3349701654 2418382606 1995036245 3757584700 3811449243 2445335904 1903769926 4235892720 2272226622 1262262751 3761183610 2282567956 1209997892 2437884202 2241115992 2641461971 3317074087 1711375831 1544453324 4207689084 2596959427 3557115886 2995689858 739488629 2069742207 790005348 67312756 2275902065 3379090665 1804859305 2580955476 4138503737 3048865352 2585377436 2441968269 4038290884 2215976659 3019118303 806898423 3130467068 4273761812 3378565092 361288585 2119751693 1399047750 2104389443 316461579 1694087047 783354734 1362227020 1211479670 4214450371 2138406245 2815506345 1900582274 3989882794 4050970841 2694962101 3426038784 2399265869 2993039396 1174681800 1037369899 1672782592 3503948079 1206036313 1345015593 4000494837 3471432905 3419461230 459624975 2728887554 2542587072 1968237508 3110784903 263688298 386614441 3478988329 1762054739 1812213755 1188001043 2178732783 444253253 3120229339 602593315 2153521370 295503317 3675727354 48763804 2668784887 2713870274 454133679 1849826038 2133969842 3253451985 1599973013 2309042710 1743233389 3821766517 3117850434 1131563680 1462115969 2084020936 4024340189 970583901 386279562 2433518731 1401737459 564206476 224918504 3679419392 2692279903 3332334892 3497766419 1215752846 2748688252 2357450763 3439833439 2715189124 2038939090 3701720847 1086626434 1383798369 2646784910 1641171345 3275957409 2929845396 2986843052 4251800109 2767151224 2053046048 722241479 2976279416 2756433606 3893687244 3708140457 2632106215 3772867714 1119357718 1914440983 872451851 1508307187 653554717 1888513117 1681391745 2549218894 4124065392 1821205263 3928759029 2865498316 2064876609 3135342347 2761680096 3854534294 1882798001 3099457249 642917452 765204158 2120961816 2558530527 2558505041 1183614875 672375130 1889053147 2969669735 486424036 2679682928 2401046907 41747681 53888363 3811645519 311566285 1246199336 4247466238 3538103125 4236472418 40604385 2784577152 4039844387 3720659606 1676654114 654392634 1132449029 2054949667 2080934186 2573219645 1493589599 1168917865 3683898183 3772354374 1999488558 2262898087 748160214 4132550577 421411099 773079936 2770911143 3669398099 1071464988 1618590083 4195041635 2928850267 1778631389 2478889972 3792066383 1669227961 1924834268 4086169859 2146977313 880970560 2168088759 2545050785 4287954099 3492589694 3510625955 601508077 1725488588 2258197473 585135090 2164793376 4251178142 4056536221 2225470559 2609994937 3253398897 2894470639 613530214 1299859627 78742923 377579236 3301675603 198290598 2014309455 2381155309 2726876146 3233366223 2610015144 1529845499 960483521 2742979223 3426265600 129461895 4262493338 1205108976 1888938410 2534844861 2176177936 2426466804 1153802850 213678418 18839114 296356168 360569583 646646495 1920939995 2891890 2847635718 2712407989 770264375 3413600133 3989057859 3009250765 2364827353 672401425 213036389 3744417070 724930556 1681186809 642152346 3445265536 585228596 3224425625 3773170260 1075439074 1685393795 3954838199 2860525786 2296263538 2860125845 1072656811 2432204648 1597449647 3554104980 247729948 866009632 1761003697 84526318 2192823430 3184608130 4026059616 125292394 3550594152 2345465863 530580151 627568538 2942754143 4047627558 1319033910 3286049874 3854835323 1966442717 91983336 2820977020 2539081939 3549154832 2771403813 1215828112 2395725307 2973546913 3548635948 3319800106 1734325116 3760067439 1116272995 154912521 1817257509 910566247 2921699506 1914559406 4117251131 1022343686 958989565 882365885 1612796830 109286650 2455080212 1035475081 3153046216 2771754415 845559457 60846223 450614602 2560664058 2405228918 1447352069 4121958862 1568721529 2262920094 457871128 1761089966 1336283404 3233628928 852531481 1196976619 3603826903 3774960944 796167322 633079037 4221749252 3967709977 3024861985 3177583473 1539002910 24989474 704855882 3115779608 1241771797 417393437 703540247 1479153130 2325426894 2913357797 1802653536 3134694756 367441 2631654489 735657033 2246398048 3426885392 159677877 2494315670 193840375 308093251 2384969167 2806190576 1966854990 2908925666 939860053 948603734 1921730610 2016027139 2763900418 9209424 2695165061 2491357456 1710557746 3730680979 2025781140 1595299867 2223052616 3580897421 3102885598 2448428728 950090674 4064600622 357581080 470670139 711688294 2346403334 2659287231 3193370155 2956624059 701127123 511838992 2092838169 375811042 3312749963 2387614649 4189399235 521470921 2157016484 3387642800 449111874 799537417 3235307645 215996540 2655969163 3318517981 3832436883 2583160639 2493083273 3731202421 59777760 2398683545 3888324722 694200905 800590419 1648925051 3488927334 336997229 4210597292 3463615761 3685910068 1035141785 1772120156 2869741981 75160769 2233731923 4086530497 2439291359 474307688 1610280790 3552394779 474935576 1194212187 1230635862 997179929 1451854850 3864148583 2077528079 2047613474 2455817003 1925751649 4125710058 4292138445 1836167802 2466157877 1886712184 2801155897 720430726 2755289797 1917828893 3021784803 821699975 2086164150 2138940525 1988769857 1865732492 3687928751 341802668 89670245 13480985 1284780742 1526005658 1361965266 111208277 3877940977 502930687 631880503 2367019139 4272704134 2837131933 59060008 3128227636 237651778 443216646 3989399395 3280369307 3369578417 3817113759 53765805 3665405515 2863709673 4289626281 633058883 427380112 3034891505 2816216329 1027756928 3883113903 364127120 3975354255 3836105738 883227285 1371181216 431608624 3943088232 1169717381 884900380 2747284258 1002707816 3991746576 2468418825 2675232192 1153177924 1395011467 2639513068 4175324924 917328604 3632678270 1290265659 1477534289 4248892927 4018228623 3372290509 611883010 3914082525 3370543788 2766979199 1536043761 3937625367 2082028685 1040222242 1724921513 2047888607 3649385710 2151973830 1984749276 1435230471 3202514611 899451648 720767648 2274779289 4268391339 4116664943 1902859097 1776822129 2312229394 2867778843 1555159788 2687583336 193573952 1820678408 4108708111 1503173216 2520743023 1838169571 2823204133 591075473 133090342 2825703491 1039434046 2804180466 1920946461 1565924161 3013337411 836264010 2280068305 387308905 2424634953 535035516 1267147030 1721291086 971489405 1025148561 2006383089 3612862014 3023919980 3002236951 3203597307 2609793626 1537189615 470234255 3974524732 12124163 624"
 
 [transport_reports]
 count=0
@@ -284,9 +284,9 @@ label_18_59="Green Networks"
 label_4_60="Spideradio"
 startpos_count=3
 startpos={"x","y","exclude","nations"
-28,57,FALSE,"Yellow"
-2,9,FALSE,"Green"
 4,60,FALSE,"Purple"
+2,9,FALSE,"Green"
+28,57,FALSE,"Yellow"
 }
 e00_0000="00000000000000000000000000000000"
 e00_0001="00000000000000000000000000000000"
@@ -1572,11 +1572,11 @@ k00_0063="ffffffffffffffffffffffffffffffff"
 [players]
 nplayers=4
 destroyed_wonders="00000000000"
-identity_number_used=414
-shuffled_player_0=2
-shuffled_player_1=1
-shuffled_player_2=0
-shuffled_player_3=3
+identity_number_used=478
+shuffled_player_0=1
+shuffled_player_1=0
+shuffled_player_2=3
+shuffled_player_3=2
 
 [player0]
 ai_type="classic"
@@ -1594,10 +1594,10 @@ nation="Yellow"
 team_no=0
 government_name="Despotism"
 style_by_name="European"
-idle_turns=824
+idle_turns=849
 kind="male"
 is_alive=TRUE
-turns_alive=824
+turns_alive=849
 last_war=-1
 phase_done=FALSE
 diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
@@ -1614,17 +1614,17 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 }
 ai.level="Easy"
 ai.barb_type="None"
-gold=824
-science_acc=824
-materials=824
+gold=849
+science_acc=849
+materials=849
 rates.tax=0
 rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=1
-gold_last_turn=823
-science_last_turn=823
-materials_last_turn=823
+gold_last_turn=848
+science_last_turn=848
+materials_last_turn=848
 last_sabotage_self_id=-1
 last_sabotage_other_id=-1
 trait={"val","mod"
@@ -1642,8 +1642,8 @@ history=0
 hut_count=0
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-57,28,180,0,-1,1,15,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,824,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Slick Corps","Building","Nothing","Building","Nothing",824,0,0,1,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen0","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+57,28,180,0,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,849,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Slick Corps","Building","Nothing","Building","Nothing",849,0,0,1,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -2816,11 +2816,11 @@ dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy",
 }
 dc_total=6
 gold_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-gold_report_idx=104
+gold_report_idx=129
 science_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-science_report_idx=104
+science_report_idx=129
 materials_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-materials_report_idx=104
+materials_report_idx=129
 wiretap=-1
 
 [score0]
@@ -2854,22 +2854,22 @@ total=1
 ai_type="classic"
 name="Blue"
 username="blue"
-unassigned_user=TRUE
+unassigned_user=FALSE
 color.r=0
 color.g=193
 color.b=238
 ranked_username="blue"
-unassigned_ranked=TRUE
+unassigned_ranked=FALSE
 orig_username=""
 delegation_username=""
 nation="blue"
 team_no=1
 government_name="Despotism"
 style_by_name="European"
-idle_turns=824
+idle_turns=25
 kind="male"
 is_alive=TRUE
-turns_alive=824
+turns_alive=849
 last_war=-1
 phase_done=FALSE
 diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
@@ -2886,17 +2886,17 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 }
 ai.level="Easy"
 ai.barb_type="None"
-gold=824
-science_acc=824
-materials=824
+gold=849
+science_acc=849
+materials=849
 rates.tax=0
 rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=1
-gold_last_turn=823
-science_last_turn=823
-materials_last_turn=823
+gold_last_turn=848
+science_last_turn=848
+materials_last_turn=848
 last_sabotage_self_id=-1
 last_sabotage_other_id=-1
 trait={"val","mod"
@@ -2914,8 +2914,8 @@ history=0
 hut_count=1
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen1","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-7,27,181,1,-1,1,15,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,824,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Alpha.com","Building","Nothing","Building","Nothing",824,0,0,1,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen1","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+7,27,181,1,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,849,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Alpha.com","Building","Nothing","Building","Nothing",849,0,0,1,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -4088,11 +4088,11 @@ dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy",
 }
 dc_total=6
 gold_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-gold_report_idx=104
+gold_report_idx=129
 science_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-science_report_idx=104
+science_report_idx=129
 materials_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-materials_report_idx=104
+materials_report_idx=129
 wiretap=-1
 
 [score1]
@@ -4138,10 +4138,10 @@ nation="Green"
 team_no=2
 government_name="Despotism"
 style_by_name="European"
-idle_turns=93
+idle_turns=118
 kind="male"
 is_alive=TRUE
-turns_alive=824
+turns_alive=849
 last_war=-1
 phase_done=FALSE
 diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
@@ -4158,17 +4158,17 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 }
 ai.level="Easy"
 ai.barb_type="None"
-gold=7121
-science_acc=7998
-materials=8930
+gold=7496
+science_acc=8248
+materials=9105
 rates.tax=0
 rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=10
-gold_last_turn=7111
-science_last_turn=7978
-materials_last_turn=8911
+gold_last_turn=7481
+science_last_turn=8238
+materials_last_turn=9098
 last_sabotage_self_id=-1
 last_sabotage_other_id=-1
 trait={"val","mod"
@@ -4186,11 +4186,11 @@ history=0
 hut_count=0
 border_vision=FALSE
 ncities=4
-c={"y","x","id","original","attacker","size","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-33,7,349,2,-1,1,15,1,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,224,0,0,FALSE,-1,0,0,0,72,FALSE,FALSE,FALSE,600,"Nimbleman","Building","Nothing","Building","Nothing",224,0,0,1,"European",5,"00011010100",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-21,1,348,2,-1,1,15,1,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,673,0,0,FALSE,-1,0,0,0,55,FALSE,FALSE,FALSE,151,"Pearl Shine","Building","Nothing","Building","Nothing",673,0,0,1,"European",5,"00110000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-3,7,347,2,-1,1,15,1,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,416,0,0,FALSE,-1,0,0,0,35,FALSE,FALSE,FALSE,160,"Cannonics","Building","Nothing","Building","Nothing",416,0,0,1,"European",5,"00110000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
-9,2,172,2,-1,1,15,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,139,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,685,"SaturNetworks","Building","Nothing","Building","Nothing",139,0,0,1,"European",5,"10110000001",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen2","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+33,7,349,2,-1,1,30,30,1,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,249,0,0,FALSE,-1,0,0,0,72,FALSE,FALSE,FALSE,600,"Nimbleman","Building","Nothing","Building","Nothing",249,0,0,1,"European",5,"00011010000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+21,1,348,2,-1,1,30,30,1,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,698,0,0,FALSE,-1,0,0,0,55,FALSE,FALSE,FALSE,151,"Pearl Shine","Building","Nothing","Building","Nothing",698,0,0,1,"European",5,"00110000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+3,7,347,2,-1,1,30,30,1,0,0,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,441,0,0,FALSE,-1,0,0,0,35,FALSE,FALSE,FALSE,160,"Cannonics","Building","Nothing","Building","Nothing",441,0,0,1,"European",5,"00110000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+9,2,172,2,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,164,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,685,"SaturNetworks","Building","Nothing","Building","Nothing",164,0,0,1,"European",5,"10110000001",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=7
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -5360,12 +5360,12 @@ dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy",
 60,4,179,3,-1,1,FALSE,FALSE,FALSE,FALSE,"European",0,"Not","10000000000","Spideradio"
 }
 dc_total=3
-gold_report_data="10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;9;9;9;9;9;9;9;9;9;9;9;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;"
-gold_report_idx=104
-science_report_data="20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;"
-science_report_idx=104
-materials_report_data="19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;12;12;12;12;12;12;12;14;14;14;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;"
-materials_report_idx=104
+gold_report_data="10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;12;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;9;9;9;9;9;9;9;9;9;9;9;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;"
+gold_report_idx=129
+science_report_data="20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;10;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;16;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;14;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;20;"
+science_report_idx=129
+materials_report_data="19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;7;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;11;12;12;12;12;12;12;12;14;14;14;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;15;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;17;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;19;"
+materials_report_idx=129
 wiretap=-1
 
 [score2]
@@ -5377,7 +5377,7 @@ specialists0=3
 specialists1=0
 specialists2=1
 wonders=0
-techs=25
+techs=24
 techout=10
 landarea=66000
 settledarea=6000
@@ -5393,7 +5393,7 @@ units_built=1
 units_killed=0
 units_lost=0
 culture=0
-total=54
+total=52
 
 [player3]
 ai_type="classic"
@@ -5411,10 +5411,10 @@ nation="Purple"
 team_no=3
 government_name="Despotism"
 style_by_name="European"
-idle_turns=824
+idle_turns=849
 kind="male"
 is_alive=TRUE
-turns_alive=824
+turns_alive=849
 last_war=-1
 phase_done=FALSE
 diplstate={"current","closest","first_contact_turn","turns_left","has_reason_to_cancel","contact_turns_left","embassy","gives_shared_vision"
@@ -5431,17 +5431,17 @@ ai={"love","spam","countdown","war_reason","patience","warn_space","ask_peace","
 }
 ai.level="Easy"
 ai.barb_type="None"
-gold=824
-science_acc=824
-materials=824
+gold=849
+science_acc=849
+materials=849
 rates.tax=0
 rates.science=100
 rates.luxury=0
 infrapts=0
 research.bulbs_last_turn=1
-gold_last_turn=823
-science_last_turn=823
-materials_last_turn=823
+gold_last_turn=848
+science_last_turn=848
+materials_last_turn=848
 last_sabotage_self_id=-1
 last_sabotage_other_id=-1
 trait={"val","mod"
@@ -5459,8 +5459,8 @@ history=0
 hut_count=0
 border_vision=FALSE
 ncities=1
-c={"y","x","id","original","attacker","size","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
-60,4,179,3,-1,1,15,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,824,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Spideradio","Building","Nothing","Building","Nothing",824,0,0,1,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
+c={"y","x","id","original","attacker","size","max_hp","hp","nspe0","nspe1","nspe2","traderoute0","route_direction0","route_good0","traderoute1","route_direction1","route_good1","traderoute2","route_direction2","route_good2","traderoute3","route_direction3","route_good3","traderoute4","route_direction4","route_good4","food_stock","shield_stock","history","airlift","was_happy","turn_plague","anarchy","rapture","steal","turn_founded","did_buy","did_buy_production","did_sell","turn_last_built","name","currently_building_kind","currently_building_name","changed_from_kind","changed_from_name","before_change_shields","caravan_shields","disbanded_shields","last_turns_shield_surplus","style","city_radius_sq","improvements","wl_length","option0","option1","option2","ai.urgency","ai.building_turn","ai.building_wait","ai.founder_turn","ai.founder_want","ai.founder_boat","citizen3","rally_point_length","rally_point_persistent","rally_point_vigilant","rally_point_orders","rally_point_dirs","rally_point_activities","rally_point_action_vec","rally_point_tgt_vec","rally_point_sub_tgt_vec","cma_enabled","cma_minimal_surplus","cma_minimal_surplus,1","cma_minimal_surplus,2","cma_minimal_surplus,3","cma_minimal_surplus,4","cma_minimal_surplus,5","cma_minimal_surplus,6","cma_minimal_surplus,7","cma_factor","cma_factor,1","cma_factor,2","cma_factor,3","cma_factor,4","cma_factor,5","cma_factor,6","cma_factor,7","max_growth","require_happy","allow_disorder","allow_specialists","happy_factor"
+60,4,179,3,-1,1,30,30,0,0,1,0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,"Bidirectional","Goods",0,849,0,0,FALSE,-1,0,0,0,1,FALSE,FALSE,FALSE,1,"Spideradio","Building","Nothing","Building","Nothing",849,0,0,1,"European",5,"10000000000",0,FALSE,FALSE,FALSE,0,0,1,0,0,FALSE,1,0,FALSE,FALSE,"-","-","-",-1,-1,-1,FALSE,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,FALSE,FALSE,FALSE,FALSE,0
 }
 nunits=6
 u={"id","x","y","facing","nationality","veteran","hp","homecity","name","type_by_name","activity","activity_count","activity_tgt","changed_from","changed_from_count","changed_from_tgt","done_moving","moves","fuel","born","battlegroup","go","goto_x","goto_y","server_side_agent","passenger","ferryboat","charge","bodyguard","ord_map","ord_city","moved","paradropped","transported_by","carrying","action_decision","action_decision_tile_x","action_decision_tile_y","stay","orders_length","orders_index","orders_repeat","orders_vigilant","orders_list","dir_list","activity_list","action_vec","tgt_vec","sub_tgt_vec"
@@ -6633,11 +6633,11 @@ dc={"y","x","id","owner","attacker","size","occupied","walls","happy","unhappy",
 }
 dc_total=6
 gold_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-gold_report_idx=104
+gold_report_idx=129
 science_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-science_report_idx=104
+science_report_idx=129
 materials_report_data="1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;1;"
-materials_report_idx=104
+materials_report_idx=129
 wiretap=-1
 
 [score3]
@@ -6671,13 +6671,23 @@ total=1
 r={"number","goal_name","techs","futuretech","bulbs_before","saved_name","bulbs","now_name","got_tech","done"
 0,"A_UNSET",1,0,0,"",0,"A_UNSET",FALSE,"1000000000000000000000000000"
 1,"A_UNSET",1,0,0,"",0,"A_UNSET",FALSE,"1000000000000000000000000000"
-2,"A_UNSET",26,0,19575,"",76037,"A_UNSET",FALSE,"1111111111111111111111110101"
+2,"A_UNSET",26,0,19575,"",76037,"A_UNSET",FALSE,"1111111111111111011111110101"
 3,"A_UNSET",1,0,0,"",0,"A_UNSET",FALSE,"1000000000000000000000000000"
 }
 count=4
 
 [event_cache]
 events={"turn","phase","timestamp","x","y","server_state","event","target","message"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*1 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*2 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*3 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*4 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*5 has been added as Easy level AI-controlled player (classic).[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*5 has been removed from the game.[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*4 has been removed from the game.[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*3 has been removed from the game.[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*2 has been removed from the game.[/c]"
+0,0,1693144978,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]AI*1 has been removed from the game.[/c]"
 0,0,1693039666,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*1 has been added as Easy level AI-controlled player (classic).[/c]"
 0,0,1693039666,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*2 has been added as Easy level AI-controlled player (classic).[/c]"
 0,0,1693039666,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#8B0000\"]AI*3 has been added as Easy level AI-controlled player (classic).[/c]"
@@ -7024,11 +7034,16 @@ events={"turn","phase","timestamp","x","y","server_state","event","target","mess
 709,0,1693040282,-1,-1,"S_S_RUNNING","E_TECH_EMBASSY","1101","[c fg=\"#8B0000\"]The Green have researched Telecommunications.[/c]"
 732,0,1693040307,-1,-1,"S_S_RUNNING","E_TECH_EMBASSY","1101","[c fg=\"#8B0000\"]The Green have researched Financial Rescue.[/c]"
 744,0,1693040321,-1,-1,"S_S_RUNNING","E_CONNECTION","All","[c fg=\"#FFFFFF\" bg=\"#000000\"]Lost connection: green (network exception) (player Green).[/c]"
+825,0,1693144984,-1,-1,"S_S_INITIAL","E_CONNECTION","All","[c fg=\"#8B0000\"]blue has connected (player Blue).[/c]"
+825,0,1693144985,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#00FF00\" bg=\"#115511\"]All players are ready; starting game.[/c]"
+835,0,1693144997,-1,-1,"S_S_RUNNING","E_SETTING","All","blue: 'set timeout 0'"
+835,0,1693145000,-1,-1,"S_S_RUNNING","E_SETTING","All","blue: 'set timeout 1'"
+841,0,1693145006,-1,-1,"S_S_RUNNING","E_CHAT_MSG","0101","[c fg=\"#A020F0\"]#{Blue -> purple} heyo[/c]"
 }
-count=346
+count=361
 
 [history]
-turn=819
+turn=845
 
 [mapimg]
 count=0

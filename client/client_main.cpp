@@ -735,8 +735,6 @@ void send_turn_done()
   attribute_flush();
 
   dsend_packet_player_phase_done(&client.conn, game.info.turn);
-
-  update_turn_done_button_state();
 }
 
 /**
@@ -926,7 +924,6 @@ void set_client_state(enum client_states newstate)
   }
 
   menus_init();
-  update_turn_done_button_state();
   conn_list_dialog_update();
   if (can_client_change_view()) {
     update_map_canvas_visible();
@@ -1045,7 +1042,6 @@ void start_turn_change_wait()
 void stop_turn_change_wait()
 {
   waiting_turn_change = false;
-  update_timeout_label();
 }
 
 /**
@@ -1103,7 +1099,6 @@ double real_timer_callback()
   if (current_turn_timeout() > 0 && turndone_timer) {
     if (turndone_timer->remainingTime() / 1000 < seconds_shown_to_turndone) {
       seconds_shown_to_turndone = turndone_timer->remainingTime() / 1000;
-      update_timeout_label();
     }
 
     time_until_next_call = std::min(time_until_next_call, 1.0);
@@ -1115,7 +1110,6 @@ double real_timer_callback()
 
     if (iseconds < game.tinfo.last_turn_change_time) {
       seconds_shown_to_new_turn = iseconds;
-      update_timeout_label();
     }
   }
 

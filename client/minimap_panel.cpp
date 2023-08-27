@@ -46,8 +46,6 @@ minimap_panel::minimap_panel(map_view *map, QWidget *parent)
   ui.settings->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("settings-minimap")));
   setup_minimap_menu();
-
-  connect(ui.turn_done, &QAbstractButton::clicked, top_bar_finish_turn);
 }
 
 /**
@@ -139,12 +137,4 @@ void minimap_panel::setup_minimap_menu()
   });
 
   ui.settings->setMenu(menu);
-}
-
-/**
- * Update the timeout display.  The timeout is the time until the turn ends.
- */
-void update_timeout_label()
-{
-  queen()->minimap_panel->turn_done()->update_timeout_label();
 }

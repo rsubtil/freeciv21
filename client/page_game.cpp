@@ -648,8 +648,6 @@ bool fc_game_tab_widget::event(QEvent *event)
       queen()->x_vote->move(width() / 2 - queen()->x_vote->width() / 2, 0);
 
       queen()->updateSidebarTooltips();
-      queen()->minimap_panel->turn_done()->setEnabled(
-          get_turn_done_button_state());
       queen()->mapview_wdg->resize(size.width(), size.height());
       queen()->city_overlay->resize(queen()->mapview_wdg->size());
       queen()->unitinfo_wdg->update_actions();

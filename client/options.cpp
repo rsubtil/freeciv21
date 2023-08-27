@@ -4651,8 +4651,6 @@ static void view_option_changed_callback(struct option *poption)
 static void manual_turn_done_callback(struct option *poption)
 {
   Q_UNUSED(poption)
-  update_turn_done_button_state();
-
   if (!gui_options->ai_manual_turn_done) {
     const player *pplayer = client_player();
     if (pplayer != nullptr && is_ai(pplayer) && can_end_turn()) {

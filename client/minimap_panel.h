@@ -35,9 +35,6 @@ public:
   /// Retrieves the minimap widget.
   auto minimap() { return ui.minimap; }
 
-  /// Retrieves the Turn Done button.
-  auto turn_done() { return ui.turn_done; }
-
 private:
   void setup_minimap_menu();
 
@@ -46,5 +43,3 @@ private:
   QAction *m_show_relief, *m_show_borders, *m_show_borders_ocean,
       *m_show_cities, *m_show_fog;
 };
-
-void update_timeout_label();

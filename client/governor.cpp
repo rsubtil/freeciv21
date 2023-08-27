@@ -171,7 +171,6 @@ void governor::run()
     }
   }
   scity_remove.clear();
-  update_turn_done_button_state();
 }
 
 inline bool operator==(const struct cm_result &result1,

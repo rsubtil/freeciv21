@@ -97,13 +97,6 @@
      </item>
     </layout>
    </item>
-   <item>
-    <widget class="turn_done_button" name="turn_done">
-     <property name="text">
-      <string>Turn Done</string>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -113,14 +106,8 @@
    <header>minimap.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>turn_done_button</class>
-   <extends>QPushButton</extends>
-   <header>turn_done_button.h</header>
-  </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>turn_done</tabstop>
   <tabstop>zoom_in</tabstop>
   <tabstop>zoom_reset</tabstop>
   <tabstop>zoom_out</tabstop>

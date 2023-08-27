@@ -40,7 +40,6 @@ void action_button_pressed(int canvas_x, int canvas_y,
 void wakeup_button_pressed(int canvas_x, int canvas_y);
 void adjust_workers_button_pressed(int canvas_x, int canvas_y);
 void recenter_button_pressed(int canvas_x, int canvas_y);
-void update_turn_done_button_state();
 void update_line(int canvas_x, int canvas_y);
 
 extern struct city *city_workers_display;

@@ -1370,8 +1370,6 @@ void handle_start_phase(int phase)
       && is_player_phase(client.conn.playing, phase)) {
     non_ai_unit_focus = false;
 
-    update_turn_done_button_state();
-
     if (is_ai(client.conn.playing) && !gui_options->ai_manual_turn_done) {
       user_ended_turn();
     }
@@ -2283,7 +2281,6 @@ void handle_player_remove(int playerno)
 void handle_player_info(const struct packet_player_info *pinfo)
 {
   bool is_new_nation = false;
-  bool turn_done_changed = false;
   bool new_player = false;
   int i;
   struct player *pplayer, *my_player;
@@ -2438,9 +2435,6 @@ void handle_player_info(const struct packet_player_info *pinfo)
 
   pplayer->ai_common.science_cost = pinfo->science_cost;
 
-  turn_done_changed = (pplayer->phase_done != pinfo->phase_done
-                       || (BV_ISSET(pplayer->flags, PLRF_AI)
-                           != BV_ISSET(pinfo->flags, PLRF_AI)));
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->is_ready = pinfo->is_ready;
@@ -2486,9 +2480,6 @@ void handle_player_info(const struct packet_player_info *pinfo)
   // The player information is now fully set. Update the GUI.
 
   if (pplayer == my_player && can_client_change_view()) {
-    if (turn_done_changed) {
-      update_turn_done_button_state();
-    }
     science_report_dialog_update();
     economy_report_dialog_update();
     units_report_dialog_update();
@@ -5287,7 +5278,6 @@ void handle_thaw_client()
   log_debug("handle_thaw_client");
 
   governor::i()->unfreeze();
-  update_turn_done_button_state();
 }
 
 /**

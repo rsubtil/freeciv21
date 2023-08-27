@@ -327,23 +327,6 @@ void recenter_button_pressed(int canvas_x, int canvas_y)
 }
 
 /**
-   Update the turn done button state.
- */
-void update_turn_done_button_state()
-{
-  queen()->minimap_panel->turn_done()->setEnabled(
-      get_turn_done_button_state());
-
-  if (can_end_turn()) {
-    if (waiting_for_end_turn) {
-      send_turn_done();
-    } else {
-      update_turn_done_button(true);
-    }
-  }
-}
-
-/**
    Update the goto/patrol line to the given map canvas location.
  */
 void update_line(int canvas_x, int canvas_y)

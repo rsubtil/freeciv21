@@ -55,8 +55,6 @@ turn_done_button::turn_done_button(QWidget *parent) : QPushButton(parent)
 
   setContentsMargins(metrics::contents_margin, metrics::contents_margin,
                      metrics::contents_margin, metrics::contents_margin);
-
-  update_timeout_label();
 }
 
 /**
