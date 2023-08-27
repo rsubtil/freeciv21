@@ -79,6 +79,7 @@ def fix_server_settings(lines):
     "\"timeout\",1,1",
     "\"saveturns\",60,60",
     "\"ec_turns\",65535,65535"
+    "\"ec_info\",enabled,enabled"
   ]
   for i in range(len(lines)):
     if lines[i].startswith("set={\"name\",\"value\",\"gamestart\""):

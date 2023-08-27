@@ -754,7 +754,7 @@ void send_pending_events(struct connection *pconn, bool include_public)
                           include_public)) {
       if (game.server.event_cache.info) {
         // add turn and time to the message
-        strftime(timestr, sizeof(timestr), "%D/%M %H:%M:%S",
+        strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S",
                  localtime(&pdata->timestamp));
         pcm = pdata->packet;
         fc_snprintf(pcm.message, sizeof(pcm.message), "(%s) %s",

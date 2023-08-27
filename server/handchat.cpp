@@ -14,6 +14,8 @@
 #include <cstdarg>
 #include <cstring>
 
+#include <ctime>
+
 // utility
 #include "fcintl.h"
 #include "log.h"
@@ -176,32 +178,37 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
+  char timestr[64];
+  time_t now = time(nullptr);
+  strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S",
+           localtime(&now));
+
   struct event_cache_players *players =
       event_cache_player_add(nullptr, pdest);
   players = event_cache_player_add(players, sender->playing);
   players = event_cache_player_add(players, pdest);
   package_chat_msg(&packet_self, sender, get_ftc_for_player(sender_name[0]),
-                   "%c%c:{%s} %s", CHAT_PRIVATE_PREFIX, player_char_to,
-                   sender_name, msg);
+                   "%c%c:[%s] {%s} %s", CHAT_PRIVATE_PREFIX, player_char_to,
+                   timestr, sender_name, msg);
   event_cache_add_for_players(&packet_self, players);
   players = event_cache_player_add(nullptr, pdest);
   players = event_cache_player_add(players, sender->playing);
   players = event_cache_player_add(players, pdest);
   package_chat_msg(&packet_other, sender, get_ftc_for_player(sender_name[0]),
-                   "%c%c:{%s} %s", CHAT_PRIVATE_PREFIX, player_char_from,
-                   sender_name, msg);
+                   "%c%c:[%s] {%s} %s", CHAT_PRIVATE_PREFIX, player_char_from,
+                   timestr, sender_name, msg);
   event_cache_add_for_players(&packet_other, players);
 
   // Repeat the message for the sender.
-  send_chat_msg(sender, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
+  send_chat_msg(sender, sender, get_ftc_for_player(sender_name[0]), "%c%c:[%s] {%s} %s",
                 CHAT_PRIVATE_PREFIX, player_char_to,
-                sender_name, msg);
+                timestr, sender_name, msg);
 
   // Send the message to destination.
   if (nullptr != dest && dest != sender) {
-    send_chat_msg(dest, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
+    send_chat_msg(dest, sender, get_ftc_for_player(sender_name[0]), "%c%c:[%s] {%s} %s",
                   CHAT_PRIVATE_PREFIX, player_char_from,
-                  sender_name, msg);
+                  timestr, sender_name, msg);
   }
 }
 
@@ -217,8 +224,13 @@ static void chat_msg_to_all(struct connection *sender, char *msg)
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
-  package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]), "%c<%s> %s",
-                   CHAT_GLOBAL_PREFIX, sender_name, msg);
+  char timestr[64];
+  time_t now = time(nullptr);
+  strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S",
+           localtime(&now));
+
+  package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]), "%c[%s] <%s> %s",
+                   CHAT_GLOBAL_PREFIX, timestr, sender_name, msg);
   con_write(C_COMMENT, "%s", packet.message);
   lsend_packet_chat_msg(game.est_connections, &packet);
 
