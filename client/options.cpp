@@ -1562,14 +1562,6 @@ static void init_client_options()
                          "relations. Turning this option off causes "
                          "the lines to be drawn straight."),
                       COC_GRAPHICS, false, reqtree_show_icons_callback),
-      GEN_COLOR_OPTION(
-          highlight_our_names,
-          N_("Color to highlight your player/user name"),
-          N_("If set, your player and user name in the new chat "
-             "messages will be highlighted using this color as "
-             "background.  If not set, it will just not highlight "
-             "anything."),
-          COC_GRAPHICS, "#000000", "#FFFF00", nullptr),
       GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI mode"),
                       N_("Disable this option if you do not want to "
                          "press the Turn Done button manually when watching "

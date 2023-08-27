@@ -101,7 +101,6 @@ struct client_options {
   bool enable_cursor_changes = true;
   bool separate_unit_selection = false;
   bool unit_selection_clears_orders = false;
-  struct ft_color highlight_our_names = FT_COLOR("#000000", "#FFFF00");
 
   bool voteinfo_bar_use = true;
   bool voteinfo_bar_always_show = false;

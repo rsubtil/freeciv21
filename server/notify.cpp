@@ -747,6 +747,9 @@ void send_pending_events(struct connection *pconn, bool include_public)
 
   event_cache_iterate(pdata)
   {
+    if (QString(pdata->packet.message).contains(":{")) {
+      log_warning("Here");
+    }
     if (event_cache_match(pdata, pplayer, is_global_observer,
                           include_public)) {
       if (game.server.event_cache.info) {

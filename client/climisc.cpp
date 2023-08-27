@@ -873,54 +873,6 @@ void handle_event(const char *featured_text, struct tile *ptile,
     text_tag_list_iterate_end;
   }
 
-  /* Maybe highlight our player and user names if someone is talking
-   * about us. */
-  if (-1 != conn_id && client.conn.id != conn_id
-      && ft_color_requested(gui_options->highlight_our_names)) {
-    const char *username = client.conn.username;
-    size_t userlen = qstrlen(username);
-    const char *playername = ((client_player() && !client_is_observer())
-                                  ? player_name(client_player())
-                                  : nullptr);
-    size_t playerlen = playername ? qstrlen(playername) : 0;
-    const char *p;
-
-    if (playername && playername[0] == '\0') {
-      playername = nullptr;
-    }
-
-    if (username && username[0] == '\0') {
-      username = nullptr;
-    }
-
-    for (p = plain_text; *p != '\0'; p++) {
-      if (nullptr != username && 0 == fc_strncasecmp(p, username, userlen)) {
-        struct text_tag *ptag =
-            text_tag_new(TTT_COLOR, p - plain_text, p - plain_text + userlen,
-                         gui_options->highlight_our_names);
-
-        fc_assert(ptag != nullptr);
-
-        if (ptag != nullptr) {
-          // Appends to be sure it will be applied at last.
-          text_tag_list_append(tags, ptag);
-        }
-      } else if (nullptr != playername
-                 && 0 == fc_strncasecmp(p, playername, playerlen)) {
-        struct text_tag *ptag = text_tag_new(
-            TTT_COLOR, p - plain_text, p - plain_text + playerlen,
-            gui_options->highlight_our_names);
-
-        fc_assert(ptag != nullptr);
-
-        if (ptag != nullptr) {
-          // Appends to be sure it will be applied at last.
-          text_tag_list_append(tags, ptag);
-        }
-      }
-    }
-  }
-
   // Popup
   if (BOOL_VAL(where & MW_POPUP)) {
     /* Popups are usually not shown if player is under AI control.

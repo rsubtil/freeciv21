@@ -144,7 +144,7 @@ static void chat_msg_to_conn(struct connection *sender,
  */
 static void chat_msg_to_player(struct connection *sender, char *msg)
 {
-  struct packet_chat_msg packet;
+  struct packet_chat_msg packet_self, packet_other;
   char sender_name[MAX_LEN_CHAT_NAME];
   struct connection *dest = nullptr; // The 'pdest' user.
 
@@ -154,8 +154,6 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
 
   struct player *pdest = player_by_user_char(player_char_to);
   if(!pdest) return;
-  struct event_cache_players *players =
-      event_cache_player_add(nullptr, pdest);
 
   // Find the user of the player_char_to.
   conn_list_iterate(pdest->connections, pconn)
@@ -178,12 +176,21 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
+  struct event_cache_players *players =
+      event_cache_player_add(nullptr, pdest);
   players = event_cache_player_add(players, sender->playing);
   players = event_cache_player_add(players, pdest);
-  package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]),
+  package_chat_msg(&packet_self, sender, get_ftc_for_player(sender_name[0]),
                    "%c%c:{%s} %s", CHAT_PRIVATE_PREFIX, player_char_to,
                    sender_name, msg);
-  event_cache_add_for_players(&packet, players);
+  event_cache_add_for_players(&packet_self, players);
+  players = event_cache_player_add(nullptr, pdest);
+  players = event_cache_player_add(players, sender->playing);
+  players = event_cache_player_add(players, pdest);
+  package_chat_msg(&packet_other, sender, get_ftc_for_player(sender_name[0]),
+                   "%c%c:{%s} %s", CHAT_PRIVATE_PREFIX, player_char_from,
+                   sender_name, msg);
+  event_cache_add_for_players(&packet_other, players);
 
   // Repeat the message for the sender.
   send_chat_msg(sender, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
