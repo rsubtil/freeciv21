@@ -610,6 +610,35 @@ void found_new_tech(struct research *presearch, Tech_type_id tech_found,
                               research_name, qUtf8Printable(radv_name),
                               qUtf8Printable(advance_name));
   }
+
+  // If it's resource conversion tech, never make it known, and give resources
+  if (advance_name == "Automation") {
+    players_iterate(pplayer)
+    {
+      research_invention_set(presearch, tech_found, TECH_PREREQS_KNOWN);
+      int cost = research_total_bulbs_required(presearch, tech_found, false);
+      cost = int(ceil(cost * get_player_bonus(pplayer, EFT_SCIENCE_BUY_MATERIAL_PCT) / 100.0f));
+      if (presearch == research_get(pplayer)) {
+        pplayer->economic.materials += cost;
+        send_player_info_c(pplayer, nullptr);
+      }
+    }
+    players_iterate_end;
+  } else if (advance_name == "Tax Evasion") {
+    players_iterate(pplayer)
+    {
+      research_invention_set(presearch, tech_found, TECH_PREREQS_KNOWN);
+      int cost = research_total_bulbs_required(presearch, tech_found, false);
+      cost = int(
+          ceil(cost * get_player_bonus(pplayer, EFT_SCIENCE_BUY_GOLD_PCT)
+               / 100.0f));
+      if (presearch == research_get(pplayer)) {
+        pplayer->economic.gold += cost;
+        send_player_info_c(pplayer, nullptr);
+      }
+    }
+    players_iterate_end;
+  }
 }
 
 /**

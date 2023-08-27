@@ -100,6 +100,14 @@ value  = 100
 type   = "Base_Gold_Output_Mod"
 value  = 100
 
+[effect_base_science_buy_gold]
+type   = "Science_Buy_Gold_Pct"
+value  = 50
+
+[effect_base_science_buy_material]
+type   = "Science_Buy_Material_Pct"
+value  = 25
+
 [effect_improvement_research_center]
 type = "Base_Science_Output"
 value = 1

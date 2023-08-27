@@ -1206,8 +1206,8 @@ QString effect_type_unit_text(effect_type type, int value)
     return QString(_("%1% material")).arg(value);
   case EFT_BASE_PRODUCTION_RATE:
     return QString(_("%1% production rate")).arg(value);
-  case EFT_ENABLE_BUY_SCIENCE:
-  case EFT_ENABLE_BUY_MATERIAL:
+  case EFT_SCIENCE_BUY_GOLD_PCT:
+  case EFT_SCIENCE_BUY_MATERIAL_PCT:
   case EFT_ENABLE_TRADE:
   case EFT_ANY_GOVERNMENT:
   case EFT_CAPITAL_CITY:
