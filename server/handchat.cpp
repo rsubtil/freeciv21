@@ -151,10 +151,6 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   if(strlen(msg) <= 3 && msg[2] != ':') return;
   char player_char_to = msg[1];
   char player_char_from = sender->username[0];
-  msg = msg + 3;
-
-  msg = skip_leading_spaces(msg);
-  form_chat_name(sender, sender_name, sizeof(sender_name));
 
   struct player *pdest = player_by_user_char(player_char_to);
   if(!pdest) return;
@@ -178,6 +174,17 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
   }
   conn_list_iterate_end;
 
+  msg = msg + 3;
+  msg = skip_leading_spaces(msg);
+  form_chat_name(sender, sender_name, sizeof(sender_name));
+
+  players = event_cache_player_add(players, sender->playing);
+  players = event_cache_player_add(players, pdest);
+  package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]),
+                   "%c%c:{%s} %s", CHAT_PRIVATE_PREFIX, player_char_to,
+                   sender_name, msg);
+  event_cache_add_for_players(&packet, players);
+
   // Repeat the message for the sender.
   send_chat_msg(sender, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
                 CHAT_PRIVATE_PREFIX, player_char_to,
@@ -189,34 +196,6 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
                   CHAT_PRIVATE_PREFIX, player_char_from,
                   sender_name, msg);
   }
-
-  // Send the message to player observers.
-  package_chat_msg(&packet, sender, ftc_chat_private, "%c{%s -> %s} %s",
-                   CHAT_META_PREFIX, sender_name, pdest->username, msg);
-  conn_list_iterate(pdest->connections, pconn)
-  {
-    if (pconn != dest && pconn != sender
-        && !conn_is_ignored(sender, pconn)) {
-      send_packet_chat_msg(pconn, &packet);
-    }
-  }
-  conn_list_iterate_end;
-  if (nullptr != sender->playing && !sender->observer
-      && sender->playing != pdest) {
-    // The sender is another player.
-    conn_list_iterate(sender->playing->connections, pconn)
-    {
-      if (pconn != sender && !conn_is_ignored(sender, pconn)) {
-        send_packet_chat_msg(pconn, &packet);
-      }
-    }
-    conn_list_iterate_end;
-
-    // Add player to event cache.
-    players = event_cache_player_add(players, sender->playing);
-  }
-
-  event_cache_add_for_players(&packet, players);
 }
 
 /**
