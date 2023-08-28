@@ -4358,6 +4358,14 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
         } else {
           send_packet_unit_short_info(pconn, &src_sinfo, false);
           send_packet_unit_short_info(pconn, &dest_sinfo, false);
+
+          // If unit is a Spy, it will notify the player
+          if(unit_has_type_flag(punit, UTYF_SPY) && game.info.game_mode == GM_PASSIVE) {
+            notify_player(aplayer, pdesttile, E_ENEMY_DIPLOMAT_SABOTAGE,
+                          ftc_server,
+                          _("Foreign spy movement was detected at %s."),
+                          tile_link(pdesttile));
+          }
         }
       }
     }
