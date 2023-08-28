@@ -94,11 +94,11 @@
       SetOutPath $INSTDIR
       File /r "${INST_DIR}\tool_ruledit\*.*"
     SectionEnd
-    Section "Modpack Installer CLI Edition" tool_fcmp_cli
-      SectionIn 2
-      SetOutPath $INSTDIR
-      File /r "${INST_DIR}\tool_fcmp_cli\*.*"
-    SectionEnd
+    ;Section "Modpack Installer CLI Edition" tool_fcmp_cli
+    ;  SectionIn 2
+    ;  SetOutPath $INSTDIR
+    ;  File /r "${INST_DIR}\tool_fcmp_cli\*.*"
+    ;SectionEnd
     Section "Ruleset Upgrade Tool" tool_ruleup
       SectionIn 2
       SetOutPath $INSTDIR
@@ -229,7 +229,7 @@
     ; Create Start Menu Entries
     CreateDirectory "$SMPROGRAMS\${APPNAME}"
     CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Client.lnk" "$INSTDIR\lunar_gambit-client.exe" "" "$INSTDIR\client.ico" 0
-    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Modpack Installer.lnk" "$INSTDIR\lunar_gambit-modpack-qt.exe" "" "$INSTDIR\mp.ico" 0
+    ;CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Modpack Installer.lnk" "$INSTDIR\lunar_gambit-modpack-qt.exe" "" "$INSTDIR\mp.ico" 0
 
     ; Create entry in Windows "Add/Remove programs" panel.
     Push "DisplayName"
