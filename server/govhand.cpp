@@ -255,7 +255,21 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
     {
       if (!strcmp(rule_name_get(&pextra->name), building_rulename_get(pbuilding))
        && !building_belongs_to(pbuilding, pplayer)
-       && building_owner(pbuilding) != nullptr) {
+       && building_owner(pbuilding) != nullptr
+       && (
+        (
+          (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD && building_rulename_get(pbuilding)[11] == 'b') ||
+          (act == ACTION_SABOTAGE_BUILDING_STEAL_GOLD && building_rulename_get(pbuilding)[11] == 'b')
+        ) ||
+        (
+          (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE && building_rulename_get(pbuilding)[11] == 'u') ||
+          (act == ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE && building_rulename_get(pbuilding)[11] == 'u')
+        ) ||
+        (
+          (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS && building_rulename_get(pbuilding)[11] == 'f') ||
+          (act == ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS && building_rulename_get(pbuilding)[11] == 'f')
+        )
+      )) {
         // Calculate the probabilities.
         probabilities[act] = action_prob_vs_tile(punit, act, ptile, pextra);
         target_extra_id = pextra->id;

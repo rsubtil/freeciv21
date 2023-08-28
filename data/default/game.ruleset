@@ -682,6 +682,7 @@ actor_reqs =
     { "type",       "name",          "range", "present"
       "UnitFlag",   "Spy",           "Local", TRUE
       "UnitState",  "OnLivableTile", "Local", TRUE
+      "GameMode",   "Passive",       "Local", TRUE
     }
 target_reqs =
     { "type",      "name",     "range", "present"
