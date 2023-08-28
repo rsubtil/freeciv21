@@ -163,6 +163,11 @@ jobs:
           files: |
             build/Windows-x86_64/LunarGambit-*-Windows-x86_64.exe
             build/Windows-x86_64/LunarGambit-*-Windows-x86_64.exe.sha256
+      - name: Debug
+        if: failure()
+        run: |
+          cat CMakeCache.txt || true
+          cat build/Windows-x86_64/_CPack_Packages/Windows-x86_64/NSIS/NSISOutput.log || true
       - name: Upload a build
         uses: actions/upload-artifact@v3
         with:
@@ -223,6 +228,10 @@ jobs:
             gettext \
             create-dmg
           brew link gettext --force
+      - name: Workaround for freedesktop being down
+        run: |
+          mkdir -p downloads
+          curl https://github.com/microsoft/vcpkg/files/12454188/fontconfig-fontconfig-2.14.2.tar.gz -O downloads/fontconfig-fontconfig-2.14.2.tar.gz
       - uses: lukka/run-vcpkg@v10
         name: Install dependencies
         with:
@@ -268,8 +277,8 @@ jobs:
       - name: Debug
         if: failure()
         run: |
-          cat CMakeCache.txt
-          echo ${{steps.split.outputs.fragment}}
+          cat CMakeCache.txt || true
+          echo ${{steps.split.outputs.fragment}} || true
       - name: Upload package
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
