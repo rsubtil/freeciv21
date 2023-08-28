@@ -342,7 +342,7 @@ void pageGame::updateInfoLabelTimeout()
   }
   // TRANS: T is shortcut from Turn
   if (client.conn.playing && !client_is_global_observer() && C_S_RUNNING == client_state()) {
-    int materials_objective = 20000;
+    int materials_objective = game.info.materials_objective;
     s = QString(_("%1 \nT:%2 %3/%4 (%5%)"))
             .arg(player_name(client.conn.playing),
                  QString::number(game.info.turn),

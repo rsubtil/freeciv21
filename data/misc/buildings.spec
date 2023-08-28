@@ -25,6 +25,7 @@ sprites = {
   "b.coastal_defense", "tilesets/buildings/coastal_defense-small"
   "b.colosseum", "tilesets/buildings/colosseum-small"
   "b.courthouse", "tilesets/buildings/courthouse-small"
+  "b.decapitalization", "tilesets/buildings/decapitalization-small"
   "b.factory", "tilesets/buildings/factory-small"
   "b.granary", "tilesets/buildings/granary-small"
   "b.harbour", "tilesets/buildings/harbour-small"

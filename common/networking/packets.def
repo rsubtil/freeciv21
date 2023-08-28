@@ -605,6 +605,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 city_start_hitpoints;
   UINT32 city_recover_hitpoints;
   GAME_MODE game_mode;
+  UINT32 materials_objective;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet

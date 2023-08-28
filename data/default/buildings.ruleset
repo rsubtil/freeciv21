@@ -107,7 +107,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Research Centers", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.police_station"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -128,7 +128,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Investment Centers", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.bank"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -149,7 +149,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Logistics Centers", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.workshop"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -170,7 +170,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Research & Development", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.research_lab"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -191,7 +191,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Factory", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.factory"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -213,7 +213,7 @@ reqs	=
     "Tech", "Salary Boost", "Player", TRUE
     "Building", "Salary Cuts", "City", FALSE
   }
-graphic	= "b.palace"
+graphic	= "b.capitalization"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -234,7 +234,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Stock Exchange", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.mercantile_exchange"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -256,7 +256,7 @@ reqs	=
     "Tech", "Salary Cuts", "Player", TRUE
     "Building", "Salary Boosts", "City", FALSE
   }
-graphic	= "b.palace"
+graphic	= "b.decapitalization"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
@@ -277,7 +277,7 @@ reqs	=
   { "type", "name", "range"
     "Tech", "Space Program", "Player"
   }
-graphic	= "b.palace"
+graphic	= "b.mfg_plant"
 graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"

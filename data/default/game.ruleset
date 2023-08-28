@@ -186,6 +186,9 @@ city_start_hitpoints = 30
 ; How much HP city recovers per turn
 city_recover_hitpoints = 1
 
+; Materials objective
+materials_objective = 5000
+
 [illness]
 ; Whether plagues (illness) are possible
 ; There are some latent building effects in effects.ruleset which affect

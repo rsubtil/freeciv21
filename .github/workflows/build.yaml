@@ -231,7 +231,7 @@ jobs:
       - name: Workaround for freedesktop being down
         run: |
           mkdir -p downloads
-          curl https://github.com/microsoft/vcpkg/files/12454188/fontconfig-fontconfig-2.14.2.tar.gz -O downloads/fontconfig-fontconfig-2.14.2.tar.gz
+          curl https://github.com/microsoft/vcpkg/files/12454188/fontconfig-fontconfig-2.14.2.tar.gz --output downloads/fontconfig-fontconfig-2.14.2.tar.gz
       - uses: lukka/run-vcpkg@v10
         name: Install dependencies
         with:
