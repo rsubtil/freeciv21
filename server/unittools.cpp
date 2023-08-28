@@ -4359,8 +4359,24 @@ bool unit_move(struct unit *punit, struct tile *pdesttile, int move_cost,
           send_packet_unit_short_info(pconn, &src_sinfo, false);
           send_packet_unit_short_info(pconn, &dest_sinfo, false);
 
-          // If unit is a Spy, it will notify the player
-          if(unit_has_type_flag(punit, UTYF_SPY) && game.info.game_mode == GM_PASSIVE) {
+          // If unit is a Spy, it might notify the player
+          if (unit_has_type_flag(punit, UTYF_SPY)
+              && game.info.game_mode == GM_PASSIVE
+              && can_player_see_unit_at(aplayer, punit, pdesttile,
+                                        false)) {
+            // Last check; spies are completely invisible in cities and buildings
+            if (tile_city(psrctile)) continue;
+            bool is_building = false;
+            extra_type_by_cause_iterate(EC_BUILDING, pextra)
+            {
+              if(tile_has_extra(psrctile, pextra)) {
+                is_building = true;
+                break;
+              }
+            }
+            extra_type_by_cause_iterate_end;
+            if (is_building) continue;
+            // Spy moved inside visible range; notify foreign players
             notify_player(aplayer, pdesttile, E_ENEMY_DIPLOMAT_SABOTAGE,
                           ftc_server,
                           _("Foreign spy movement was detected at %s."),

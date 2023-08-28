@@ -921,6 +921,12 @@ static inline int map_get_seen(const struct player *pplayer,
                                const struct tile *ptile,
                                enum vision_layer vlayer)
 {
+  extra_type_by_cause_iterate(EC_BUILDING, pextra)
+  {
+    if (tile_has_extra(ptile, pextra))
+      return 1;
+  }
+  extra_type_by_cause_iterate_end;
   return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
 }
 
@@ -2482,6 +2488,9 @@ void create_extra(struct tile *ptile, const extra_type *pextra,
 
   tile_add_extra(ptile, pextra);
 
+  // Extras are only buildings, so always update them
+  send_tile_info(nullptr, ptile, false);
+
   // Watchtower might become effective.
   unit_list_refresh_vision(ptile->units);
 
@@ -2561,6 +2570,7 @@ void destroy_extra(struct tile *ptile, struct extra_type *pextra)
   }
 
   tile_remove_extra(ptile, pextra);
+  send_tile_info(nullptr, ptile, false);
 
   if (!is_virtual) {
     // Remove base from vision of players which were able to see the base.

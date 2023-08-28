@@ -2753,8 +2753,8 @@ void do_unit_goto(struct tile *ptile)
   if (is_valid_goto_draw_line(ptile)) {
     send_goto_route();
   } else {
-    create_event(ptile, E_BAD_COMMAND, ftc_client,
-                 _("Didn't find a route to the destination!"));
+    //create_event(ptile, E_BAD_COMMAND, ftc_client,
+    //             _("Didn't find a route to the destination!"));
   }
 }
 
@@ -2775,8 +2775,8 @@ void do_unit_patrol_to(struct tile *ptile)
       && !is_non_allied_unit_tile(ptile, client.conn.playing)) {
     send_patrol_route();
   } else {
-    create_event(ptile, E_BAD_COMMAND, ftc_client,
-                 _("Didn't find a route to the destination!"));
+    //create_event(ptile, E_BAD_COMMAND, ftc_client,
+    //             _("Didn't find a route to the destination!"));
   }
 
   clear_hover_state();
@@ -2791,8 +2791,8 @@ void do_unit_connect(struct tile *ptile, enum unit_activity activity,
   if (is_valid_goto_draw_line(ptile)) {
     send_connect_route(activity, tgt);
   } else {
-    create_event(ptile, E_BAD_COMMAND, ftc_client,
-                 _("Didn't find a route to the destination!"));
+    //create_event(ptile, E_BAD_COMMAND, ftc_client,
+    //             _("Didn't find a route to the destination!"));
   }
 
   clear_hover_state();

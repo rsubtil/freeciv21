@@ -980,12 +980,13 @@ bool can_player_see_unit_at(const struct player *pplayer,
 {
   struct city *pcity;
 
-  // TODO: Any scientist, banker and engineer must be visible. Check must be here before tile knowns
-  // are checked.
-
   // If the player can't even see the tile...
   if (TILE_KNOWN_SEEN != tile_get_known(ptile, pplayer)) {
     return false;
+  }
+
+  if (unit_has_type_flag(punit, UTYF_PUBLIC)) {
+    return true;
   }
 
   /* Don't show non-allied units that are in transports.  This is logical
@@ -1016,10 +1017,25 @@ bool can_player_see_unit_at(const struct player *pplayer,
     extra_type_list_iterate_end;
   }
 
-  // If unit is spy and is not actively moving, they become invisible, even if inside visible area.
+  // If unit is spy, there are some special checks.
   if (unit_has_type_flag(punit, UTYF_SPY) && punit->owner != pplayer) {
-    return punit->has_orders
-           && punit->orders.list[punit->orders.index].order == ORDER_MOVE;
+    // If spy is actively moving, it might be visible
+    if (punit->has_orders && punit->orders.list[punit->orders.index].order == ORDER_MOVE) {
+      // It's only visible if currently not standing on a city or building
+      if (tile_city(punit->tile)) return false;
+      bool is_building = false;
+      extra_type_by_cause_iterate(EC_BUILDING, pextra)
+      {
+        if (tile_has_extra(punit->tile, pextra)) {
+          is_building = true;
+          break;
+        }
+      }
+      extra_type_by_cause_iterate_end;
+      if (is_building) return false;
+      return true;
+    }
+    return false;
   }
 
   // Allied or non-hiding units are always seen.
@@ -1033,7 +1049,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
                                           unit_type_get(punit)->vlayer);
 
   return false;
-}
+  }
 
 /**
    Checks if a unit can be seen by pplayer at its current location.
