@@ -203,6 +203,6 @@ void meswin_goto(int message_index)
   fc_assert_ret(0 <= message_index && message_index < messages_total);
 
   if (messages[message_index]->location_ok) {
-    queen()->mapview_wdg->center_on_tile(messages[message_index]->tile);
+    queen()->mapview_wdg->center_on_tile(messages[message_index]->tile, true, true);
   }
 }

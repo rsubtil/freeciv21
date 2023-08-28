@@ -204,7 +204,7 @@ void map_view::show_all_fcwidgets()
 /**
  * Centers the view on a tile.
  */
-void map_view::center_on_tile(tile *tile, bool animate)
+void map_view::center_on_tile(tile *tile, bool animate, bool show_tile)
 {
   int tile_x, tile_y;
   index_to_map_pos(&tile_x, &tile_y, tile_index(tile));
@@ -234,6 +234,12 @@ void map_view::center_on_tile(tile *tile, bool animate)
     m_origin_animation->start();
   } else {
     m_renderer->set_origin(QPointF(gui_x, gui_y));
+  }
+
+  if (show_tile) {
+    mapdeco_set_crosshair(tile, true);
+    QTimer::singleShot(10000, this,
+                       [=] { mapdeco_set_crosshair(tile, false); });
   }
 }
 
