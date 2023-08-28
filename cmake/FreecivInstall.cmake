@@ -9,7 +9,7 @@ install(
   COPYING
   INSTALL
   DESTINATION ${CMAKE_INSTALL_DOCDIR}
-  COMPONENT freeciv21)
+  COMPONENT lunar_gambit)
 
 # Always install the Licenses
 install(
@@ -34,7 +34,7 @@ install(
   dist/licenses/UNICODE.txt
   dist/licenses/ZLIB.txt
   DESTINATION ${CMAKE_INSTALL_DOCDIR}/licenses
-  COMPONENT freeciv21)
+  COMPONENT lunar_gambit)
 
 # Common installation for all Win32 et al platforms
 if(WIN32 OR MSYS OR MINGW)
@@ -46,7 +46,7 @@ if(WIN32 OR MSYS OR MINGW)
     dist/mp.ico
     dist/server.ico
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
 endif()
 
 # MSYS2 and MINGW specific installation
@@ -58,20 +58,20 @@ if(MSYS OR MINGW)
       ${MINGW_PATH}/libcrypto-3.dll
       ${MINGW_PATH}/libssl-3.dll
       DESTINATION ${CMAKE_INSTALL_BINDIR}
-      COMPONENT freeciv21)
+      COMPONENT lunar_gambit)
   else()
     install(
       FILES
       ${MINGW_PATH}/libcrypto-3-x64.dll
       ${MINGW_PATH}/libssl-3-x64.dll
       DESTINATION ${CMAKE_INSTALL_BINDIR}
-      COMPONENT freeciv21)
+      COMPONENT lunar_gambit)
   endif()
 
   # This allows us to determine the external libraries we need to include at install time
   #   dynamically instead of doing it manually.
   install(CODE [[
-    message(STATUS "Collecting dependencies for freeciv21 executables...")
+    message(STATUS "Collecting dependencies for lunar_gambit executables...")
     set(CMAKE_GET_RUNTIME_DEPENDENCIES_TOOL objdump)
 
     # Take a variable that is available at "install" time and repurpose
@@ -87,18 +87,18 @@ if(MSYS OR MINGW)
       PRE_EXCLUDE_REGEXES "^api-ms-*"
       POST_EXCLUDE_REGEXES "C:[\\\\/][Ww][Ii][Nn][Dd][Oo][Ww][Ss][\\\\/].*"
       EXECUTABLES
-        "${CMAKE_INSTALL_PREFIX}/freeciv21-*.exe"
+        "${CMAKE_INSTALL_PREFIX}/lunar_gambit-*.exe"
       )
-      message(STATUS "Installing library dependencies for freeciv21 executables...")
+      message(STATUS "Installing library dependencies for lunar_gambit executables...")
       file(INSTALL DESTINATION ${CMAKE_INSTALL_PREFIX} MESSAGE_LAZY FILES ${r_deps})
-    ]] COMPONENT freeciv21)
+    ]] COMPONENT lunar_gambit)
 
   # Qt5 Plugins and required DLLs
   #   Before installation, run a series of commands that copy each of the Qt
   #   runtime files to the appropriate directory for installation
   install(CODE [[
 
-    message(STATUS "Collecting Qt dependencies for freeciv21 GUI executables...")
+    message(STATUS "Collecting Qt dependencies for lunar_gambit GUI executables...")
 
     # Take a variable that is available at "install" time and repurpose
     string(REGEX REPLACE "objdump.exe" "" MINGW_PATH ${CMAKE_OBJDUMP})
@@ -111,7 +111,7 @@ if(MSYS OR MINGW)
       OUTPUT_STRIP_TRAILING_WHITESPACE
     )
     # Run a loop to go thought the output and copy the files we need
-    message(STATUS "Installing Qt library dependencies for freeciv21 GUI executables...")
+    message(STATUS "Installing Qt library dependencies for lunar_gambit GUI executables...")
     separate_arguments(_files WINDOWS_COMMAND ${_output})
       while(_files)
           list(GET _files 0 _src)
@@ -122,14 +122,14 @@ if(MSYS OR MINGW)
           message(STATUS "Installing: ${CMAKE_INSTALL_PREFIX}/${_dest}")
           list(REMOVE_AT _files 0 1)
       endwhile()
-    ]] COMPONENT freeciv21)
+    ]] COMPONENT lunar_gambit)
 elseif(WIN32)
   # The Visual Studio generator places all files and associated DLL libraries
   #  into a build directory. So we just grab those for install.
   install(
     DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.dll PATTERN *.pdb)
 
   # QT platform plugin must be only one directory level away from the EXEs
@@ -139,7 +139,7 @@ elseif(WIN32)
   install(
     DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_BUILD_TYPE}/plugins/platforms
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.dll)
 
   # Grab a few files that get missed
@@ -147,7 +147,7 @@ elseif(WIN32)
     FILES
     ${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/bin/SDL2.dll
     DESTINATION ${CMAKE_INSTALL_BINDIR}
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
 endif()
 
 # Unix/Linux specific install steps
@@ -166,7 +166,7 @@ if(UNIX AND NOT APPLE)
       FILES
       dist/net.longturn.freeciv21.client.metainfo.xml
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
     )
     configure_file(${CMAKE_SOURCE_DIR}/dist/net.longturn.freeciv21.client.desktop.in
                    net.longturn.freeciv21.client.desktop
@@ -175,7 +175,7 @@ if(UNIX AND NOT APPLE)
       FILES
       ${CMAKE_BINARY_DIR}/net.longturn.freeciv21.client.desktop
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
     )
   endif(FREECIV_ENABLE_CLIENT)
 
@@ -184,7 +184,7 @@ if(UNIX AND NOT APPLE)
       FILES
       dist/net.longturn.freeciv21.server.metainfo.xml
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
     )
     configure_file(${CMAKE_SOURCE_DIR}/dist/net.longturn.freeciv21.server.desktop.in
                    net.longturn.freeciv21.server.desktop
@@ -193,7 +193,7 @@ if(UNIX AND NOT APPLE)
       FILES
       ${CMAKE_BINARY_DIR}/net.longturn.freeciv21.server.desktop
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
     )
   endif(FREECIV_ENABLE_SERVER)
 
@@ -202,7 +202,7 @@ if(UNIX AND NOT APPLE)
       FILES
       dist/net.longturn.freeciv21.modpack.metainfo.xml
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/metainfo
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
     )
     configure_file(${CMAKE_SOURCE_DIR}/dist/net.longturn.freeciv21.modpack-qt.desktop.in
                    net.longturn.freeciv21.modpack-qt.desktop
@@ -211,7 +211,7 @@ if(UNIX AND NOT APPLE)
       FILES
       ${CMAKE_BINARY_DIR}/net.longturn.freeciv21.modpack-qt.desktop
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/applications
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
     )
   endif(FREECIV_ENABLE_FCMP_QT)
 
@@ -256,14 +256,14 @@ if(FREECIV_ENABLE_CLIENT AND FREECIV_DOWNLOAD_FONTS)
     install(
       DIRECTORY ${CMAKE_BINARY_DIR}/src/Libertinus
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/fonts
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
       FILES_MATCHING PATTERN *.otf PATTERN *.txt
     )
   else()
       install(
       DIRECTORY ${CMAKE_BINARY_DIR}/src/Libertinus
       DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/freeciv21/fonts
-      COMPONENT freeciv21
+      COMPONENT lunar_gambit
       FILES_MATCHING PATTERN *.otf PATTERN *.txt
     )
   endif(MSYS OR MINGW OR WIN32)

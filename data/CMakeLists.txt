@@ -4,13 +4,13 @@ function(add_ruleset)
     install(
       FILES "${ARG_NAME}.serv"
       DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-      COMPONENT freeciv21)
+      COMPONENT lunar_gambit)
   endif()
   if (ARG_README)
     install(
       FILES "${ARG_NAME}/${ARG_README}"
       DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/${ARG_NAME}"
-      COMPONENT freeciv21)
+      COMPONENT lunar_gambit)
   endif()
   install(
     FILES
@@ -28,7 +28,7 @@ function(add_ruleset)
     ${ARG_NAME}/units.ruleset
     DESTINATION
     "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/${ARG_NAME}"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
 endfunction()
 
 function(add_tileset)
@@ -36,11 +36,11 @@ function(add_tileset)
   install(
     FILES ${ARG_NAME}.tilespec
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
   install(
     DIRECTORY ${ARG_NAME}
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.png PATTERN *.spec PATTERN README.*)
 endfunction()
 
@@ -63,7 +63,7 @@ if (FREECIV_ENABLE_SERVER OR FREECIV_ENABLE_RULEDIT)
   install(
     FILES default.serv
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
   install(
     FILES
     default/ai_effects.ruleset
@@ -72,11 +72,11 @@ if (FREECIV_ENABLE_SERVER OR FREECIV_ENABLE_RULEDIT)
     #default/nationlist.ruleset
     DESTINATION
     "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/default"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
   install(
     FILES override/nation.ruleset
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/override"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
 endif()
 
 if (FREECIV_ENABLE_SERVER)
@@ -89,7 +89,7 @@ if (FREECIV_ENABLE_CLIENT OR FREECIV_ENABLE_CIVMANUAL)
   install(
     FILES helpdata.txt
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
 endif()
 
 if (FREECIV_ENABLE_CLIENT)
@@ -109,17 +109,17 @@ if (FREECIV_ENABLE_CLIENT)
   install(
     DIRECTORY misc
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.png PATTERN *.tilespec PATTERN *.spec)
   install(
     DIRECTORY override
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.png PATTERN *.spec)
   install(
     DIRECTORY themes/gui-qt
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/themes"
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN theme.conf
                    PATTERN *.jpg
                    PATTERN *.png
@@ -129,20 +129,20 @@ if (FREECIV_ENABLE_CLIENT)
   install(
     FILES stdsounds.soundspec
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
   install(
     DIRECTORY stdsounds
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.ogg)
   install(
     FILES stdmusic.musicspec
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21)
+    COMPONENT lunar_gambit)
   install(
     DIRECTORY stdmusic
     DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}"
-    COMPONENT freeciv21
+    COMPONENT lunar_gambit
     FILES_MATCHING PATTERN *.ogg)
 endif()
 

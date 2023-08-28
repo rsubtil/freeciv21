@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-    <id type="desktop">net.longturn.freeciv21.client</id>
+    <id type="desktop">net.rsubtil.lunar_gambit.client</id>
     <metadata_license>CC0</metadata_license>
     <project_license>GPL-3.0+</project_license>
-    <name>Freeciv21 Client</name>
-    <summary>Client for the Freeciv21 game</summary>
+    <name>Lunar Gambit Client</name>
+    <summary>Client for the Lunar Gambit game</summary>
     <description>
         <p>
-            Freeciv21 is a Free and Open Source empire-building strategy game inspired by the history of human civilization.
+            Lunar Gambit is a Free and Open Source empire-building strategy game inspired by the history of human civilization.
             The game commences in prehistory and your mission is to lead your tribe from the Stone Age to the Space Age...
         </p>
         <p>
             This client is for connecting to network games, or to launch local single-player games. It is based on the Qt framework.
         </p>
     </description>
-    <launchable type="desktop-id">net.longturn.freeciv21.client.desktop</launchable>
+    <launchable type="desktop-id">net.rsubtil.lunar_gambit.client.desktop</launchable>
     <icon type="remote">https://raw.githubusercontent.com/longturn/freeciv21/master/data/icons/128x128/freeciv21-client.png</icon>
     <url type="homepage">https://longturn.net/</url>
-    <url type="bugtracker">https://github.com/longturn/freeciv21/issues</url>
+    <url type="bugtracker">https://github.com/rsubtil/freeciv21-spaceRace/issues</url>
     <screenshots>
       <screenshot type="default">
-        <caption>Freeciv21 Client</caption>
+        <caption>Lunar Gambit Client</caption>
         <image>https://raw.githubusercontent.com/longturn/freeciv21/master/dist/freeciv21-screenshot-2048x1112.png</image>
       </screenshot>
     </screenshots>
     <update_contact>longturn.net@gmail.com</update_contact>
     <developer_name>Longturn.net Community</developer_name>
     <provides>
-      <binary>freeciv21-client</binary>
+      <binary>lunar_gambit-client</binary>
     </provides>
     <categories>
       <category>Game</category>

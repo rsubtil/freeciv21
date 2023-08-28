@@ -254,7 +254,7 @@ bool client_start_server(const QString &user_name)
   }
 
   // Look for a server binary
-  const QString server_name = QStringLiteral("freeciv21-server");
+  const QString server_name = QStringLiteral("lunar_gambit-server");
 
   // First next to the client binary
   // NOTE On Windows findExecutable adds the .exe automatically
@@ -266,7 +266,7 @@ bool client_start_server(const QString &user_name)
   }
 
   // Start it
-  qInfo(_("Starting freeciv21-server at %s"), qUtf8Printable(location));
+  qInfo(_("Starting lunar_gambit-server at %s"), qUtf8Printable(location));
 
   serverProcess::i()->start(location, arguments);
   if (!serverProcess::i()->waitForStarted(3000)) {

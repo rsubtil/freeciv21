@@ -304,7 +304,7 @@ void audio_real_init(const QString &soundset_name,
               qUtf8Printable(soundset_name), qUtf8Printable(musicset_name));
     qInfo(_("To get sound you need to download a sound set!"));
     qInfo(_("Get sound sets from the Modpack Installer "
-            "(freeciv21-modpack-qt) program."));
+            "(lunar_gambit-modpack-qt) program."));
     qInfo(_("Proceeding with sound support disabled."));
     ss_tagfile = nullptr;
     ms_tagfile = nullptr;

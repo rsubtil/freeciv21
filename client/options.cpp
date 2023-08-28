@@ -1561,7 +1561,7 @@ static void init_client_options()
                          "diagram use curved lines to show technology "
                          "relations. Turning this option off causes "
                          "the lines to be drawn straight."),
-                      COC_GRAPHICS, false, reqtree_show_icons_callback),
+                      COC_GRAPHICS, true, reqtree_show_icons_callback),
       GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI mode"),
                       N_("Disable this option if you do not want to "
                          "press the Turn Done button manually when watching "
@@ -1570,7 +1570,7 @@ static void init_client_options()
       GEN_BOOL_OPTION(auto_center_on_unit, N_("Auto center on units"),
                       N_("Set this option to have the active unit centered "
                          "automatically when the unit focus changes."),
-                      COC_INTERFACE, true, nullptr),
+                      COC_INTERFACE, false, nullptr),
       GEN_BOOL_OPTION(auto_center_on_automated, N_("Show automated units"),
                       N_("Disable this option if you do not want to see "
                          "automated units autocentered and animated."),
@@ -1586,7 +1586,7 @@ static void init_client_options()
                       N_("Set this option to have the client automatically "
                          "recenter the map on a suitable location at the "
                          "start of each turn."),
-                      COC_INTERFACE, true, nullptr),
+                      COC_INTERFACE, false, nullptr),
       GEN_BOOL_OPTION(wakeup_focus, N_("Focus on awakened units"),
                       N_("Set this option to have newly awoken units be "
                          "focused automatically."),
@@ -1597,7 +1597,7 @@ static void init_client_options()
              "by left-clicking and then holding down the mouse "
              "button while dragging the mouse onto a different "
              "tile."),
-          COC_INTERFACE, false, nullptr),
+          COC_INTERFACE, true, nullptr),
       GEN_BOOL_OPTION(
           goto_into_unknown, N_("Allow goto into the unknown"),
           N_("Setting this option will make the game consider "
@@ -1636,7 +1636,7 @@ static void init_client_options()
                       N_("Pop up city dialog for new cities"),
                       N_("Setting this option will pop up a newly-founded "
                          "city's city dialog automatically."),
-                      COC_INTERFACE, true, nullptr),
+                      COC_INTERFACE, false, nullptr),
       GEN_BOOL_OPTION(
           popup_actor_arrival, N_("Pop up caravan and spy actions"),
           N_("If this option is enabled, when a unit arrives at "
@@ -1721,7 +1721,7 @@ static void init_client_options()
           N_("If this option is enabled, any tileset suggested by "
              "the ruleset is automatically used; otherwise you "
              "are prompted to change tileset."),
-          COC_GRAPHICS, false, nullptr),
+          COC_GRAPHICS, true, nullptr),
 
       GEN_BOOL_OPTION(sound_enable_effects, N_("Enable sound effects"),
                       N_("Play sound effects, assuming there's suitable "
@@ -1731,13 +1731,13 @@ static void init_client_options()
           sound_enable_game_music, N_("Enable in-game music"),
           N_("Play music during the game, assuming there's suitable "
              "sound plugin and musicset with in-game tracks."),
-          COC_SOUND, true, game_music_enable_callback),
+          COC_SOUND, false, game_music_enable_callback),
       GEN_BOOL_OPTION(
           sound_enable_menu_music, N_("Enable menu music"),
           N_("Play music while not in actual game, "
              "assuming there's suitable "
              "sound plugin and musicset with menu music tracks."),
-          COC_SOUND, true, menu_music_enable_callback),
+          COC_SOUND, false, menu_music_enable_callback),
       GEN_INT_OPTION(sound_effects_volume, N_("Sound volume"),
                      N_("Volume scale from 0-100"), COC_SOUND, 100, 0, 100,
                      sound_volume_callback),
@@ -1763,12 +1763,12 @@ static void init_client_options()
       GEN_BOOL_OPTION(overview.layers[OLAYER_RELIEF],
                       N_("Terrain relief map layer"),
                       N_("The relief layer shows all terrains on the map."),
-                      COC_OVERVIEW, true, overview_redraw_callback),
+                      COC_OVERVIEW, false, overview_redraw_callback),
       GEN_BOOL_OPTION(
           overview.layers[OLAYER_BORDERS], N_("Borders layer"),
           N_("The borders layer of the overview shows which tiles "
              "are owned by each player."),
-          COC_OVERVIEW, false, overview_redraw_callback),
+          COC_OVERVIEW, true, overview_redraw_callback),
       GEN_BOOL_OPTION(overview.layers[OLAYER_BORDERS_ON_OCEAN],
                       N_("Borders layer on ocean tiles"),
                       N_("The borders layer of the overview are drawn on "

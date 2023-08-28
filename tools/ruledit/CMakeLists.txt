@@ -1,7 +1,7 @@
 set(CMAKE_AUTOMOC ON)
 
 add_executable(
-  freeciv21-ruledit ${GUI_TYPE}
+  lunar_gambit-ruledit ${GUI_TYPE}
   conversion_log.cpp
   edit_utype.cpp
   effect_edit.cpp
@@ -25,12 +25,12 @@ add_executable(
   validity.cpp
 )
 
-target_link_libraries(freeciv21-ruledit server)
-target_link_libraries(freeciv21-ruledit tools_ruleutil)
-target_link_libraries(freeciv21-ruledit tools_shared)
-target_link_libraries(freeciv21-ruledit Qt5::Widgets)
-add_dependencies(freeciv21-ruledit freeciv_translations)
+target_link_libraries(lunar_gambit-ruledit server)
+target_link_libraries(lunar_gambit-ruledit tools_ruleutil)
+target_link_libraries(lunar_gambit-ruledit tools_shared)
+target_link_libraries(lunar_gambit-ruledit Qt5::Widgets)
+add_dependencies(lunar_gambit-ruledit freeciv_translations)
 
-install(TARGETS freeciv21-ruledit
+install(TARGETS lunar_gambit-ruledit
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
         COMPONENT tool_ruledit)

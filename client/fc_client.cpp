@@ -370,7 +370,7 @@ bool fc_client::eventFilter(QObject *obj, QEvent *event)
 void fc_client::read_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              QStringLiteral("freeciv21-client"));
+              QStringLiteral("lunar_gambit-client"));
   if (s.contains(QStringLiteral("Chat-fx-size"))) {
     qt_settings.chat_fwidth =
         s.value(QStringLiteral("Chat-fx-size")).toFloat();
@@ -524,7 +524,7 @@ void fc_client::read_settings()
 void fc_client::write_settings()
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              QStringLiteral("freeciv21-client"));
+              QStringLiteral("lunar_gambit-client"));
   s.setValue(QStringLiteral("Fonts-set"), true);
   s.setValue(QStringLiteral("Chat-fx-size"), qt_settings.chat_fwidth);
   s.setValue(QStringLiteral("Chat-fy-size"), qt_settings.chat_fheight);

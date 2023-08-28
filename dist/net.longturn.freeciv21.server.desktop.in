@@ -1,11 +1,11 @@
 [Desktop Entry]
-Name=Freeciv21 server
-Name[ca]=Freeciv21 server
-Name[es]=Freeciv21 server
-Name[fr]=Freeciv21 server
-Name[nb]=Freeciv21 server
-Name[pt]=Freeciv21 server
-Name[ru]=Сервер Freeciv21
+Name=Lunar Gambit server
+Name[ca]=Lunar Gambit server
+Name[es]=Lunar Gambit server
+Name[fr]=Lunar Gambit server
+Name[nb]=Lunar Gambit server
+Name[pt]=Lunar Gambit server
+Name[ru]=Сервер Lunar Gambit
 GenericName=Strategy Game
 GenericName[ca]=Joc d'estrategia
 GenericName[es]=Juego de estrategia
@@ -21,7 +21,7 @@ Comment[nb]=Strategispill inspirert av historien til menneskelig sivilisasjon
 Comment[pt]=Jogo de estratégia por turnos inspirado na História da civilização humana
 Comment[ru]=Пошаговая стратегическая игра, вдохновлённая историей человеческой цивилизации
 Comment[sv]=Turordningsbaserat strategispel inspirerat av den mänskliga historien
-Exec=@CMAKE_INSTALL_FULL_BINDIR@/freeciv21-server
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/lunar_gambit-server
 Icon=@CMAKE_INSTALL_FULL_DATAROOTDIR@/freeciv21/misc/server.png
 StartupNotify=true
 Terminal=true

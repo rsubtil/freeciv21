@@ -2193,7 +2193,7 @@ _("\
 If you find any bugs, then please send us a bug report.  This is best done by visiting the Freeciv21 Bug \
 Tracking System, at:\
 "), "\
-  https://github.com/longturn/freeciv21/issues\
+  https://github.com/rsubtil/freeciv21-spaceRace/issues\
 ", _("\
 Please quote the above version information. For more information about submitting \
 bug reports see https://longturn.readthedocs.io/en/latest/Contributing/bugs.html.\

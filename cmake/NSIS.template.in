@@ -83,10 +83,10 @@
   ; the order of the list of components to install.
   ; By default, tools is put on top, which we don't want.
 
-  Section "Freeciv21" freeciv21
+  Section "LunarGambit" lunar_gambit
     SectionIn RO 1 2
     SetOutPath $INSTDIR
-    File /r "${INST_DIR}\freeciv21\*.*"
+    File /r "${INST_DIR}\lunar_gambit\*.*"
   SectionEnd
   SectionGroup "Tools" Tools
     Section "Ruleset Editor" tool_ruledit
@@ -137,8 +137,8 @@
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_INSTFILES
   !define MUI_FINISHPAGE_RUN
-  !define MUI_FINISHPAGE_RUN_TEXT "Run Freeciv21"
-  !define MUI_FINISHPAGE_RUN_FUNCTION "RunFreeciv21"
+  !define MUI_FINISHPAGE_RUN_TEXT "Run Lunar Gambit"
+  !define MUI_FINISHPAGE_RUN_FUNCTION "RunLunarGambit"
   !insertmacro MUI_PAGE_FINISH
 
   ; Uninstaller Pages
@@ -198,7 +198,7 @@
     ConditionalAddToRegisty_EmptyString:
   FunctionEnd
 
-  Function RunFreeciv21
+  Function RunLunarGambit
     ExecShell "" "$SMPROGRAMS\${APPNAME}\${APPNAME} Client.lnk"
   FunctionEnd
 
@@ -224,12 +224,12 @@
 
 
     ; Create Desktop Icon
-    CreateShortCut "$DESKTOP\${APPNAME} Client.lnk" "$INSTDIR\freeciv21-client.exe" "" "$INSTDIR\client.ico" 0
+    CreateShortCut "$DESKTOP\${APPNAME} Client.lnk" "$INSTDIR\lunar_gambit-client.exe" "" "$INSTDIR\client.ico" 0
 
     ; Create Start Menu Entries
     CreateDirectory "$SMPROGRAMS\${APPNAME}"
-    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Client.lnk" "$INSTDIR\freeciv21-client.exe" "" "$INSTDIR\client.ico" 0
-    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Modpack Installer.lnk" "$INSTDIR\freeciv21-modpack-qt.exe" "" "$INSTDIR\mp.ico" 0
+    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Client.lnk" "$INSTDIR\lunar_gambit-client.exe" "" "$INSTDIR\client.ico" 0
+    CreateShortCut "$SMPROGRAMS\${APPNAME}\${APPNAME} Modpack Installer.lnk" "$INSTDIR\lunar_gambit-modpack-qt.exe" "" "$INSTDIR\mp.ico" 0
 
     ; Create entry in Windows "Add/Remove programs" panel.
     Push "DisplayName"
@@ -265,7 +265,7 @@
 
     ; Add fc21:// protocol handler
     WriteRegStr HKEY_CLASSES_ROOT "fc21" "URL Protocol" ""
-    WriteRegStr HKEY_CLASSES_ROOT "fc21\shell\open\command" "" "$INSTDIR\freeciv21-client.exe %1"
+    WriteRegStr HKEY_CLASSES_ROOT "fc21\shell\open\command" "" "$INSTDIR\lunar_gambit-client.exe %1"
 
   SectionEnd
 

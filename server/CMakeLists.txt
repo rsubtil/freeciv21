@@ -113,9 +113,9 @@ target_link_libraries(server PRIVATE ai_classic)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/null.cpp)
   file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/null.cpp "")
 endif()
-add_executable(freeciv21-server null.cpp)
-target_link_libraries(freeciv21-server server)
-add_dependencies(freeciv21-server freeciv_translations)
-install(TARGETS freeciv21-server
+add_executable(lunar_gambit-server null.cpp)
+target_link_libraries(lunar_gambit-server server)
+add_dependencies(lunar_gambit-server freeciv_translations)
+install(TARGETS lunar_gambit-server
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT freeciv21)
+        COMPONENT lunar_gambit)

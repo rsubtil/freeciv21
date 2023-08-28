@@ -32,9 +32,9 @@ add_custom_command(
     ${CMAKE_SOURCE_DIR}/common/networking/packets.def
 )
 
-add_executable(freeciv21-client ${GUI_TYPE})
+add_executable(lunar_gambit-client ${GUI_TYPE})
 target_sources(
-  freeciv21-client
+  lunar_gambit-client
   PRIVATE
   attribute.cpp
   canvas.cpp
@@ -150,40 +150,40 @@ target_sources(
   ${CMAKE_CURRENT_BINARY_DIR}/packhand_gen.h
 )
 
-target_include_directories(freeciv21-client PRIVATE include)
-target_include_directories(freeciv21-client PRIVATE luascript)
-target_include_directories(freeciv21-client PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
-target_include_directories(freeciv21-client PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(lunar_gambit-client PRIVATE include)
+target_include_directories(lunar_gambit-client PRIVATE luascript)
+target_include_directories(lunar_gambit-client PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
+target_include_directories(lunar_gambit-client PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(freeciv21-client PRIVATE common)
-target_link_libraries(freeciv21-client PRIVATE cvercmp)
-target_link_libraries(freeciv21-client PRIVATE tolua)
+target_link_libraries(lunar_gambit-client PRIVATE common)
+target_link_libraries(lunar_gambit-client PRIVATE cvercmp)
+target_link_libraries(lunar_gambit-client PRIVATE tolua)
 
-target_link_libraries(freeciv21-client PRIVATE Qt5::Widgets)
-target_link_libraries(freeciv21-client PRIVATE Qt5::Svg)
-target_link_libraries(freeciv21-client PRIVATE ${SDL2_MIXER_LIBRARIES} ${SDL2_LIBRARY})
+target_link_libraries(lunar_gambit-client PRIVATE Qt5::Widgets)
+target_link_libraries(lunar_gambit-client PRIVATE Qt5::Svg)
+target_link_libraries(lunar_gambit-client PRIVATE ${SDL2_MIXER_LIBRARIES} ${SDL2_LIBRARY})
 
 if(NOT EMSCRIPTEN)
-  target_sources(freeciv21-client PRIVATE servers.cpp)
+  target_sources(lunar_gambit-client PRIVATE servers.cpp)
 endif()
 
 if (AUDIO_SDL)
-  target_sources(freeciv21-client PRIVATE audio/audio_sdl.cpp)
+  target_sources(lunar_gambit-client PRIVATE audio/audio_sdl.cpp)
   if (NOT EMSCRIPTEN)
     # SDL comes with the -s option on emscripten
-    target_include_directories(freeciv21-client PRIVATE ${SDL2_INCLUDE_DIR})
-    target_include_directories(freeciv21-client PRIVATE ${SDL2_MIXER_INCLUDE_DIR})
+    target_include_directories(lunar_gambit-client PRIVATE ${SDL2_INCLUDE_DIR})
+    target_include_directories(lunar_gambit-client PRIVATE ${SDL2_MIXER_INCLUDE_DIR})
   endif()
 endif()
 
 if(APPLE)
-  target_link_libraries(freeciv21-client PRIVATE "-framework AudioUnit" "-framework CoreAudio" "-framework ForceFeedback" "-framework AudioToolbox")
-  qt5_import_plugins(freeciv21-client INCLUDE Qt5::QCocoaIntegrationPlugin Qt5::QSvgPlugin)
+  target_link_libraries(lunar_gambit-client PRIVATE "-framework AudioUnit" "-framework CoreAudio" "-framework ForceFeedback" "-framework AudioToolbox")
+  qt5_import_plugins(lunar_gambit-client INCLUDE Qt5::QCocoaIntegrationPlugin Qt5::QSvgPlugin)
 endif()
 
 if(EMSCRIPTEN)
-  qt5_import_plugins(freeciv21-client INCLUDE Qt5::QWasmIntegrationPlugin)
-  target_link_options(freeciv21-client PRIVATE
+  qt5_import_plugins(lunar_gambit-client INCLUDE Qt5::QWasmIntegrationPlugin)
+  target_link_options(lunar_gambit-client PRIVATE
                       -sASSERTIONS=1
                       -sWEBSOCKET_URL=wss://
                       -sTOTAL_MEMORY=52428800
@@ -213,7 +213,7 @@ if(EMSCRIPTEN)
   )
 endif()
 
-add_dependencies(freeciv21-client freeciv_translations)
-install(TARGETS freeciv21-client
+add_dependencies(lunar_gambit-client freeciv_translations)
+install(TARGETS lunar_gambit-client
         RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-        COMPONENT freeciv21)
+        COMPONENT lunar_gambit)

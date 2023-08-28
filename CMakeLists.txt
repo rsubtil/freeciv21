@@ -64,7 +64,7 @@ else()
 endif()
 
 # Set project
-project(freeciv21 VERSION ${FREECIV21_VERSION} LANGUAGES C CXX)
+project(lunar_gambit VERSION ${FREECIV21_VERSION} LANGUAGES C CXX)
 
 # Gather all the tailored settings we need for Windows builds early.
 if(WIN32 OR MSYS OR MINGW)

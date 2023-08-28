@@ -50,7 +50,7 @@ static QStringList default_data_path()
 {
   // Make sure that all executables get the same directory.
   auto app_name = QCoreApplication::applicationName();
-  QCoreApplication::setApplicationName("freeciv21");
+  QCoreApplication::setApplicationName("lunar_gambit");
 
   auto paths =
       QStringList{QStringLiteral("."), QStringLiteral("data"),
@@ -442,7 +442,7 @@ QString freeciv_storage_dir()
   if (storage_dir.isEmpty()) {
     // Make sure that all exe get the same directory.
     auto app_name = QCoreApplication::applicationName();
-    QCoreApplication::setApplicationName("freeciv21");
+    QCoreApplication::setApplicationName("lunar_gambit");
     storage_dir =
         QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
     QCoreApplication::setApplicationName(app_name);

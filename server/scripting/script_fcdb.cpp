@@ -33,7 +33,7 @@
 
 #include "script_fcdb.h"
 
-#define SCRIPT_FCDB_LUA_FILE "freeciv21/database.lua"
+#define SCRIPT_FCDB_LUA_FILE "lunar_gambit/database.lua"
 
 static bool script_fcdb_functions_check(const char *fcdb_luafile);
 

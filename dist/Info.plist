@@ -7,14 +7,14 @@
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleExecutable</key>
-  <string>freeciv21-client</string>
+  <string>lunar_gambit-client</string>
   <key>CFBundleIconFile</key>
   <string>client.icns</string>
   <key>CFBundleURLTypes</key>
   <array>
     <dict>
       <key>CFBundleURLName</key>
-        <string>Freeciv21 Handler</string>
+        <string>Lunar Gambit Handler</string>
         <key>CFBundleURLSchemes</key>
         <array>
           <string>fc21</string>

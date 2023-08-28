@@ -82,7 +82,7 @@ static std::vector<fc_shortcut> default_shortcuts()
       {SC_APPEND_FOCUS, fc_shortcut::mouse, QKeySequence(), Qt::LeftButton,
        Qt::ShiftModifier, _("Append focus")},
       {SC_POPUP_INFO, fc_shortcut::mouse, QKeySequence(), Qt::MiddleButton,
-       Qt::ShiftModifier, _("Popup tile info")},
+       Qt::NoModifier, _("Popup tile info")},
       {SC_WAKEUP_SENTRIES, fc_shortcut::mouse, QKeySequence(),
        Qt::MiddleButton, Qt::ControlModifier, _("Wakeup sentries")},
       {SC_MAKE_LINK, fc_shortcut::mouse, QKeySequence(), Qt::RightButton,
@@ -754,7 +754,7 @@ void popup_shortcuts_dialog()
 void fc_shortcuts::write() const
 {
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              QStringLiteral("freeciv21-client"));
+              QStringLiteral("lunar_gambit-client"));
   s.beginWriteArray(QStringLiteral("ShortcutsV2"));
   for (auto &[id, sc] : shortcuts()) {
     s.setArrayIndex(id);
@@ -775,7 +775,7 @@ bool fc_shortcuts::read()
   int num, i;
   const auto defaults = default_shortcuts();
   QSettings s(QSettings::IniFormat, QSettings::UserScope,
-              QStringLiteral("freeciv21-client"));
+              QStringLiteral("lunar_gambit-client"));
   num = s.beginReadArray(QStringLiteral("ShortcutsV2"));
   if (num <= defaults.size()) {
     for (i = 0; i < num; ++i) {

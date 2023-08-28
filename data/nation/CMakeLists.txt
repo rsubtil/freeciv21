@@ -565,4 +565,4 @@ install(
   zulu.ruleset
   DESTINATION
   "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/nation"
-  COMPONENT freeciv21)
+  COMPONENT lunar_gambit)

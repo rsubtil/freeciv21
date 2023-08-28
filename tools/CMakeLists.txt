@@ -14,20 +14,20 @@ if (FREECIV_ENABLE_RULEDIT)
 endif()
 
 if (FREECIV_ENABLE_CIVMANUAL)
-  add_executable(freeciv21-manual civmanual.cpp)
-  target_link_libraries(freeciv21-manual server)
-  target_link_libraries(freeciv21-manual tools_shared)
-  install(TARGETS freeciv21-manual
+  add_executable(lunar_gambit-manual civmanual.cpp)
+  target_link_libraries(lunar_gambit-manual server)
+  target_link_libraries(lunar_gambit-manual tools_shared)
+  install(TARGETS lunar_gambit-manual
           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
           COMPONENT tool_manual)
 endif()
 
 if (FREECIV_ENABLE_RULEUP)
-  add_executable(freeciv21-ruleup ruleup.cpp)
-  target_link_libraries(freeciv21-ruleup server)
-  target_link_libraries(freeciv21-ruleup tools_shared)
-  target_link_libraries(freeciv21-ruleup tools_ruleutil)
-  install(TARGETS freeciv21-ruleup
+  add_executable(lunar_gambit-ruleup ruleup.cpp)
+  target_link_libraries(lunar_gambit-ruleup server)
+  target_link_libraries(lunar_gambit-ruleup tools_shared)
+  target_link_libraries(lunar_gambit-ruleup tools_ruleutil)
+  install(TARGETS lunar_gambit-ruleup
           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
           COMPONENT tool_ruleup)
 endif()

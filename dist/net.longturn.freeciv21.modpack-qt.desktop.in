@@ -1,5 +1,5 @@
 [Desktop Entry]
-Name=Freeciv21 modpack installer (Qt)
+Name=Lunar Gambit modpack installer (Qt)
 Name[ru]=Установщик модпаков Freeciv (Qt)
 GenericName=Strategy Game
 GenericName[ca]=Joc d'estrategia
@@ -7,9 +7,9 @@ GenericName[es]=Juego de estrategia
 GenericName[fr]=Jeu de stratégie
 GenericName[pt]=Jogo de Estratégia
 GenericName[ru]=Стратегическая игра
-Comment=Download and install add-ons for Freeciv21
-Comment[ru]=Скачивайте и устанавливайте дополнения для Freeciv21
-Exec=@CMAKE_INSTALL_FULL_BINDIR@/freeciv21-modpack-qt
+Comment=Download and install add-ons for Lunar Gambit
+Comment[ru]=Скачивайте и устанавливайте дополнения для Lunar Gambit
+Exec=@CMAKE_INSTALL_FULL_BINDIR@/lunar_gambit-modpack-qt
 Icon=@CMAKE_INSTALL_FULL_DATAROOTDIR@/freeciv21/misc/mpicon.png
 StartupNotify=true
 Terminal=false

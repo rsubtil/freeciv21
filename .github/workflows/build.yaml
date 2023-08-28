@@ -76,8 +76,8 @@ jobs:
           name:
             ubuntu
           path: |
-            build/Linux-x86_64/freeciv21_*_amd64.deb
-            build/Linux-x86_64/freeciv21_*_amd64.deb.sha256
+            build/Linux-x86_64/lunar_gambit_*_amd64.deb
+            build/Linux-x86_64/lunar_gambit_*_amd64.deb.sha256
 
   flagstest:
     name: "Additional compile flags in Ubuntu"
@@ -161,13 +161,13 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            build/Windows-x86_64/Freeciv21-*-Windows-x86_64.exe
-            build/Windows-x86_64/Freeciv21-*-Windows-x86_64.exe.sha256
+            build/Windows-x86_64/LunarGambit-*-Windows-x86_64.exe
+            build/Windows-x86_64/LunarGambit-*-Windows-x86_64.exe.sha256
       - name: Upload a build
         uses: actions/upload-artifact@v3
         with:
           name: Windows-exe
-          path: build/Windows-x86_64/Freeciv21-*.exe
+          path: build/Windows-x86_64/LunarGambit-*.exe
 
   windows_clang_msvc:
     name: "Windows Clang"
@@ -239,32 +239,32 @@ jobs:
         run: echo "fragment=${BRANCH##*/}" >> $GITHUB_OUTPUT
       - name: Create App Bundle
         run: |
-          mkdir -p Freeciv21.app/Contents/MacOS Freeciv21.app/Contents/Resources
-          cp dist/Info.plist Freeciv21.app/Contents/
-          cp -r .install/share/freeciv21/* Freeciv21.app/Contents/Resources
-          cp .install/bin/freeciv21-* Freeciv21.app/Contents/MacOS
+          mkdir -p LunarGambit.app/Contents/MacOS LunarGambit.app/Contents/Resources
+          cp dist/Info.plist LunarGambit.app/Contents/
+          cp -r .install/share/lunar_gambit/* LunarGambit.app/Contents/Resources
+          cp .install/bin/lunar_gambit-* LunarGambit.app/Contents/MacOS
           mkdir client.iconset
-          cp data/icons/16x16/freeciv21-client.png client.iconset/icon_16x16.png
-          cp data/icons/32x32/freeciv21-client.png client.iconset/icon_16x16@2x.png
-          cp data/icons/32x32/freeciv21-client.png client.iconset/icon_32x32.png
-          cp data/icons/64x64/freeciv21-client.png client.iconset/icon_32x32@2x.png
-          cp data/icons/128x128/freeciv21-client.png client.iconset/icon_128x128.png
+          cp data/icons/16x16/lunar_gambit-client.png client.iconset/icon_16x16.png
+          cp data/icons/32x32/lunar_gambit-client.png client.iconset/icon_16x16@2x.png
+          cp data/icons/32x32/lunar_gambit-client.png client.iconset/icon_32x32.png
+          cp data/icons/64x64/lunar_gambit-client.png client.iconset/icon_32x32@2x.png
+          cp data/icons/128x128/lunar_gambit-client.png client.iconset/icon_128x128.png
           iconutil -c icns client.iconset
-          cp client.icns Freeciv21.app/Contents/Resources
+          cp client.icns LunarGambit.app/Contents/Resources
           mkdir staging
-          mv Freeciv21.app staging
+          mv LunarGambit.app staging
           create-dmg \
-            --volname "Freeciv21 Installer" \
+            --volname "Lunar Gambit Installer" \
             --volicon "client.icns" \
             --window-pos 200 120 \
             --window-size 800 400 \
             --icon-size 100 \
-            --icon "Freeciv21.app" 200 190 \
-            --hide-extension "Freeciv21.app" \
+            --icon "LunarGambit.app" 200 190 \
+            --hide-extension "LunarGambit.app" \
             --app-drop-link 600 185 \
-            "Freeciv21-${{steps.split.outputs.fragment}}.dmg" \
+            "LunarGambit-${{steps.split.outputs.fragment}}.dmg" \
             "staging/"
-          shasum -a 256 Freeciv21-${{steps.split.outputs.fragment}}.dmg > Freeciv21-${{steps.split.outputs.fragment}}.dmg.sha256
+          shasum -a 256 LunarGambit-${{steps.split.outputs.fragment}}.dmg > LunarGambit-${{steps.split.outputs.fragment}}.dmg.sha256
       - name: Debug
         if: failure()
         run: |
@@ -275,13 +275,13 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-            Freeciv21-*.dmg
-            Freeciv21-*.dmg.sha256
+            LunarGambit-*.dmg
+            LunarGambit-*.dmg.sha256
       - name: Upload a build
         uses: actions/upload-artifact@v3
         with:
           name: macOS-dmg
-          path: Freeciv21-*.dmg
+          path: LunarGambit-*.dmg
 
   wasm:
     name: "WebAssembly"
@@ -439,7 +439,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: wasm-client
-          path: freeciv21-client.*
+          path: lunar_gambit-client.*
 
   clang-format:
     name: clang-format Code Formatter

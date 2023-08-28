@@ -156,7 +156,7 @@ ruledit_gui::ruledit_gui(ruledit_main *main) : QObject(main)
   full_layout->addLayout(main_layout);
 
   msg_dspl =
-      new QLabel(QString::fromUtf8(R__("Welcome to freeciv21-ruledit")));
+      new QLabel(QString::fromUtf8(R__("Welcome to lunar_gambit-ruledit")));
   msg_dspl->setParent(central);
 
   msg_dspl->setAlignment(Qt::AlignHCenter);

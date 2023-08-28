@@ -42,7 +42,7 @@ if(WIN32 OR MSYS OR MINGW)
   #  - empty (e.g. OS-specific) components are discarded automatically
 
   # Define the components and how they are organized in the install package
-  set(CPACK_COMPONENTS_ALL freeciv21 tool_ruledit tool_fcmp_cli tool_ruleup tool_manual translations)
+  set(CPACK_COMPONENTS_ALL lunar_gambit tool_ruledit tool_fcmp_cli tool_ruleup tool_manual translations)
   set(CPACK_COMPONENT_FREECIV21_INSTALL_TYPES Default Custom)
   set(CPACK_COMPONENT_FREECIV21_REQUIRED)
   set(CPACK_COMPONENT_TOOL_RULEDIT_INSTALL_TYPES Custom)

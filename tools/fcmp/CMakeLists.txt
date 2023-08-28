@@ -14,22 +14,22 @@ target_link_libraries(freeciv_modpack PRIVATE cvercmp)
 target_link_libraries(freeciv_modpack PRIVATE SQLite::SQLite3)
 
 if (FREECIV_ENABLE_FCMP_CLI)
-  add_executable(freeciv21-modpack mpcli.cpp)
-  target_link_libraries(freeciv21-modpack PRIVATE freeciv_modpack)
-  install(TARGETS freeciv21-modpack
+  add_executable(lunar_gambit-modpack mpcli.cpp)
+  target_link_libraries(lunar_gambit-modpack PRIVATE freeciv_modpack)
+  install(TARGETS lunar_gambit-modpack
           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
           COMPONENT tool_fcmp_cli)
 endif()
 
 if (FREECIV_ENABLE_FCMP_QT)
   add_executable(
-    freeciv21-modpack-qt ${GUI_TYPE}
+    lunar_gambit-modpack-qt ${GUI_TYPE}
     mpgui_qt_worker.cpp
     mpgui_qt.cpp
   )
-  target_link_libraries(freeciv21-modpack-qt PRIVATE freeciv_modpack)
-  target_link_libraries(freeciv21-modpack-qt PRIVATE Qt5::Widgets)
-  install(TARGETS freeciv21-modpack-qt
+  target_link_libraries(lunar_gambit-modpack-qt PRIVATE freeciv_modpack)
+  target_link_libraries(lunar_gambit-modpack-qt PRIVATE Qt5::Widgets)
+  install(TARGETS lunar_gambit-modpack-qt
           RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-          COMPONENT freeciv21)
+          COMPONENT lunar_gambit)
 endif()
