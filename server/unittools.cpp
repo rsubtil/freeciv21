@@ -714,9 +714,41 @@ static int total_activity(struct tile *ptile, enum unit_activity act,
 static bool total_activity_done(struct tile *ptile, enum unit_activity act,
                                 struct extra_type *tgt)
 {
-  log_warning("Activity %d is %d/%d", act, total_activity(ptile, act, tgt),
-             tile_activity_time(act, ptile, tgt));
   return total_activity(ptile, act, tgt)
+         >= tile_activity_time(act, ptile, tgt);
+}
+
+/**
+   Calculate the total amount of activity performed by a unit on a tile
+   for a given task and target.
+ */
+static int total_unit_activity(struct tile *ptile, struct unit *punit,
+                               enum unit_activity act, struct extra_type *tgt)
+{
+  bool tgt_matters = activity_requires_target(act);
+
+  unit_list_iterate(ptile->units, punit)
+  {
+    if (punit->activity == act
+        && (!tgt_matters || punit->activity_target == tgt)) {
+      return punit->activity_count;
+    }
+  }
+  unit_list_iterate_end;
+
+  return -1;
+}
+
+/**
+   Check the total amount of activity performed by a single unit on a tile
+   for a given task.
+ */
+static bool total_unit_activity_done(struct tile *ptile, struct unit *punit,
+                                     enum unit_activity act, struct extra_type *tgt)
+{
+  log_warning("Activity %d is %d/%d", act, total_unit_activity(ptile, punit, act, tgt),
+             tile_activity_time(act, ptile, tgt));
+  return total_unit_activity(ptile, punit, act, tgt)
          >= tile_activity_time(act, ptile, tgt);
 }
 
@@ -922,13 +954,8 @@ static void unit_activity_complete(struct unit *punit)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
   case ACTIVITY_WIRETAP:
   case ACTIVITY_TRANSPORT_REPORT:
-  if (total_activity_done(ptile, activity, punit->activity_target)) {
-      /* The function below could change the terrain. Therefore, we have to
-       * check the terrain (which will also do a sanity check for the tile).
-       */
-      // TODO: Implement
+  if (total_unit_activity_done(ptile, punit, activity, punit->activity_target)) {
       sabotage_apply_activity(punit, activity);
-      //tile_apply_activity(ptile, activity, punit->activity_target);
       log_warning("Activity %d done", activity);
       unit_activity_done = true;
     }
@@ -946,21 +973,7 @@ static void unit_activity_complete(struct unit *punit)
     update_tile_knowledge(ptile);
     if (ACTIVITY_IRRIGATE == activity || ACTIVITY_MINE == activity
         || ACTIVITY_CULTIVATE == activity || ACTIVITY_PLANT == activity
-        || ACTIVITY_TRANSFORM == activity
-        || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD == activity
-        || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE == activity
-        || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS == activity
-        || ACTIVITY_SABOTAGE_CITY_STEAL_GOLD == activity
-        || ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE == activity
-        || ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS == activity
-        || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD == activity
-        || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE == activity
-        || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS == activity
-        || ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD == activity
-        || ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE == activity
-        || ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS == activity
-        || ACTIVITY_WIRETAP == activity
-        || ACTIVITY_TRANSPORT_REPORT == activity) {
+        || ACTIVITY_TRANSFORM == activity) {
       /* FIXME: As we might probably do the activity again, because of the
        * terrain change cycles, we need to treat these cases separatly.
        * Probably ACTIVITY_TRANSFORM should be associated to its terrain
@@ -974,6 +987,22 @@ static void unit_activity_complete(struct unit *punit)
         }
       }
       unit_list_iterate_end;
+    } else if(ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD == activity
+              || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE == activity
+              || ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS == activity
+              || ACTIVITY_SABOTAGE_CITY_STEAL_GOLD == activity
+              || ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE == activity
+              || ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS == activity
+              || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD == activity
+              || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE == activity
+              || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS == activity
+              || ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD == activity
+              || ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE == activity
+              || ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS == activity
+              || ACTIVITY_WIRETAP == activity
+              || ACTIVITY_TRANSPORT_REPORT == activity) {
+      set_unit_activity(punit, ACTIVITY_IDLE);
+      send_unit_info(nullptr, punit);
     } else {
       unit_list_iterate(ptile->units, punit2)
       {
