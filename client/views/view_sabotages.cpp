@@ -148,6 +148,7 @@ void sabotages_report::reset()
   }
   cached_last_self_id = -1;
   cached_last_other_id = -1;
+  m_sabotages_self.clear();
 }
 
 void sabotages_report::update_info(int last_sabotage_self_id, int last_sabotage_other_id)

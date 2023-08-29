@@ -332,6 +332,9 @@ static void sg_save_transport_reports(struct savedata *saving);
 static void sg_load_sabotages(struct loaddata *loading);
 static void sg_save_sabotages(struct savedata *saving);
 
+static void sg_load_government(struct loaddata *loading);
+static void sg_save_government(struct savedata *saving);
+
 static void sg_load_script(struct loaddata *loading);
 static void sg_save_script(struct savedata *saving);
 
@@ -495,6 +498,8 @@ void savegame3_load(struct section_file *file)
   sg_load_mapimg(loading);
   // [sabotages]
   sg_load_sabotages(loading);
+  // [government]
+  sg_load_government(loading);
   // [script] -- must come last as may reference game objects
   sg_load_script(loading);
   // [post_load_compat]; needs the game loaded by [savefile]
@@ -543,6 +548,8 @@ static void savegame3_save_real(struct section_file *file,
   sg_save_transport_reports(saving);
   // [sabotages]
   sg_save_sabotages(saving);
+  // [government]
+  sg_save_government(saving);
   // [script]
   sg_save_script(saving);
   // [settings]
@@ -2401,6 +2408,78 @@ static void sg_save_sabotages(struct savedata *saving)
     secfile_insert_int(saving->file, player_number(si->player_tgt), "sabotages.data%d.player_tgt", idx);
     secfile_insert_int(saving->file, player_number(si->player_send_to), "sabotages.data%d.player_send_to", idx);
     secfile_insert_str(saving->file, si->info.c_str(), "sabotages.data%d.info", idx);
+    idx++;
+  }
+}
+
+/* =======================================================================
+ * Load / save government.
+ * ======================================================================= */
+
+/**
+   Load '[government]'.
+ */
+static void sg_load_government(struct loaddata *loading)
+{
+  // Check status and return if not OK (sg_success != TRUE).
+  sg_check_ret();
+
+  g_info.last_message_id = secfile_lookup_int_default(loading->file, -1, "government.last_message_id");
+  g_info.last_audit_id = secfile_lookup_int_default(loading->file, -1, "government.last_audit_id");
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    g_info.curr_audits[i] = secfile_lookup_int_default(loading->file, -1, "government.audit%d.id", i);
+  }
+  for(int i = 0; i < g_info.last_message_id; i++) {
+    struct government_news *data = new government_news();
+    if(!secfile_lookup_int(loading->file, &(data->id), "government_news.data%d.id", i)) {delete data; continue;}
+    data->turn = secfile_lookup_int_default(loading->file, 0, "government_news.data%d.turn", i);
+    data->news = QString(secfile_lookup_str(loading->file, "government_news.data%d.news", i));
+    g_info.cached_news.push_back(data);
+  }
+  for(int i = 0; i < g_info.last_audit_id; i++) {
+    struct government_audit_info *data = new government_audit_info();
+    if(!secfile_lookup_int(loading->file, &(data->id), "government_audits.data%d.id", i)) {delete data; continue;}
+    data->accuser_id = player_id(secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.accuser_id", i));
+    data->accused_id = player_id(secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.accused_id", i));
+    data->jury_1_vote = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.jury_1_vote", i);
+    data->jury_2_vote = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.jury_2_vote", i);
+    data->consequence = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.consequence", i);
+    data->start_turn = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.start_turn", i);
+    g_info.cached_audits.push_back(data);
+  }
+}
+
+/**
+   Save '[government]'.
+ */
+static void sg_save_government(struct savedata *saving)
+{
+  // Check status and return if not OK (sg_success != TRUE).
+  sg_check_ret();
+
+  secfile_insert_int(saving->file, g_info.last_message_id,
+                     "government.last_message_id");
+  secfile_insert_int(saving->file, g_info.last_audit_id,
+                     "government.last_audit_id");
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    secfile_insert_int(saving->file, g_info.curr_audits[i], "government.audit%d.id", i);
+  }
+  int idx = 0;
+  for(struct government_news* data : g_info.cached_news) {
+    secfile_insert_int(saving->file, data->id, "government_news.data%d.id", idx);
+    secfile_insert_int(saving->file, data->turn, "government_news.data%d.turn", idx);
+    secfile_insert_str(saving->file, data->news.toUtf8().data(), "government_news.data%d.news", idx);
+    idx++;
+  }
+  idx = 0;
+  for(struct government_audit_info* data : g_info.cached_audits) {
+    secfile_insert_int(saving->file, data->id, "government_audits.data%d.id", idx);
+    secfile_insert_int(saving->file, data->accuser_id, "government_audits.data%d.accuser_id", idx);
+    secfile_insert_int(saving->file, data->accused_id, "government_audits.data%d.accused_id", idx);
+    secfile_insert_int(saving->file, data->jury_1_vote, "government_audits.data%d.jury_1_vote", idx);
+    secfile_insert_int(saving->file, data->jury_2_vote, "government_audits.data%d.jury_2_vote", idx);
+    secfile_insert_int(saving->file, data->consequence, "government_audits.data%d.consequence", idx);
+    secfile_insert_int(saving->file, data->start_turn, "government_audits.data%d.start_turn", idx);
     idx++;
   }
 }

@@ -138,7 +138,6 @@ struct government_audit_info *government_audit_info_new(const struct packet_gove
   paudit->jury_2_vote = audit->jury_2_vote;
   paudit->consequence = audit->consequence;
   paudit->start_turn = audit->start_turn;
-  paudit->end_turn = audit->end_turn;
 
   return paudit;
 };

@@ -88,28 +88,28 @@
     SetOutPath $INSTDIR
     File /r "${INST_DIR}\lunar_gambit\*.*"
   SectionEnd
-  SectionGroup "Tools" Tools
-    Section "Ruleset Editor" tool_ruledit
-      SectionIn 2
-      SetOutPath $INSTDIR
-      File /r "${INST_DIR}\tool_ruledit\*.*"
-    SectionEnd
+  ;SectionGroup "Tools" Tools
+    ;Section "Ruleset Editor" tool_ruledit
+    ;  SectionIn 2
+    ;  SetOutPath $INSTDIR
+    ;  File /r "${INST_DIR}\tool_ruledit\*.*"
+    ;SectionEnd
     ;Section "Modpack Installer CLI Edition" tool_fcmp_cli
     ;  SectionIn 2
     ;  SetOutPath $INSTDIR
     ;  File /r "${INST_DIR}\tool_fcmp_cli\*.*"
     ;SectionEnd
-    Section "Ruleset Upgrade Tool" tool_ruleup
-      SectionIn 2
-      SetOutPath $INSTDIR
-      File /r "${INST_DIR}\tool_ruleup\*.*"
-    SectionEnd
-    Section "Server Manual Tool" tool_manual
-      SectionIn 2
-      SetOutPath $INSTDIR
-      File /r "${INST_DIR}\tool_manual\*.*"
-    SectionEnd
-  SectionGroupEnd
+    ;Section "Ruleset Upgrade Tool" tool_ruleup
+    ;  SectionIn 2
+    ;  SetOutPath $INSTDIR
+    ;  File /r "${INST_DIR}\tool_ruleup\*.*"
+    ;SectionEnd
+    ;Section "Server Manual Tool" tool_manual
+    ;  SectionIn 2
+    ;  SetOutPath $INSTDIR
+    ;  File /r "${INST_DIR}\tool_manual\*.*"
+    ;SectionEnd
+  ;SectionGroupEnd
   Section "Languages" translations
     SectionIn 1 2
     SetOutPath $INSTDIR

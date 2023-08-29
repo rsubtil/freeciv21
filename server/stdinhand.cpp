@@ -55,6 +55,7 @@
 #include "connecthand.h"
 #include "diplhand.h"
 #include "gamehand.h"
+#include "govhand.h"
 #include "maphand.h"
 #include "meta.h"
 #include "notify.h"
@@ -3085,9 +3086,6 @@ static bool admin_command(struct connection *caller, char *str, bool check)
     log_warning("Add unit %s to %s at %d,%d", utype_rule_name(punittype),
                 player_name(pplayer), x, y);
   } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "rm-unit") == 0) {
-    struct player *pplayer;
-    enum m_pre_result match_result;
-
     if (arg.count() != 2) {
       cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
                 _("Undefined argument.  Usage:\n%s"),
@@ -3108,6 +3106,21 @@ static bool admin_command(struct connection *caller, char *str, bool check)
                 player_name(punit->owner));
 
     server_remove_unit(punit, ULR_ADMIN);
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "gov-message") == 0) {
+    QString msg;
+    for(int i = 1; i < arg.count(); i++) {
+      msg += arg.at(i);
+      msg += " ";
+    }
+
+    log_warning("Gov news: %s", qUtf8Printable(msg));
+
+    struct government_news *news = g_info.new_government_news();
+    news->news = msg;
+
+    // Notify all players
+    update_government_info();
+
   } else {
     cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
@@ -4795,8 +4808,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
         notify_conn(echo_list, nullptr, E_SETTING, ftc_any, "%s: '%s %s'",
                     caller->username, command, arg);
       } else {
-        notify_conn(echo_list, nullptr, E_SETTING, ftc_server_prompt,
-                    "%s: '%s %s'", _("(server prompt)"), command, arg);
+        //notify_conn(echo_list, nullptr, E_SETTING, ftc_server_prompt,
+        //            "%s: '%s %s'", _("(server prompt)"), command, arg);
       }
       if (echo_list_allocated) {
         conn_list_destroy(echo_list);

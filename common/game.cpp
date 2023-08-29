@@ -782,7 +782,7 @@ int generate_save_name(const char *format, char *buf, int buflen,
      * printf information. */
     char savename[512];
 
-    fc_snprintf(savename, sizeof(savename), "%s-T%%04T-Y%%05Y-%%R", format);
+    fc_snprintf(savename, sizeof(savename), "%s-T%%06T-Y%%05Y-%%R", format);
     fc_vsnprintcf(buf, buflen, savename, sequences, -1);
   }
 

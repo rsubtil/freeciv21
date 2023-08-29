@@ -2419,7 +2419,7 @@ end
 PACKET_GOVERNMENT_INFO_REQ = 256; cs
 end
 
-PACKET_GOVERNMENT_INFO = 257; sc, handle-via-packet
+PACKET_GOVERNMENT_INFO = 257; sc, handle-via-packet, lsend
   UINT32 last_message_id;
   UINT32 last_audit_id;
   SINT32 curr_audits[MAX_AUDIT_NUM];
@@ -2447,7 +2447,6 @@ PACKET_GOVERNMENT_AUDIT_INFO = 262; sc, lsend
   UINT8 jury_2_vote;
   UINT16 consequence;
   UINT32 start_turn;
-  UINT32 end_turn;
 end
 
 PACKET_GOVERNMENT_AUDIT_SUBMIT_VOTE = 263; cs
@@ -2458,14 +2457,6 @@ end
 PACKET_GOVERNMENT_AUDIT_START = 264; cs
   UINT32 sabotage_id;
   UINT8 accused_id;
-end
-
-PACKET_GOVERNMENT_AUDIT_BEGIN_REQ = 265; cs
-end
-
-PACKET_GOVERNMENT_AUDIT_BEGIN = 266; sc, lsend
-  UINT8 errcode;
-  UINT32 sabotage_id[MAX_SABOTAGES_NUM];
 end
 
 PACKET_BUILDING_INFO = 267; sc, lsend, is-game-info, force, handle-via-packet

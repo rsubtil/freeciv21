@@ -81,7 +81,6 @@ void audit_button::set_audit_id(int id)
     setText(_("No auditing occuring\nin this slot"));
     setEnabled(false);
   } else {
-    // TODO: Make request for audit info, then fill it up here
     setText(_("Loading..."));
     setEnabled(true);
 
@@ -97,11 +96,9 @@ void audit_button::set_audit_info(struct government_audit_info *info)
 {
   std::string accuser_name = player_id_to_string((player_id)info->accuser_id);
   std::string accused_name = player_id_to_string((player_id)info->accused_id);
-  std::string time_left = minutes_to_time_str(info->end_turn - game.info.turn);
-  setText(QString("%1 vs %2\n%3 remaining")
+  setText(QString("%1 vs %2")
     .arg(accuser_name.c_str())
     .arg(accused_name.c_str())
-    .arg(time_left.c_str())
   );
 }
 
@@ -194,10 +191,6 @@ government_report::government_report() : QWidget()
   a_accused_pixmap_cont = new QLabel();
   a_accused_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_accused_pixmap_cont, 3, 3);//, 3, 3);
-
-  a_decision_time = new QLabel(_("Decision time"));
-  a_decision_time->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_decision_time, 6, 0);//, -1, 1);
 
   a_jury_1_pixmap_cont = new QLabel();
   a_jury_1_pixmap_cont->setSizePolicy(size_fixed_policy);
@@ -296,29 +289,7 @@ void government_report::init(bool raise)
 /**
    Schedules paint event in some qt queue
  */
-void government_report::redraw() { update(); update_time_labels(); }
-
-void government_report::update_time_labels()
-{
-  // Update audit buttons
-  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
-    if(g_info.curr_audits[i] != -1) {
-      struct government_audit_info* info = g_info.find_cached_audit(g_info.curr_audits[i]);
-      if(info) {
-        m_auditing_buttons[i]->set_audit_info(info);
-      }
-    }
-  }
-
-  // Update audit screen
-  if(curr_audit) {
-  a_decision_time->setText(
-      QString(
-          _("Time left: %1\n(or sooner if jury reaches a decision already)"))
-          .arg(
-              minutes_to_time_str(curr_audit->end_turn - game.info.turn).c_str()));
-  }
-}
+void government_report::redraw() { update(); }
 
 void government_report::begin_audit()
 {
@@ -469,13 +440,13 @@ void government_report::confirm_audit_sabotage_selected(
 
 void government_report::show_audit_screen(int id)
 {
-  layout->setCurrentIndex(1);
   struct government_audit_info *info = g_info.find_cached_audit(id);
   if (!info) {
     log_warning("info is null");
     return;
   }
 
+  layout->setCurrentIndex(1);
   curr_audit = info;
 
   log_warning("accuser %d accused %d me %d", info->accuser_id,
@@ -530,12 +501,6 @@ void government_report::show_audit_screen(int id)
                                                         (player_id)info->accused_id,
                                                         2));
   a_jury_2_pixmap_cont->setPixmap(*a_jury_2_pixmap);
-
-  a_decision_time->setText(
-      QString(_("Time left: %1\n(or sooner if jury reaches a decision "
-                "already)"))
-          .arg(minutes_to_time_str(info->end_turn - game.info.turn)
-                    .c_str()));
 }
 
 void government_report::confirm_vote(audit_vote_type intended_vote)
@@ -555,6 +520,8 @@ void government_report::confirm_vote(audit_vote_type intended_vote)
     case AUDIT_VOTE_ABSTAIN:
       title = "Abstain";
       text = "You're about to abstain from voting.\n\nYou're not sure who is guilty, and don't want to risk voting on the wrong side.\nYou won't be penalized, but you'll also not gain anything from this audit.\n\nAre you sure you want to abstain?";
+      break;
+    case AUDIT_VOTE_NONE:
       break;
   }
 

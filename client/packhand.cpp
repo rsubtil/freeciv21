@@ -5480,11 +5480,6 @@ void handle_government_audit_info(const struct packet_government_audit_info *pac
   government_report::instance()->update_audit_info(info);
 }
 
-void handle_government_audit_begin(int errcode, const int *sabotage_id)
-{
-  // TODO: Implement
-}
-
 void handle_building_info(const struct packet_building_info *packet)
 {
   struct building *pbuilding = game_building_by_number(packet->id);

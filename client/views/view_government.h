@@ -60,7 +60,6 @@ class government_report : public QWidget {
   QLabel *a_description, *a_player_description;
   QLabel *a_accuser_pixmap_cont, *a_accused_pixmap_cont, *a_jury_1_pixmap_cont, *a_jury_2_pixmap_cont;
   QPixmap *a_accuser_pixmap, *a_accused_pixmap, *a_jury_1_pixmap, *a_jury_2_pixmap;
-  QLabel *a_decision_time;
   QPushButton *a_jury_vote_yes, *a_jury_vote_no, *a_jury_vote_abstain;
   QLabel *a_consequence_good, *a_consequence_bad;
   hud_message_box *a_vote_confirm;
@@ -92,7 +91,6 @@ public:
   void update_info();
   void update_news(struct government_news *news);
   void update_audit_info(struct government_audit_info *info);
-  void update_time_labels();
 
 private:
   government_report();

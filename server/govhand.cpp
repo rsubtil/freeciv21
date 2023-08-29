@@ -72,47 +72,58 @@ void spy_set_recent_sabotaged_tile(struct unit* punit, struct tile* tile)
   spy_last_sabotages[punit] = tile;
 }
 
+void update_government_info()
+{
+  struct packet_government_info info;
+  info.last_message_id = g_info.last_message_id;
+  info.last_audit_id = g_info.last_audit_id;
+  for (int i = 0; i < MAX_AUDIT_NUM; i++) {
+    info.curr_audits[i] = g_info.curr_audits[i];
+  }
+
+  lsend_packet_government_info(game.est_connections, &info);
+}
+
 void handle_government_info_req(struct player *pplayer)
 {
-  // DEBUG: Bogus info
   struct packet_government_info info;
-  info.last_message_id = 0;
-  info.last_audit_id = -1;
+  info.last_message_id = g_info.last_message_id;
+  info.last_audit_id = g_info.last_audit_id;
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
-    info.curr_audits[i] = -1;
+    info.curr_audits[i] = g_info.curr_audits[i];
   }
-  info.curr_audits[0] = 0;
 
   send_packet_government_info(pplayer->current_conn, &info);
 }
 
 void handle_government_news_req(struct player *pplayer, int id)
 {
-  if(id != 0) return;
+  struct government_news *news = g_info.find_cached_news(id);
+  if (news) {
+    struct packet_government_news pkt;
+    pkt.id = id;
+    pkt.turn = news->turn;
+    strcpy(pkt.news, news->news.toUtf8().data());
 
-  struct packet_government_news news;
-  news.id = id;
-  news.turn = 1;
-  strcpy(news.news, "The government has decided to ban, uhhhh, something.");
-
-  send_packet_government_news(pplayer->current_conn, &news);
+    send_packet_government_news(pplayer->current_conn, &pkt);
+  }
 }
 
 void handle_government_audit_info_req(struct player *pplayer, int id)
 {
-  if(id != 0) return;
+  struct government_audit_info *audit = g_info.find_cached_audit(id);
+  if (audit) {
+    struct packet_government_audit_info pkt;
+    pkt.id = id;
+    pkt.accuser_id = audit->accuser_id;
+    pkt.accused_id = audit->accused_id;
+    pkt.jury_1_vote = audit->jury_1_vote;
+    pkt.jury_2_vote = audit->jury_2_vote;
+    pkt.consequence = audit->consequence;
+    pkt.start_turn = audit->start_turn;
 
-  struct packet_government_audit_info info;
-  info.id = id;
-  info.accuser_id = 0;
-  info.accused_id = 2;
-  info.jury_1_vote = 0;
-  info.jury_2_vote = 0;
-  info.consequence = 0;
-  info.start_turn = 1;
-  info.end_turn = 852;
-
-  lsend_packet_government_audit_info(pplayer->connections, &info);
+    send_packet_government_audit_info(pplayer->current_conn, &pkt);
+  }
 }
 
 void handle_government_audit_submit_vote(struct player *pplayer, int id, int vote)
@@ -122,12 +133,25 @@ void handle_government_audit_submit_vote(struct player *pplayer, int id, int vot
 
 void handle_government_audit_start(struct player *pplayer, int sabotage_id, int accused_id)
 {
-  // TODO
-}
+  struct sabotage_info* sabotage = s_info.find_cached_sabotage(sabotage_id);
+  if(!sabotage) return;
+  struct government_audit_info *audit = g_info.new_government_audit();
+  audit->accuser_id = player_id_from_string(pplayer->name);
+  audit->accused_id = player_id(accused_id);
+  audit->jury_1_vote = AUDIT_VOTE_NONE;
+  audit->jury_2_vote = AUDIT_VOTE_NONE;
+  // TODO: Get constants here
+  audit->consequence = 0;//AUDIT_CONSEQUENCE_NONE;
 
-void handle_government_audit_begin_req(struct player *pplayer)
-{
-  // TODO
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    if(g_info.curr_audits[i] == -1) {
+      g_info.curr_audits[i] = audit->id;
+      break;
+    }
+  }
+
+  // Notify all players
+  update_government_info();
 }
 
 void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)

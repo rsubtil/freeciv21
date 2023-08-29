@@ -359,7 +359,7 @@ extern struct world wld;
 
 #define GAME_DEFAULT_ANGRYCITIZEN true
 
-#define GAME_DEFAULT_END_TURN 5000
+#define GAME_DEFAULT_END_TURN 65535
 #define GAME_MIN_END_TURN 1
 #define GAME_MAX_END_TURN 65535
 

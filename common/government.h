@@ -42,9 +42,10 @@ enum player_id : int {
 };
 
 enum audit_vote_type : int {
-  AUDIT_VOTE_YES = 0,
-  AUDIT_VOTE_NO = 1,
-  AUDIT_VOTE_ABSTAIN = 2,
+  AUDIT_VOTE_NONE = 0,
+  AUDIT_VOTE_YES = 1,
+  AUDIT_VOTE_NO = 2,
+  AUDIT_VOTE_ABSTAIN = 3,
 };
 
 player_id determine_jury_id(player_id accuser, player_id accused, int which);
@@ -91,7 +92,6 @@ struct government_audit_info {
   int jury_2_vote;
   int consequence;
   int start_turn;
-  int end_turn;
 };
 
 struct government_audit_info* government_audit_info_new(const struct packet_government_audit_info* audit);
@@ -114,6 +114,14 @@ struct government_info {
     cached_audits.clear();
   }
 
+  struct government_news* new_government_news() {
+    struct government_news* new_news = new government_news();
+    new_news->id = ++last_message_id;
+    new_news->turn = game.info.turn;
+    cached_news.push_back(new_news);
+    return new_news;
+  }
+
   struct government_news* find_cached_news(int id) {
     auto iter = std::find_if(cached_news.begin(), cached_news.end(), [id](struct government_news* news) {
       return news->id == id;
@@ -123,6 +131,14 @@ struct government_info {
     } else {
       return nullptr;
     }
+  }
+
+  struct government_audit_info* new_government_audit() {
+    struct government_audit_info* new_audit = new government_audit_info();
+    new_audit->id = ++last_audit_id;
+    new_audit->start_turn = game.info.turn;
+    cached_audits.push_back(new_audit);
+    return new_audit;
   }
 
   struct government_audit_info* find_cached_audit(int id) {
