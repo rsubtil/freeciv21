@@ -96,7 +96,7 @@ enum shortcut_id {
   SC_TRANSPORT = 62,
   SC_SABOTAGE_CITY = 63,
   SC_SABOTAGE_BUILDING = 64,
-  SC_WIRETAP = 65,
+  SC_SABOTAGE_TRANSPORT = 65,
 };
 
 /**************************************************************************

@@ -592,6 +592,8 @@ static char activity2char(enum unit_activity activity)
     return 'S';
   case ACTIVITY_SABOTAGE_BUILDING:
     return 'B';
+  case ACTIVITY_SABOTAGE_TRANSPORT:
+    return 'U';
   case ACTIVITY_IRRIGATE:
     return 'i';
   case ACTIVITY_FORTIFIED:
@@ -639,6 +641,7 @@ static char activity2char(enum unit_activity activity)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
   case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     return '?';
   case ACTIVITY_LAST:
     break;

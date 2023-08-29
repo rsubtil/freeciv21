@@ -1330,7 +1330,9 @@ static int action_target_neg_util(action_id act_id, const struct city *pcity)
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
   case ACTRES_WIRETAP:
+  case ACTRES_TRANSPORT_REPORT:
     fc_assert_msg(action_id_get_target_kind(act_id) == ATK_CITY,
                   "Action not aimed at cities");
   }

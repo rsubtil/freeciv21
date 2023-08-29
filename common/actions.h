@@ -241,6 +241,10 @@ _   ._       Copyright (c) 1996-2021 Freeciv21 and Freeciv contributors.
 #define SPECENUM_VALUE91NAME "Steal Materials Building"
 #define SPECENUM_VALUE92 ACTION_WIRETAP
 #define SPECENUM_VALUE92NAME "Place Wiretap"
+#define SPECENUM_VALUE93 ACTION_TRANSPORT_REPORT
+#define SPECENUM_VALUE93NAME "Get Transport Report"
+#define SPECENUM_VALUE94 ACTION_SABOTAGE_TRANSPORT
+#define SPECENUM_VALUE94NAME "Sabotage (Transport)"
 #define SPECENUM_BITVECTOR bv_actions
 #define SPECENUM_COUNT ACTION_COUNT
 #include "specenum_gen.h"

@@ -1598,6 +1598,7 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
     case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
     case ACTIVITY_WIRETAP:
+    case ACTIVITY_TRANSPORT_REPORT:
       action_iterate(act_id)
       {
         struct action *paction = action_by_number(act_id);
@@ -1627,6 +1628,7 @@ static void unit_order_activity_to_action(struct unit *act_unit)
     case ACTIVITY_TRANSPORT:
     case ACTIVITY_SABOTAGE_CITY:
     case ACTIVITY_SABOTAGE_BUILDING:
+    case ACTIVITY_SABOTAGE_TRANSPORT:
       qCritical("Activity %d is not supposed to appear in unit orders",
                 order->activity);
       break;

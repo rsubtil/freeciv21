@@ -536,6 +536,8 @@ bool activity_requires_target(enum unit_activity activity)
   case ACTIVITY_PLANT:
   case ACTIVITY_FORTIFYING:
   case ACTIVITY_CONVERT:
+  case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     return false;
   // These shouldn't be kicking around internally.
   case ACTIVITY_FORTRESS:
@@ -610,12 +612,12 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Mine");
   case ACTIVITY_TRANSPORT:
     return _("Transport");
-  case ACTIVITY_WIRETAP:
-    return _("Place Wiretap");
   case ACTIVITY_SABOTAGE_CITY:
     return _("Sabotage (City)");
   case ACTIVITY_SABOTAGE_BUILDING:
     return _("Sabotage (Building)");
+  case ACTIVITY_SABOTAGE_TRANSPORT:
+    return _("Sabotage (Transport)");
   case ACTIVITY_PLANT:
     // TRANS: Activity name, verb in English
     return _("Plant");
@@ -669,6 +671,10 @@ const char *get_activity_text(enum unit_activity activity)
     return _("Stealing Science (Building)");
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
     return _("Stealing Materials (Building)");
+  case ACTIVITY_WIRETAP:
+    return _("Place Wiretap");
+  case ACTIVITY_TRANSPORT_REPORT:
+    return _("Transport Report");
   case ACTIVITY_OLD_ROAD:
   case ACTIVITY_OLD_RAILROAD:
   case ACTIVITY_FORTRESS:
@@ -951,13 +957,6 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
     return is_action_enabled_unit_on_tile(ACTION_TRANSPORT, punit, ptile,
                                           target);
 
-  case ACTIVITY_WIRETAP:
-    // The call below doesn't support actor tile speculation.
-    fc_assert_msg(unit_tile(punit) == ptile,
-                  "Please use action_speculate_unit_on_tile()");
-    return is_action_enabled_unit_on_tile(ACTION_WIRETAP, punit, ptile,
-                                          target);
-
   case ACTIVITY_SABOTAGE_CITY:
     // The call below doesn't support actor tile speculation.
     fc_assert_msg(unit_tile(punit) == ptile,
@@ -970,6 +969,13 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
                   "Please use action_speculate_unit_on_city()");
     return is_action_enabled_unit_on_tile(ACTION_SABOTAGE_BUILDING, punit, ptile,
                                           target);
+
+  case ACTIVITY_SABOTAGE_TRANSPORT:
+    // The call below doesn't support actor tile speculation.
+    fc_assert_msg(unit_tile(punit) == ptile,
+                  "Please use action_speculate_unit_on_city()");
+    return is_action_enabled_unit_on_tile(ACTION_SABOTAGE_TRANSPORT, punit,
+                                          ptile, target);
 
   case ACTIVITY_PLANT:
     // The call below doesn't support actor tile speculation.
@@ -1056,6 +1062,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     return unit_has_type_flag(punit, UTYF_SPY);
   case ACTIVITY_OLD_ROAD:
   case ACTIVITY_OLD_RAILROAD:
@@ -1215,6 +1223,7 @@ void unit_activity_astr(const struct unit *punit, QString &s)
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
+  case ACTIVITY_SABOTAGE_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
@@ -1228,6 +1237,7 @@ void unit_activity_astr(const struct unit *punit, QString &s)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
   case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     s += QStringLiteral("%1\n").arg(get_activity_text(punit->activity));
     return;
   case ACTIVITY_MINE:

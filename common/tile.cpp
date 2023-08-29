@@ -473,6 +473,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+  case ACTIVITY_TRANSPORT_REPORT:
     return game.info.sabotage_defensive_time;
   case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
@@ -480,6 +481,7 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile,
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     return game.info.sabotage_offensive_time;
   default:
     return 0;
@@ -781,6 +783,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
+  case ACTIVITY_SABOTAGE_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_GOLD:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_SCIENCE:
   case ACTIVITY_SABOTAGE_CITY_INVESTIGATE_MATERIALS:
@@ -794,6 +797,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act,
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
   case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     /* do nothing - these activities have no effect
        on terrain type or tile extras */
     return false;

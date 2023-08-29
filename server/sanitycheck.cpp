@@ -476,13 +476,14 @@ static void check_units(const char *file, const char *function, int line)
           && punit->activity != ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE
           && punit->activity != ACTIVITY_SABOTAGE_CITY_STEAL_MATERIALS
           && punit->activity != ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD
-          && punit->activity
-                 != ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE
-          && punit->activity
-                 != ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS
+          && punit->activity != ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE
+          && punit->activity != ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS
           && punit->activity != ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD
           && punit->activity != ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE
-          && punit->activity != ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS) {
+          && punit->activity != ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS
+          && punit->activity != ACTIVITY_WIRETAP
+          && punit->activity != ACTIVITY_TRANSPORT_REPORT
+          ) {
         SANITY_CHECK(punit->activity_target != nullptr);
       }
 

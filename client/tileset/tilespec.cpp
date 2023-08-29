@@ -3647,6 +3647,7 @@ const QPixmap *get_activity_sprite(const struct tileset *t,
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+  case ACTIVITY_TRANSPORT_REPORT:
     if(own_unit) {
       return t->sprites.unit.sabotage_def;
     }
@@ -3657,6 +3658,7 @@ const QPixmap *get_activity_sprite(const struct tileset *t,
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     if (own_unit) {
       return t->sprites.unit.sabotage_off;
     }

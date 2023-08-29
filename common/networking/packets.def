@@ -606,6 +606,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   UINT32 city_recover_hitpoints;
   GAME_MODE game_mode;
   UINT32 materials_objective;
+  UINT32 turn_since_game_mode_change;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet
@@ -2510,4 +2511,9 @@ PACKET_SABOTAGE_INFO_OTHER = 273; sc, handle-via-packet
 end
 
 PACKET_PLAYER_RESEARCH_CURR = 274; cs
+end
+
+PACKET_SABOTAGE_TRANSPORT_REQ = 275; cs, dsend
+  UNIT actor_id;
+  TILE tile_id;
 end

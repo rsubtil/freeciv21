@@ -2105,6 +2105,43 @@ bool spy_investigate_materials_building(struct player *act_player, struct unit *
   return true;
 }
 
+bool spy_place_wiretap(struct player *act_player,
+                                  struct unit *act_unit,
+                                  struct tile *tgt_tile)
+{
+  // Sanity check: The actor still exists.
+  fc_assert_ret_val(act_player, false);
+  fc_assert_ret_val(act_unit, false);
+  fc_assert_ret_val(tgt_tile, false);
+  fc_assert_ret_val(tgt_tile->label, false);
+
+  QString s_transport_from(tgt_tile->label);
+
+  tile *transport_from = map_transports_get(s_transport_from);
+  fc_assert_ret_val(transport_from, false);
+
+  act_player->wiretap = transport_from;
+
+  return true;
+}
+
+bool spy_investigate_transport(struct player *act_player, struct unit *act_unit,
+                               struct tile *tgt_tile)
+{
+  // Sanity check: The actor still exists.
+  fc_assert_ret_val(act_player, false);
+  fc_assert_ret_val(act_unit, false);
+  fc_assert_ret_val(tgt_tile, false);
+  fc_assert_ret_val(tgt_tile->label, false);
+
+  QString s_transport_from(tgt_tile->label);
+
+  tile *transport_from = map_transports_get(s_transport_from);
+  fc_assert_ret_val(transport_from, false);
+
+  return true;
+}
+
 /**
    Steal part of another player's map.
 
@@ -2768,6 +2805,12 @@ void sabotage_apply_activity(struct unit *punit, const unit_activity &act)
     break;
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
     spy_steal_materials_building(pact_player, punit, ptile, nullptr, nullptr);
+    break;
+  case ACTIVITY_WIRETAP:
+    spy_place_wiretap(pact_player, punit, ptile);
+    break;
+  case ACTIVITY_TRANSPORT_REPORT:
+    spy_investigate_transport(pact_player, punit, ptile);
     break;
   default:
     break;

@@ -888,10 +888,6 @@ void mr_menu::setup_menus()
   shortcuts->link_action(SC_TRANSPORT, act);
   menu_list.insert(TRANSPORT, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_transport);
-  act = menu->addAction(_("Place Wiretap"));
-  shortcuts->link_action(SC_WIRETAP, act);
-  menu_list.insert(WIRETAP, act);
-  connect(act, &QAction::triggered, this, &mr_menu::slot_wiretap);
   act = menu->addAction(_("Sabotage (City)"));
   shortcuts->link_action(SC_SABOTAGE_CITY, act);
   menu_list.insert(SABOTAGE_CITY, act);
@@ -900,6 +896,10 @@ void mr_menu::setup_menus()
   shortcuts->link_action(SC_SABOTAGE_BUILDING, act);
   menu_list.insert(SABOTAGE_BUILDING, act);
   connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage_building);
+  act = menu->addAction(_("Sabotage (Transport)"));
+  shortcuts->link_action(SC_SABOTAGE_TRANSPORT, act);
+  menu_list.insert(SABOTAGE_TRANSPORT, act);
+  connect(act, &QAction::triggered, this, &mr_menu::slot_sabotage_transport);
   act = menu->addAction(_("Plant"));
   shortcuts->link_action(SC_PLANT, act);
   menu_list.insert(PLANT, act);
@@ -1636,18 +1636,6 @@ void mr_menu::menus_sensitive()
         }
        } break;
 
-      case WIRETAP: {
-        if (can_units_do_activity(punits, ACTIVITY_WIRETAP)) {
-          i.value()->setEnabled(true);
-        }
-
-        struct extra_type *pextra = next_extra(punits, EC_TRANSPORT);
-
-        if (pextra != nullptr) {
-          i.value()->setText(QString(_("Place Wiretap")));
-        }
-       } break;
-
        case SABOTAGE_CITY: {
         if (can_units_do_activity(punits, ACTIVITY_SABOTAGE_CITY) ||
             can_units_do_activity(punits, ACTIVITY_SABOTAGE_BUILDING)) {
@@ -2148,22 +2136,6 @@ void mr_menu::slot_transport() {
 }
 
 /**
-   Action "WIRETAP"
-*/
-void mr_menu::slot_wiretap() {
-  for (const auto punit : get_units_in_focus()) {
-    /* FIXME: this can provide different actions for different units...
-     * not good! */
-    /* Enable the button for adding to a city in all cases, so we
-       get an eventual error message from the server if we try. */
-    if (utype_can_do_action(unit_type_get(punit), ACTION_WIRETAP)) {
-      request_do_action(ACTION_WIRETAP, punit->id, tile_index(unit_tile(punit)), 0, nullptr);
-      return;
-    }
-  }
-}
-
-/**
    Action "SABOTAGE"
 */
 void mr_menu::slot_sabotage_city()
@@ -2195,6 +2167,23 @@ void mr_menu::slot_sabotage_building()
   }
 }
 
+/**
+   Action "SABOTAGE"
+*/
+void mr_menu::slot_sabotage_transport()
+{
+  for (const auto punit : get_units_in_focus()) {
+    /* FIXME: this can provide different actions for different units...
+     * not good! */
+    /* Enable the button for adding to a city in all cases, so we
+       get an eventual error message from the server if we try. */
+    if (utype_can_do_action(unit_type_get(punit),
+                            ACTION_SABOTAGE_TRANSPORT)) {
+      dsend_packet_sabotage_transport_req(&client.conn, punit->id,
+                                         unit_tile(punit)->index);
+    }
+  }
+}
 
   /**
      Action "PLANT"

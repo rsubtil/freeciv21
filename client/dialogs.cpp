@@ -121,8 +121,10 @@ static void base(QVariant data1, QVariant data2);
 static void mine(QVariant data1, QVariant data2);
 static void transport(QVariant data1, QVariant data2);
 static void wiretap(QVariant data1, QVariant data2);
+static void transport_report(QVariant data1, QVariant data2);
 static void sabotage(QVariant data1, QVariant data2);
 static void sabotage_building(QVariant data1, QVariant data2);
+static void sabotage_transport(QVariant data1, QVariant data2);
 static void irrigate(QVariant data1, QVariant data2);
 static void nuke(QVariant data1, QVariant data2);
 static void attack(QVariant data1, QVariant data2);
@@ -263,9 +265,9 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_BASE] = base;
   action_function[ACTION_MINE] = mine;
   action_function[ACTION_TRANSPORT] = transport;
-  action_function[ACTION_WIRETAP] = wiretap;
   action_function[ACTION_SABOTAGE_CITY] = sabotage;
   action_function[ACTION_SABOTAGE_BUILDING] = sabotage_building;
+  action_function[ACTION_SABOTAGE_TRANSPORT] = sabotage_transport;
   action_function[ACTION_IRRIGATE] = irrigate;
   action_function[ACTION_TRANSPORT_DISEMBARK1] = disembark1;
   action_function[ACTION_TRANSPORT_DISEMBARK2] = disembark2;
@@ -293,6 +295,8 @@ static const QHash<action_id, pfcn_void> af_map_init()
   action_function[ACTION_SABOTAGE_BUILDING_STEAL_GOLD] = spy_building_steal_gold;
   action_function[ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE] = spy_building_steal_science;
   action_function[ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS] = spy_building_steal_materials;
+  action_function[ACTION_WIRETAP] = wiretap;
+  action_function[ACTION_TRANSPORT_REPORT] = transport_report;
 
   return action_function;
 }
@@ -1971,12 +1975,8 @@ void popup_action_selection(struct unit *actor_unit,
                  QLatin1String(""), BUTTON_MOVE);
   }
 
-  func = act_sel_wait;
-  cd->add_item(QString(_("&Wait")), func, qv1, qv2, QLatin1String(""),
-               BUTTON_WAIT);
-
   func = keep_moving;
-  cd->add_item(QString(_("Do nothing")), func, qv1, qv2, QLatin1String(""),
+  cd->add_item(QString(_("Cancel")), func, qv1, qv2, QLatin1String(""),
                BUTTON_CANCEL);
 
   cd->set_layout();
@@ -2663,9 +2663,30 @@ static void transport(QVariant data1, QVariant data2)
  */
 static void wiretap(QVariant data1, QVariant data2)
 {
-  int actor_id = data1.toInt();
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+  struct unit *punit = game_unit_by_number(diplomat_id);
+  if (nullptr != punit) {
+    if (can_unit_do_activity_targeted(
+            punit, ACTIVITY_WIRETAP, nullptr)) {
+      request_new_unit_activity_targeted(
+          punit, ACTIVITY_WIRETAP, nullptr);
+    }
+  }
+}
 
-  dsend_packet_transport_req(&client.conn, actor_id);
+static void transport_report(QVariant data1, QVariant data2)
+{
+  int diplomat_id = data1.toInt();
+  int diplomat_target_id = data2.toInt();
+  struct unit *punit = game_unit_by_number(diplomat_id);
+  if (nullptr != punit) {
+    if (can_unit_do_activity_targeted(
+            punit, ACTIVITY_TRANSPORT_REPORT, nullptr)) {
+      request_new_unit_activity_targeted(
+          punit, ACTIVITY_TRANSPORT_REPORT, nullptr);
+    }
+  }
 }
 
 /**
@@ -2688,6 +2709,17 @@ static void sabotage_building(QVariant data1, QVariant data2)
   int tile_id = data2.toInt();
 
   dsend_packet_sabotage_building_req(&client.conn, actor_id, tile_id);
+}
+
+/**
+    Action "Sabotage (Transport)" for choice dialog
+ */
+static void sabotage_transport(QVariant data1, QVariant data2)
+{
+  int actor_id = data1.toInt();
+  int tile_id = data2.toInt();
+
+  dsend_packet_sabotage_transport_req(&client.conn, actor_id, tile_id);
 }
 
 /**

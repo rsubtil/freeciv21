@@ -823,7 +823,7 @@ static void unit_activity_complete(struct unit *punit)
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
-  case ACTIVITY_WIRETAP:
+  case ACTIVITY_SABOTAGE_TRANSPORT:
     // TODO: Implement
     unit_activity_done = true;
     break;
@@ -920,6 +920,8 @@ static void unit_activity_complete(struct unit *punit)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
   if (total_activity_done(ptile, activity, punit->activity_target)) {
       /* The function below could change the terrain. Therefore, we have to
        * check the terrain (which will also do a sanity check for the tile).
@@ -956,7 +958,9 @@ static void unit_activity_complete(struct unit *punit)
         || ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS == activity
         || ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD == activity
         || ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE == activity
-        || ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS == activity) {
+        || ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS == activity
+        || ACTIVITY_WIRETAP == activity
+        || ACTIVITY_TRANSPORT_REPORT == activity) {
       /* FIXME: As we might probably do the activity again, because of the
        * terrain change cycles, we need to treat these cases separatly.
        * Probably ACTIVITY_TRANSFORM should be associated to its terrain
@@ -1056,6 +1060,7 @@ static void update_unit_activity(struct unit *punit, time_t now)
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
+  case ACTIVITY_SABOTAGE_TRANSPORT:
     // These activities do not do anything interesting at turn change.
     break;
 
@@ -1082,6 +1087,7 @@ static void update_unit_activity(struct unit *punit, time_t now)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
   case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     // settler may become veteran when doing something useful
     if (maybe_become_veteran_real(punit, true)) {
       notify_unit_experience(punit);
@@ -4015,6 +4021,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
+  case ACTIVITY_SABOTAGE_TRANSPORT:
     break;
   case ACTIVITY_POLLUTION:
   case ACTIVITY_MINE:
@@ -4049,6 +4056,7 @@ static void check_unit_activity(struct unit *punit)
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
   case ACTIVITY_WIRETAP:
+  case ACTIVITY_TRANSPORT_REPORT:
     set_unit_activity(punit, ACTIVITY_IDLE);
     break;
   };
@@ -5318,6 +5326,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ACTIVITY_TRANSPORT:
       case ACTIVITY_SABOTAGE_CITY:
       case ACTIVITY_SABOTAGE_BUILDING:
+      case ACTIVITY_SABOTAGE_TRANSPORT:
         // TODO: Implement
         return true;
       // Replaced by action orders
@@ -5346,6 +5355,7 @@ bool unit_order_list_is_sane(int length, const struct unit_order *orders)
       case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
       case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
       case ACTIVITY_WIRETAP:
+      case ACTIVITY_TRANSPORT_REPORT:
         qCritical("at index %d, use action rather than activity %d.", i,
                   orders[i].activity);
         return false;

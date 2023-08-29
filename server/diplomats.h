@@ -75,6 +75,8 @@ bool spy_investigate_materials_city(struct player *act_player, struct unit *act_
 bool spy_investigate_materials_building(struct player *act_player, struct unit *act_unit,
                                         struct tile *tgt_tile, struct extra_type* tgt_extra,
                                         const struct action *paction);
+bool spy_place_wiretap(struct player *act_player, struct unit *act_unit, struct tile *tgt_tile);
+bool spy_investigate_transport(struct player *act_player, struct unit *act_unit, struct tile *tgt_tile);
 bool spy_steal_some_maps(struct player *act_player, struct unit *act_unit,
                          struct city *tgt_city,
                          const struct action *paction);

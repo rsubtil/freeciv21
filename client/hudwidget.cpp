@@ -1152,12 +1152,6 @@ int unit_actions::update_actions()
         SC_TRANSPORT));
   }
 
-  if (can_unit_do_activity(current_unit, ACTIVITY_WIRETAP)) {
-    actions.append(new hud_action(
-        this, fcIcons::instance()->getIcon(QStringLiteral("sabotage")),
-        SC_WIRETAP));
-  }
-
   if (can_unit_do_activity(current_unit, ACTIVITY_SABOTAGE_CITY)) {
     actions.append(new hud_action(
         this, fcIcons::instance()->getIcon(QStringLiteral("sabotage")),
@@ -1168,6 +1162,12 @@ int unit_actions::update_actions()
     actions.append(new hud_action(
         this, fcIcons::instance()->getIcon(QStringLiteral("sabotage")),
         SC_SABOTAGE_BUILDING));
+  }
+
+  if (can_unit_do_activity(current_unit, ACTIVITY_SABOTAGE_TRANSPORT)) {
+    actions.append(new hud_action(
+        this, fcIcons::instance()->getIcon(QStringLiteral("sabotage")),
+        SC_SABOTAGE_TRANSPORT));
   }
 
   if (can_unit_do_activity(current_unit, ACTIVITY_PLANT)) {

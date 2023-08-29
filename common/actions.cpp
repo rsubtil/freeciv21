@@ -885,11 +885,17 @@ static void hard_code_actions()
   actions[ACTION_WIRETAP] = unit_action_new(
       ACTION_WIRETAP, ACTRES_WIRETAP, ATK_TILE, ASTK_EXTRA,
       ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
+  actions[ACTION_TRANSPORT_REPORT] = unit_action_new(
+      ACTION_TRANSPORT_REPORT, ACTRES_TRANSPORT_REPORT, ATK_TILE, ASTK_EXTRA,
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_TELEPORT, 0, 0, false);
   actions[ACTION_SABOTAGE_CITY] = unit_action_new(
       ACTION_SABOTAGE_CITY, ACTRES_SABOTAGE_CITY, ATK_CITY, ASTK_NONE,
       ACT_TGT_COMPL_SIMPLE, true, true, MAK_STAYS, 0, 0, false);
   actions[ACTION_SABOTAGE_BUILDING] = unit_action_new(
       ACTION_SABOTAGE_BUILDING, ACTRES_SABOTAGE_BUILDING, ATK_TILE, ASTK_EXTRA,
+      ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
+  actions[ACTION_SABOTAGE_TRANSPORT] = unit_action_new(
+      ACTION_SABOTAGE_TRANSPORT, ACTRES_SABOTAGE_TRANSPORT, ATK_TILE, ASTK_EXTRA,
       ACT_TGT_COMPL_MANDATORY, true, true, MAK_STAYS, 0, 0, false);
   actions[ACTION_IRRIGATE] = unit_action_new(
       ACTION_IRRIGATE, ACTRES_IRRIGATE, ATK_TILE, ASTK_EXTRA_NOT_THERE,
@@ -974,6 +980,9 @@ static void hard_code_actions()
   actions[ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS] = unit_action_new(
       ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS, ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS,
       ATK_TILE, ASTK_EXTRA, ACT_TGT_COMPL_MANDATORY, false, true, MAK_STAYS, 0, 1, false);
+  actions[ACTION_TRANSPORT_REPORT] = unit_action_new(ACTION_TRANSPORT_REPORT,
+      ACTRES_TRANSPORT_REPORT, ATK_TILE, ASTK_EXTRA, ACT_TGT_COMPL_MANDATORY, false, true,
+      MAK_STAYS, 0, 1, false);
 }
 
 /**
@@ -1535,10 +1544,10 @@ const QString action_prepare_ui_name(action_id act_id, const char *mnemonic,
       ui_name = ui_name.remove(k, 2);
     }
     ui_name.replace(QLatin1String("%s"), QLatin1String("%1"));
-    fmtstr += QStringLiteral("%1").arg(ui_name);
+    //fmtstr += QStringLiteral("%1").arg(ui_name);
 
     // Use the modified format string
-    str = QString(fmtstr).arg(chance);
+    //str = QString(fmtstr).arg(chance);
   }
 
   return str;
@@ -1656,6 +1665,10 @@ enum unit_activity action_get_activity(const struct action *paction)
     return ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE;
   } else if (action_has_result(paction, ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS)) {
     return ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS;
+  } else if (action_has_result(paction, ACTRES_WIRETAP)) {
+    return ACTIVITY_WIRETAP;
+  } else if (action_has_result(paction, ACTRES_TRANSPORT_REPORT)) {
+    return ACTIVITY_TRANSPORT_REPORT;
   } else {
     return ACTIVITY_LAST;
   }
@@ -1701,6 +1714,7 @@ int action_get_act_time(const struct action *paction,
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS:
+  case ACTIVITY_TRANSPORT_REPORT:
     return game.info.sabotage_defensive_time;
   case ACTIVITY_SABOTAGE_CITY_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_CITY_STEAL_SCIENCE:
@@ -1708,11 +1722,12 @@ int action_get_act_time(const struct action *paction,
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTIVITY_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTIVITY_WIRETAP:
     return game.info.sabotage_offensive_time;
   case ACTIVITY_TRANSPORT:
   case ACTIVITY_SABOTAGE_CITY:
   case ACTIVITY_SABOTAGE_BUILDING:
-  case ACTIVITY_WIRETAP:
+  case ACTIVITY_SABOTAGE_TRANSPORT:
     return ACT_TIME_INSTANTANEOUS;
   case ACTIVITY_EXPLORE:
   case ACTIVITY_IDLE:
@@ -1827,6 +1842,8 @@ bool action_creates_extra(const struct action *paction,
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
+  case ACTRES_TRANSPORT_REPORT:
     break;
   }
 
@@ -1921,6 +1938,8 @@ bool action_removes_extra(const struct action *paction,
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
+  case ACTRES_TRANSPORT_REPORT:
     break;
   }
 
@@ -2891,7 +2910,9 @@ action_actor_utype_hard_reqs_ok_full(enum action_result result,
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
   case ACTRES_WIRETAP:
+  case ACTRES_TRANSPORT_REPORT:
     // No hard unit type requirements.
     break;
   }
@@ -3088,7 +3109,9 @@ static enum fc_tristate action_hard_reqs_actor(
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
   case ACTRES_WIRETAP:
+  case ACTRES_TRANSPORT_REPORT:
     // No hard unit requirements.
     break;
   }
@@ -3943,7 +3966,6 @@ static enum fc_tristate is_action_possible(
   } break;
 
   case ACTRES_TRANSPORT:
-  case ACTRES_WIRETAP:
     // Only if unit has move points available
     if (actor_unit->moves_left <= 0) {
       return TRI_NO;
@@ -3988,6 +4010,9 @@ static enum fc_tristate is_action_possible(
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
+  case ACTRES_WIRETAP:
+  case ACTRES_TRANSPORT_REPORT:
     // No known hard coded requirements.
     break;
   }
@@ -4888,6 +4913,8 @@ static struct act_prob action_prob(
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
+  case ACTRES_TRANSPORT_REPORT:
     chance = ACTPROB_CERTAIN;
     break;
   case ACTRES_TRANSPORT_ALIGHT:
@@ -5862,6 +5889,8 @@ int action_dice_roll_initial_odds(const struct action *paction)
   case ACTRES_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTRES_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTRES_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTRES_SABOTAGE_TRANSPORT:
+  case ACTRES_TRANSPORT_REPORT:
     // No additional dice roll.
     break;
   }
@@ -6275,10 +6304,14 @@ const char *action_ui_name_ruleset_var_name(int act)
     return "ui_name_transport";
   case ACTION_WIRETAP:
     return "ui_name_wiretap";
+  case ACTION_TRANSPORT_REPORT:
+    return "ui_name_transport_report";
   case ACTION_SABOTAGE_CITY:
     return "ui_name_sabotage_city";
   case ACTION_SABOTAGE_BUILDING:
     return "ui_name_sabotage_building";
+  case ACTION_SABOTAGE_TRANSPORT:
+    return "ui_name_sabotage_transport";
   case ACTION_IRRIGATE:
     return "ui_name_irrigate";
   case ACTION_TRANSPORT_ALIGHT:
@@ -6676,6 +6709,8 @@ const char *action_min_range_ruleset_var_name(int act)
   case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTION_SABOTAGE_TRANSPORT:
+  case ACTION_TRANSPORT_REPORT:
     // Min range is not ruleset changeable
     return nullptr;
   case ACTION_USER_ACTION1:
@@ -6788,6 +6823,8 @@ int action_min_range_default(int act)
   case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTION_SABOTAGE_TRANSPORT:
+  case ACTION_TRANSPORT_REPORT:
     // Non ruleset defined action min range not supported here
     fc_assert_msg(false, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MIN_RANGE;
@@ -6893,6 +6930,8 @@ const char *action_max_range_ruleset_var_name(int act)
   case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTION_SABOTAGE_TRANSPORT:
+  case ACTION_TRANSPORT_REPORT:
     // Max range is not ruleset changeable
     return nullptr;
   case ACTION_HELP_WONDER:
@@ -7014,6 +7053,8 @@ int action_max_range_default(int act)
   case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTION_SABOTAGE_TRANSPORT:
+  case ACTION_TRANSPORT_REPORT:
     // Non ruleset defined action max range not supported here
     fc_assert_msg(false, "Probably wrong value.");
     return RS_DEFAULT_ACTION_MAX_RANGE;
@@ -7142,6 +7183,8 @@ const char *action_target_kind_ruleset_var_name(int act)
   case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTION_SABOTAGE_TRANSPORT:
+  case ACTION_TRANSPORT_REPORT:
     // Target kind is not ruleset changeable
     return nullptr;
   case ACTION_USER_ACTION1:
@@ -7257,6 +7300,8 @@ const char *action_actor_consuming_always_ruleset_var_name(action_id act)
   case ACTION_SABOTAGE_BUILDING_STEAL_GOLD:
   case ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE:
   case ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS:
+  case ACTION_SABOTAGE_TRANSPORT:
+  case ACTION_TRANSPORT_REPORT:
     // actor consuming always is not ruleset changeable
     return nullptr;
   case ACTION_SPY_SPREAD_PLAGUE:
