@@ -47,6 +47,7 @@
 
 // c
 #include <cmath>
+#include <sstream>
 
 /****************************************************************************/
 
@@ -2134,10 +2135,46 @@ bool spy_investigate_transport(struct player *act_player, struct unit *act_unit,
   fc_assert_ret_val(tgt_tile, false);
   fc_assert_ret_val(tgt_tile->label, false);
 
-  QString s_transport_from(tgt_tile->label);
+  QString s_transport_to(tgt_tile->label);
 
-  tile *transport_from = map_transports_get(s_transport_from);
-  fc_assert_ret_val(transport_from, false);
+  tile *transport_to = map_transports_get(s_transport_to);
+  fc_assert_ret_val(transport_to, false);
+
+  QVector<struct transport_report*> transport_info;
+  for(auto record : *map_transport_reports_get())
+  {
+    // Only report transports to this station
+    if (record->to != s_transport_to) continue;
+
+    // Only report foreign movements
+    if (record->player == QString(act_player->name)) continue;
+
+    transport_info.push_back(record);
+    // Only report the last 10 transports
+    if (transport_info.size() >= 10) break;
+  }
+
+  // Send info as sabotage report
+  std::ostringstream sstr;
+  sstr << "Transport report for station " << s_transport_to.toStdString() << " (last 10 movements):\n";
+  for(int i = transport_info.size() - 1; i > -1; i--) {
+    // Iterate in reverse, to get the most recent data on top
+    struct transport_report* record = transport_info[i];
+    sstr << "\t" << record->turn
+      << " | " << record->from.toStdString() << " -> " << record->to.toStdString()
+      << " | " << record->player.toStdString()
+      << " | " << record->unit_name.toStdString();
+    if(i != 0) {
+      sstr << "\n";
+    }
+
+  }
+  struct sabotage_info *info = s_info.new_sabotage_info(false);
+  info->player_src = act_player;
+  info->player_tgt = nullptr;
+  info->player_send_to = act_player;
+  info->info = sstr.str().c_str();
+  s_info.send_sabotage_info_src(info);
 
   return true;
 }

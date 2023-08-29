@@ -94,8 +94,8 @@ sabotages_report::sabotages_report() : QWidget()
   m_sabotages_other_scroll->setWidgetResizable(true);
   m_sabotages_other_widget = new QWidget();
   QVBoxLayout *m_sabotages_other_layout = new QVBoxLayout(m_sabotages_other_widget);
-  m_sabotages_other_scroll->setWidget(m_sabotages_other_widget);
   m_sabotages_other_layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+  m_sabotages_other_scroll->setWidget(m_sabotages_other_widget);
   layout->addWidget(m_sabotages_other_scroll, 9, 4, 7, -1);
 
   // Add it all up
@@ -182,7 +182,8 @@ void sabotages_report::update_self_info(const struct packet_sabotage_info_self *
   cached_last_self_id = MAX(cached_last_self_id, info->id);
   QLabel *label = new QLabel();
   label->setWordWrap(true);
-  label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+  label->setTextInteractionFlags(Qt::TextSelectableByMouse);
+  label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   label->setText(QString::number(info->turn) + ": " + QString(info->info));
   m_sabotages_self_widget->layout()->addWidget(label);
 }
@@ -192,7 +193,8 @@ void sabotages_report::update_other_info(const struct packet_sabotage_info_other
   cached_last_other_id = MAX(cached_last_other_id, info->id);
   QLabel *label = new QLabel();
   label->setWordWrap(true);
-  label->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+  label->setTextInteractionFlags(Qt::TextSelectableByMouse);
+  label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   label->setText(QString::number(info->turn) + ": " + QString(info->info));
   m_sabotages_other_widget->layout()->addWidget(label);
 }
