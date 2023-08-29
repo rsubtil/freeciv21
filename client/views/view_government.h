@@ -79,6 +79,10 @@ public:
 protected:
   static government_report *_instance;
 
+  void begin_audit();
+  void begin_audit_sabotage_selected(int id);
+  void confirm_audit_sabotage_selected(struct packet_sabotage_info_self *report,
+                                       QString player);
   void show_audit_screen(int id);
   void confirm_vote(audit_vote_type intended_vote);
 

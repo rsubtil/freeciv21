@@ -41,6 +41,7 @@
 #include "tooltips.h"
 #include "top_bar.h"
 #include "views/view_government.h"
+#include "views/view_sabotages.h"
 
 std::string minutes_to_time_str(int minutes)
 {
@@ -142,8 +143,9 @@ government_report::government_report() : QWidget()
 
   QPushButton *m_auditing_start_button = new QPushButton();
   m_auditing_start_button->setSizePolicy(size_fixed_policy);
-  m_auditing_start_button->setText(_("Initiate an audit"));
+  m_auditing_start_button->setText(_("Make an accusation"));
   m_layout->addWidget(m_auditing_start_button, 9, 4, 1, -1, Qt::AlignLeft);
+  QObject::connect(m_auditing_start_button, &QPushButton::clicked, this, &government_report::begin_audit);
 
   QWidget *m_auditing_widget = new QWidget();
   QHBoxLayout *m_auditing_layout = new QHBoxLayout();
@@ -316,6 +318,153 @@ void government_report::update_time_labels()
           .arg(
               minutes_to_time_str(curr_audit->end_turn - game.info.turn).c_str()));
   }
+}
+
+void government_report::begin_audit()
+{
+  // Check if we can make audits
+  // Are there currently MAX_AUDIT_NUM audits going on?
+  bool all_set = true;
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    if(g_info.curr_audits[i] == -1) {
+      all_set = false;
+      break;
+    }
+  }
+  if(all_set) {
+    popup_notify_goto_dialog(_("You can't start a new accusation"),
+                             _("You can't start a new accusation because there "
+                               "are already the maximum number of accusations "
+                               "going on. Wait for one of these to "
+                               "finish to begin a new one."),
+                               nullptr, nullptr);
+    return;
+  }
+
+  // Collect all actionable sabotage reports
+  auto reports = sabotages_report::instance()->get_actionable_sabotages();
+  if (reports.size() == 0) {
+    popup_notify_goto_dialog(_("You can't start a new accusation"),
+                             _("You don't have any sabotages you can act upon. "
+                               "You can only accuse someone if they steal from you, "
+                               "and not if they investigated you. Past accusations"
+                               "where the jury did not reach a decision also become"
+                               "invalid."),
+                               nullptr, nullptr);
+    return;
+  }
+
+  // Create dialog
+  hud_multiple_selection_box *ask = new hud_multiple_selection_box(this);
+  QVector<QString> options;
+  for(auto report : reports) {
+    options.push_back(QString::number(report->id) + "|" + QString::number(report->turn) + ": " + QString(report->info));
+  }
+  ask->set_text_title_options(_("Select a sabotage to accuse"), _("Accusation"), options);
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  QObject::connect(ask, &hud_input_box::finished, [=](int result) {
+    if (result == QDialog::Accepted) {
+      QByteArray ask_bytes;
+
+      QList<QListWidgetItem *> selected_items =
+          ask->option_list.selectedItems();
+      if (selected_items.size() == 0) {
+        return;
+      }
+
+      ask_bytes = selected_items[0]->text().toLocal8Bit();
+      QString data = ask_bytes.data();
+      // Retrieve embedded ID
+      int index = data.indexOf("|");
+      if(index == -1) {
+        return;
+      }
+      int id = data.left(index).toInt();
+      log_warning("Selected sabotage %d", id);
+
+      begin_audit_sabotage_selected(id);
+    }
+  });
+  ask->show();
+}
+
+void government_report::begin_audit_sabotage_selected(int id)
+{
+  // Validation was done at this point, no worries
+  // Now, ask which player to accuse
+  auto reports = sabotages_report::instance()->get_actionable_sabotages();
+  struct packet_sabotage_info_self *report = nullptr;
+  for(auto r : reports) {
+    if(r->id == id) {
+      report = r;
+      break;
+    }
+  }
+  if(!report) {
+    log_error("Couldn't find report %d", id);
+    return;
+  }
+
+  // Create dialog
+  hud_multiple_selection_box *ask = new hud_multiple_selection_box(this);
+  QVector<QString> options;
+  std::string raw_options[] = {
+    "Yellow", "Blue", "Purple", "Green"
+  };
+  for(std::string option : raw_options) {
+    if(player_id_from_string(client_player()->name) == player_id_from_string(option)) {
+      continue;
+    }
+    options.push_back(QString(option.c_str()));
+  }
+  ask->set_text_title_options(_("Select a player to accuse"),
+                              _("Accusation"), options);
+  ask->setAttribute(Qt::WA_DeleteOnClose);
+  QObject::connect(ask, &hud_input_box::finished, [=](int result) {
+    if (result == QDialog::Accepted) {
+      QByteArray ask_bytes;
+
+      QList<QListWidgetItem *> selected_items =
+          ask->option_list.selectedItems();
+      if (selected_items.size() == 0) {
+        return;
+      }
+
+      ask_bytes = selected_items[0]->text().toLocal8Bit();
+      QString player = ask_bytes.data();
+      log_warning("Selected player %s", player.toUtf8().data());
+
+      confirm_audit_sabotage_selected(report, player);
+    }
+  });
+  ask->show();
+}
+
+void government_report::confirm_audit_sabotage_selected(
+  struct packet_sabotage_info_self *report, QString player)
+{
+  // Confirm with the player
+  hud_message_box* a_audit_confirm = new hud_message_box(this);
+  a_audit_confirm->setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
+  a_audit_confirm->setDefaultButton(QMessageBox::Cancel);
+  a_audit_confirm->set_text_title(
+    QString("Are you sure you want to accuse %1?\nYou'll need to successfully convince the remaining players that you're right, or you may be penalized.\n").arg(player),
+    _("Accusation")
+  );
+  QObject::connect(a_audit_confirm, &hud_message_box::finished, [=](int result) {
+    if (result == QMessageBox::Yes) {
+      log_warning("Accusation will move on!");
+
+      struct packet_government_audit_start *req =
+          new packet_government_audit_start();
+
+      req->sabotage_id = report->id;
+      req->accused_id = player_id_from_string(player.toUtf8().data());
+
+      send_packet_government_audit_start(&client.conn, req);
+    }
+  });
+  a_audit_confirm->show();
 }
 
 void government_report::show_audit_screen(int id)

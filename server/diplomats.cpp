@@ -1917,7 +1917,7 @@ bool spy_steal_gold_building(struct player *act_player, struct unit *act_unit,
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_GOLD, ftc_server,
                 _("Your %s stole gold from a building. Check sabotage panel."),
                 unit_link(act_unit));
-  notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
+  notify_player(tgt_player, nullptr, E_ENEMY_SPY_STEAL_GOLD, ftc_server,
                 _("Someone stole gold! Check sabotage panel."));
 
   // Record sabotages tile
@@ -1953,7 +1953,7 @@ bool spy_steal_science_building(struct player *act_player, struct unit *act_unit
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_SCIENCE, ftc_server,
                 _("Your %s stole science from a building. Check sabotage panel."),
                 unit_link(act_unit));
-  notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_SCIENCE, ftc_server,
+  notify_player(tgt_player, nullptr, E_ENEMY_SPY_STEAL_SCIENCE, ftc_server,
                 _("Someone stole science! Check sabotage panel."));
 
   // Record sabotages tile
@@ -1989,7 +1989,7 @@ bool spy_steal_materials_building(struct player *act_player, struct unit *act_un
   notify_player(act_player, tgt_tile, E_MY_SPY_STEAL_MATERIALS, ftc_server,
                 _("Your %s stole materials from a building. Check sabotage panel."),
                 unit_link(act_unit));
-  notify_player(tgt_player, tgt_tile, E_ENEMY_SPY_STEAL_MATERIALS, ftc_server,
+  notify_player(tgt_player, nullptr, E_ENEMY_SPY_STEAL_MATERIALS, ftc_server,
                 _("Someone stole materials! Check sabotage panel."));
 
   // Record sabotages tile

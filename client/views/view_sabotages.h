@@ -46,6 +46,8 @@ class sabotages_report : public QWidget {
   int cached_last_self_id = -1;
   int cached_last_other_id = -1;
 
+  QVector<struct packet_sabotage_info_self*> m_sabotages_self;
+
 public:
   void init(bool raise);
   void redraw();
@@ -60,6 +62,8 @@ public:
   void update_info(int last_sabotage_self_id, int last_sabotage_other_id);
   void update_self_info(const struct packet_sabotage_info_self *info);
   void update_other_info(const struct packet_sabotage_info_other *info);
+
+  QVector<struct packet_sabotage_info_self*> get_actionable_sabotages();
 
 private:
   sabotages_report();

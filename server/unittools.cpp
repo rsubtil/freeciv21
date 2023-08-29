@@ -727,14 +727,9 @@ static int total_unit_activity(struct tile *ptile, struct unit *punit,
 {
   bool tgt_matters = activity_requires_target(act);
 
-  unit_list_iterate(ptile->units, punit)
-  {
-    if (punit->activity == act
-        && (!tgt_matters || punit->activity_target == tgt)) {
-      return punit->activity_count;
-    }
+  if (!tgt_matters || punit->activity_target == tgt) {
+    return punit->activity_count;
   }
-  unit_list_iterate_end;
 
   return -1;
 }

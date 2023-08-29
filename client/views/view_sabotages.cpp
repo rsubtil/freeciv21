@@ -186,6 +186,11 @@ void sabotages_report::update_self_info(const struct packet_sabotage_info_self *
   label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   label->setText(QString::number(info->turn) + ": " + QString(info->info));
   m_sabotages_self_widget->layout()->addWidget(label);
+
+  // This way we can posteriorly edit it at an accusation
+  struct packet_sabotage_info_self *info_copy = new packet_sabotage_info_self();
+  memcpy(info_copy, info, sizeof(struct packet_sabotage_info_self));
+  m_sabotages_self.push_back(info_copy);
 }
 
 void sabotages_report::update_other_info(const struct packet_sabotage_info_other *info)
@@ -197,4 +202,16 @@ void sabotages_report::update_other_info(const struct packet_sabotage_info_other
   label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
   label->setText(QString::number(info->turn) + ": " + QString(info->info));
   m_sabotages_other_widget->layout()->addWidget(label);
+}
+
+QVector<struct packet_sabotage_info_self *> sabotages_report::get_actionable_sabotages()
+{
+  QVector<struct packet_sabotage_info_self *> results;
+  for(struct packet_sabotage_info_self *info : m_sabotages_self) {
+    if (info->actionable) {
+      results.append(info);
+    }
+  }
+
+  return results;
 }
