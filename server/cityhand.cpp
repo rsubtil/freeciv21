@@ -460,6 +460,9 @@ void handle_city_refresh(struct player *pplayer, int city_id)
 void handle_city_change(struct player *pplayer, int city_id,
                         int production_kind, int production_value)
 {
+  // Only allow building on active phase
+  if(game.info.game_mode == GM_PASSIVE) return;
+
   struct universal prod;
   struct city *pcity = player_city_by_number(pplayer, city_id);
 

@@ -199,20 +199,18 @@ void handle_sabotage_city_req(struct player *pplayer, int actor_id, int tile_id)
   {
     if (plrtile && plrtile->site) {
       // Only a known city may be targeted.
-      if (pcity) {
+      if (pcity
+          && ((act == ACTION_SABOTAGE_CITY_INVESTIGATE_GOLD
+               || act == ACTION_SABOTAGE_CITY_INVESTIGATE_SCIENCE
+               || act == ACTION_SABOTAGE_CITY_INVESTIGATE_MATERIALS)
+              || ((act == ACTION_SABOTAGE_CITY_STEAL_GOLD
+                   || act == ACTION_SABOTAGE_CITY_STEAL_SCIENCE
+                   || act == ACTION_SABOTAGE_CITY_STEAL_MATERIALS)
+                  && pplayer->server.sabotage_count
+                         < game.info.sabotage_limit))) {
         // Calculate the probabilities.
         probabilities[act] = action_prob_vs_city(punit, act, pcity);
         target_city_id = plrtile->site->identity;
-      } else if (!tile_is_seen(ptile, pplayer)
-                  && action_maybe_possible_actor_unit(act, punit)
-                  && action_id_distance_accepted(act,
-                                                actor_target_distance)) {
-        /* The target city is non existing. The player isn't aware of this
-          * fact because he can't see the tile it was located on. The
-          * actor unit it self doesn't contradict the requirements to
-          * perform the action. The (no longer existing) target city was
-          * known to be close enough. */
-        probabilities[act] = ACTPROB_NOT_KNOWN;
       } else {
         /* The actor unit is known to be unable to act or the target city
           * is known to be too far away. */
@@ -281,19 +279,28 @@ void handle_sabotage_building_req(struct player *pplayer, int actor_id, int tile
        && !building_belongs_to(pbuilding, pplayer)
        && building_owner(pbuilding) != nullptr
        && (
-        (
-          (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD && building_rulename_get(pbuilding)[11] == 'b') ||
-          (act == ACTION_SABOTAGE_BUILDING_STEAL_GOLD && building_rulename_get(pbuilding)[11] == 'b')
-        ) ||
-        (
-          (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE && building_rulename_get(pbuilding)[11] == 'u') ||
-          (act == ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE && building_rulename_get(pbuilding)[11] == 'u')
-        ) ||
-        (
-          (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS && building_rulename_get(pbuilding)[11] == 'f') ||
-          (act == ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS && building_rulename_get(pbuilding)[11] == 'f')
-        )
-      )) {
+            (
+              (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD && building_rulename_get(pbuilding)[11] == 'b') ||
+              (act == ACTION_SABOTAGE_BUILDING_STEAL_GOLD && building_rulename_get(pbuilding)[11] == 'b')
+            ) ||
+            (
+              (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE && building_rulename_get(pbuilding)[11] == 'u') ||
+              (act == ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE && building_rulename_get(pbuilding)[11] == 'u')
+            ) ||
+            (
+              (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS && building_rulename_get(pbuilding)[11] == 'f') ||
+              (act == ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS && building_rulename_get(pbuilding)[11] == 'f')
+            )
+          )
+      && (
+            (act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_GOLD || act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_SCIENCE || act == ACTION_SABOTAGE_BUILDING_INVESTIGATE_MATERIALS)
+            ||
+            (
+              (act == ACTION_SABOTAGE_BUILDING_STEAL_GOLD || act == ACTION_SABOTAGE_BUILDING_STEAL_SCIENCE || act == ACTION_SABOTAGE_BUILDING_STEAL_MATERIALS
+              ) && pplayer->server.sabotage_count < game.info.sabotage_limit
+            )
+          )
+        ) {
         // Calculate the probabilities.
         probabilities[act] = action_prob_vs_tile(punit, act, ptile, pextra);
         target_extra_id = pextra->id;

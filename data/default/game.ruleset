@@ -53,7 +53,7 @@ capabilities = "std-terrains"
 
 [options]
 global_init_techs=""
-global_init_buildings="Palace"
+global_init_buildings=""
 
 [tileset]
 ; If preferred tileset is set, clients that support the feature will suggest
@@ -185,9 +185,6 @@ city_start_hitpoints = 30
 
 ; How much HP city recovers per turn
 city_recover_hitpoints = 1
-
-; Materials objective
-materials_objective = 5000
 
 [illness]
 ; Whether plagues (illness) are possible

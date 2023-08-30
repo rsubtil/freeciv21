@@ -354,6 +354,7 @@ struct player {
 
       int last_sabotage_self_id;
       int last_sabotage_other_id;
+      int sabotage_count;
     } server;
 
     struct {

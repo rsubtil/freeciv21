@@ -61,25 +61,6 @@ format_version=20
 ;
 ; */ <-- avoid gettext warnings
 
-[building_palace]
-name		= _("Palace")
-genus		= "SmallWonder"
-flags		= "SaveSmallWonder"
-graphic	= "b.palace"
-graphic_alt	= "-"
-obsolete_by	=
-    { "type", "name", "range"
-    }
-build_cost	= 70
-upkeep		= 0
-sabotage	= 0
-sound		= "b_palace"
-sound_alt	= "b_generic"
-helptext	= _("\
-The main building in your research base. Always produces 1 of \
-each resource.\
-")
-
 [building_none]
 name		= _("Nothing")
 genus		= "Special"
@@ -112,8 +93,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 180
-build_cost = 3
+build_cost	= 180
 upkeep		= 1
 sabotage	= 0
 helptext	= _("\
@@ -133,8 +113,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 180
-build_cost = 3
+build_cost	= 180
 upkeep		= 0
 sabotage	= 0
 helptext	= _("\
@@ -154,8 +133,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 180
-build_cost = 3
+build_cost	= 180
 upkeep		= 1
 sabotage	= 0
 helptext	= _("\
@@ -175,8 +153,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 300
-build_cost = 3
+build_cost	= 300
 upkeep		= 1
 sabotage	= 0
 helptext	= _("\
@@ -196,8 +173,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 300
-build_cost = 3
+build_cost	= 300
 upkeep		= 1
 sabotage	= 0
 helptext	= _("\
@@ -218,8 +194,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 60
-build_cost = 3
+build_cost	= 60
 upkeep		= 0
 sabotage	= 0
 helptext	= _("\
@@ -261,8 +236,7 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 60
-build_cost = 3
+build_cost	= 60
 upkeep		= 0
 sabotage	= 0
 helptext	= _("\
@@ -282,9 +256,8 @@ graphic_alt	= "-"
 obsolete_by	=
     { "type", "name", "range"
     }
-;build_cost	= 600
-build_cost = 3
-upkeep		= 0
+build_cost	= 600
+upkeep		= 2
 sabotage	= 0
 helptext	= _("\
 Establishes a formal Space Program in your base, \

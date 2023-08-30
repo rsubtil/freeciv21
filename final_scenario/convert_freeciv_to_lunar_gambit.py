@@ -22,6 +22,22 @@ def fix_city_production(lines):
           lines[j] = re.sub(regex, "\"Building\",\"Nothing\"", lines[j])
           print_edit(j, 2, f"{search.group(0)} -> \"Building\",\"Nothing\"")
 
+# City is not marked as a capital. Change that
+def fix_city_capital(lines):
+  print("# Fixing city capital")
+  for i in range(len(lines)):
+    if lines[i].startswith("dc={\"y\""):
+      print_edit(i, 1, "Found city player vision definition")
+      for j in range(i, len(lines)):
+        if lines[j].startswith("}"):
+          print_edit(j, 1, "Finished city player vision definition")
+          break
+        regex = "\"(UnitType|Building)\",\".*?\""
+        search = re.search(regex, lines[j])
+        if search:
+          lines[j] = re.sub(regex, "\"Building\",\"Nothing\"", lines[j])
+          print_edit(j, 2, f"{search.group(0)} -> \"Building\",\"Nothing\"")
+
 # Tech will default to Alphabet. Change it to "A_UNSET"
 def fix_tech(lines):
   print("# Fixing research")
@@ -164,6 +180,21 @@ def fix_unit_ownership(lines):
   for line in range(len(lines_to_erase)-1, -1, -1):
     lines.pop(lines_to_erase[line])
 
+# Clear the event cache by setting it's length to 0
+def fix_event_cache(lines):
+  print("# Fixing event cache")
+  for i in range(len(lines)):
+    if lines[i].startswith("[event_cache]"):
+      print_edit(i, 1, "Found event cache")
+      for j in range(i+1, len(lines)):
+        if lines[j].startswith("["):
+          print_edit(j, 1, f"Error: Couldn't find count=")
+          sys.exit(-1)
+        if lines[j].startswith("count="):
+          print_edit(j, 2, f"{lines[j].strip()} -> count=0")
+          lines[j] = f"count=0\n"
+          return
+
 
 if len(sys.argv) < 3:
   print("Usage: python convert_freeciv_to_lunar_gambit.py <freeciv_in_save_file> <lunar_gambit_out_save_file>")
@@ -186,6 +217,7 @@ with open(freeciv_in_save_file, "r") as f:
   fix_server_settings(lines)
   fix_removed_units(lines)
   fix_unit_ownership(lines)
+  fix_event_cache(lines)
 
 # Write out the lunar gambit save file
 with open(lunar_gambit_out_save_file, "w") as f:

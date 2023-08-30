@@ -367,7 +367,8 @@ void science_report::update_report()
   if(tech != A_NONE && tech != A_UNSET) {
     research_button->setEnabled(
       (client_player()->economic.science_acc >= research->client.researching_cost) &&
-      (research_invention_state(research_get(client_player()), tech) == TECH_PREREQS_KNOWN));
+      (research_invention_state(research_get(client_player()), tech) == TECH_PREREQS_KNOWN) &&
+      game.info.game_mode == GM_ACTIVE);
     QString str = QString(_("Research \"%1\"\n(costs %2 science points)"))
                 .arg(research_advance_rule_name(research, tech))
                 .arg(research->client.researching_cost);

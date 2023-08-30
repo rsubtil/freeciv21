@@ -108,10 +108,10 @@ static void tech_researched(struct research *research)
 
   research_pretty_name(research, research_name, sizeof(research_name));
   // Players will be notified when new tech is chosen.
-  notify_research_embassies(
-      research, nullptr, E_TECH_EMBASSY, ftc_server,
-      _("The %s have researched %s."), research_name,
-      qUtf8Printable(research_advance_name_translation(research, tech)));
+  //notify_research_embassies(
+  //    research, nullptr, E_TECH_EMBASSY, ftc_server,
+  //    _("The %s have researched %s."), research_name,
+  //    qUtf8Printable(research_advance_name_translation(research, tech)));
 
   // Deduct tech cost.
   research->bulbs_researched -=

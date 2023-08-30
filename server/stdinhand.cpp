@@ -3166,6 +3166,24 @@ static bool admin_command(struct connection *caller, char *str, bool check)
 
     send_game_info(nullptr);
 
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "gov-max-sabotages") == 0) {
+    if(arg.count() == 1) {
+      log_warning("Curr max sabotages: %d", game.info.sabotage_limit);
+      return true;
+    }
+    if (arg.count() != 2) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+
+    int limit = arg.at(1).toInt();
+
+    game.info.sabotage_limit = limit;
+
+    log_warning("Updated limit to %d", limit);
+
   } else {
     cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),
@@ -3879,10 +3897,16 @@ static bool switch_command(struct connection *caller, char *str, bool check)
   const char* arg_str = qUtf8Printable(arg.at(0));
   if(!strcmp("active", arg_str)) {
       log_warning("Switching to active mode");
-      game.info.game_mode = RS_GAME_MODE_ACTIVE;
+      if(game.info.game_mode != RS_GAME_MODE_ACTIVE) {
+        game.info.game_mode = RS_GAME_MODE_ACTIVE;
+        handle_gamemode_change();
+      }
   } else if (!strcmp("passive", arg_str)) {
       log_warning("Switching to passive mode");
-      game.info.game_mode = RS_GAME_MODE_PASSIVE;
+      if(game.info.game_mode != RS_GAME_MODE_PASSIVE) {
+        game.info.game_mode = RS_GAME_MODE_PASSIVE;
+        handle_gamemode_change();
+      }
   } else {
       cmd_reply(CMD_SWITCH, caller, C_SYNTAX, _("Mode must be either \"active\" or \"passive\"."));
       return false;

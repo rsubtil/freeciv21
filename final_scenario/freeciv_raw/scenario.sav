@@ -49,7 +49,7 @@ terrident={"name","identifier"
 
 [game]
 server_state="S_S_RUNNING"
-phase_seconds=42790
+phase_seconds=43011
 meta_patches=""
 meta_server="https://meta.freeciv.org/metaserver.php"
 id="LPOUJ_6F0ggGTkzAzWt9tbxfxAHvPxEP"
@@ -73,7 +73,7 @@ warminglevel=5
 nuclearwinter=0
 cooling=0
 coolinglevel=5
-random_seed=2025951810
+random_seed=130423581
 global_advances="110"
 last_turn_change_time=0
 save_players=TRUE
@@ -262,6 +262,7 @@ label_2_9="SaturNetworks"
 label_26_10="Cross Station"
 label_4_14="Narrow Station"
 label_1_21="Pearl Shine"
+label_28_21="Ecliprises"
 label_22_22="Moondustries"
 label_28_25="Lantern Station"
 label_15_28="Peach Aviation"
@@ -1008,7 +1009,7 @@ e11_0017="00000000000000000000000000000000"
 e11_0018="00000000000000000000000000000000"
 e11_0019="00000000000000000000000000000000"
 e11_0020="00000000000000000000000000000000"
-e11_0021="08000000000000000000000000000000"
+e11_0021="08000000000000000000000000008000"
 e11_0022="00000000000000000000008000000000"
 e11_0023="00000000000000000000000000000000"
 e11_0024="00000000000000000000000000000000"
@@ -1384,8 +1385,8 @@ shuffled_player_3=2
 [player0]
 ai_type="classic"
 name="Yellow"
-username="ricardo"
-unassigned_user=FALSE
+username="Unassigned"
+unassigned_user=TRUE
 color.r=255
 color.g=0
 color.b=0
@@ -2237,7 +2238,7 @@ map_e11_0017="00000000000000000000000000000000"
 map_e11_0018="00000000000000000000000000000000"
 map_e11_0019="00000000000000000000000000000000"
 map_e11_0020="00000000000000000000000000000000"
-map_e11_0021="08000000000000000000000000000000"
+map_e11_0021="08000000000000000000000000008000"
 map_e11_0022="00000000000000000000008000000000"
 map_e11_0023="00000000000000000000000000000000"
 map_e11_0024="00000000000000000000000000000000"
@@ -3426,7 +3427,7 @@ map_e11_0017="00000000000000000000000000000000"
 map_e11_0018="00000000000000000000000000000000"
 map_e11_0019="00000000000000000000000000000000"
 map_e11_0020="00000000000000000000000000000000"
-map_e11_0021="08000000000000000000000000000000"
+map_e11_0021="08000000000000000000000000008000"
 map_e11_0022="00000000000000000000008000000000"
 map_e11_0023="00000000000000000000000000000000"
 map_e11_0024="00000000000000000000000000000000"
@@ -4615,7 +4616,7 @@ map_e11_0017="00000000000000000000000000000000"
 map_e11_0018="00000000000000000000000000000000"
 map_e11_0019="00000000000000000000000000000000"
 map_e11_0020="00000000000000000000000000000000"
-map_e11_0021="08000000000000000000000000000000"
+map_e11_0021="08000000000000000000000000008000"
 map_e11_0022="00000000000000000000008000000000"
 map_e11_0023="00000000000000000000000000000000"
 map_e11_0024="00000000000000000000000000000000"
@@ -4951,8 +4952,8 @@ total=0
 [player3]
 ai_type="classic"
 name="Purple"
-username="Unassigned"
-unassigned_user=TRUE
+username="ricardo"
+unassigned_user=FALSE
 color.r=138
 color.g=43
 color.b=226
@@ -5804,7 +5805,7 @@ map_e11_0017="00000000000000000000000000000000"
 map_e11_0018="00000000000000000000000000000000"
 map_e11_0019="00000000000000000000000000000000"
 map_e11_0020="00000000000000000000000000000000"
-map_e11_0021="08000000000000000000000000000000"
+map_e11_0021="08000000000000000000000000008000"
 map_e11_0022="00000000000000000000008000000000"
 map_e11_0023="00000000000000000000000000000000"
 map_e11_0024="00000000000000000000000000000000"
@@ -6158,14 +6159,6 @@ events={"turn","phase","timestamp","x","y","server_state","event","target","mess
 1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
 1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
 1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
-1,0,1687111260,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
 1,0,1687111273,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
 1,0,1687111273,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Please report this message at https://osdn.net/projects/freeciv/ticket/[/c]"
 1,0,1687111273,-1,-1,"S_S_RUNNING","E_LOG_ERROR","All","[c fg=\"#FF0000\"]in map_change_seen() [maphand.c::961]: assertion 'plrtile->seen_count[V_INVIS] + !game.info.fogofwar <= plrtile->seen_count[V_MAIN]' failed.[/c]"
@@ -6404,6 +6397,14 @@ events={"turn","phase","timestamp","x","y","server_state","event","target","mess
 1,0,1693160386,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Purple (Human, Alive).[/c]"
 1,0,1693160388,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
 1,0,1693160391,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
+1,0,1693422229,-1,-1,"S_S_INITIAL","E_LOG_ERROR","All","[c fg=\"#FF0000\"]Trying to put 300 into 8 bits; it will result 44 at receiving side.[/c]"
+1,0,1693422231,-1,-1,"S_S_INITIAL","E_SETTING","All","[c fg=\"#00FF00\" bg=\"#115511\"]All players are ready; starting game.[/c]"
+1,0,1693422233,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#0000FF\"] *** Server set to edit mode by ricardo from localhost (player Yellow)! *** [/c]"
+1,0,1693422235,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now observes[/c]"
+1,0,1693422433,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Yellow (Human, Alive).[/c]"
+1,0,1693422439,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Blue (Human, Alive).[/c]"
+1,0,1693422441,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Green (Human, Alive).[/c]"
+1,0,1693422442,-1,-1,"S_S_RUNNING","E_SETTING","All","[c fg=\"#8B0000\"]ricardo now controls Purple (Human, Alive).[/c]"
 }
 count=256
 

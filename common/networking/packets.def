@@ -607,6 +607,7 @@ PACKET_GAME_INFO = 16; sc, is-info
   GAME_MODE game_mode;
   UINT32 materials_objective;
   UINT32 turn_since_game_mode_change;
+  UINT8 sabotage_limit;
 end
 
 PACKET_CALENDAR_INFO = 255; sc, is-info, handle-via-packet

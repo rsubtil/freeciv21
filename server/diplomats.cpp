@@ -1431,6 +1431,9 @@ void spy_steal_gold(struct player *act_player, struct player* tgt_player, float 
   // Pocket the stolen money.
   act_player->economic.gold += gold_take;
 
+  // Increase the offensive sabotage count
+  act_player->server.sabotage_count++;
+
   // Record sabotage ocurred
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
   info_src->player_src = act_player;
@@ -1523,6 +1526,9 @@ void spy_steal_science(struct player *act_player, struct player* tgt_player, flo
   // Pocket the stolen money.
   act_player->economic.science_acc += science_take;
 
+  // Increase the offensive sabotage count
+  act_player->server.sabotage_count++;
+
   // Record sabotage ocurred
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
   info_src->player_src = act_player;
@@ -1602,6 +1608,9 @@ void spy_steal_materials(struct player *act_player, struct player* tgt_player, f
 
   // Pocket the stolen money.
   act_player->economic.materials += materials_take;
+
+  // Increase the offensive sabotage count
+  act_player->server.sabotage_count++;
 
   // Record sabotage ocurred
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);

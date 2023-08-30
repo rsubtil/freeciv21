@@ -3422,6 +3422,11 @@ static void city_handle_capture(struct city *pcity)
 
   delete[] attackers;
 
+  // If player only has one city left, don't let it get captured
+  if(city_list_size(pplayer->cities) == 1) {
+    delta = MAX(delta, 0);
+  }
+
   // Change HP.
   pcity->hp = std::clamp(pcity->hp + delta, 0, pcity->max_hp);
   //log_warning("City %s: hp: %d (delta: %d)", city_name_get(pcity), pcity->hp, delta);

@@ -701,7 +701,8 @@ static struct command commands[] = {
         "admin rm-unit <unit_id>\n"
         "admin player-economy <player>\n"
         "admin gov-message <message>\n"
-        "admin gov-objective [material_objective]"),
+        "admin gov-objective [material_objective]\n"
+        "admin gov-max-sabotages [limit]\n"),
      N_("Admin commands."),
      N_("Admin commands."),
      nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},

@@ -894,6 +894,38 @@ void send_year_to_clients()
   //            _("Year: %s"), calendar_text());
 }
 
+void handle_gamemode_change()
+{
+  switch (game.info.game_mode) {
+    case GM_ACTIVE:
+      break;
+    case GM_PASSIVE: {
+      // Forcibly set all city production to nothing
+      improvement_iterate(pimprove)
+      {
+        if (improvement_has_flag(pimprove, IF_NOTHING)) {
+          players_iterate(pplayer)
+          {
+            city_list_iterate(pplayer->cities, pcity)
+            {
+              pcity->production.kind = VUT_IMPROVEMENT;
+              pcity->production.value.building = pimprove;
+            }
+            city_list_iterate_end;
+            // Since we're iterating players already, reset it's sabotage counter
+            pplayer->server.sabotage_count = 0;
+          }
+          players_iterate_end;
+          return;
+        }
+      }
+      improvement_iterate_end;
+    }; break;
+    default:
+      break;
+  }
+}
+
 /**
    Send game_info packet; some server options and various stuff...
    dest == nullptr means game.est_connections
