@@ -44,6 +44,8 @@
 
 #include "game.h"
 
+#include <ctime>
+
 struct civ_game game;
 struct world wld;
 
@@ -765,15 +767,18 @@ static char *year_suffix()
 int generate_save_name(const char *format, char *buf, int buflen,
                        const char *reason)
 {
+  char timestr[64];
+  time_t now = time(nullptr);
+  strftime(timestr, sizeof(timestr), "%d-%m_%Hh%Mm%Ss", localtime(&now));
+
   struct cf_sequence sequences[5] = {
       cf_str_seq('R', (reason == nullptr) ? "auto" : reason),
       cf_str_seq('S', year_suffix()),
       {cf_type(0)},
-      {cf_type(0)},
+      cf_str_seq('Y', timestr),
       cf_end()};
 
   cf_int_seq('T', game.info.turn, &sequences[2]);
-  cf_int_seq('Y', game.info.year, &sequences[3]);
 
   fc_vsnprintcf(buf, buflen, format, sequences, -1);
 
