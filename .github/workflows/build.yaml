@@ -76,8 +76,8 @@ jobs:
           name:
             ubuntu
           path: |
-            build/Linux-x86_64/lunar_gambit_*_amd64.deb
-            build/Linux-x86_64/lunar_gambit_*_amd64.deb.sha256
+            build/Linux-x86_64/lunargambit_*_amd64.deb
+            build/Linux-x86_64/lunargambit_*_amd64.deb.sha256
 
   flagstest:
     name: "Additional compile flags in Ubuntu"
