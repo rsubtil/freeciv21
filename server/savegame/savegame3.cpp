@@ -6030,6 +6030,7 @@ static bool sg_load_player_unit(struct loaddata *loading, struct player *plr,
                     false, "%s", secfile_error());
     punit->moves_left = (float)tmp;
   }
+  punit->move_acc = secfile_lookup_int_default(loading->file, 0, "%s.move_acc", unitstr);
 
 
   sg_warn_ret_val(
@@ -6600,6 +6601,7 @@ static void sg_save_player_units(struct savedata *saving, struct player *plr)
     secfile_insert_bool(saving->file, punit->done_moving, "%s.done_moving",
                         buf);
     secfile_insert_float(saving->file, punit->moves_left, "%s.moves", buf);
+    secfile_insert_int(saving->file, punit->move_acc, "%s.move_acc", buf);
     secfile_insert_int(saving->file, punit->fuel, "%s.fuel", buf);
     secfile_insert_int(saving->file, punit->server.birth_turn, "%s.born",
                        buf);
