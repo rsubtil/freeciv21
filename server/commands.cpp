@@ -699,7 +699,9 @@ static struct command commands[] = {
         "admin rm-effect <effect_id> <player>\n"
         "admin add-unit <unit_type> <player> <tile_x> <tile_y>\n"
         "admin rm-unit <unit_id>\n"
-        "admin gov-message <message>"),
+        "admin player-economy <player>\n"
+        "admin gov-message <message>\n"
+        "admin gov-objective [material_objective]"),
      N_("Admin commands."),
      N_("Admin commands."),
      nullptr, CMD_ECHO_ADMINS, VCF_NONE, 0},

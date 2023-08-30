@@ -3106,6 +3106,31 @@ static bool admin_command(struct connection *caller, char *str, bool check)
                 player_name(punit->owner));
 
     server_remove_unit(punit, ULR_ADMIN);
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "player-economy") == 0) {
+    struct player *pplayer;
+    enum m_pre_result match_result;
+
+    if (arg.count() != 2) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+
+    pplayer =
+        player_by_name_prefix(qUtf8Printable(arg.at(1)), &match_result);
+    if (pplayer == nullptr) {
+      cmd_reply_no_such_player(CMD_ADMIN, caller, qUtf8Printable(arg.at(1)),
+                               match_result);
+      return true;
+    }
+
+    log_warning("Player %s", player_name(pplayer));
+    log_warning("--------------");
+    log_warning("Gold: %d (+%d)", pplayer->economic.gold, pplayer->economic.gold - pplayer->server.gold_last_turn);
+    log_warning("Science: %d (+%d)", pplayer->economic.science_acc, pplayer->economic.science_acc - pplayer->server.science_last_turn);
+    log_warning("Materials: %d (+%d)", pplayer->economic.materials, pplayer->economic.materials - pplayer->server.materials_last_turn);
+
   } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "gov-message") == 0) {
     QString msg;
     for(int i = 1; i < arg.count(); i++) {
@@ -3120,6 +3145,26 @@ static bool admin_command(struct connection *caller, char *str, bool check)
 
     // Notify all players
     update_government_info();
+
+  } else if (arg.count() && strcmp(qUtf8Printable(arg.at(0)), "gov-objective") == 0) {
+    if(arg.count() == 1) {
+      log_warning("Curr objective: %d", game.info.materials_objective);
+      return true;
+    }
+    if (arg.count() != 2) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument.  Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+
+    int objective = arg.at(1).toInt();
+
+    game.info.materials_objective = objective;
+
+    log_warning("Updated objective to %d", objective);
+
+    send_game_info(nullptr);
 
   } else {
     cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
