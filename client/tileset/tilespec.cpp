@@ -215,7 +215,7 @@ struct named_sprites {
   struct {
     struct {
       QPixmap *specific;
-      QPixmap *turn_min, *turn_hour;
+      QPixmap *turn_min, *turn_hour, *turn_min_short, *turn_hour_short;
       QPixmap *turns_min[NUM_TILES_DIGITS];
       QPixmap *turns_min_tens[NUM_TILES_DIGITS];
       QPixmap *turns_hour[NUM_TILES_DIGITS];
@@ -2703,10 +2703,16 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(path.s[GTS_MP_LEFT].turn_min, "turn_min");
   SET_SPRITE(path.s[GTS_TURN_STEP].turn_min, "turn_min");
   SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turn_min, "turn_min");
+  SET_SPRITE(path.s[GTS_MP_LEFT].turn_min_short, "turn_min_short");
+  SET_SPRITE(path.s[GTS_TURN_STEP].turn_min_short, "turn_min_short");
+  SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turn_min_short, "turn_min_short");
 
   SET_SPRITE(path.s[GTS_MP_LEFT].turn_hour, "turn_hour");
   SET_SPRITE(path.s[GTS_TURN_STEP].turn_hour, "turn_hour");
   SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turn_hour, "turn_hour");
+  SET_SPRITE(path.s[GTS_MP_LEFT].turn_hour_short, "turn_hour_short");
+  SET_SPRITE(path.s[GTS_TURN_STEP].turn_hour_short, "turn_hour_short");
+  SET_SPRITE(path.s[GTS_EXHAUSTED_MP].turn_hour_short, "turn_hour_short");
 
   for (i = 0; i < NUM_TILES_DIGITS; i++) {
     buffer = QStringLiteral("city.size_%1").arg(QString::number(i));
@@ -4441,31 +4447,39 @@ static void fill_goto_sprite_array(const struct tileset *t,
       // Debug: Make length multiples of 23 minutes.
       // length *= 23;
 
-      log_warning("length: %d", length);
+      //log_warning("length: %d", length);
+      // Length will be multiplied by the timeout property
+      if(length > 0) {
+        length *= game.info.timeout;
+      }
 
       // Separate in minutes and hours
-      int length_mins = length % 60;
-      length /= 60;
+      if(game.info.timeout >= 60) {
+        length /= 60;
+      }
 
-      sprite = t->sprites.path.s[state].turn_min;
+      int length_lower = length % 60;
+      int length_upper = length / 60;
+
+      sprite = game.info.timeout >= 60 ? t->sprites.path.s[state].turn_min : t->sprites.path.s[state].turn_min_short;
       sprs.emplace_back(t, sprite);
-      sprite = t->sprites.path.s[state].turns_min[length_mins % 10];
+      sprite = t->sprites.path.s[state].turns_min[length_lower % 10];
       sprs.emplace_back(t, sprite);
-      if (length_mins >= 10) {
-        sprite = t->sprites.path.s[state].turns_min_tens[(length_mins / 10) % 10];
+      if (length_lower >= 10) {
+        sprite = t->sprites.path.s[state].turns_min_tens[(length_lower / 10) % 10];
         sprs.emplace_back(t, sprite);
       }
-      if (length > 0) {
-        sprite = t->sprites.path.s[state].turn_hour;
+      if (length_upper > 0) {
+        sprite = game.info.timeout >= 60 ? t->sprites.path.s[state].turn_hour : t->sprites.path.s[state].turn_hour_short;
         sprs.emplace_back(t, sprite);
-        if (length_mins < 10) {
+        if (length_lower < 10) {
           sprite = t->sprites.path.s[state].turns_min_tens[0];
           sprs.emplace_back(t, sprite);
         }
-        sprite = t->sprites.path.s[state].turns_hour[length % 10];
+        sprite = t->sprites.path.s[state].turns_hour[length_upper % 10];
         sprs.emplace_back(t, sprite);
-        if (length >= 10) {
-          sprite = t->sprites.path.s[state].turns_hour_tens[(length / 10) % 10];
+        if (length_upper >= 10) {
+          sprite = t->sprites.path.s[state].turns_hour_tens[(length_upper / 10) % 10];
           sprs.emplace_back(t, sprite);
         }
       }

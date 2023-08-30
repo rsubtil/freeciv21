@@ -26,7 +26,9 @@ tiles = { "row", "column", "tag"
 ; Turn minutes and hours
 
   6, 10, "turn_min"
+  8, 9,  "turn_min_short"
   7, 10, "turn_hour"
+  8, 10, "turn_hour_short"
 
   0, 9, "turn.min_00"
   0, 0, "turn.min_10"
