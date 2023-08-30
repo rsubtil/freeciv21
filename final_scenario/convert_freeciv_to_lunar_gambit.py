@@ -79,7 +79,7 @@ def fix_server_settings(lines):
     "\"timeout\",0,0",
     "\"saveturns\",60,60",
     "\"ec_turns\",65535,65535",
-    "\"ec_info\",enabled,enabled",
+    "\"ec_info\",TRUE,TRUE",
     "\"endturn\",65535,65535",
     "\"disasters\",0,0"
   ]

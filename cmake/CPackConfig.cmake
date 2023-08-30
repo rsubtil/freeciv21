@@ -1,14 +1,14 @@
 # CPack configuration file
 
 # General Configuration for all OS's
-set(CPACK_PACKAGE_NAME "Freeciv21")
+set(CPACK_PACKAGE_NAME "LunarGambit")
 set(CPACK_PACKAGE_VENDOR "longturn.net")
 set(CPACK_PACKAGE_CONTACT "longturn.net")
 set(CPACK_PACKAGE_VERSION_MAJOR ${FC21_MAJOR_VERSION})
 set(CPACK_PACKAGE_VERSION_MINOR ${FC21_MINOR_VERSION})
 set(CPACK_PACKAGE_VERSION_PATCH ${FC21_PATCH_VERSION})
 set(CPACK_PACKAGE_VERSION ${FC21_REV_TAG})
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Freeciv21 - Freeciv for the 21st Century")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Lunar Gambit")
 set(CPACK_PACKAGE_HOMEPAGE_URL "https://longturn.net")
 set(CMAKE_PROJECT_HOMEPAGE_URL "https://longturn.net")
 set(CPACK_RESOURCE_FILE_README "${CMAKE_SOURCE_DIR}/README.md")
@@ -56,11 +56,11 @@ if(WIN32 OR MSYS OR MINGW)
   set(CPACK_COMPONENT_TOOL_RULEUP_GROUP "Tools")
   set(CPACK_COMPONENT_TOOL_MANUAL_GROUP "Tools")
   set(CPACK_COMPONENT_GROUP_TOOLS_DESCRIPTION
-    "All of the tools you'll ever need to support Freeciv21 game play.")
+    "All of the tools you'll ever need to support Lunar Gambit game play.")
   set(CPACK_COMPONENT_GROUP_TOOLS_EXPANDED)
 
   # Define the names of the components and how they are displayed
-  set(CPACK_COMPONENT_FREECIV21_DISPLAY_NAME "Freeciv21")
+  set(CPACK_COMPONENT_FREECIV21_DISPLAY_NAME "Lunar Gambit")
   set(CPACK_COMPONENT_TOOL_RULEDIT_DISPLAY_NAME "Ruleset Editor")
   set(CPACK_COMPONENT_TOOL_FCMP_CLI_DISPLAY_NAME "Modpack Installer CLI Edition")
   set(CPACK_COMPONENT_TOOL_RULEUP_DISPLAY_NAME "Ruleset Upgrade Tool")
