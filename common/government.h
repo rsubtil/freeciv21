@@ -15,6 +15,7 @@
 #include <QHash>
 #include <string>
 #include <algorithm>
+#include <ctime>
 // utility
 #include "iterator.h"
 #include "shared.h"
@@ -78,7 +79,7 @@ struct government {
 
 struct government_news {
   int id;
-  int turn;
+  time_t timestamp;
   QString news;
 };
 
@@ -91,7 +92,7 @@ struct government_audit_info {
   int jury_1_vote;
   int jury_2_vote;
   int consequence;
-  int start_turn;
+  time_t timestamp;
 };
 
 struct government_audit_info* government_audit_info_new(const struct packet_government_audit_info* audit);
@@ -117,7 +118,7 @@ struct government_info {
   struct government_news* new_government_news() {
     struct government_news* new_news = new government_news();
     new_news->id = ++last_message_id;
-    new_news->turn = game.info.turn;
+    new_news->timestamp = time(nullptr);
     cached_news.push_back(new_news);
     return new_news;
   }
@@ -136,7 +137,7 @@ struct government_info {
   struct government_audit_info* new_government_audit() {
     struct government_audit_info* new_audit = new government_audit_info();
     new_audit->id = ++last_audit_id;
-    new_audit->start_turn = game.info.turn;
+    new_audit->timestamp = time(nullptr);
     cached_audits.push_back(new_audit);
     return new_audit;
   }
@@ -158,7 +159,7 @@ extern struct government_info g_info;
 struct sabotage_info {
   int id;
   bool actionable;
-  int turn;
+  time_t timestamp;
   struct player* player_src;
   struct player* player_tgt;
   struct player* player_send_to;
@@ -177,7 +178,7 @@ public:
     struct sabotage_info *sabotage = new struct sabotage_info();
     sabotage->id = ++id;
     sabotage->actionable = actionable;
-    sabotage->turn = game.info.turn;
+    sabotage->timestamp = time(nullptr);
     cached_sabotages.push_back(sabotage);
     return sabotage;
   }

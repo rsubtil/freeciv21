@@ -244,9 +244,9 @@ void map_view::shortcut_pressed(shortcut_id id)
         fc_snprintf(text, sizeof(text),
                     _("#Selected city %s. Now choose rally point."),
                     city_link(tile_city(ptile)));
-        output_window_append(ftc_client, text);
+        output_window_append(0, ftc_client, text);
       } else {
-        output_window_append(ftc_client, _("#No city selected. Aborted"));
+        output_window_append(0, ftc_client, _("#No city selected. Aborted"));
       }
       return;
     }
@@ -262,12 +262,12 @@ void map_view::shortcut_pressed(shortcut_id id)
         fc_snprintf(text, sizeof(text),
                     _("#Tile %s set as rally point from city %s."),
                     tile_link(ptile), city_link(pcity));
-        output_window_append(ftc_client, text);
+        output_window_append(0, ftc_client, text);
       } else {
         fc_snprintf(text, sizeof(text),
                     _("#Could not set rally point for city %s."),
                     city_link(pcity));
-        output_window_append(ftc_client, text);
+        output_window_append(0, ftc_client, text);
       }
 
       king()->rallies.rally_city = nullptr;
@@ -287,7 +287,7 @@ void map_view::shortcut_pressed(shortcut_id id)
       if (tile_city(ptile)) {
         multiairlift(tile_city(ptile), king()->menu_bar->airlift_type_id);
       } else {
-        output_window_append(ftc_client, "#No city selected for airlift");
+        output_window_append(0, ftc_client, "#No city selected for airlift");
       }
       king()->menu_bar->quick_airlifting = false;
       return;

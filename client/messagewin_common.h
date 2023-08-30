@@ -13,6 +13,8 @@
 
 #pragma once
 
+#include <ctime>
+
 struct message {
   char *descr;
   struct text_tag_list *tags;
@@ -21,15 +23,15 @@ struct message {
   bool location_ok;
   bool city_ok;
   bool visited;
-  int turn;
+  time_t timestamp;
   int phase;
 };
 
 #define MESWIN_CLEAR_ALL (-1)
 
-void meswin_clear_older(int turn, int phase);
+void meswin_clear_older(time_t timestamp, int phase);
 void meswin_add(const char *message, const struct text_tag_list *tags,
-                struct tile *ptile, enum event_type event, int turn,
+                struct tile *ptile, enum event_type event, time_t timestamp,
                 int phase);
 
 const struct message *meswin_get_message(int message_index);

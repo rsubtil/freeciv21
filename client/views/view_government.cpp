@@ -13,6 +13,9 @@
  * (formally known as the science dialog).
  */
 
+// C
+#include <ctime>
+
 // Qt
 #include <QComboBox>
 #include <QGridLayout>
@@ -328,8 +331,11 @@ void government_report::begin_audit()
   // Create dialog
   hud_multiple_selection_box *ask = new hud_multiple_selection_box(this);
   QVector<QString> options;
+  char timestr[64];
   for(auto report : reports) {
-    options.push_back(QString::number(report->id) + "|" + QString::number(report->turn) + ": " + QString(report->info));
+    time_t now = report->timestamp;
+    strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
+    options.push_back(QString::number(report->id) + "|" + QString(timestr) + ": " + QString(report->info));
   }
   ask->set_text_title_options(_("Select a sabotage to accuse"), _("Accusation"), options);
   ask->setAttribute(Qt::WA_DeleteOnClose);
@@ -563,7 +569,10 @@ void government_report::update_news(struct government_news *news)
 {
   cached_last_message_id = MAX(cached_last_message_id, news->id);
   QLabel* news_label = new QLabel();
-  news_label->setText(QString::number(news->turn) + ": " + QString(news->news));
+  char timestr[64];
+  time_t now = news->timestamp;
+  strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
+  news_label->setText(QString(timestr) + ": " + QString(news->news));
   m_recent_decisions_scroll->layout()->addWidget(news_label);
 }
 

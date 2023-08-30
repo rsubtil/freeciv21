@@ -16,6 +16,8 @@
 #include "events.h"
 #include "fc_types.h"
 
+#include <ctime>
+
 struct Clause;
 struct nation_type;
 struct nation_set;
@@ -86,7 +88,7 @@ int collect_already_built_targets(struct universal *targets,
                                   struct city *pcity);
 
 void handle_event(const char *featured_text, struct tile *ptile,
-                  enum event_type event, int turn, int phase, int conn_id);
+                  enum event_type event, time_t timestamp, int phase, int conn_id);
 void create_event(struct tile *ptile, enum event_type event,
                   const struct ft_color color, const char *format, ...)
     fc__attribute((__format__(__printf__, 4, 5)));

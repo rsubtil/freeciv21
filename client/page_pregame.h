@@ -12,6 +12,8 @@
 **************************************************************************/
 #pragma once
 
+#include <ctime>
+
 #include <QWidget>
 
 class fc_client;
@@ -34,7 +36,7 @@ private slots:
 
 private:
   void update_buttons();
-  void chat_message_received(const QString &message,
+  void chat_message_received(const time_t &timestamp, const QString &message,
                              const struct text_tag_list *tags) override;
   void slot_pregame_observe();
   void slot_pregame_start();

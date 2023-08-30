@@ -2318,7 +2318,7 @@ void mr_menu::slot_sabotage_transport()
     }
 
     if (!sent) {
-      queen()->chat->append(_("Didn't find any trade route to establish"));
+      queen()->chat->append(0, _("Didn't find any trade route to establish"));
     }
   }
 

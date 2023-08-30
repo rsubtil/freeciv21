@@ -76,7 +76,7 @@ def fix_player_info(lines):
 def fix_server_settings(lines):
   print("# Fixing server settings")
   data = [
-    "\"timeout\",1,1",
+    "\"timeout\",0,0",
     "\"saveturns\",60,60",
     "\"ec_turns\",65535,65535",
     "\"ec_info\",enabled,enabled",

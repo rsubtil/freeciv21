@@ -102,7 +102,7 @@ void handle_government_news_req(struct player *pplayer, int id)
   if (news) {
     struct packet_government_news pkt;
     pkt.id = id;
-    pkt.turn = news->turn;
+    pkt.timestamp = news->timestamp;
     strcpy(pkt.news, news->news.toUtf8().data());
 
     send_packet_government_news(pplayer->current_conn, &pkt);
@@ -120,7 +120,7 @@ void handle_government_audit_info_req(struct player *pplayer, int id)
     pkt.jury_1_vote = audit->jury_1_vote;
     pkt.jury_2_vote = audit->jury_2_vote;
     pkt.consequence = audit->consequence;
-    pkt.start_turn = audit->start_turn;
+    pkt.timestamp = audit->timestamp;
 
     send_packet_government_audit_info(pplayer->current_conn, &pkt);
   }
@@ -406,7 +406,7 @@ void handle_sabotage_info_self_req(struct player *pplayer, int id)
     struct packet_sabotage_info_self pkt;
     pkt.id = id;
     pkt.actionable = info->actionable;
-    pkt.turn = info->turn;
+    pkt.timestamp = info->timestamp;
     // For safety, don't send the src player
     pkt.player_src = -1;
     pkt.player_tgt = player_number(info->player_tgt);
@@ -423,7 +423,7 @@ void handle_sabotage_info_other_req(struct player *pplayer, int id)
     struct packet_sabotage_info_other pkt;
     pkt.id = id;
     pkt.actionable = info->actionable;
-    pkt.turn = info->turn;
+    pkt.timestamp = info->timestamp;
     pkt.player_src = player_number(info->player_src);
     pkt.player_tgt = player_number(info->player_tgt);
     strcpy(pkt.info, info->info.c_str());

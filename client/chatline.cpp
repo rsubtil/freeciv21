@@ -72,7 +72,7 @@ chat_listener::chat_listener() : position(HISTORY_END) {}
  * Called whenever a message is received. Default implementation does
  * nothing.
  */
-void chat_listener::chat_message_received(const QString &,
+void chat_listener::chat_message_received(const time_t&, const QString &,
                                           const struct text_tag_list *)
 {
 }
@@ -570,14 +570,14 @@ void chat_widget::anchor_clicked(const QUrl &link)
     if (pcity) {
       ptile = client_city_tile(pcity);
     } else {
-      output_window_append(ftc_client, _("#This city isn't known!"));
+      output_window_append(0, ftc_client, _("#This city isn't known!"));
     }
   } break;
   case TLT_TILE:
     ptile = index_to_tile(&(wld.map), id);
 
     if (!ptile) {
-      output_window_append(ftc_client,
+      output_window_append(0, ftc_client,
                            _("#This tile doesn't exist in this game!"));
     }
     break;
@@ -587,7 +587,7 @@ void chat_widget::anchor_clicked(const QUrl &link)
     if (punit) {
       ptile = unit_tile(punit);
     } else {
-      output_window_append(ftc_client, _("#This unit isn't known!"));
+      output_window_append(0, ftc_client, _("#This unit isn't known!"));
     }
   }
   case TLT_INVALID:
@@ -602,7 +602,7 @@ void chat_widget::anchor_clicked(const QUrl &link)
 /**
  * Adds news string to chat_widget (from chat_listener interface)
  */
-void chat_widget::chat_message_received(const QString &message,
+void chat_widget::chat_message_received(const time_t &timestamp, const QString &message,
                                         const struct text_tag_list *tags)
 {
   log_warning("chat_widget::chat_message_received: %s", message.toUtf8().data());
@@ -616,21 +616,28 @@ void chat_widget::chat_message_received(const QString &message,
 
   QColor col = chat_output->palette().color(QPalette::Text);
   if(message.startsWith(CHAT_META_PREFIX)) {
-    append(apply_tags(message.right(message.size() - 1), tags,
+    append(timestamp, apply_tags(message.right(message.size() - 1), tags,
                       col));
   } else if(message.startsWith(SERVER_COMMAND_PREFIX) && isVisible()) {
-    append(apply_tags(message.right(message.size()), tags, col));
+    append(timestamp, apply_tags(message.right(message.size()), tags, col));
   } else {
-    append(apply_tags(message.right(message.size() - filter.size()), tags, col));
+    append(timestamp, apply_tags(message.right(message.size() - filter.size()), tags, col));
   }
 }
 
 /**
  * Adds news string to chat_widget
  */
-void chat_widget::append(const QString &str)
+void chat_widget::append(time_t timestamp, const QString &str)
 {
-  chat_output->append(str);
+  if(timestamp > 0) {
+    char timestr[64];
+    time_t now = timestamp;
+    strftime(timestr, sizeof(timestr), "[%d/%m %H:%M:%S] ", localtime(&now));
+    chat_output->append(QString(timestr) + str);
+  } else {
+    chat_output->append(str);
+  }
   chat_output->verticalScrollBar()->setSliderPosition(
       chat_output->verticalScrollBar()->maximum());
 }
@@ -928,7 +935,8 @@ static bool is_plain_public_message(const QString &s)
  * Appends the string to the chat output window.  The string should be
  * inserted on its own line, although it will have no newline.
  */
-void real_output_window_append(const QString &astring,
+void real_output_window_append(const time_t &timestamp,
+                               const QString &astring,
                                const text_tag_list *tags)
 {
   king()->set_status_bar(astring);
@@ -937,8 +945,8 @@ void real_output_window_append(const QString &astring,
     qApp->alert(king()->central_wdg);
   }
 
-  chat_listener::invoke(&chat_listener::chat_message_received, astring,
-                        tags);
+  chat_listener::invoke(&chat_listener::chat_message_received,
+                        timestamp, astring, tags);
 }
 
 /**
@@ -1047,7 +1055,8 @@ void multiple_chat_widget::update_widgets()
   }
 }
 
-void multiple_chat_widget::chat_message_received(const QString &message,
+void multiple_chat_widget::chat_message_received(const time_t &timestamp,
+                                        const QString &message,
                                         const struct text_tag_list *tags)
 {
   // TODO: Notify button with chat filter
@@ -1106,13 +1115,13 @@ void multiple_chat_widget::set_chat_visible(bool visible)
   m_chat_visible = visible;
 }
 
-void multiple_chat_widget::append(const QString &str)
+void multiple_chat_widget::append(const time_t timestamp, const QString &str)
 {
   for(std::vector<chat_widget*>::iterator i = chat_widgets.begin();
       i != chat_widgets.end(); ++i) {
     chat_widget* cw = *i;
     if(cw->filter == QString(CHAT_GLOBAL_PREFIX)) {
-      cw->append(str);
+      cw->append(timestamp, str);
       return;
     }
   }

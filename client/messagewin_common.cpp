@@ -50,19 +50,19 @@ static void meswin_dialog_update()
 /**
    Clear all messages.
  */
-void meswin_clear_older(int turn, int phase)
+void meswin_clear_older(time_t timestamp, int phase)
 {
   int i;
   int j = 0;
 
   if (!gui_options->show_previous_turn_messages) {
-    turn = MESWIN_CLEAR_ALL;
+    timestamp = MESWIN_CLEAR_ALL;
   }
 
   for (i = 0; i < messages_total
-              && (turn < 0
-                  || (messages[i]->turn < turn
-                      || (messages[i]->turn == turn
+              && (timestamp < 0
+                  || (messages[i]->timestamp < timestamp
+                      || (messages[i]->timestamp == timestamp
                           && messages[i]->phase < phase)));
        i++) {
     delete[] messages[i]->descr;
@@ -86,12 +86,15 @@ void meswin_clear_older(int turn, int phase)
 /**
    Add a message.
  */
-void meswin_add(const char *message, const struct text_tag_list *tags,
-                struct tile *ptile, enum event_type event, int turn,
-                int phase)
+void meswin_add(const char *message,
+                const struct text_tag_list *tags, struct tile *ptile,
+                enum event_type event, time_t timestamp, int phase)
 {
   const size_t min_msg_len = 50;
   size_t msg_len = qstrlen(message);
+  char timestr[64];
+  strftime(timestr, sizeof(timestr), "[%d/%m %H:%M:%S] ", localtime(&timestamp));
+  msg_len += strlen(timestr);
 
   char *s = new char[MAX(msg_len, min_msg_len) + 1];
   int i, nspc;
@@ -104,7 +107,8 @@ void meswin_add(const char *message, const struct text_tag_list *tags,
   }
 
   msg = new struct message();
-  qstrcpy(s, message);
+  qstrcpy(s, timestr);
+  qstrcpy(s + strlen(timestr), message);
 
   nspc = min_msg_len - qstrlen(s);
   if (nspc > 0) {
@@ -117,7 +121,7 @@ void meswin_add(const char *message, const struct text_tag_list *tags,
   msg->tags = text_tag_list_copy(tags);
   msg->location_ok = (ptile != nullptr);
   msg->visited = false;
-  msg->turn = turn;
+  msg->timestamp = timestamp;
   msg->phase = phase;
   messages[messages_total++] = msg;
 

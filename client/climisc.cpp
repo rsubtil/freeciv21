@@ -840,7 +840,7 @@ int collect_already_built_targets(struct universal *targets,
    Handles a chat or event message.
  */
 void handle_event(const char *featured_text, struct tile *ptile,
-                  enum event_type event, int turn, int phase, int conn_id)
+                  enum event_type event, time_t timestamp, int phase, int conn_id)
 {
   char plain_text[MAX_LEN_MSG];
   struct text_tag_list *tags;
@@ -893,7 +893,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
   if (BOOL_VAL(where & MW_MESSAGES)) {
     // When the game isn't running, the messages dialog isn't present.
     if (C_S_RUNNING <= client_state()) {
-      meswin_add(plain_text, tags, ptile, event, turn, phase);
+      meswin_add(plain_text, tags, ptile, event, timestamp, phase);
       shown = true;
     } else {
       // Force to chatline instead.
@@ -903,10 +903,11 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   // Chatline
   if (BOOL_VAL(where & MW_OUTPUT) || (fallback_needed && !shown)) {
-    output_window_event(plain_text, tags);
+    output_window_event(timestamp, plain_text, tags);
   }
 
-  if (turn == game.info.turn) {
+  // TODO: Not reliable; store last timestamp when connected to server
+  if (timestamp == time_t(nullptr)) {
     play_sound_for_event(event);
   }
 

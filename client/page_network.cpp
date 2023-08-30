@@ -454,7 +454,7 @@ void page_network::slot_connect()
     if (connect_to_server(client_url(), errbuf, sizeof(errbuf)) != -1) {
     } else {
       king->set_status_bar(QString::fromUtf8(errbuf));
-      output_window_append(ftc_client, errbuf);
+      output_window_append(0, ftc_client, errbuf);
     }
 
     return;

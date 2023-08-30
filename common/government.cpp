@@ -117,12 +117,11 @@ std::string foreign_player_usernames(struct player* curr_player)
   return ret;
 }
 
-    struct government_news *
-    government_news_new(const struct packet_government_news *news)
+struct government_news *government_news_new(const struct packet_government_news *news)
 {
   struct government_news *pnews = new government_news;
   pnews->id = news->id;
-  pnews->turn = news->turn;
+  pnews->timestamp = news->timestamp;
   pnews->news = QString(news->news);
 
   return pnews;
@@ -137,7 +136,7 @@ struct government_audit_info *government_audit_info_new(const struct packet_gove
   paudit->jury_1_vote = audit->jury_1_vote;
   paudit->jury_2_vote = audit->jury_2_vote;
   paudit->consequence = audit->consequence;
-  paudit->start_turn = audit->start_turn;
+  paudit->timestamp = audit->timestamp;
 
   return paudit;
 };

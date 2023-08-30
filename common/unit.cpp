@@ -454,7 +454,10 @@ int get_activity_rate(const struct unit *punit)
    * This means sea formers won't have their activity rate increased by
    * Magellan's, and it means injured units work just as fast as
    * uninjured ones.  Note the value is never less than SINGLE_MOVE. */
-  int move_rate = unit_type_get(punit)->move_rate;
+
+  // Hardcoded to 1 due to move_rates lower than 1. This speed is manually tackled
+  // on the ruleset.
+  int move_rate = 1;//unit_type_get(punit)->move_rate;
 
   // All settler actions are multiplied by ACTIVITY_FACTOR.
   return ACTIVITY_FACTOR * static_cast<float>(vlevel->power_fact) / 100

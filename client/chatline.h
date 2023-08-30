@@ -12,6 +12,8 @@
       \____/        ********************************************************/
 #pragma once
 
+// C
+#include <ctime>
 // Qt
 #include <QEvent>
 #include <QGridLayout>
@@ -51,7 +53,7 @@ public:
 
   explicit chat_listener();
 
-  virtual void chat_message_received(const QString &,
+  virtual void chat_message_received(const time_t &, const QString &,
                                      const struct text_tag_list *);
 
   void send_chat_message(const QString &message, const QString &filter);
@@ -110,7 +112,7 @@ public:
   chat_widget(QWidget *parent, bool resizable = true);
   virtual ~chat_widget();
 
-  void append(const QString &str);
+  void append(time_t timestamp, const QString &str);
   chat_input *chat_line;
   void make_link(struct tile *ptile);
   void update_widgets();
@@ -134,7 +136,7 @@ protected:
   bool eventFilter(QObject *obj, QEvent *event) override;
 
 private:
-  void chat_message_received(const QString &message,
+  void chat_message_received(const time_t &timestamp, const QString &message,
                              const struct text_tag_list *tags) override;
 
   bool m_chat_visible = true;
@@ -150,7 +152,7 @@ public:
   QString filter;
 };
 
-void real_output_window_append(const QString &astring,
+void real_output_window_append(const time_t &timestamp, const QString &astring,
                                const text_tag_list *tags);
 void version_message(const QString &vertext);
 
@@ -168,7 +170,7 @@ public:
   bool is_chat_visible() const { return m_chat_visible; }
   void set_chat_visible(bool visible);
 
-  void append(const QString &str);
+  void append(const time_t timestamp, const QString &str);
   void take_focus();
   void update_font();
   void make_link(struct tile *ptile);
@@ -181,7 +183,7 @@ private slots:
   void update_menu() override {}
 
 private:
-  void chat_message_received(const QString &message,
+  void chat_message_received(const time_t &timestamp, const QString &message,
                              const struct text_tag_list *tags) override;
   chat_widget* get_current_chat_widget();
 

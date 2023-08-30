@@ -4388,7 +4388,7 @@ static void option_save_output_window_callback(QtMsgType lvl,
                                                const QString &msg)
 {
   Q_UNUSED(lvl)
-  output_window_append(ftc_client, qUtf8Printable(msg));
+  output_window_append(0, ftc_client, qUtf8Printable(msg));
 }
 
 /**

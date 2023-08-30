@@ -379,7 +379,7 @@ void handle_server_join_reply(bool you_can_join, const char *message,
 
     set_client_state(C_S_PREPARING);
   } else {
-    output_window_printf(ftc_client,
+    output_window_printf(0, ftc_client,
                          _("You were rejected from the game: %s"), message);
     client.conn.id = -1; // not in range of conn_info id
 
@@ -392,9 +392,9 @@ void handle_server_join_reply(bool you_can_join, const char *message,
   if (strcmp(s_capability, our_capability) == 0) {
     return;
   }
-  output_window_printf(ftc_client, _("Client capability string: %s"),
+  output_window_printf(0, ftc_client, _("Client capability string: %s"),
                        our_capability);
-  output_window_printf(ftc_client, _("Server capability string: %s"),
+  output_window_printf(0, ftc_client, _("Server capability string: %s"),
                        s_capability);
 }
 
@@ -1452,7 +1452,7 @@ void play_sound_for_event(enum event_type type)
 void handle_chat_msg(const struct packet_chat_msg *packet)
 {
   handle_event(packet->message, index_to_tile(&(wld.map), packet->tile),
-               packet->event, packet->turn, packet->phase, packet->conn_id);
+               packet->event, packet->timestamp, packet->phase, packet->conn_id);
 }
 
 /**
@@ -1468,7 +1468,7 @@ void handle_chat_msg(const struct packet_chat_msg *packet)
 void handle_early_chat_msg(const struct packet_early_chat_msg *packet)
 {
   handle_event(packet->message, index_to_tile(&(wld.map), packet->tile),
-               packet->event, packet->turn, packet->phase, packet->conn_id);
+               packet->event, packet->timestamp, packet->phase, packet->conn_id);
 }
 
 /**
@@ -2129,10 +2129,10 @@ void handle_game_info(const struct packet_game_info *pinfo)
       if (!handmade_scenario_warning()) {
         // Gui didn't handle this
         output_window_append(
-            ftc_client,
+            0, ftc_client,
             _("#This scenario may have manually set properties the editor "
               "cannot handle."));
-        output_window_append(ftc_client,
+        output_window_append(0, ftc_client,
                              _("#They won't be saved when scenario is saved "
                                "from the editor."));
       }
@@ -2420,13 +2420,13 @@ void handle_player_info(const struct packet_player_info *pinfo)
     BV_SET_VAL(pplayer->flags, PLRF_AI, BV_ISSET(pinfo->flags, PLRF_AI));
     if (pplayer == my_player) {
       if (is_ai(my_player)) {
-        output_window_append(ftc_client, _("#AI mode is now ON."));
+        output_window_append(0, ftc_client, _("#AI mode is now ON."));
         if (!gui_options->ai_manual_turn_done && !pplayer->phase_done) {
           // End turn immediately
           user_ended_turn();
         }
       } else {
-        output_window_append(ftc_client, _("#AI mode is now OFF."));
+        output_window_append(0, ftc_client, _("#AI mode is now OFF."));
       }
     }
   }

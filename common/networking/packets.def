@@ -653,7 +653,7 @@ PACKET_CHAT_MSG = 25; sc, lsend
   STRING message[MAX_LEN_MSG];
   TILE tile;
   EVENT event;
-  TURN turn;
+  UINT32 timestamp;
   PHASE phase;
   CONNECTION conn_id;
 end
@@ -664,7 +664,7 @@ PACKET_EARLY_CHAT_MSG = 28; sc, lsend
   STRING message[MAX_LEN_MSG];
   TILE tile;
   EVENT event;
-  TURN turn;
+  UINT32 timestamp;
   PHASE phase;
   CONNECTION conn_id;
 end
@@ -2431,7 +2431,7 @@ end
 
 PACKET_GOVERNMENT_NEWS = 259; sc, lsend, handle-via-packet
   UINT32 id;
-  UINT32 turn;
+  UINT32 timestamp;
   STRING news[MAX_LEN_CONTENT];
 end
 
@@ -2446,7 +2446,7 @@ PACKET_GOVERNMENT_AUDIT_INFO = 262; sc, lsend
   UINT8 jury_1_vote;
   UINT8 jury_2_vote;
   UINT16 consequence;
-  UINT32 start_turn;
+  UINT32 timestamp;
 end
 
 PACKET_GOVERNMENT_AUDIT_SUBMIT_VOTE = 263; cs
@@ -2482,7 +2482,7 @@ end
 PACKET_SABOTAGE_INFO_SELF = 271; sc, handle-via-packet
   UINT32 id;
   BOOL actionable;
-  UINT32 turn;
+  UINT32 timestamp;
   PLAYER player_src;
   PLAYER player_tgt;
   STRING info[MAX_LEN_CONTENT];
@@ -2495,7 +2495,7 @@ end
 PACKET_SABOTAGE_INFO_OTHER = 273; sc, handle-via-packet
   UINT32 id;
   BOOL actionable;
-  UINT32 turn;
+  UINT32 timestamp;
   PLAYER player_src;
   PLAYER player_tgt;
   STRING info[MAX_LEN_CONTENT];

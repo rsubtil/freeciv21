@@ -119,6 +119,9 @@ public:
 
   template <class _member_fct_, class _arg1_t_, class _arg2_t_>
   static void invoke(_member_fct_ function, _arg1_t_ arg1, _arg2_t_ arg2);
+
+  template <class _member_fct_, class _arg1_t_, class _arg2_t_, class _arg3_t_>
+  static void invoke(_member_fct_ function, _arg1_t_ arg1, _arg2_t_ arg2, _arg3_t_ arg3);
 };
 
 /***************************************************************************
@@ -209,5 +212,28 @@ void listener<_type_>::invoke(_member_fct_ function, _arg1_t_ arg1,
   typename std::set<type_t *>::iterator end = instances.end();
   for (; it != end; ++it) {
     ((*it)->*function)(arg1, arg2);
+  }
+}
+
+/***************************************************************************
+  Invokes a member function on all instances of an listener type. Template
+  parameters are meant to be automatically deduced.
+
+  Three-parameters overload.
+
+  @param function The member function to call
+  @param arg1     The first argument to pass to the function
+  @param arg2     The second argument to pass to the function
+  @param arg3     The third argument to pass to the function
+***************************************************************************/
+template <class _type_>
+template <class _member_fct_, class _arg1_t_, class _arg2_t_, class _arg3_t_>
+void listener<_type_>::invoke(_member_fct_ function, _arg1_t_ arg1,
+                              _arg2_t_ arg2, _arg3_t_ arg3)
+{
+  typename std::set<type_t *>::iterator it = instances.begin();
+  typename std::set<type_t *>::iterator end = instances.end();
+  for (; it != end; ++it) {
+    ((*it)->*function)(arg1, arg2, arg3);
   }
 }

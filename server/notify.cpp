@@ -63,7 +63,7 @@ static void package_event_full(struct packet_chat_msg *packet,
   packet->tile = (nullptr != ptile ? tile_index(ptile) : -1);
   packet->event = event;
   packet->conn_id = pconn ? pconn->id : -1;
-  packet->turn = game.info.turn;
+  packet->timestamp = time(nullptr);
   packet->phase = game.info.phase;
 
   fc_vsnprintf(buf, sizeof(buf), format, vargs);
@@ -594,12 +594,12 @@ void event_cache_remove_old()
   // This assumes that entries are in order, the ones to be removed first.
   current = event_cache_data_list_get(event_cache, 0);
 
-  while (current != nullptr
-         && current->packet.turn + game.server.event_cache.turns
-                <= game.info.turn) {
-    event_cache_data_list_pop_front(event_cache);
-    current = event_cache_data_list_get(event_cache, 0);
-  }
+  // Don't rm for now
+  //while (current != nullptr
+  //       && current->packet.timestamp <= time(nullptr)) {
+  //  event_cache_data_list_pop_front(event_cache);
+  //  current = event_cache_data_list_get(event_cache, 0);
+  //}
 }
 
 /**
@@ -715,9 +715,8 @@ static bool event_cache_match(const struct event_cache_data *pdata,
   //  return false;
   //}
 
-  if (server_state() == S_S_RUNNING && game.info.turn < pdata->packet.turn
-      && game.info.turn
-             > pdata->packet.turn - game.server.event_cache.turns) {
+  if (server_state() == S_S_RUNNING && time(nullptr) < pdata->packet.timestamp
+      && time(nullptr) > pdata->packet.timestamp) {
     return false;
   }
 
@@ -742,24 +741,13 @@ void send_pending_events(struct connection *pconn, bool include_public)
 {
   const struct player *pplayer = conn_get_player(pconn);
   bool is_global_observer = conn_is_global_observer(pconn);
-  char timestr[64];
   struct packet_chat_msg pcm;
 
   event_cache_iterate(pdata)
   {
     if (event_cache_match(pdata, pplayer, is_global_observer,
                           include_public)) {
-      if (game.server.event_cache.info) {
-        // add turn and time to the message
-        strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S",
-                 localtime(&pdata->timestamp));
-        pcm = pdata->packet;
-        fc_snprintf(pcm.message, sizeof(pcm.message), "(%s) %s",
-                    timestr, pdata->packet.message);
-        notify_conn_packet(pconn->self, &pcm, false);
-      } else {
         notify_conn_packet(pconn->self, &pdata->packet, false);
-      }
     }
   }
   event_cache_iterate_end;
@@ -787,7 +775,6 @@ void event_cache_load(struct section_file *file, const char *section)
 
   now = time(nullptr);
   for (i = 0; i < event_count; i++) {
-    int turn;
     int phase;
 
     // restore packet
@@ -816,16 +803,13 @@ void event_cache_load(struct section_file *file, const char *section)
     sz_strlcpy(packet.message, p);
 
     // restore event cache data
-    turn =
-        secfile_lookup_int_default(file, 0, "%s.events%d.turn", section, i);
-    packet.turn = turn;
-
     phase = secfile_lookup_int_default(file, PHASE_UNKNOWN,
                                        "%s.events%d.phase", section, i);
     packet.phase = phase;
 
     timestamp = secfile_lookup_int_default(
         file, now, "%s.events%d.timestamp", section, i);
+    packet.timestamp = timestamp;
 
     p = secfile_lookup_str(file, "%s.events%d.server_state", section, i);
     if (nullptr == p) {
@@ -903,8 +887,6 @@ void event_cache_save(struct section_file *file, const char *section)
       index_to_map_pos(&tile_x, &tile_y, tile_index(ptile));
     }
 
-    secfile_insert_int(file, pdata->packet.turn, "%s.events%d.turn", section,
-                       event_count);
     if (pdata->packet.phase != PHASE_UNKNOWN) {
       /* Do not save current value of PHASE_UNKNOWN to savegame.
        * It practically means that "savegame had no phase stored".

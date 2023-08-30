@@ -185,7 +185,10 @@ void sabotages_report::update_self_info(const struct packet_sabotage_info_self *
   label->setWordWrap(true);
   label->setTextInteractionFlags(Qt::TextSelectableByMouse);
   label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-  label->setText(QString::number(info->turn) + ": " + QString(info->info));
+  char timestr[64];
+  time_t now = info->timestamp;
+  strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
+  label->setText(QString(timestr) + ": " + QString(info->info));
   m_sabotages_self_widget->layout()->addWidget(label);
 
   // This way we can posteriorly edit it at an accusation
@@ -201,7 +204,10 @@ void sabotages_report::update_other_info(const struct packet_sabotage_info_other
   label->setWordWrap(true);
   label->setTextInteractionFlags(Qt::TextSelectableByMouse);
   label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-  label->setText(QString::number(info->turn) + ": " + QString(info->info));
+  char timestr[64];
+  time_t now = info->timestamp;
+  strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
+  label->setText(QString(timestr) + ": " + QString(info->info));
   m_sabotages_other_widget->layout()->addWidget(label);
 }
 

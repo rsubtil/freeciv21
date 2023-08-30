@@ -11,6 +11,7 @@
 #pragma once
 
 #include <cstdarg>
+#include <ctime>
 
 // utility
 #include "support.h" // fc__attribute

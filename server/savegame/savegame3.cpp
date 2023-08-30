@@ -2377,7 +2377,7 @@ static void sg_load_sabotages(struct loaddata *loading)
     struct sabotage_info *si = new sabotage_info();
     if(!secfile_lookup_int(loading->file, &(si->id), "sabotages.data%d.id", i)) {delete si; continue;}
     si->actionable = secfile_lookup_bool_default(loading->file, false, "sabotages.data%d.actionable", i);
-    si->turn = secfile_lookup_int_default(loading->file, 0, "sabotages.data%d.turn", i);
+    si->timestamp = secfile_lookup_int_default(loading->file, 0, "sabotages.data%d.timestamp", i);
     int player_src_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_src", i);
     int player_tgt_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_tgt", i);
     int player_send_to_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_send_to", i);
@@ -2403,7 +2403,7 @@ static void sg_save_sabotages(struct savedata *saving)
   for(struct sabotage_info* si : s_info.cached_sabotages) {
     secfile_insert_int(saving->file, si->id, "sabotages.data%d.id", idx);
     secfile_insert_bool(saving->file, si->actionable, "sabotages.data%d.actionable", idx);
-    secfile_insert_int(saving->file, si->turn, "sabotages.data%d.turn", idx);
+    secfile_insert_int(saving->file, si->timestamp, "sabotages.data%d.timestamp", idx);
     secfile_insert_int(saving->file, player_number(si->player_src), "sabotages.data%d.player_src", idx);
     secfile_insert_int(saving->file, player_number(si->player_tgt), "sabotages.data%d.player_tgt", idx);
     secfile_insert_int(saving->file, player_number(si->player_send_to), "sabotages.data%d.player_send_to", idx);
@@ -2432,7 +2432,7 @@ static void sg_load_government(struct loaddata *loading)
   for(int i = 0; i < g_info.last_message_id; i++) {
     struct government_news *data = new government_news();
     if(!secfile_lookup_int(loading->file, &(data->id), "government_news.data%d.id", i)) {delete data; continue;}
-    data->turn = secfile_lookup_int_default(loading->file, 0, "government_news.data%d.turn", i);
+    data->timestamp = secfile_lookup_int_default(loading->file, 0, "government_news.data%d.timestamp", i);
     data->news = QString(secfile_lookup_str(loading->file, "government_news.data%d.news", i));
     g_info.cached_news.push_back(data);
   }
@@ -2444,7 +2444,7 @@ static void sg_load_government(struct loaddata *loading)
     data->jury_1_vote = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.jury_1_vote", i);
     data->jury_2_vote = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.jury_2_vote", i);
     data->consequence = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.consequence", i);
-    data->start_turn = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.start_turn", i);
+    data->timestamp = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.timestamp", i);
     g_info.cached_audits.push_back(data);
   }
 }
@@ -2467,7 +2467,7 @@ static void sg_save_government(struct savedata *saving)
   int idx = 0;
   for(struct government_news* data : g_info.cached_news) {
     secfile_insert_int(saving->file, data->id, "government_news.data%d.id", idx);
-    secfile_insert_int(saving->file, data->turn, "government_news.data%d.turn", idx);
+    secfile_insert_int(saving->file, data->timestamp, "government_news.data%d.timestamp", idx);
     secfile_insert_str(saving->file, data->news.toUtf8().data(), "government_news.data%d.news", idx);
     idx++;
   }
@@ -2479,7 +2479,7 @@ static void sg_save_government(struct savedata *saving)
     secfile_insert_int(saving->file, data->jury_1_vote, "government_audits.data%d.jury_1_vote", idx);
     secfile_insert_int(saving->file, data->jury_2_vote, "government_audits.data%d.jury_2_vote", idx);
     secfile_insert_int(saving->file, data->consequence, "government_audits.data%d.consequence", idx);
-    secfile_insert_int(saving->file, data->start_turn, "government_audits.data%d.start_turn", idx);
+    secfile_insert_int(saving->file, data->timestamp, "government_audits.data%d.timestamp", idx);
     idx++;
   }
 }

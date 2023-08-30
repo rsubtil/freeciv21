@@ -49,7 +49,7 @@ void real_luaconsole_dialog_update(void) {}
 void real_luaconsole_append(const char *astring,
                             const struct text_tag_list *tags)
 {
-  real_output_window_append(astring, tags);
+  real_output_window_append(0, astring, tags);
 }
 
 /**
