@@ -49,6 +49,12 @@ enum audit_vote_type : int {
   AUDIT_VOTE_ABSTAIN = 3,
 };
 
+enum audit_consequence_type : int {
+  CONSEQUENCE_GOLD = 0,
+  CONSEQUENCE_SCIENCE = 1,
+  CONSEQUENCE_MATERIALS = 2,
+};
+
 player_id determine_jury_id(player_id accuser, player_id accused, int which);
 int get_jury_vote(player_id curr, struct government_audit_info *info);
 void set_jury_vote(int vote, player_id curr, struct government_audit_info *info);
@@ -162,6 +168,7 @@ extern struct government_info g_info;
 
 struct sabotage_info {
   int id;
+  audit_consequence_type consequence;
   bool actionable;
   time_t timestamp;
   struct player* player_src;

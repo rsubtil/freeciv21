@@ -2376,6 +2376,7 @@ static void sg_load_sabotages(struct loaddata *loading)
   for(int i = 0; i < count; i++) {
     struct sabotage_info *si = new sabotage_info();
     if(!secfile_lookup_int(loading->file, &(si->id), "sabotages.data%d.id", i)) {delete si; continue;}
+    si->consequence = audit_consequence_type(secfile_lookup_int_default(loading->file, 0, "sabotages.data%d.consequence", i));
     si->actionable = secfile_lookup_bool_default(loading->file, false, "sabotages.data%d.actionable", i);
     si->timestamp = secfile_lookup_int_default(loading->file, 0, "sabotages.data%d.timestamp", i);
     int player_src_id = secfile_lookup_int_default(loading->file, -1, "sabotages.data%d.player_src", i);
@@ -2402,6 +2403,7 @@ static void sg_save_sabotages(struct savedata *saving)
   int idx = 0;
   for(struct sabotage_info* si : s_info.cached_sabotages) {
     secfile_insert_int(saving->file, si->id, "sabotages.data%d.id", idx);
+    secfile_insert_int(saving->file, si->consequence, "sabotages.data%d.consequence", idx);
     secfile_insert_bool(saving->file, si->actionable, "sabotages.data%d.actionable", idx);
     secfile_insert_int(saving->file, si->timestamp, "sabotages.data%d.timestamp", idx);
     secfile_insert_int(saving->file, player_number(si->player_src), "sabotages.data%d.player_src", idx);

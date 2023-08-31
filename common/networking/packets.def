@@ -2447,7 +2447,7 @@ PACKET_GOVERNMENT_AUDIT_INFO = 262; sc, lsend
   UINT8 accused_id;
   UINT8 jury_1_vote;
   UINT8 jury_2_vote;
-  UINT16 consequence;
+  UINT8 consequence;
   UINT32 timestamp;
 end
 
@@ -2483,6 +2483,7 @@ end
 
 PACKET_SABOTAGE_INFO_SELF = 271; sc, handle-via-packet
   UINT32 id;
+  UINT8 consequence;
   BOOL actionable;
   UINT32 timestamp;
   PLAYER player_src;
@@ -2496,6 +2497,7 @@ end
 
 PACKET_SABOTAGE_INFO_OTHER = 273; sc, handle-via-packet
   UINT32 id;
+  UINT8 consequence;
   BOOL actionable;
   UINT32 timestamp;
   PLAYER player_src;

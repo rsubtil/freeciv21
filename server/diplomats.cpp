@@ -1436,6 +1436,7 @@ void spy_steal_gold(struct player *act_player, struct player* tgt_player, float 
 
   // Record sabotage ocurred
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
+  info_src->consequence = CONSEQUENCE_GOLD;
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
   info_src->player_send_to = act_player;
@@ -1443,6 +1444,7 @@ void spy_steal_gold(struct player *act_player, struct player* tgt_player, float 
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info* info_tgt = s_info.new_sabotage_info(true);
+  info_tgt->consequence = CONSEQUENCE_GOLD;
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
@@ -1531,6 +1533,7 @@ void spy_steal_science(struct player *act_player, struct player* tgt_player, flo
 
   // Record sabotage ocurred
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
+  info_src->consequence = CONSEQUENCE_SCIENCE;
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
   info_src->player_send_to = act_player;
@@ -1538,6 +1541,7 @@ void spy_steal_science(struct player *act_player, struct player* tgt_player, flo
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info* info_tgt = s_info.new_sabotage_info(true);
+  info_tgt->consequence = CONSEQUENCE_SCIENCE;
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
@@ -1614,6 +1618,7 @@ void spy_steal_materials(struct player *act_player, struct player* tgt_player, f
 
   // Record sabotage ocurred
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
+  info_src->consequence = CONSEQUENCE_MATERIALS;
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
   info_src->player_send_to = act_player;
@@ -1621,6 +1626,7 @@ void spy_steal_materials(struct player *act_player, struct player* tgt_player, f
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info* info_tgt = s_info.new_sabotage_info(true);
+  info_tgt->consequence = CONSEQUENCE_MATERIALS;
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;

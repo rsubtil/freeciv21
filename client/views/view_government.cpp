@@ -98,10 +98,26 @@ void audit_button::set_audit_info(struct government_audit_info *info)
 {
   std::string accuser_name = player_id_to_string((player_id)info->accuser_id);
   std::string accused_name = player_id_to_string((player_id)info->accused_id);
-  setText(QString("%1 vs %2")
-    .arg(accuser_name.c_str())
-    .arg(accused_name.c_str())
-  );
+  std::string type;
+  switch (info->consequence) {
+  case CONSEQUENCE_GOLD:
+    type = "gold";
+    break;
+  case CONSEQUENCE_SCIENCE:
+    type = "science";
+    break;
+  case CONSEQUENCE_MATERIALS:
+    type = "materials";
+    break;
+  }
+  char timestr[64];
+  time_t now = info->timestamp;
+  strftime(timestr, sizeof(timestr), "%d/%m at %H:%M:%S", localtime(&now));
+  setText(QString(_("%1 vs %2\n%3 stolen\n[%4]"))
+              .arg(accuser_name.c_str())
+              .arg(accused_name.c_str())
+              .arg(type.c_str())
+              .arg(timestr));
 }
 
 /**
@@ -125,15 +141,18 @@ government_report::government_report() : QWidget()
   m_gov_label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
   m_layout->addWidget(m_gov_label, 0, 0, -1, 4);
 
-  QLabel* m_recent_decisions_label = new QLabel(_("Recent decisions:"));
+  QLabel* m_recent_decisions_label = new QLabel(_("Government messages:"));
   m_recent_decisions_label->setSizePolicy(size_fixed_policy);
   m_layout->addWidget(m_recent_decisions_label, 0, 4, 1, -1);
 
   m_recent_decisions_scroll = new QScrollArea();
   m_recent_decisions_scroll->setSizePolicy(size_expand_policy);
-  QBoxLayout *m_recent_decisions_layout = new QBoxLayout(QBoxLayout::TopToBottom);
+  QWidget *m_recent_decisions_widget = new QWidget();
+  QVBoxLayout *m_recent_decisions_layout = new QVBoxLayout();
   m_recent_decisions_layout->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-  m_recent_decisions_scroll->setLayout(m_recent_decisions_layout);
+  m_recent_decisions_widget->setLayout(m_recent_decisions_layout);
+  m_recent_decisions_scroll->setWidget(m_recent_decisions_widget);
+  m_recent_decisions_scroll->setWidgetResizable(true);
   m_layout->addWidget(m_recent_decisions_scroll, 1, 4, 7, -1);
 
   QLabel *m_auditing_label = new QLabel(_("Auditing:"));
@@ -180,7 +199,7 @@ government_report::government_report() : QWidget()
 
   a_description = new QLabel(_("Description"));
   a_description->setSizePolicy(size_fixed_policy);
-  a_layout->addWidget(a_description, 1, 0);//, -1, 1);
+  a_layout->addWidget(a_description, 1, 0, 1, 4);
 
   a_player_description = new QLabel(_("Player description"));
   a_player_description->setWordWrap(true);
@@ -235,7 +254,7 @@ government_report::government_report() : QWidget()
 
   a_jury_vote_yes = new QPushButton();
   a_jury_vote_yes->setSizePolicy(size_fixed_policy);
-  a_jury_vote_yes->setText(_("Vote \"true\""));
+  a_jury_vote_yes->setText(_("Vote \"guilty\""));
   connect(a_jury_vote_yes, &QPushButton::clicked, this, [this]() {
     confirm_vote(AUDIT_VOTE_YES);
   });
@@ -243,7 +262,7 @@ government_report::government_report() : QWidget()
 
   a_jury_vote_no = new QPushButton();
   a_jury_vote_no->setSizePolicy(size_fixed_policy);
-  a_jury_vote_no->setText(_("Vote \"false\""));
+  a_jury_vote_no->setText(_("Vote \"innocent\""));
   a_jury_vote_no->connect(a_jury_vote_no, &QPushButton::clicked, this, [this]() {
     confirm_vote(AUDIT_VOTE_NO);
   });
@@ -271,7 +290,8 @@ government_report::government_report() : QWidget()
     a_layout->addWidget(chat_widgets[i], 1, 6, 9, 4);//, -1, 4);
   }
 
-  QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));
+  a_consequence_good_label = new QLabel(_("Consequence if true:"));
+  a_consequence_good_label->setWordWrap(true);
   a_consequence_good_label->setSizePolicy(size_expand_policy);
   a_layout->addWidget(a_consequence_good_label, 0, 11);//, 1, -1);
 
@@ -279,7 +299,8 @@ government_report::government_report() : QWidget()
   a_consequence_good->setSizePolicy(size_expand_policy);
   a_layout->addWidget(a_consequence_good, 1, 11);//, 5, -1);
 
-  QLabel* a_consequence_bad_label = new QLabel(_("Consequence if false:"));
+  a_consequence_bad_label = new QLabel(_("Consequence if false:"));
+  a_consequence_bad_label->setWordWrap(true);
   a_consequence_bad_label->setSizePolicy(size_expand_policy);
   a_layout->addWidget(a_consequence_bad_label, 6, 11);//, 1, -1);
 
@@ -535,38 +556,104 @@ void government_report::update_audit_screen(int id)
       player_id_to_string((player_id) curr_audit->accuser_id);
   std::string accused_name =
       player_id_to_string((player_id) curr_audit->accused_id);
+  std::string type;
+  switch(curr_audit->consequence) {
+    case CONSEQUENCE_GOLD:
+      type = "gold";
+      break;
+    case CONSEQUENCE_SCIENCE:
+      type = "science";
+      break;
+    case CONSEQUENCE_MATERIALS:
+      type = "materials";
+      break;
+  }
+  char timestr[64];
+  time_t now = curr_audit->timestamp;
+  strftime(timestr, sizeof(timestr), "%d/%m at %H:%M:%S", localtime(&now));
 
-  a_description->setText(QString(_("%1 vs %2"))
+  a_description->setText(QString(_("%1 vs %2\n%3 stolen on %4"))
                               .arg(accuser_name.c_str())
-                              .arg(accused_name.c_str()));
+                              .arg(accused_name.c_str())
+                              .arg(type.c_str())
+                              .arg(timestr));
 
-  // TODO: Info about sabotage type
   player_id my_id = get_player_id(client.conn.playing);
   if (my_id == curr_audit->accuser_id) {
     a_player_description->setText(
-        QString(_("You are accusing %1 of %2. Convice the jury to rule in "
+        QString(_("You are accusing %1 of stealing %2 on %3. Convice the jury to rule in "
                   "your favor!"))
             .arg(accused_name.c_str())
-            .arg("sabotage"));
+            .arg(type.c_str())
+            .arg(timestr));
     a_jury_vote_yes->setVisible(false);
     a_jury_vote_no->setVisible(false);
     a_jury_vote_abstain->setVisible(false);
+    switch (curr_audit->consequence) {
+    case CONSEQUENCE_GOLD:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"guilty\", you'll receive 30\% of the "
+            "accused's total gold."));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"innocent\", you'll have to pay 30\% of "
+            "your total gold to the accused."));
+    case CONSEQUENCE_SCIENCE:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"guilty\", you'll receive 30\% of the "
+            "accused's total science."));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"innocent\", you'll have to pay 30\% of "
+            "your total science to the accused."));
+    case CONSEQUENCE_MATERIALS:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"guilty\", you'll receive 20\% of the "
+            "accused's total materials."));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"innocent\", you'll have to pay 20\% of "
+            "your total materials to the accused."));
+    }
   } else if (my_id == curr_audit->accused_id) {
     a_player_description->setText(
-        QString(_("You are being accused of %1 by %2. You must convince "
+        QString(_("You are being accused by %1 of stealing %2 on %3. You must convince "
                   "the jury that you're innocent!"))
-            .arg("sabotage")
-            .arg(accuser_name.c_str()));
+            .arg(accuser_name.c_str())
+            .arg(type.c_str())
+            .arg(timestr));
     a_jury_vote_yes->setVisible(false);
     a_jury_vote_no->setVisible(false);
     a_jury_vote_abstain->setVisible(false);
+    switch (curr_audit->consequence) {
+    case CONSEQUENCE_GOLD:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"innocent\", you'll receive 30\% of the "
+            "accuser's total gold."));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"guilty\", you'll have to pay 30\% of "
+            "your total gold to the accuser."));
+    case CONSEQUENCE_SCIENCE:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"innocent\", you'll receive 30\% of the "
+            "accuser's total science."));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"guilty\", you'll have to pay 30\% of "
+            "your total science to the accuser."));
+    case CONSEQUENCE_MATERIALS:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"innocent\", you'll receive 20\% of the "
+            "accuser's total materials."));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"guilty\", you'll have to pay 20\% of "
+            "your total materials to the accuser."));
+    }
   } else {
     a_player_description->setText(
-        QString(_("You are a jury member in the trial of %1 vs %2. Seek "
+        QString(_("You are a jury member in this trial. %1 is accusing %2 of stealing %3 at %4. Seek "
                   "the truth from both players and determine who is "
                   "innocent and who will be penalized!"))
             .arg(accuser_name.c_str())
-            .arg(accused_name.c_str()));
+            .arg(accused_name.c_str())
+            .arg(type.c_str())
+            .arg(timestr));
     a_jury_vote_yes->setVisible(true);
     a_jury_vote_no->setVisible(true);
     a_jury_vote_abstain->setVisible(true);
@@ -574,6 +661,53 @@ void government_report::update_audit_screen(int id)
     a_jury_vote_yes->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
     a_jury_vote_no->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
     a_jury_vote_abstain->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
+    switch (curr_audit->consequence) {
+    case CONSEQUENCE_GOLD:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"guilty\", the accuser will have to pay 30\% of it's "
+            "total gold to the accuser.\n\n"
+            "If this was the right decision, you'll receive a government bonus of 10\% of your "
+            "total gold.\n\n"
+            "If this was the wrong decision, however, the government will take 10\% of your "
+            "total gold.\n\n"));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"innocent\", the accuser will receive 30\% of the "
+            "accused's total gold.\n\n"
+            "If this was the right decision, you'll receive a government bonus of 10\% of your "
+            "total gold.\n\n"
+            "If this was the wrong decision, however, the government will take 10\% of your "
+            "total gold.\n\n"));
+    case CONSEQUENCE_SCIENCE:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"guilty\", the accuser will have to pay 30\% of it's "
+            "total science to the accuser.\n\n"
+            "If this was the right decision, you'll receive a government bonus of 10\% of your "
+            "total science.\n\n"
+            "If this was the wrong decision, however, the government will take 10\% of your "
+            "total science.\n\n"));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"innocent\", the accuser will receive 30\% of the "
+            "accused's total science.\n\n"
+            "If this was the right decision, you'll receive a government bonus of 10\% of your "
+            "total science.\n\n"
+            "If this was the wrong decision, however, the government will take 10\% of your "
+            "total science.\n\n"));
+    case CONSEQUENCE_MATERIALS:
+      a_consequence_good_label->setText(
+          _("If the jury decides \"guilty\", the accuser will have to pay 20\% of it's "
+            "total materials to the accuser.\n\n"
+            "If this was the right decision, you'll receive a government bonus of 10\% of your "
+            "total materials.\n\n"
+            "If this was the wrong decision, however, the government will take 10\% of your "
+            "total materials.\n\n"));
+      a_consequence_bad_label->setText(
+          _("If the jury decides \"innocent\", the accuser will receive 20\% of the "
+            "accused's total materials.\n\n"
+            "If this was the right decision, you'll receive a government bonus of 10\% of your "
+            "total materials.\n\n"
+            "If this was the wrong decision, however, the government will take 10\% of your "
+            "total materials.\n\n"));
+    }
   }
 
   a_accuser_pixmap = get_player_thumb_sprite(tileset, curr_audit->accuser_id);
@@ -605,12 +739,12 @@ void government_report::confirm_vote(audit_vote_type intended_vote)
 
   switch(intended_vote) {
     case AUDIT_VOTE_YES:
-      title = "Vote \"true\"";
-      text = "You're about to vote on the side of the accuser.\n\nYou agree that the accuser is right, and the accused must be penalized.\nIf your rulling is the truth, you'll receive a bonus.\nHowever, if this isn't the truth, you'll be convicting an innocent person, and will thus be penalized.\n\nAre you sure you want to vote \"true\"?";
+      title = "Vote \"guilty\"";
+      text = "You're about to vote on the side of the accuser.\n\nYou believe that the accused is guilty, and thus must be penalized.\nIf your rulling is the truth, you'll receive a bonus.\nHowever, if this isn't the truth, you'll be convicting an innocent person, and will thus be penalized.\n\nAre you sure you want to vote \"guilty\"?";
       break;
     case AUDIT_VOTE_NO:
-      title = "Vote \"false\"";
-      text = "You're about to vote on the side of the accused.\n\nYou agree that the accused is innocent, and the accuser must be penalized.\nIf your rulling is the truth, you'll receive a bonus.\nHowever, if this isn't the truth, you'll be forgiving a guilty person, and will thus be penalized.\n\nAre you sure you want to vote \"false\"?";
+      title = "Vote \"innocent\"";
+      text = "You're about to vote on the side of the accused.\n\nYou believe that the accused is innocent, and thus the accuser must be penalized for a false claim.\nIf your rulling is the truth, you'll receive a bonus.\nHowever, if this isn't the truth, you'll be forgiving a guilty person, and will thus be penalized.\n\nAre you sure you want to vote \"innocent\"?";
       break;
     case AUDIT_VOTE_ABSTAIN:
       title = "Abstain";
@@ -673,7 +807,8 @@ void government_report::update_news(struct government_news *news)
   time_t now = news->timestamp;
   strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
   news_label->setText(QString(timestr) + ": " + QString(news->news));
-  m_recent_decisions_scroll->layout()->addWidget(news_label);
+  news_label->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+  m_recent_decisions_scroll->widget()->layout()->addWidget(news_label);
 }
 
 void government_report::update_audit_info(struct government_audit_info *info)

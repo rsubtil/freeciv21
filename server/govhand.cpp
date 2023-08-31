@@ -174,8 +174,7 @@ void handle_government_audit_start(struct player *pplayer, int sabotage_id, int 
   audit->accused_id = player_id(accused_id);
   audit->jury_1_vote = AUDIT_VOTE_NONE;
   audit->jury_2_vote = AUDIT_VOTE_NONE;
-  // TODO: Get constants here
-  audit->consequence = 0;//AUDIT_CONSEQUENCE_NONE;
+  audit->consequence = sabotage->consequence;
 
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
     if(g_info.curr_audits[i] == -1) {
@@ -446,6 +445,7 @@ void handle_sabotage_info_self_req(struct player *pplayer, int id)
   if(info && info->player_tgt == pplayer && info->player_send_to == pplayer) {
     struct packet_sabotage_info_self pkt;
     pkt.id = id;
+    pkt.consequence = info->consequence;
     pkt.actionable = info->actionable;
     pkt.timestamp = info->timestamp;
     // For safety, don't send the src player
@@ -463,6 +463,7 @@ void handle_sabotage_info_other_req(struct player *pplayer, int id)
   if(info && info->player_src == pplayer && info->player_send_to == pplayer) {
     struct packet_sabotage_info_other pkt;
     pkt.id = id;
+    pkt.consequence = info->consequence;
     pkt.actionable = info->actionable;
     pkt.timestamp = info->timestamp;
     pkt.player_src = player_number(info->player_src);

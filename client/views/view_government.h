@@ -61,6 +61,7 @@ class government_report : public QWidget {
   QLabel *a_description, *a_player_description;
   QLabel *a_accuser_pixmap_cont, *a_accused_pixmap_cont, *a_jury_1_pixmap_cont, *a_jury_2_pixmap_cont;
   QLabel *a_jury_1_vote_pixmap_cont, *a_jury_2_vote_pixmap_cont;
+  QLabel *a_consequence_good_label, *a_consequence_bad_label;
   QPixmap *a_accuser_pixmap, *a_accused_pixmap, *a_jury_1_pixmap, *a_jury_2_pixmap;
   QPixmap *a_jury_vote_none_pixmap, *a_jury_vote_yes_pixmap, *a_jury_vote_no_pixmap, *a_jury_vote_abstain_pixmap;
   QPushButton *a_jury_vote_yes, *a_jury_vote_no, *a_jury_vote_abstain;
