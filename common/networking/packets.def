@@ -2442,6 +2442,7 @@ end
 
 PACKET_GOVERNMENT_AUDIT_INFO = 262; sc, lsend
   UINT32 id;
+  UINT32 sabotage_id;
   UINT8 accuser_id;
   UINT8 accused_id;
   UINT8 jury_1_vote;

@@ -139,7 +139,7 @@ pageGame::pageGame(QWidget *parent)
   sw_gov->setCheckable(true);
 
   // Sabotage view
-  sw_sabotages = new top_bar_widget(_("Sabotages"), QStringLiteral("GOV"),
+  sw_sabotages = new top_bar_widget(_("Sabotages"), QStringLiteral("SAB"),
                               top_bar_left_click_sabotages);
   sw_sabotages->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("sabotage")));
@@ -303,6 +303,7 @@ void pageGame::updateChatPanels()
         QString(ss.str().c_str()),
         get_player_thumb_sprite(tileset, id));
   }
+  government_report::instance()->update_report();
 }
 
 /**

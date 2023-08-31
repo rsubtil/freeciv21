@@ -27,4 +27,4 @@
 #define CHAT_META_PREFIX '#'
 #define CHAT_GLOBAL_PREFIX '!'
 #define CHAT_PRIVATE_PREFIX '@'
-#define CHAT_SABOTAGE_PREFIX '$'
+#define CHAT_AUDIT_PREFIX '$'

@@ -115,6 +115,7 @@ void handle_government_audit_info_req(struct player *pplayer, int id)
   if (audit) {
     struct packet_government_audit_info pkt;
     pkt.id = id;
+    pkt.sabotage_id = audit->sabotage_id;
     pkt.accuser_id = audit->accuser_id;
     pkt.accused_id = audit->accused_id;
     pkt.jury_1_vote = audit->jury_1_vote;
@@ -135,7 +136,7 @@ void handle_government_audit_start(struct player *pplayer, int sabotage_id, int 
 {
   struct sabotage_info* sabotage = s_info.find_cached_sabotage(sabotage_id);
   if(!sabotage) return;
-  struct government_audit_info *audit = g_info.new_government_audit();
+  struct government_audit_info *audit = g_info.new_government_audit(sabotage_id);
   audit->accuser_id = player_id_from_string(pplayer->name);
   audit->accused_id = player_id(accused_id);
   audit->jury_1_vote = AUDIT_VOTE_NONE;

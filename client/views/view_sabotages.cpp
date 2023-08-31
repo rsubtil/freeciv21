@@ -216,7 +216,14 @@ QVector<struct packet_sabotage_info_self *> sabotages_report::get_actionable_sab
   QVector<struct packet_sabotage_info_self *> results;
   for(struct packet_sabotage_info_self *info : m_sabotages_self) {
     if (info->actionable) {
-      results.append(info);
+      bool going_on = false;
+      for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+        if (g_info.curr_audits[i] > -1 && g_info.find_cached_audit(g_info.curr_audits[i])->sabotage_id == info->id) {
+          going_on = true;
+          break;
+        }
+      }
+      if(!going_on) results.append(info);
     }
   }
 

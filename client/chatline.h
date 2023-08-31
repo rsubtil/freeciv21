@@ -119,6 +119,7 @@ public:
   int default_size(int lines);
   void take_focus();
   void update_font();
+  void clearChat();
 
   void set_filter(QString filter);
 

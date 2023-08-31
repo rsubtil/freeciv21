@@ -131,6 +131,7 @@ struct government_audit_info *government_audit_info_new(const struct packet_gove
 {
   struct government_audit_info *paudit = new government_audit_info;
   paudit->id = audit->id;
+  paudit->sabotage_id = audit->sabotage_id;
   paudit->accused_id = (player_id)audit->accused_id;
   paudit->accuser_id = (player_id)audit->accuser_id;
   paudit->jury_1_vote = audit->jury_1_vote;

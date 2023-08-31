@@ -14,8 +14,9 @@
 // common
 #include "government.h"
 // client
-#include "repodlgs_g.h"
+#include "chatline.h"
 #include "hudwidget.h"
+#include "repodlgs_g.h"
 
 class QComboBox;
 class QGridLayout;
@@ -64,6 +65,8 @@ class government_report : public QWidget {
   QLabel *a_consequence_good, *a_consequence_bad;
   hud_message_box *a_vote_confirm;
 
+  chat_widget *chat_widgets[MAX_AUDIT_NUM];
+
   audit_vote_type intended_vote = AUDIT_VOTE_ABSTAIN;
 
   int cached_last_message_id = -1;
@@ -74,6 +77,7 @@ class government_report : public QWidget {
 public:
   void init(bool raise);
   void redraw();
+  void update_report();
 
 protected:
   static government_report *_instance;

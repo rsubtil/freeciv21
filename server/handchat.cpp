@@ -193,6 +193,7 @@ static void chat_msg_to_player(struct connection *sender, char *msg)
                    "%c%c:{%s} %s", CHAT_PRIVATE_PREFIX, player_char_from,
                    sender_name, msg);
   event_cache_add_for_players(&packet_other, players);
+  con_write(C_COMMENT, "%s", packet_other.message);
 
   // Repeat the message for the sender.
   send_chat_msg(sender, sender, get_ftc_for_player(sender_name[0]), "%c%c:{%s} %s",
@@ -221,6 +222,33 @@ static void chat_msg_to_all(struct connection *sender, char *msg)
 
   package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]), "%c<%s> %s",
                    CHAT_GLOBAL_PREFIX, sender_name, msg);
+  con_write(C_COMMENT, "%s", packet.message);
+  lsend_packet_chat_msg(game.est_connections, &packet);
+
+  // Add to the event cache.
+  event_cache_add_for_all(&packet);
+}
+
+/**
+   Send private message to audit.
+ */
+static void chat_msg_to_audit(struct connection *sender, char *msg)
+{
+  struct packet_chat_msg packet;
+  char sender_name[MAX_LEN_CHAT_NAME];
+  if (msg[0] != '\0')
+    msg++;
+
+  QString q_str(msg);
+  int colon_idx = q_str.indexOf(":");
+  int sabotage_id = q_str.left(q_str.indexOf(':')).toInt();
+  msg += colon_idx + 1;
+
+  msg = skip_leading_spaces(msg);
+  form_chat_name(sender, sender_name, sizeof(sender_name));
+
+  package_chat_msg(&packet, sender, get_ftc_for_player(sender_name[0]),
+                   "%c%d:<%s> %s", CHAT_AUDIT_PREFIX, sabotage_id, sender_name, msg);
   con_write(C_COMMENT, "%s", packet.message);
   lsend_packet_chat_msg(game.est_connections, &packet);
 
@@ -288,9 +316,9 @@ void handle_chat_msg_req(struct connection *pconn, const char *message)
       // Send to player command
       chat_msg_to_player(pconn, real_message);
       return;
-    case CHAT_SABOTAGE_PREFIX:
-      // Send to sabotage command
-      //chat_msg_to_sabotage(...)
+    case CHAT_AUDIT_PREFIX:
+      // Send to audit command
+      chat_msg_to_audit(pconn, real_message);
       return;
     default:
       // Messages must have prefix.

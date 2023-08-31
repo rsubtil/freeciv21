@@ -30,7 +30,6 @@
 #include "chat.h"
 #include "game.h"
 // client
-#include "chatline.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "helpdlg.h"
@@ -236,10 +235,15 @@ government_report::government_report() : QWidget()
   a_public_chat_lbl->setSizePolicy(size_expand_policy);
   a_layout->addWidget(a_public_chat_lbl, 0, 6);//, -1, 4);
   // TODO: Add public chat
-  chat_widget *a_public_chat = new chat_widget(this);
-  a_public_chat->setSizePolicy(size_expand_policy);
-  a_public_chat->set_filter(QString(CHAT_SABOTAGE_PREFIX));
-  a_layout->addWidget(a_public_chat, 1, 6, -1, 4);//, -1, 4);
+
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    chat_widgets[i] = new chat_widget(this);
+    chat_widgets[i]->setSizePolicy(size_expand_policy);
+    chat_widgets[i]->setVisible(false);
+    // Set a bogus filter, otherwise it will receive meta messages
+    chat_widgets[i]->set_filter(QString(CHAT_AUDIT_PREFIX) + QString::number(i) + ":");
+    a_layout->addWidget(chat_widgets[i], 1, 6, 5, 4);//, -1, 4);
+  }
 
   QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));
   a_consequence_good_label->setSizePolicy(size_expand_policy);
@@ -289,6 +293,13 @@ void government_report::init(bool raise)
   queen()->game_tab_widget->setCurrentIndex(index);
 }
 
+void government_report::update_report()
+{
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    chat_widgets[i]->clearChat();
+  }
+}
+
 /**
    Schedules paint event in some qt queue
  */
@@ -319,11 +330,13 @@ void government_report::begin_audit()
   auto reports = sabotages_report::instance()->get_actionable_sabotages();
   if (reports.size() == 0) {
     popup_notify_goto_dialog(_("You can't start a new accusation"),
-                             _("You don't have any sabotages you can act upon. "
-                               "You can only accuse someone if they steal from you, "
-                               "and not if they investigated you. Past accusations"
-                               "where the jury did not reach a decision also become"
-                               "invalid."),
+                             _("You don't have any sabotages you can act upon:\n\n"
+                               "- You can only accuse someone if they steal from you,"
+                               " and not if they only investigated you.\n"
+                               "- You're already began an accusation on all your"
+                               " actionable sabotages.\n"
+                               "- Past accusations where the jury did not reach a"
+                               " decision become invalid."),
                                nullptr, nullptr);
     return;
   }
@@ -455,6 +468,23 @@ void government_report::show_audit_screen(int id)
   layout->setCurrentIndex(1);
   curr_audit = info;
 
+  // Convert audit id to chat idx
+  int chat_idx = -1;
+  for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+    if(g_info.curr_audits[i] == id) {
+      chat_idx = i;
+      break;
+    }
+  }
+  if(chat_idx != -1) {
+    chat_widgets[chat_idx]->set_filter(QString(CHAT_AUDIT_PREFIX) + QString::number(id) + ":");
+    for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+      chat_widgets[i]->setVisible(i == chat_idx);
+    }
+  } else {
+    log_error("Couldn't find chat window!");
+  }
+
   log_warning("accuser %d accused %d me %d", info->accuser_id,
               info->accused_id, get_player_id(client.conn.playing));
 
@@ -539,23 +569,22 @@ void government_report::update_info()
 {
   if(g_info.last_message_id != cached_last_message_id) {
     for(int i = cached_last_message_id + 1; i <= g_info.last_message_id; i++) {
-    struct packet_government_news_req *req =
-        new packet_government_news_req();
-    req->id = i;
+      struct packet_government_news_req *req =
+          new packet_government_news_req();
+      req->id = i;
 
-    send_packet_government_news_req(&client.conn, req);
+      send_packet_government_news_req(&client.conn, req);
     }
     cached_last_message_id = g_info.last_message_id;
   }
 
-  if(g_info.last_audit_id == cached_last_audit_id) {
-    for (int i = cached_last_audit_id + 1; i <= g_info.last_audit_id;
-         i++) {
-    struct packet_government_audit_info_req *req =
-        new packet_government_audit_info_req();
-    req->id = i;
+  if(g_info.last_audit_id != cached_last_audit_id) {
+    for (int i = cached_last_audit_id + 1; i <= g_info.last_audit_id; i++) {
+      struct packet_government_audit_info_req *req =
+          new packet_government_audit_info_req();
+      req->id = i;
 
-    send_packet_government_audit_info_req(&client.conn, req);
+      send_packet_government_audit_info_req(&client.conn, req);
     }
     cached_last_audit_id = g_info.last_audit_id;
   }

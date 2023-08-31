@@ -291,19 +291,19 @@ void chat_input::update_completion()
   word_list << QStringLiteral("/rfcstyle");
   word_list << QStringLiteral("/serverid");
 
-  conn_list_iterate(game.est_connections, pconn)
-  {
-    if (pconn->playing) {
-      word_list << pconn->playing->name;
-      word_list << pconn->playing->username;
-    } else {
-      word_list << pconn->username;
-    }
-  }
-  conn_list_iterate_end;
+  //conn_list_iterate(game.est_connections, pconn)
+  //{
+  //  if (pconn->playing) {
+  //    word_list << pconn->playing->name;
+  //    word_list << pconn->playing->username;
+  //  } else {
+  //    word_list << pconn->username;
+  //  }
+  //}
+  //conn_list_iterate_end;
 
-  players_iterate(pplayer) { word_list << pplayer->name; }
-  players_iterate_end;
+  //players_iterate(pplayer) { word_list << pplayer->name; }
+  //players_iterate_end;
 
   delete completer();
 
@@ -691,6 +691,12 @@ void chat_widget::update_widgets()
   }
 }
 
+void chat_widget::clearChat()
+{
+  chat_output->clear();
+  chat_line->clear();
+}
+
 /**
  * Returns how much space chatline of given number of lines would require,
  * or zero if it can't be determined.
@@ -941,9 +947,7 @@ void real_output_window_append(const time_t &timestamp,
 {
   king()->set_status_bar(astring);
 
-  if (astring.contains(client.conn.username)) {
-    qApp->alert(king()->central_wdg);
-  }
+  qApp->alert(king()->central_wdg);
 
   chat_listener::invoke(&chat_listener::chat_message_received,
                         timestamp, astring, tags);

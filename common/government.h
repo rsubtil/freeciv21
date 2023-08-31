@@ -87,6 +87,7 @@ struct government_news* government_news_new(const struct packet_government_news*
 
 struct government_audit_info {
   int id;
+  int sabotage_id;
   player_id accuser_id;
   player_id accused_id;
   int jury_1_vote;
@@ -134,9 +135,10 @@ struct government_info {
     }
   }
 
-  struct government_audit_info* new_government_audit() {
+  struct government_audit_info* new_government_audit(int sabotage_id) {
     struct government_audit_info* new_audit = new government_audit_info();
     new_audit->id = ++last_audit_id;
+    new_audit->sabotage_id = sabotage_id;
     new_audit->timestamp = time(nullptr);
     cached_audits.push_back(new_audit);
     return new_audit;

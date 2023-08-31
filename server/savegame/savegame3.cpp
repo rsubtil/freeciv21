@@ -2429,16 +2429,17 @@ static void sg_load_government(struct loaddata *loading)
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
     g_info.curr_audits[i] = secfile_lookup_int_default(loading->file, -1, "government.audit%d.id", i);
   }
-  for(int i = 0; i < g_info.last_message_id; i++) {
+  for(int i = 0; i <= g_info.last_message_id; i++) {
     struct government_news *data = new government_news();
     if(!secfile_lookup_int(loading->file, &(data->id), "government_news.data%d.id", i)) {delete data; continue;}
     data->timestamp = secfile_lookup_int_default(loading->file, 0, "government_news.data%d.timestamp", i);
     data->news = QString(secfile_lookup_str(loading->file, "government_news.data%d.news", i));
     g_info.cached_news.push_back(data);
   }
-  for(int i = 0; i < g_info.last_audit_id; i++) {
+  for(int i = 0; i <= g_info.last_audit_id; i++) {
     struct government_audit_info *data = new government_audit_info();
     if(!secfile_lookup_int(loading->file, &(data->id), "government_audits.data%d.id", i)) {delete data; continue;}
+    if(!secfile_lookup_int(loading->file, &(data->sabotage_id), "government_audits.data%d.sabotage_id", i)) {delete data; continue;}
     data->accuser_id = player_id(secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.accuser_id", i));
     data->accused_id = player_id(secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.accused_id", i));
     data->jury_1_vote = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.jury_1_vote", i);
@@ -2474,6 +2475,7 @@ static void sg_save_government(struct savedata *saving)
   idx = 0;
   for(struct government_audit_info* data : g_info.cached_audits) {
     secfile_insert_int(saving->file, data->id, "government_audits.data%d.id", idx);
+    secfile_insert_int(saving->file, data->sabotage_id, "government_audits.data%d.sabotage_id", idx);
     secfile_insert_int(saving->file, data->accuser_id, "government_audits.data%d.accuser_id", idx);
     secfile_insert_int(saving->file, data->accused_id, "government_audits.data%d.accused_id", idx);
     secfile_insert_int(saving->file, data->jury_1_vote, "government_audits.data%d.jury_1_vote", idx);
