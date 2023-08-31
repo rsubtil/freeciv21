@@ -2449,6 +2449,7 @@ PACKET_GOVERNMENT_AUDIT_INFO = 262; sc, lsend
   UINT8 jury_2_vote;
   UINT8 consequence;
   UINT32 timestamp;
+  BOOL is_over;
 end
 
 PACKET_GOVERNMENT_AUDIT_SUBMIT_VOTE = 263; cs

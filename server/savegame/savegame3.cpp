@@ -2448,6 +2448,7 @@ static void sg_load_government(struct loaddata *loading)
     data->jury_2_vote = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.jury_2_vote", i);
     data->consequence = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.consequence", i);
     data->timestamp = secfile_lookup_int_default(loading->file, 0, "government_audits.data%d.timestamp", i);
+    data->is_over = secfile_lookup_bool_default(loading->file, false, "government_audits.data%d.is_over", i);
     g_info.cached_audits.push_back(data);
   }
 }
@@ -2484,6 +2485,7 @@ static void sg_save_government(struct savedata *saving)
     secfile_insert_int(saving->file, data->jury_2_vote, "government_audits.data%d.jury_2_vote", idx);
     secfile_insert_int(saving->file, data->consequence, "government_audits.data%d.consequence", idx);
     secfile_insert_int(saving->file, data->timestamp, "government_audits.data%d.timestamp", idx);
+    secfile_insert_bool(saving->file, data->is_over, "government_audits.data%d.is_over", idx);
     idx++;
   }
 }

@@ -82,6 +82,19 @@ player_id get_player_id(const struct player *pplayer)
   return PLAYER_PURPLE;
 }
 
+struct player * get_player_from_id(player_id id)
+{
+  std::string name = player_id_to_string(id);
+  players_iterate(pplayer)
+  {
+    if(!strcmp(pplayer->name, name.c_str())) {
+      return pplayer;
+    }
+  }
+  players_iterate_end;
+  return nullptr;
+}
+
 std::string player_id_to_string(player_id id)
 {
   switch (id) {
@@ -163,6 +176,7 @@ struct government_audit_info *government_audit_info_new(const struct packet_gove
   paudit->jury_2_vote = audit->jury_2_vote;
   paudit->consequence = audit->consequence;
   paudit->timestamp = audit->timestamp;
+  paudit->is_over = audit->is_over;
 
   return paudit;
 };

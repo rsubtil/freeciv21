@@ -63,6 +63,16 @@ public:
   void update_self_info(const struct packet_sabotage_info_self *info);
   void update_other_info(const struct packet_sabotage_info_other *info);
 
+  struct packet_sabotage_info_self* find_cached_sabotage(int id) {
+    auto iter = std::find_if(
+        m_sabotages_self.begin(), m_sabotages_self.end(),
+        [id](struct packet_sabotage_info_self *sabotage) { return sabotage->id == id; });
+    if (iter != m_sabotages_self.end()) {
+      return *iter;
+    } else {
+      return nullptr;
+    }
+  }
   QVector<struct packet_sabotage_info_self*> get_actionable_sabotages();
 
 private:

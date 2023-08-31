@@ -181,20 +181,27 @@ void sabotages_report::update_info(int last_sabotage_self_id, int last_sabotage_
 void sabotages_report::update_self_info(const struct packet_sabotage_info_self *info)
 {
   cached_last_self_id = MAX(cached_last_self_id, info->id);
-  QLabel *label = new QLabel();
-  label->setWordWrap(true);
-  label->setTextInteractionFlags(Qt::TextSelectableByMouse);
-  label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
-  char timestr[64];
-  time_t now = info->timestamp;
-  strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
-  label->setText(QString(timestr) + ": " + QString(info->info));
-  m_sabotages_self_widget->layout()->addWidget(label);
 
-  // This way we can posteriorly edit it at an accusation
-  struct packet_sabotage_info_self *info_copy = new packet_sabotage_info_self();
-  memcpy(info_copy, info, sizeof(struct packet_sabotage_info_self));
-  m_sabotages_self.push_back(info_copy);
+  struct packet_sabotage_info_self *info_own = find_cached_sabotage(info->id);
+  if(info_own) {
+    // We already have this info, just update it
+    memcpy(info_own, info, sizeof(struct packet_sabotage_info_self));
+  } else {
+    QLabel *label = new QLabel();
+    label->setWordWrap(true);
+    label->setTextInteractionFlags(Qt::TextSelectableByMouse);
+    label->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum);
+    char timestr[64];
+    time_t now = info->timestamp;
+    strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
+    label->setText(QString(timestr) + ": " + QString(info->info));
+    m_sabotages_self_widget->layout()->addWidget(label);
+
+    // This way we can posteriorly edit it at an accusation
+    struct packet_sabotage_info_self *info_copy = new packet_sabotage_info_self();
+    memcpy(info_copy, info, sizeof(struct packet_sabotage_info_self));
+    m_sabotages_self.push_back(info_copy);
+  }
 }
 
 void sabotages_report::update_other_info(const struct packet_sabotage_info_other *info)

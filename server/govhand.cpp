@@ -95,8 +95,30 @@ void update_government_audit_info(struct government_audit_info* audit)
   pinfo.jury_2_vote = audit->jury_2_vote;
   pinfo.consequence = audit->consequence;
   pinfo.timestamp = audit->timestamp;
+  pinfo.is_over = audit->is_over;
 
   lsend_packet_government_audit_info(game.est_connections, &pinfo);
+}
+
+void update_sabotage_info(struct sabotage_info *info)
+{
+  struct packet_sabotage_info_self pkt;
+  pkt.id = info->id;
+  pkt.consequence = info->consequence;
+  pkt.actionable = info->actionable;
+  pkt.timestamp = info->timestamp;
+  // Don't send src player; it's basic security
+  pkt.player_src = -1;
+  pkt.player_tgt = player_number(info->player_tgt);
+  strcpy(pkt.info, info->info.c_str());
+
+  conn_list_iterate(game.est_connections, pconn)
+  {
+    if(pconn->playing == info->player_send_to) {
+      send_packet_sabotage_info_self(pconn, &pkt);
+    }
+  }
+  conn_list_iterate_end;
 }
 
 void handle_government_info_req(struct player *pplayer)
@@ -137,6 +159,7 @@ void handle_government_audit_info_req(struct player *pplayer, int id)
     pkt.jury_2_vote = audit->jury_2_vote;
     pkt.consequence = audit->consequence;
     pkt.timestamp = audit->timestamp;
+    pkt.is_over = audit->is_over;
 
     send_packet_government_audit_info(pplayer->current_conn, &pkt);
   }
@@ -175,6 +198,7 @@ void handle_government_audit_start(struct player *pplayer, int sabotage_id, int 
   audit->jury_1_vote = AUDIT_VOTE_NONE;
   audit->jury_2_vote = AUDIT_VOTE_NONE;
   audit->consequence = sabotage->consequence;
+  audit->is_over = false;
 
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
     if(g_info.curr_audits[i] == -1) {

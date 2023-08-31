@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <ctime>
 
 // Qt
 #include <QCoreApplication>
@@ -3184,6 +3185,347 @@ static bool admin_command(struct connection *caller, char *str, bool check)
 
     log_warning("Updated limit to %d", limit);
 
+  } else if (!arg.isEmpty() && strcmp(qUtf8Printable(arg.at(0)), "gov-audit") == 0) {
+    if (arg.count() < 2) {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Undefined argument. Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+    QString type = arg.at(1);
+    if (type != "list" && type != "info" && type != "finish") {
+      cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                _("Unknown argument. Usage:\n%s"),
+                command_synopsis(command_by_number(CMD_ADMIN)));
+      return true;
+    }
+
+    if(type == "list") {
+      log_warning("Government:");
+      log_warning("-----------");
+      log_warning("last_news_id: %d, last_audit_id: %d", g_info.last_message_id, g_info.last_audit_id);
+      log_warning("curr_audits: [%d\t%d\t%d]", g_info.curr_audits[0], g_info.curr_audits[1], g_info.curr_audits[2]);
+    } else if(type == "info") {
+      if (arg.count() < 3) {
+        cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                  _("Need to specify audit id. Usage:\n%s"),
+                  command_synopsis(command_by_number(CMD_ADMIN)));
+        return true;
+      }
+      int audit_id = arg.at(2).toInt();
+      struct government_audit_info *info = g_info.find_cached_audit(audit_id);
+      if(!info) {
+        cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Audit id not found."));
+        return true;
+      }
+      bool active = false;
+      for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+        if(audit_id == g_info.curr_audits[i]) {
+          active = true;
+          break;
+        }
+      }
+      log_warning("Audit %d (sabotage %d):\n---------------------", audit_id, info->sabotage_id);
+      log_warning("%s vs %s", player_id_to_string(info->accuser_id).c_str(), player_id_to_string(info->accused_id).c_str());
+      log_warning("State: %s", active ? "active" : "finished");
+      char timestr[64];
+      time_t now = info->timestamp;
+      strftime(timestr, sizeof(timestr), "%d/%m %H:%M:%S", localtime(&now));
+      log_warning("Timestamp: %s", timestr);
+      std::string consequence;
+      switch (info->consequence) {
+        case CONSEQUENCE_GOLD:
+          consequence = "gold";
+          break;
+        case CONSEQUENCE_SCIENCE:
+          consequence = "science";
+          break;
+        case CONSEQUENCE_MATERIALS:
+          consequence = "materials";
+          break;
+      }
+      log_warning("Consequence: %s", consequence.c_str());
+      std::string jury_1_vote;
+      switch (info->jury_1_vote) {
+        case AUDIT_VOTE_NONE:
+          jury_1_vote = "none";
+          break;
+        case AUDIT_VOTE_YES:
+          jury_1_vote = "guilty";
+          break;
+        case AUDIT_VOTE_NO:
+          jury_1_vote = "innocent";
+          break;
+        case AUDIT_VOTE_ABSTAIN:
+          jury_1_vote = "abstain";
+          break;
+      }
+      log_warning("Jury 1 vote (%s): %s", player_id_to_string(determine_jury_id(info->accuser_id, info->accused_id, 1)).c_str(), jury_1_vote.c_str());
+      std::string jury_2_vote;
+      switch (info->jury_2_vote) {
+        case AUDIT_VOTE_NONE:
+          jury_2_vote = "none";
+          break;
+        case AUDIT_VOTE_YES:
+          jury_2_vote = "guilty";
+          break;
+        case AUDIT_VOTE_NO:
+          jury_2_vote = "innocent";
+          break;
+        case AUDIT_VOTE_ABSTAIN:
+          jury_2_vote = "abstain";
+          break;
+      }
+      log_warning("Jury 2 vote (%s): %s", player_id_to_string(determine_jury_id(info->accuser_id, info->accused_id, 2)).c_str(), jury_2_vote.c_str());
+    } else if(type == "finish") {
+      if (arg.count() < 3) {
+        cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                  _("Need to specify audit id. Usage:\n%s"),
+                  command_synopsis(command_by_number(CMD_ADMIN)));
+        return true;
+      }
+      int audit_id = arg.at(2).toInt();
+      struct government_audit_info *info = g_info.find_cached_audit(audit_id);
+      if(!info) {
+        cmd_reply(CMD_ADMIN, caller, C_SYNTAX, _("Audit id not found."));
+        return true;
+      }
+      int curr_audit_idx = -1;
+      for(int i = 0; i < MAX_AUDIT_NUM; i++) {
+        if(audit_id == g_info.curr_audits[i]) {
+          curr_audit_idx = i;
+          break;
+        }
+      }
+      if (curr_audit_idx == -1) {
+        cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
+                  _("The specified audit is not active."));
+        return true;
+      }
+
+      struct sabotage_info *sabotage_info = s_info.find_cached_sabotage(info->sabotage_id);
+      struct player* paccuser = get_player_from_id(info->accuser_id);
+      struct player* paccused = get_player_from_id(info->accused_id);
+      struct player* pjury1 = get_player_from_id(determine_jury_id(info->accuser_id, info->accused_id, 1));
+      struct player* pjury2 = get_player_from_id(determine_jury_id(info->accuser_id, info->accused_id, 2));
+      if(!paccuser || !paccused || !pjury1 || !pjury2) {
+        log_error("One or more players was null! This is wrong!");
+        return true;
+      }
+
+      // Find final decision
+      int votes_guilty = 0;
+      int votes_innocent = 0;
+
+      switch(info->jury_1_vote) {
+        case AUDIT_VOTE_YES:
+          votes_guilty++;
+          break;
+        case AUDIT_VOTE_NO:
+          votes_innocent++;
+          break;
+        default:
+          break;
+      }
+      switch(info->jury_2_vote) {
+        case AUDIT_VOTE_YES:
+          votes_guilty++;
+          break;
+        case AUDIT_VOTE_NO:
+          votes_innocent++;
+          break;
+        default:
+          break;
+      }
+
+
+      if(votes_guilty > votes_innocent) {
+        // Accused is guilty!
+        bool was_decision_right = sabotage_info->player_src == paccused;
+        log_warning("Accused is guilty! Decision was right? %s", was_decision_right ? "yes" : "no");
+        switch (info->consequence) {
+          case CONSEQUENCE_GOLD: {
+            int take = int(ceil(paccused->economic.gold * 0.3f));
+            paccused->economic.gold -= take;
+            log_warning("Accused: %d -> %d (%d)", paccused->economic.gold + take, paccused->economic.gold, take);
+            paccuser->economic.gold += take;
+            log_warning("Accuser: %d -> %d (%d)", paccuser->economic.gold - take, paccuser->economic.gold, take);
+            if(was_decision_right) {
+              if(info->jury_1_vote == AUDIT_VOTE_YES) {
+                pjury1->economic.gold = int(ceil(pjury1->economic.gold * 1.1f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.gold / 1.1f, pjury1->economic.gold, int(ceil(pjury1->economic.gold * 1.1f)) - pjury1->economic.gold);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_YES) {
+                pjury2->economic.gold = int(ceil(pjury2->economic.gold * 1.1f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.gold / 1.1f, pjury2->economic.gold, int(ceil(pjury2->economic.gold * 1.1f)) - pjury2->economic.gold);
+              }
+            } else {
+              if(info->jury_1_vote == AUDIT_VOTE_YES) {
+                pjury1->economic.gold = int(ceil(pjury1->economic.gold * 0.9f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.gold / 0.9f, pjury1->economic.gold, int(ceil(pjury1->economic.gold * 0.9f)) - pjury1->economic.gold);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_YES) {
+                pjury2->economic.gold = int(ceil(pjury2->economic.gold * 0.9f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.gold / 0.9f, pjury2->economic.gold, int(ceil(pjury2->economic.gold * 0.9f)) - pjury2->economic.gold);
+              }
+            }
+            break;}
+          case CONSEQUENCE_SCIENCE:{
+            int take = int(ceil(paccused->economic.science_acc * 0.3f));
+            paccused->economic.science_acc -= take;
+            log_warning("Accused: %d -> %d (%d)", paccused->economic.science_acc + take, paccused->economic.science_acc, take);
+            paccuser->economic.science_acc += take;
+            log_warning("Accuser: %d -> %d (%d)", paccuser->economic.science_acc - take, paccuser->economic.science_acc, take);
+            if(was_decision_right) {
+              if(info->jury_1_vote == AUDIT_VOTE_YES) {
+                pjury1->economic.science_acc = int(ceil(pjury1->economic.science_acc * 1.1f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.science_acc / 1.1f, pjury1->economic.science_acc, int(ceil(pjury1->economic.science_acc * 1.1f)) - pjury1->economic.science_acc);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_YES) {
+                pjury2->economic.science_acc = int(ceil(pjury2->economic.science_acc * 1.1f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.science_acc / 1.1f, pjury2->economic.science_acc, int(ceil(pjury2->economic.science_acc * 1.1f)) - pjury2->economic.science_acc);
+              }
+            } else {
+              if(info->jury_1_vote == AUDIT_VOTE_YES) {
+                pjury1->economic.science_acc = int(ceil(pjury1->economic.science_acc * 0.9f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.science_acc / 0.9f, pjury1->economic.science_acc, int(ceil(pjury1->economic.science_acc * 0.9f)) - pjury1->economic.science_acc);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_YES) {
+                pjury2->economic.science_acc = int(ceil(pjury2->economic.science_acc * 0.9f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.science_acc / 0.9f, pjury2->economic.science_acc, int(ceil(pjury2->economic.science_acc * 0.9f)) - pjury2->economic.science_acc);
+              }
+            }
+            break;}
+          case CONSEQUENCE_MATERIALS:{
+            int take = int(ceil(paccused->economic.materials * 0.2f));
+            paccused->economic.materials -= take;
+            log_warning("Accused: %d -> %d (%d)", paccused->economic.materials + take, paccused->economic.materials, take);
+            paccuser->economic.materials += take;
+            log_warning("Accuser: %d -> %d (%d)", paccuser->economic.materials - take, paccuser->economic.materials, take);
+            if(was_decision_right) {
+              if(info->jury_1_vote == AUDIT_VOTE_YES) {
+                pjury1->economic.materials = int(ceil(pjury1->economic.materials * 1.1f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.materials / 1.1f, pjury1->economic.materials, int(ceil(pjury1->economic.materials * 1.1f)) - pjury1->economic.materials);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_YES) {
+                pjury2->economic.materials = int(ceil(pjury2->economic.materials * 1.1f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.materials / 1.1f, pjury2->economic.materials, int(ceil(pjury2->economic.materials * 1.1f)) - pjury2->economic.materials);
+              }
+            } else {
+              if(info->jury_1_vote == AUDIT_VOTE_YES) {
+                pjury1->economic.materials = int(ceil(pjury1->economic.materials * 0.9f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.materials / 0.9f, pjury1->economic.materials, int(ceil(pjury1->economic.materials * 0.9f)) - pjury1->economic.materials);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_YES) {
+                pjury2->economic.materials = int(ceil(pjury2->economic.materials * 0.9f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.materials / 0.9f, pjury2->economic.materials, int(ceil(pjury2->economic.materials * 0.9f)) - pjury2->economic.materials);
+              }
+            }
+            break;}
+        }
+      } else if(votes_guilty < votes_innocent) {
+        // Accused is innocent!
+        bool was_decision_right = sabotage_info->player_src != paccused;
+        log_warning("Accused is innocent! Decision was right? %s", was_decision_right ? "yes" : "no");
+        switch (info->consequence) {
+          case CONSEQUENCE_GOLD:{
+            int take = int(ceil(paccuser->economic.gold * 0.3f));
+            paccuser->economic.gold -= take;
+            log_warning("Accused: %d -> %d (%d)", paccused->economic.gold + take, paccused->economic.gold, take);
+            paccused->economic.gold += take;
+            log_warning("Accuser: %d -> %d (%d)", paccuser->economic.gold - take, paccuser->economic.gold, take);
+            if(was_decision_right) {
+              if(info->jury_1_vote == AUDIT_VOTE_NO) {
+                pjury1->economic.gold = int(ceil(pjury1->economic.gold * 1.1f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.gold / 1.1f, pjury1->economic.gold, int(ceil(pjury1->economic.gold * 1.1f)) - pjury1->economic.gold);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_NO) {
+                pjury2->economic.gold = int(ceil(pjury2->economic.gold * 1.1f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.gold / 1.1f, pjury2->economic.gold, int(ceil(pjury2->economic.gold * 1.1f)) - pjury2->economic.gold);
+              }
+            } else {
+              if(info->jury_1_vote == AUDIT_VOTE_NO) {
+                pjury1->economic.gold = int(ceil(pjury1->economic.gold * 0.9f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.gold / 0.9f, pjury1->economic.gold, int(ceil(pjury1->economic.gold * 0.9f)) - pjury1->economic.gold);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_NO) {
+                pjury2->economic.gold = int(ceil(pjury2->economic.gold * 0.9f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.gold / 0.9f, pjury2->economic.gold, int(ceil(pjury2->economic.gold * 0.9f)) - pjury2->economic.gold);
+              }
+            }
+            break;}
+          case CONSEQUENCE_SCIENCE:{
+            int take = int(ceil(paccuser->economic.science_acc * 0.3f));
+            paccuser->economic.science_acc -= take;
+            log_warning("Accused: %d -> %d (%d)", paccused->economic.science_acc + take, paccused->economic.science_acc, take);
+            paccused->economic.science_acc += take;
+            log_warning("Accuser: %d -> %d (%d)", paccuser->economic.science_acc - take, paccuser->economic.science_acc, take);
+            if(was_decision_right) {
+              if(info->jury_1_vote == AUDIT_VOTE_NO) {
+                pjury1->economic.science_acc = int(ceil(pjury1->economic.science_acc * 1.1f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.science_acc / 1.1f, pjury1->economic.science_acc, int(ceil(pjury1->economic.science_acc * 1.1f)) - pjury1->economic.science_acc);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_NO) {
+                pjury2->economic.science_acc = int(ceil(pjury2->economic.science_acc * 1.1f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.science_acc / 1.1f, pjury2->economic.science_acc, int(ceil(pjury2->economic.science_acc * 1.1f)) - pjury2->economic.science_acc);
+              }
+            } else {
+              if(info->jury_1_vote == AUDIT_VOTE_NO) {
+                pjury1->economic.science_acc = int(ceil(pjury1->economic.science_acc * 0.9f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.science_acc / 0.9f, pjury1->economic.science_acc, int(ceil(pjury1->economic.science_acc * 0.9f)) - pjury1->economic.science_acc);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_NO) {
+                pjury2->economic.science_acc = int(ceil(pjury2->economic.science_acc * 0.9f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.science_acc / 0.9f, pjury2->economic.science_acc, int(ceil(pjury2->economic.science_acc * 0.9f)) - pjury2->economic.science_acc);
+              }
+            }
+            break;}
+          case CONSEQUENCE_MATERIALS:{
+            int take = int(ceil(paccuser->economic.materials * 0.2f));
+            paccuser->economic.materials -= take;
+            log_warning("Accused: %d -> %d (%d)", paccused->economic.materials + take, paccused->economic.materials, take);
+            paccused->economic.materials += take;
+            log_warning("Accuser: %d -> %d (%d)", paccuser->economic.materials - take, paccuser->economic.materials, take);
+            if(was_decision_right) {
+              if(info->jury_1_vote == AUDIT_VOTE_NO) {
+                pjury1->economic.materials = int(ceil(pjury1->economic.materials * 1.1f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.materials / 1.1f, pjury1->economic.materials, int(ceil(pjury1->economic.materials * 1.1f)) - pjury1->economic.materials);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_NO) {
+                pjury2->economic.materials = int(ceil(pjury2->economic.materials * 1.1f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.materials / 1.1f, pjury2->economic.materials, int(ceil(pjury2->economic.materials * 1.1f)) - pjury2->economic.materials);
+              }
+            } else {
+              if(info->jury_1_vote == AUDIT_VOTE_NO) {
+                pjury1->economic.materials = int(ceil(pjury1->economic.materials * 0.9f));
+                log_warning("Jury 1: %f -> %d (%d)", pjury1->economic.materials / 0.9f, pjury1->economic.materials, int(ceil(pjury1->economic.materials * 0.9f)) - pjury1->economic.materials);
+              }
+              if(info->jury_2_vote == AUDIT_VOTE_NO) {
+                pjury2->economic.materials = int(ceil(pjury2->economic.materials * 0.9f));
+                log_warning("Jury 2: %f -> %d (%d)", pjury2->economic.materials / 0.9f, pjury2->economic.materials, int(ceil(pjury2->economic.materials * 0.9f)) - pjury2->economic.materials);
+              }
+            }
+            break;}
+        }
+      } else {
+        // Stalemate!
+        log_warning("Stalemate!");
+        // Nothing happens
+      }
+
+      // Mark sabotage as no longer actionable
+      sabotage_info->actionable = false;
+      info->is_over = true;
+      // Clear on curr_audit
+      g_info.curr_audits[curr_audit_idx] = -1;
+
+      // Update info on clients
+      update_sabotage_info(sabotage_info);
+      update_government_audit_info(info);
+      update_government_info();
+
+      return true;
+    }
   } else {
     cmd_reply(CMD_ADMIN, caller, C_SYNTAX,
               _("Undefined argument.  Usage:\n%s"),

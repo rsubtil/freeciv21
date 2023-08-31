@@ -21,6 +21,7 @@ extern std::map<struct unit *, struct tile *> spy_last_sabotages;
 
 void update_government_info();
 void update_government_audit_info(struct government_audit_info* info);
+void update_sabotage_info(struct sabotage_info* info);
 void spy_send_error(struct player *pplayer, const char* msg);
 bool spy_sabotaged_tile_recently(struct unit *punit, struct tile *tile);
 void spy_set_recent_sabotaged_tile(struct unit *punit, struct tile *tile);

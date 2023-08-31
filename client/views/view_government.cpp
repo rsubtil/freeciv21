@@ -535,6 +535,13 @@ void government_report::show_audit_screen(int id)
 
 void government_report::update_audit_screen(int id)
 {
+  if(curr_audit->is_over) {
+    log_warning("Audit has ended.");
+    layout->setCurrentIndex(0);
+    curr_audit = nullptr;
+    return;
+  }
+
   // Convert audit id to chat idx
   int chat_idx = -1;
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {

@@ -59,6 +59,7 @@ player_id determine_jury_id(player_id accuser, player_id accused, int which);
 int get_jury_vote(player_id curr, struct government_audit_info *info);
 void set_jury_vote(int vote, player_id curr, struct government_audit_info *info);
 player_id get_player_id(const struct player *pplayer);
+struct player * get_player_from_id(player_id id);
 std::string player_id_to_string(player_id id);
 player_id player_id_from_string(const std::string &str);
 player_id player_id_from_char(const char &c);
@@ -102,6 +103,7 @@ struct government_audit_info {
   int jury_2_vote;
   int consequence;
   time_t timestamp;
+  bool is_over;
 };
 
 struct government_audit_info* government_audit_info_new(const struct packet_government_audit_info* audit);

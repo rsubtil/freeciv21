@@ -5490,6 +5490,7 @@ void handle_government_audit_info(const struct packet_government_audit_info *pac
     info->jury_2_vote = packet->jury_2_vote;
     info->consequence = packet->consequence;
     info->timestamp = packet->timestamp;
+    info->is_over = packet->is_over;
   }
   government_report::instance()->update_audit_info(info);
 }
