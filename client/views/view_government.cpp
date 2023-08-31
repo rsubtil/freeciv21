@@ -174,6 +174,7 @@ government_report::government_report() : QWidget()
   a_go_back->setText(_("Go back"));
   a_go_back->connect(a_go_back, &QPushButton::clicked, this, [this]() {
     layout->setCurrentIndex(0);
+    curr_audit = nullptr;
   });
   a_layout->addWidget(a_go_back, 0, 0, 1, 1);
 
@@ -206,9 +207,17 @@ government_report::government_report() : QWidget()
   a_jury_1_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_jury_1_pixmap_cont, 7, 0);//, 3, 3);
 
+  a_jury_1_vote_pixmap_cont = new QLabel();
+  a_jury_1_vote_pixmap_cont->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_jury_1_vote_pixmap_cont, 8, 0);//, 3, 3);
+
   a_jury_2_pixmap_cont = new QLabel();
   a_jury_2_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_jury_2_pixmap_cont, 7, 3);//, 3, 3);
+
+  a_jury_2_vote_pixmap_cont = new QLabel();
+  a_jury_2_vote_pixmap_cont->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_jury_2_vote_pixmap_cont, 8, 3);//, 3, 3);
 
   QLabel *a_jury_pixmap_lbl = new QLabel(_("Jury"));
   a_jury_pixmap_lbl->setSizePolicy(size_fixed_policy);
@@ -217,7 +226,12 @@ government_report::government_report() : QWidget()
   a_vote_confirm = new hud_message_box(this);
   a_vote_confirm->setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
   a_vote_confirm->setDefaultButton(QMessageBox::Cancel);
-  // TODO: Connect confirm button to vote
+  connect(a_vote_confirm, &hud_message_box::finished, this, &government_report::confirm_vote_packet);
+
+  a_jury_vote_none_pixmap = get_jury_vote_sprite(tileset, AUDIT_VOTE_NONE);
+  a_jury_vote_yes_pixmap = get_jury_vote_sprite(tileset, AUDIT_VOTE_YES);
+  a_jury_vote_no_pixmap = get_jury_vote_sprite(tileset, AUDIT_VOTE_NO);
+  a_jury_vote_abstain_pixmap = get_jury_vote_sprite(tileset, AUDIT_VOTE_ABSTAIN);
 
   a_jury_vote_yes = new QPushButton();
   a_jury_vote_yes->setSizePolicy(size_fixed_policy);
@@ -225,7 +239,7 @@ government_report::government_report() : QWidget()
   connect(a_jury_vote_yes, &QPushButton::clicked, this, [this]() {
     confirm_vote(AUDIT_VOTE_YES);
   });
-  a_layout->addWidget(a_jury_vote_yes, 10, 0, 1, 2);//, 1, 1);
+  a_layout->addWidget(a_jury_vote_yes, 11, 0, 1, 2);//, 1, 1);
 
   a_jury_vote_no = new QPushButton();
   a_jury_vote_no->setSizePolicy(size_fixed_policy);
@@ -233,7 +247,7 @@ government_report::government_report() : QWidget()
   a_jury_vote_no->connect(a_jury_vote_no, &QPushButton::clicked, this, [this]() {
     confirm_vote(AUDIT_VOTE_NO);
   });
-  a_layout->addWidget(a_jury_vote_no, 10, 2, 1, 2);//, 1, 1);
+  a_layout->addWidget(a_jury_vote_no, 11, 2, 1, 2);//, 1, 1);
 
   a_jury_vote_abstain = new QPushButton();
   a_jury_vote_abstain->setSizePolicy(size_fixed_policy);
@@ -241,7 +255,7 @@ government_report::government_report() : QWidget()
   a_jury_vote_abstain->connect(a_jury_vote_abstain, &QPushButton::clicked, this, [this]() {
     confirm_vote(AUDIT_VOTE_ABSTAIN);
   });
-  a_layout->addWidget(a_jury_vote_abstain, 10, 4, 1, 2);//, 1, 1);
+  a_layout->addWidget(a_jury_vote_abstain, 11, 4, 1, 2);//, 1, 1);
 
   QLabel* a_public_chat_lbl = new QLabel(_("Public chat"));
   a_public_chat_lbl->setSizePolicy(size_expand_policy);
@@ -280,6 +294,21 @@ government_report::government_report() : QWidget()
   layout->addWidget(main_screen);
   layout->addWidget(auditing_screen);
   setLayout(layout);
+}
+
+QPixmap* government_report::convert_vote_to_pixmap(int vote) {
+  switch (vote) {
+    case AUDIT_VOTE_NONE:
+      return a_jury_vote_none_pixmap;
+    case AUDIT_VOTE_YES:
+      return a_jury_vote_yes_pixmap;
+    case AUDIT_VOTE_NO:
+      return a_jury_vote_no_pixmap;
+    case AUDIT_VOTE_ABSTAIN:
+      return a_jury_vote_abstain_pixmap;
+    default:
+      return nullptr;
+  }
 }
 
 /**
@@ -480,6 +509,11 @@ void government_report::show_audit_screen(int id)
   layout->setCurrentIndex(1);
   curr_audit = info;
 
+  update_audit_screen(id);
+}
+
+void government_report::update_audit_screen(int id)
+{
   // Convert audit id to chat idx
   int chat_idx = -1;
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
@@ -497,13 +531,10 @@ void government_report::show_audit_screen(int id)
     log_error("Couldn't find chat window!");
   }
 
-  log_warning("accuser %d accused %d me %d", info->accuser_id,
-              info->accused_id, get_player_id(client.conn.playing));
-
   std::string accuser_name =
-      player_id_to_string((player_id) info->accuser_id);
+      player_id_to_string((player_id) curr_audit->accuser_id);
   std::string accused_name =
-      player_id_to_string((player_id) info->accused_id);
+      player_id_to_string((player_id) curr_audit->accused_id);
 
   a_description->setText(QString(_("%1 vs %2"))
                               .arg(accuser_name.c_str())
@@ -511,7 +542,7 @@ void government_report::show_audit_screen(int id)
 
   // TODO: Info about sabotage type
   player_id my_id = get_player_id(client.conn.playing);
-  if (my_id == info->accuser_id) {
+  if (my_id == curr_audit->accuser_id) {
     a_player_description->setText(
         QString(_("You are accusing %1 of %2. Convice the jury to rule in "
                   "your favor!"))
@@ -520,7 +551,7 @@ void government_report::show_audit_screen(int id)
     a_jury_vote_yes->setVisible(false);
     a_jury_vote_no->setVisible(false);
     a_jury_vote_abstain->setVisible(false);
-  } else if (my_id == info->accused_id) {
+  } else if (my_id == curr_audit->accused_id) {
     a_player_description->setText(
         QString(_("You are being accused of %1 by %2. You must convince "
                   "the jury that you're innocent!"))
@@ -539,29 +570,32 @@ void government_report::show_audit_screen(int id)
     a_jury_vote_yes->setVisible(true);
     a_jury_vote_no->setVisible(true);
     a_jury_vote_abstain->setVisible(true);
-    int curr_vote = get_jury_vote(my_id, info);
+    int curr_vote = get_jury_vote(my_id, curr_audit);
     a_jury_vote_yes->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
     a_jury_vote_no->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
     a_jury_vote_abstain->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
   }
 
-  a_accuser_pixmap = get_player_thumb_sprite(tileset, info->accuser_id);
+  a_accuser_pixmap = get_player_thumb_sprite(tileset, curr_audit->accuser_id);
   a_accuser_pixmap_cont->setPixmap(*a_accuser_pixmap);
 
-  a_accused_pixmap = get_player_thumb_sprite(tileset, info->accused_id);
+  a_accused_pixmap = get_player_thumb_sprite(tileset, curr_audit->accused_id);
   a_accused_pixmap_cont->setPixmap(*a_accused_pixmap);
 
   a_jury_1_pixmap = get_player_thumb_sprite(tileset, determine_jury_id(
-                                                        (player_id)info->accuser_id,
-                                                        (player_id)info->accused_id,
+                                                        (player_id)curr_audit->accuser_id,
+                                                        (player_id)curr_audit->accused_id,
                                                         1));
   a_jury_1_pixmap_cont->setPixmap(*a_jury_1_pixmap);
 
   a_jury_2_pixmap = get_player_thumb_sprite(tileset, determine_jury_id(
-                                                        (player_id)info->accuser_id,
-                                                        (player_id)info->accused_id,
+                                                        (player_id)curr_audit->accuser_id,
+                                                        (player_id)curr_audit->accused_id,
                                                         2));
   a_jury_2_pixmap_cont->setPixmap(*a_jury_2_pixmap);
+
+  a_jury_1_vote_pixmap_cont->setPixmap(*convert_vote_to_pixmap(curr_audit->jury_1_vote));
+  a_jury_2_vote_pixmap_cont->setPixmap(*convert_vote_to_pixmap(curr_audit->jury_2_vote));
 }
 
 void government_report::confirm_vote(audit_vote_type intended_vote)
@@ -588,6 +622,18 @@ void government_report::confirm_vote(audit_vote_type intended_vote)
 
   a_vote_confirm->set_text_title(text, title);
   a_vote_confirm->show();
+}
+
+void government_report::confirm_vote_packet(int result) {
+  if(result == QMessageBox::Yes) {
+    struct packet_government_audit_submit_vote *req =
+        new packet_government_audit_submit_vote();
+
+    req->id = curr_audit->id;
+    req->vote = intended_vote;
+
+    send_packet_government_audit_submit_vote(&client.conn, req);
+  }
 }
 
 void government_report::update_info()
@@ -636,5 +682,8 @@ void government_report::update_audit_info(struct government_audit_info *info)
     if(g_info.curr_audits[i] == info->id) {
       m_auditing_buttons[i]->set_audit_info(info);
     }
+  }
+  if(curr_audit == info) {
+    update_audit_screen(info->id);
   }
 }

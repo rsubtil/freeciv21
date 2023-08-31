@@ -84,6 +84,21 @@ void update_government_info()
   lsend_packet_government_info(game.est_connections, &info);
 }
 
+void update_government_audit_info(struct government_audit_info* audit)
+{
+  struct packet_government_audit_info pinfo;
+  pinfo.id = audit->id;
+  pinfo.sabotage_id = audit->sabotage_id;
+  pinfo.accused_id = (player_id) audit->accused_id;
+  pinfo.accuser_id = (player_id) audit->accuser_id;
+  pinfo.jury_1_vote = audit->jury_1_vote;
+  pinfo.jury_2_vote = audit->jury_2_vote;
+  pinfo.consequence = audit->consequence;
+  pinfo.timestamp = audit->timestamp;
+
+  lsend_packet_government_audit_info(game.est_connections, &pinfo);
+}
+
 void handle_government_info_req(struct player *pplayer)
 {
   struct packet_government_info info;
@@ -127,9 +142,27 @@ void handle_government_audit_info_req(struct player *pplayer, int id)
   }
 }
 
-void handle_government_audit_submit_vote(struct player *pplayer, int id, int vote)
+void handle_government_audit_submit_vote(struct player *pplayer, int audit_id, int vote)
 {
-  // TODO
+  struct government_audit_info *audit = g_info.find_cached_audit(audit_id);
+  if(!audit) return;
+
+  player_id id = player_id_from_string(pplayer->name);
+  if(id == audit->accuser_id || id == audit->accused_id) {
+    log_error("Player %s tried to vote on their own audit!", pplayer->name);
+    return;
+  }
+
+  if (id == determine_jury_id(audit->accuser_id, audit->accused_id, 1)) {
+    audit->jury_1_vote = vote;
+  } else if (id == determine_jury_id(audit->accuser_id, audit->accused_id, 2)) {
+    audit->jury_2_vote = vote;
+  } else {
+    log_error("Player %s tried to vote on an audit they are not part of!", pplayer->name);
+    return;
+  }
+
+  update_government_audit_info(audit);
 }
 
 void handle_government_audit_start(struct player *pplayer, int sabotage_id, int accused_id)

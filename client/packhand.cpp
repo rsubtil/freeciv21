@@ -5475,8 +5475,20 @@ void handle_government_news(const struct packet_government_news *packet)
 void handle_government_audit_info(const struct packet_government_audit_info *packet)
 {
   g_info.last_audit_id = MAX(packet->id, g_info.last_audit_id);
-  government_audit_info* info = government_audit_info_new(packet);
-  g_info.cached_audits.push_back(info);
+  government_audit_info *info = g_info.find_cached_audit(packet->id);
+  if(info == nullptr) {
+    info = government_audit_info_new(packet);
+    g_info.cached_audits.push_back(info);
+  } else {
+    info->id = packet->id;
+    info->sabotage_id = packet->sabotage_id;
+    info->accuser_id = player_id(packet->accuser_id);
+    info->accused_id = player_id(packet->accused_id);
+    info->jury_1_vote = packet->jury_1_vote;
+    info->jury_2_vote = packet->jury_2_vote;
+    info->consequence = packet->consequence;
+    info->timestamp = packet->timestamp;
+  }
   government_report::instance()->update_audit_info(info);
 }
 

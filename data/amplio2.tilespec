@@ -157,6 +157,7 @@ files =
   "misc/techs.spec",
   "misc/treaty.spec",
   "misc/player.spec",
+  "misc/jury_vote.spec",
   "amplio2/nuke.spec",
   "amplio2/explosions.spec",
   "amplio2/cities.spec",

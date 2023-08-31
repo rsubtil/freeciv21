@@ -249,6 +249,7 @@ const QPixmap *get_sample_city_sprite(const struct tileset *t,
 const QPixmap *get_tax_sprite(const struct tileset *t, Output_type_id otype);
 const QPixmap *get_treaty_thumb_sprite(const struct tileset *t, bool on_off);
 QPixmap *get_player_thumb_sprite(const struct tileset *t, const int &player_id);
+QPixmap *get_jury_vote_sprite(const struct tileset *t, const int &vote_type);
 const struct sprite_vector *
 get_unit_explode_animation(const struct tileset *t);
 const QPixmap *get_nuke_explode_sprite(const struct tileset *t);

@@ -60,14 +60,16 @@ class government_report : public QWidget {
 
   QLabel *a_description, *a_player_description;
   QLabel *a_accuser_pixmap_cont, *a_accused_pixmap_cont, *a_jury_1_pixmap_cont, *a_jury_2_pixmap_cont;
+  QLabel *a_jury_1_vote_pixmap_cont, *a_jury_2_vote_pixmap_cont;
   QPixmap *a_accuser_pixmap, *a_accused_pixmap, *a_jury_1_pixmap, *a_jury_2_pixmap;
+  QPixmap *a_jury_vote_none_pixmap, *a_jury_vote_yes_pixmap, *a_jury_vote_no_pixmap, *a_jury_vote_abstain_pixmap;
   QPushButton *a_jury_vote_yes, *a_jury_vote_no, *a_jury_vote_abstain;
   QLabel *a_consequence_good, *a_consequence_bad;
   hud_message_box *a_vote_confirm;
 
   chat_widget *chat_widgets[MAX_AUDIT_NUM];
 
-  audit_vote_type intended_vote = AUDIT_VOTE_ABSTAIN;
+  audit_vote_type intended_vote = AUDIT_VOTE_NONE;
 
   int cached_last_message_id = -1;
   int cached_last_audit_id = -1;
@@ -87,7 +89,10 @@ protected:
   void confirm_audit_sabotage_selected(struct packet_sabotage_info_self *report,
                                        QString player);
   void show_audit_screen(int id);
+  void update_audit_screen(int id);
   void confirm_vote(audit_vote_type intended_vote);
+  void confirm_vote_packet(int result);
+  QPixmap* convert_vote_to_pixmap(int vote);
 
 public:
   static government_report *instance();

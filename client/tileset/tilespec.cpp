@@ -161,7 +161,8 @@ struct named_sprites {
       // The panel sprites for showing tax % allocations.
       *tax_luxury, *tax_science, *tax_gold,
       *dither_tile, // only used for isometric view
-      *player_thumb[4];
+      *player_thumb[4],
+      *jury_vote[4]; // 0=abstain, 1=yes, 2=no, 3=none
 
   struct {
     QPixmap *tile, *worked_tile, *unworked_tile;
@@ -2502,6 +2503,11 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(player_thumb[PLAYER_GREEN], "player.green");
   SET_SPRITE(player_thumb[PLAYER_YELLOW], "player.yellow");
   SET_SPRITE(player_thumb[PLAYER_BLUE], "player.blue");
+
+  SET_SPRITE(jury_vote[AUDIT_VOTE_NONE], "jury_vote.none");
+  SET_SPRITE(jury_vote[AUDIT_VOTE_YES], "jury_vote.yes");
+  SET_SPRITE(jury_vote[AUDIT_VOTE_NO], "jury_vote.no");
+  SET_SPRITE(jury_vote[AUDIT_VOTE_ABSTAIN], "jury_vote.abstain");
 
   for (j = 0; j < INDICATOR_COUNT; j++) {
     const char *names[] = {"science_bulb", "warming_sun", "cooling_flake"};
@@ -5319,6 +5325,11 @@ const QPixmap *get_treaty_thumb_sprite(const struct tileset *t, bool on_off)
 QPixmap *get_player_thumb_sprite(const struct tileset *t, const int &player_id)
 {
   return t->sprites.player_thumb[player_id];
+}
+
+QPixmap *get_jury_vote_sprite(const struct tileset *t, const int &vote_type)
+{
+  return t->sprites.jury_vote[vote_type];
 }
 
 /**
