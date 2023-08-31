@@ -183,16 +183,24 @@ government_report::government_report() : QWidget()
 
   a_player_description = new QLabel(_("Player description"));
   a_player_description->setWordWrap(true);
-  a_player_description->setSizePolicy(size_expand_policy);
-  a_layout->addWidget(a_player_description, 2, 0);//, -1, 1);
+  a_player_description->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_player_description, 2, 0, 1, 4);
 
   a_accuser_pixmap_cont = new QLabel();
   a_accuser_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_accuser_pixmap_cont, 3, 0);//, 3, 3);
 
+  QLabel *a_accuser_pixmap_lbl = new QLabel(_("Accuser"));
+  a_accuser_pixmap_lbl->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_accuser_pixmap_lbl, 3, 1);//, 1, 1);
+
   a_accused_pixmap_cont = new QLabel();
   a_accused_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_accused_pixmap_cont, 3, 3);//, 3, 3);
+
+  QLabel *a_accused_pixmap_lbl = new QLabel(_("Accused"));
+  a_accused_pixmap_lbl->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_accused_pixmap_lbl, 3, 2);//, 1, 1);
 
   a_jury_1_pixmap_cont = new QLabel();
   a_jury_1_pixmap_cont->setSizePolicy(size_fixed_policy);
@@ -201,6 +209,10 @@ government_report::government_report() : QWidget()
   a_jury_2_pixmap_cont = new QLabel();
   a_jury_2_pixmap_cont->setSizePolicy(size_fixed_policy);
   a_layout->addWidget(a_jury_2_pixmap_cont, 7, 3);//, 3, 3);
+
+  QLabel *a_jury_pixmap_lbl = new QLabel(_("Jury"));
+  a_jury_pixmap_lbl->setSizePolicy(size_fixed_policy);
+  a_layout->addWidget(a_jury_pixmap_lbl, 7, 1);//, 1, 1);
 
   a_vote_confirm = new hud_message_box(this);
   a_vote_confirm->setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
@@ -242,7 +254,7 @@ government_report::government_report() : QWidget()
     chat_widgets[i]->setVisible(false);
     // Set a bogus filter, otherwise it will receive meta messages
     chat_widgets[i]->set_filter(QString(CHAT_AUDIT_PREFIX) + QString::number(i) + ":");
-    a_layout->addWidget(chat_widgets[i], 1, 6, 5, 4);//, -1, 4);
+    a_layout->addWidget(chat_widgets[i], 1, 6, 9, 4);//, -1, 4);
   }
 
   QLabel* a_consequence_good_label = new QLabel(_("Consequence if true:"));
@@ -505,12 +517,18 @@ void government_report::show_audit_screen(int id)
                   "your favor!"))
             .arg(accused_name.c_str())
             .arg("sabotage"));
+    a_jury_vote_yes->setVisible(false);
+    a_jury_vote_no->setVisible(false);
+    a_jury_vote_abstain->setVisible(false);
   } else if (my_id == info->accused_id) {
     a_player_description->setText(
         QString(_("You are being accused of %1 by %2. You must convince "
                   "the jury that you're innocent!"))
             .arg("sabotage")
             .arg(accuser_name.c_str()));
+    a_jury_vote_yes->setVisible(false);
+    a_jury_vote_no->setVisible(false);
+    a_jury_vote_abstain->setVisible(false);
   } else {
     a_player_description->setText(
         QString(_("You are a jury member in the trial of %1 vs %2. Seek "
@@ -518,6 +536,13 @@ void government_report::show_audit_screen(int id)
                   "innocent and who will be penalized!"))
             .arg(accuser_name.c_str())
             .arg(accused_name.c_str()));
+    a_jury_vote_yes->setVisible(true);
+    a_jury_vote_no->setVisible(true);
+    a_jury_vote_abstain->setVisible(true);
+    int curr_vote = get_jury_vote(my_id, info);
+    a_jury_vote_yes->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
+    a_jury_vote_no->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
+    a_jury_vote_abstain->setEnabled(curr_vote != -1 && curr_vote == AUDIT_VOTE_NONE);
   }
 
   a_accuser_pixmap = get_player_thumb_sprite(tileset, info->accuser_id);

@@ -50,6 +50,8 @@ enum audit_vote_type : int {
 };
 
 player_id determine_jury_id(player_id accuser, player_id accused, int which);
+int get_jury_vote(player_id curr, struct government_audit_info *info);
+void set_jury_vote(int vote, player_id curr, struct government_audit_info *info);
 player_id get_player_id(const struct player *pplayer);
 std::string player_id_to_string(player_id id);
 player_id player_id_from_string(const std::string &str);

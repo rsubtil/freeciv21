@@ -43,6 +43,31 @@ player_id determine_jury_id(player_id accuser, player_id accused, int which)
   return PLAYER_PURPLE;
 }
 
+int get_jury_vote(player_id curr, struct government_audit_info* info)
+{
+  if(curr == info->accuser_id || curr == info->accused_id) {
+    return -1;
+  }
+  if(curr == determine_jury_id(info->accuser_id, info->accused_id, 1)) {
+    return info->jury_1_vote;
+  } else if(curr == determine_jury_id(info->accuser_id, info->accused_id, 2)) {
+    return info->jury_2_vote;
+  }
+  return -1;
+}
+
+void set_jury_vote(int vote, player_id curr, struct government_audit_info *info)
+{
+  if (curr == info->accuser_id || curr == info->accused_id) {
+    return;
+  }
+  if (curr == determine_jury_id(info->accuser_id, info->accused_id, 1)) {
+    info->jury_1_vote = vote;
+  } else if (curr == determine_jury_id(info->accuser_id, info->accused_id, 2)) {
+    info->jury_2_vote = vote;
+  }
+}
+
 player_id get_player_id(const struct player *pplayer)
 {
   if(!strcmp(pplayer->username, "purple")) {
