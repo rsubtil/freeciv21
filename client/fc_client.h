@@ -62,6 +62,8 @@ struct fc_settings {
   bool show_messages; // Only used when loading
   QString server_username;
   QString server_password;
+  QString server_port;
+  time_t server_timestamp;
   Qt::SortOrder player_report_sort;
   int city_repo_sort_col;
   Qt::SortOrder city_report_sort;

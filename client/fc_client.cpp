@@ -9,6 +9,8 @@
  */
 
 #include "fc_client.h"
+// C
+#include <ctime>
 // Qt
 #include <QApplication>
 #include <QDirIterator>
@@ -468,6 +470,18 @@ void fc_client::read_settings()
   } else {
     qt_settings.server_password = QString("");
   }
+  if (s.contains(QStringLiteral("server_port"))) {
+    qt_settings.server_port =
+        s.value(QStringLiteral("server_port")).toString();
+  } else {
+    qt_settings.server_port = QString("");
+  }
+  if (s.contains(QStringLiteral("server_timestamp"))) {
+    qt_settings.server_timestamp =
+        s.value(QStringLiteral("server_timestamp")).toInt();
+  } else {
+    qt_settings.server_timestamp = 0;
+  }
 
   qt_settings.show_chat =
       s.value(QStringLiteral("show_chat"), true).toBool();
@@ -544,6 +558,9 @@ void fc_client::write_settings()
   s.setValue(QStringLiteral("new_turn_text"), qt_settings.show_new_turn_text);
   s.setValue(QStringLiteral("server_username"), qt_settings.server_username);
   s.setValue(QStringLiteral("server_password"), qt_settings.server_password);
+  s.setValue(QStringLiteral("server_port"), qt_settings.server_port);
+  time_t timestamp = time(nullptr);
+  s.setValue(QStringLiteral("server_timestamp"), QString::number(timestamp));
   s.setValue(QStringLiteral("show_battle_log"), qt_settings.show_battle_log);
   s.setValue(QStringLiteral("show_chat"), queen()->chat->is_chat_visible());
   s.setValue(QStringLiteral("show_messages"),

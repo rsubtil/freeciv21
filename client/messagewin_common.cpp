@@ -23,6 +23,7 @@
 
 // client
 #include "client_main.h"
+#include "fc_client.h"
 #include "messagewin_common.h"
 #include "options.h"
 #include "page_game.h"
@@ -124,6 +125,7 @@ void meswin_add(const char *message,
   msg->timestamp = timestamp;
   msg->phase = phase;
   messages[messages_total++] = msg;
+  meswin_set_visited_state(messages_total - 1, timestamp < king()->qt_settings.server_timestamp);
 
   /* Update the city_ok fields of all messages since the city may have
    * changed owner. */

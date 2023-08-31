@@ -53,6 +53,7 @@
 #include "climap.h"
 #include "climisc.h"
 #include "control.h"
+#include "fc_client.h"
 #include "messagewin_common.h"
 #include "options.h"
 #include "packhand.h"
@@ -879,8 +880,11 @@ void handle_event(const char *featured_text, struct tile *ptile,
      * Server operator messages are shown always. */
     if (nullptr == client.conn.playing || is_human(client.conn.playing)
         || event == E_MESSAGE_WALL) {
-      popup_notify_goto_dialog(_("Message"), plain_text, tags, ptile);
-      shown = true;
+      // Only popup on recent messages
+      if(timestamp > king()->qt_settings.server_timestamp) {
+        popup_notify_goto_dialog(_("Message"), plain_text, tags, ptile);
+        shown = true;
+      }
     } else {
       /* Force to chatline so it will be visible somewhere at least.
        * Messages window may still handle this so chatline is not needed
