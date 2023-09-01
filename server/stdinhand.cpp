@@ -4002,6 +4002,7 @@ static bool switch_command(struct connection *caller, char *str, bool check)
   if (arg.count() == 0) {
     cmd_reply(CMD_SWITCH, caller, C_SYNTAX, _("Current mode: %s"),
               game.info.game_mode == RS_GAME_MODE_ACTIVE ? "active" : "passive");
+    return true;
   } else if(arg.count() > 1) {
     cmd_reply(CMD_SWITCH, caller, C_SYNTAX, _("Usage:\n%s"),
               command_synopsis(command_by_number(CMD_SWITCH)));
