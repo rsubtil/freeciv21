@@ -1,17 +1,30 @@
 #!/bin/sh
 
-logdir=$1
-if [ -z "$logdir" ]; then
-    echo "Usage: $0 <logdir>"
+match=alpha
+
+# Test if savefiles and logs directory exists
+if [ ! -d "savefiles" ]; then
+    echo "Savefiles directory not found"
+    exit 1
+fi
+if [ ! -d "logs" ]; then
+    echo "Logs directory not found"
     exit 1
 fi
 
+if [ -z "$1" ]; then
+  if [ "$(ls -A savefiles)" ]; then
+    echo "Savefiles directory not empty! Specify last save_file"
+    exit 1
+  fi
+    echo "No scenario file specified, using scenario.sav"
+    scenario=scenario.sav
+else
+    scenario=$1
+fi
 
-logfile=$logdir/$(date +%d_%m___%H_%M_%S).log
-echo "Storing logfile at $logfile"
+# We are in the right place
+lunar_gambit-server -f "$scenario" --saves savefiles --log ../logs/$(date +%d_%m___%H_%M_%S).log --read setup_commands
 
-# Run the demo
-echo "Server running... (type q and enter to quit, or end from game)"
-./build/freeciv21-server -f demoScenario.sav --saves ../spaceRaceScenario/backups > $logfile 2>&1
-
-echo "Server closed. Logfile at $logfile"
+# Send an email everytime this script leaves, to warn us
+echo "Lunar Gambit server stopped"

@@ -262,7 +262,7 @@ if(FREECIV_ENABLE_CLIENT AND FREECIV_DOWNLOAD_FONTS)
   else()
       install(
       DIRECTORY ${CMAKE_BINARY_DIR}/src/Libertinus
-      DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/freeciv21/fonts
+      DESTINATION ${CMAKE_INSTALL_DATAROOTDIR}/lunar_gambit/fonts
       COMPONENT lunar_gambit
       FILES_MATCHING PATTERN *.otf PATTERN *.txt
     )
