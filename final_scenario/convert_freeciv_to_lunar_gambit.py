@@ -97,7 +97,7 @@ def fix_server_settings(lines):
     "\"ec_turns\",65535,65535",
     "\"ec_info\",TRUE,TRUE",
     "\"endturn\",65535,65535",
-    "\"disasters\",0,0"
+    "\"disasters\",0,0",
   ]
   for i in range(len(lines)):
     if lines[i].startswith("set={\"name\",\"value\",\"gamestart\""):

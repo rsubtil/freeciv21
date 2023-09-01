@@ -910,8 +910,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
     output_window_event(timestamp, plain_text, tags);
   }
 
-  // TODO: Not reliable; store last timestamp when connected to server
-  if (timestamp == time_t(nullptr)) {
+  if (timestamp > king()->qt_settings.server_timestamp) {
     play_sound_for_event(event);
   }
 

@@ -457,6 +457,7 @@ bool player_knows_techs_with_flag(const struct player *pplayer,
 int num_known_tech_with_flag(const struct player *pplayer,
                              enum tech_flag_id flag);
 int player_get_expected_income(const struct player *pplayer);
+int player_get_expected_materials(const struct player *pplayer);
 int player_get_materials(const struct player *pplayer);
 int player_get_material_percentage(const struct player *pplayer, int objective);
 

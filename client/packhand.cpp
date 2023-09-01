@@ -4694,7 +4694,6 @@ void handle_transport_info(int unit_id, const char* names)
       for(auto &transport : *transports) {
         log_warning("Transport: %s", transport.toUtf8().data());
       }
-      // TODO: Implement
       popup_transport_dialog(punit, transports);
     }
   }
@@ -5538,10 +5537,6 @@ void handle_building_info(const struct packet_building_info *packet)
               TILE_XY(ptile), TILE_XY(pbuilding->tile));
     return;
   }
-
-  // Update the description
-  // TODO: Implement
-  // update_building_description(pcity);
 }
 
 void handle_sabotage_info(int last_sabotage_self_id, int last_sabotage_other_id)

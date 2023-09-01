@@ -279,7 +279,6 @@ government_report::government_report() : QWidget()
   QLabel* a_public_chat_lbl = new QLabel(_("Public chat"));
   a_public_chat_lbl->setSizePolicy(size_expand_policy);
   a_layout->addWidget(a_public_chat_lbl, 0, 6);//, -1, 4);
-  // TODO: Add public chat
 
   for(int i = 0; i < MAX_AUDIT_NUM; i++) {
     chat_widgets[i] = new chat_widget(this);

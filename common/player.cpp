@@ -1286,6 +1286,33 @@ int player_get_expected_income(const struct player *pplayer)
   return income;
 }
 
+int player_get_expected_materials(const struct player *pplayer)
+{
+  int income = 0;
+
+  /* City income/expenses. */
+  city_list_iterate(pplayer->cities, pcity)
+  {
+    // Gold suplus accounts for imcome plus building and unit upkeep.
+    income += pcity->surplus[O_MATERIALS];
+  }
+  city_list_iterate_end;
+
+  int building_income = 0;
+  building_list_iterate(pplayer->buildings, pbuilding)
+  {
+    if (pbuilding->rulename[11] == 'f') {
+      building_income += 1;
+    }
+  }
+  building_list_iterate_end;
+  income += int(
+      building_income
+      * (1 + get_player_bonus(pplayer, EFT_BUILDING_MATERIAL_OUTPUT) / 100.0f));
+
+  return income;
+}
+
 int player_get_materials(const struct player *pplayer)
 {
   return pplayer->economic.materials;
