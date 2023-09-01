@@ -603,6 +603,7 @@ void government_report::update_audit_screen(int id)
       a_consequence_bad_label->setText(
           _("If the jury decides \"innocent\", you'll have to pay 30\% of "
             "your total gold to the accused."));
+      break;
     case CONSEQUENCE_SCIENCE:
       a_consequence_good_label->setText(
           _("If the jury decides \"guilty\", you'll receive 30\% of the "
@@ -610,6 +611,7 @@ void government_report::update_audit_screen(int id)
       a_consequence_bad_label->setText(
           _("If the jury decides \"innocent\", you'll have to pay 30\% of "
             "your total science to the accused."));
+      break;
     case CONSEQUENCE_MATERIALS:
       a_consequence_good_label->setText(
           _("If the jury decides \"guilty\", you'll receive 20\% of the "
@@ -617,6 +619,7 @@ void government_report::update_audit_screen(int id)
       a_consequence_bad_label->setText(
           _("If the jury decides \"innocent\", you'll have to pay 20\% of "
             "your total materials to the accused."));
+      break;
     }
   } else if (my_id == curr_audit->accused_id) {
     a_player_description->setText(
@@ -636,6 +639,7 @@ void government_report::update_audit_screen(int id)
       a_consequence_bad_label->setText(
           _("If the jury decides \"guilty\", you'll have to pay 30\% of "
             "your total gold to the accuser."));
+      break;
     case CONSEQUENCE_SCIENCE:
       a_consequence_good_label->setText(
           _("If the jury decides \"innocent\", you'll receive 30\% of the "
@@ -643,6 +647,7 @@ void government_report::update_audit_screen(int id)
       a_consequence_bad_label->setText(
           _("If the jury decides \"guilty\", you'll have to pay 30\% of "
             "your total science to the accuser."));
+      break;
     case CONSEQUENCE_MATERIALS:
       a_consequence_good_label->setText(
           _("If the jury decides \"innocent\", you'll receive 20\% of the "
@@ -650,6 +655,7 @@ void government_report::update_audit_screen(int id)
       a_consequence_bad_label->setText(
           _("If the jury decides \"guilty\", you'll have to pay 20\% of "
             "your total materials to the accuser."));
+      break;
     }
   } else {
     a_player_description->setText(
@@ -683,6 +689,7 @@ void government_report::update_audit_screen(int id)
             "total gold.\n\n"
             "If this was the wrong decision, however, the government will take 10\% of your "
             "total gold.\n\n"));
+        break;
     case CONSEQUENCE_SCIENCE:
       a_consequence_good_label->setText(
           _("If the jury decides \"guilty\", the accuser will have to pay 30\% of it's "
@@ -698,6 +705,7 @@ void government_report::update_audit_screen(int id)
             "total science.\n\n"
             "If this was the wrong decision, however, the government will take 10\% of your "
             "total science.\n\n"));
+        break;
     case CONSEQUENCE_MATERIALS:
       a_consequence_good_label->setText(
           _("If the jury decides \"guilty\", the accuser will have to pay 20\% of it's "
@@ -713,6 +721,7 @@ void government_report::update_audit_screen(int id)
             "total materials.\n\n"
             "If this was the wrong decision, however, the government will take 10\% of your "
             "total materials.\n\n"));
+        break;
     }
   }
 

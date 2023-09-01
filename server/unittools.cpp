@@ -741,8 +741,8 @@ static int total_unit_activity(struct tile *ptile, struct unit *punit,
 static bool total_unit_activity_done(struct tile *ptile, struct unit *punit,
                                      enum unit_activity act, struct extra_type *tgt)
 {
-  log_warning("Activity %d is %d/%d", act, total_unit_activity(ptile, punit, act, tgt),
-             tile_activity_time(act, ptile, tgt));
+  //log_warning("Activity %d is %d/%d", act, total_unit_activity(ptile, punit, act, tgt),
+  //           tile_activity_time(act, ptile, tgt));
   return total_unit_activity(ptile, punit, act, tgt)
          >= tile_activity_time(act, ptile, tgt);
 }
@@ -951,7 +951,7 @@ static void unit_activity_complete(struct unit *punit)
   case ACTIVITY_TRANSPORT_REPORT:
   if (total_unit_activity_done(ptile, punit, activity, punit->activity_target)) {
       sabotage_apply_activity(punit, activity);
-      log_warning("Activity %d done", activity);
+      //log_warning("Activity %d done", activity);
       unit_activity_done = true;
     }
     break;

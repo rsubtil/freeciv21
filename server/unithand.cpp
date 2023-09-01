@@ -3556,6 +3556,10 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
         + " was seen travelling to "
         + s_transport_to.toStdString() + ".";
       s_info.send_sabotage_info_tgt(info);
+
+      // Send as a notification as well
+      notify_player(iter_pplayer, transport_to, E_MY_SPY_STEAL_GOLD, ftc_server,
+                    "%s", info->info.c_str());
     }
   }
   players_iterate_end

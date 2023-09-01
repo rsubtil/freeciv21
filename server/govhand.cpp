@@ -84,6 +84,497 @@ void update_government_info()
   lsend_packet_government_info(game.est_connections, &info);
 }
 
+void finish_audit(struct government_audit_info* info)
+{
+  int curr_audit_idx = -1;
+  for (int i = 0; i < MAX_AUDIT_NUM; i++) {
+    if (info->id == g_info.curr_audits[i]) {
+      curr_audit_idx = i;
+      break;
+    }
+  }
+  if (curr_audit_idx == -1) {
+    log_warning("The specified audit is not active.");
+    return;
+  }
+
+  struct sabotage_info *sabotage_info =
+      s_info.find_cached_sabotage(info->sabotage_id);
+  struct player *paccuser = get_player_from_id(info->accuser_id);
+  struct player *paccused = get_player_from_id(info->accused_id);
+  struct player *pjury1 = get_player_from_id(
+      determine_jury_id(info->accuser_id, info->accused_id, 1));
+  struct player *pjury2 = get_player_from_id(
+      determine_jury_id(info->accuser_id, info->accused_id, 2));
+  if (!paccuser || !paccused || !pjury1 || !pjury2) {
+    log_error("One or more players was null! This is wrong!");
+    return;
+  }
+
+  // Find final decision
+  int votes_guilty = 0;
+  int votes_innocent = 0;
+
+  switch (info->jury_1_vote) {
+  case AUDIT_VOTE_YES:
+    votes_guilty++;
+    break;
+  case AUDIT_VOTE_NO:
+    votes_innocent++;
+    break;
+  default:
+    break;
+  }
+  switch (info->jury_2_vote) {
+  case AUDIT_VOTE_YES:
+    votes_guilty++;
+    break;
+  case AUDIT_VOTE_NO:
+    votes_innocent++;
+    break;
+  default:
+    break;
+  }
+
+  struct government_news *news = g_info.new_government_news();
+
+  if (votes_guilty > votes_innocent) {
+    // Accused is guilty!
+    bool was_decision_right = sabotage_info->player_src == paccused;
+    log_warning("Accused is guilty! Decision was right? %s",
+                was_decision_right ? "yes" : "no");
+    switch (info->consequence) {
+    case CONSEQUENCE_GOLD: {
+      int take = int(ceil(paccused->economic.gold * 0.3f));
+      paccused->economic.gold -= take;
+      log_warning("Accused: %d -> %d (%d)", paccused->economic.gold + take,
+                  paccused->economic.gold, take);
+      paccuser->economic.gold += take;
+      log_warning("Accuser: %d -> %d (%d)", paccuser->economic.gold - take,
+                  paccuser->economic.gold, take);
+      news->news = QString(_("The jury determined %1 was right, and %2 is guilty of %3"
+                            " sabotage. %4 had to return 30\% of it's reserve to %5."))
+                       .arg(paccuser->name)
+                       .arg(paccused->name)
+                       .arg("gold")
+                       .arg(paccused->name)
+                       .arg(paccuser->name);
+      if (was_decision_right) {
+        if (info->jury_1_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury1->economic.gold * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.gold,
+                      pjury1->economic.gold + bonus, bonus);
+          pjury1->economic.gold += bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold.",
+              bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury2->economic.gold * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.gold,
+                      pjury2->economic.gold + bonus, bonus);
+          pjury2->economic.gold += bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold.",
+              bonus);
+        }
+      } else {
+        if (info->jury_1_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury1->economic.gold * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.gold,
+                      pjury1->economic.gold - bonus, bonus);
+          pjury1->economic.gold -= bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold.",
+              -bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury2->economic.gold * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.gold,
+                      pjury2->economic.gold - bonus, bonus);
+          pjury2->economic.gold -= bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold.",
+              -bonus);
+        }
+      }
+      break;
+    }
+    case CONSEQUENCE_SCIENCE: {
+      int take = int(ceil(paccused->economic.science_acc * 0.3f));
+      paccused->economic.science_acc -= take;
+      log_warning("Accused: %d -> %d (%d)",
+                  paccused->economic.science_acc + take,
+                  paccused->economic.science_acc, take);
+      paccuser->economic.science_acc += take;
+      log_warning("Accuser: %d -> %d (%d)",
+                  paccuser->economic.science_acc - take,
+                  paccuser->economic.science_acc, take);
+      news->news = QString(_("The jury determined %1 was right, and %2 is guilty of %3"
+                            " sabotage. %4 had to return 30\% of it's reserve to %5."))
+                       .arg(paccuser->name)
+                       .arg(paccused->name)
+                       .arg("science")
+                       .arg(paccused->name)
+                       .arg(paccuser->name);
+      if (was_decision_right) {
+        if (info->jury_1_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury1->economic.science_acc * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.science_acc,
+                      pjury1->economic.science_acc + bonus, bonus);
+          pjury1->economic.science_acc += bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science.",
+              bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury2->economic.science_acc * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.science_acc,
+                      pjury2->economic.science_acc + bonus, bonus);
+          pjury2->economic.science_acc += bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science.",
+              bonus);
+        }
+      } else {
+        if (info->jury_1_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury1->economic.science_acc * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.science_acc,
+                      pjury1->economic.science_acc - bonus, bonus);
+          pjury1->economic.science_acc -= bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science.",
+              -bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury2->economic.science_acc * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.science_acc,
+                      pjury2->economic.science_acc - bonus, bonus);
+          pjury2->economic.science_acc -= bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science.",
+              -bonus);
+        }
+      }
+      break;
+    }
+    case CONSEQUENCE_MATERIALS: {
+      int take = int(ceil(paccused->economic.materials * 0.2f));
+      paccused->economic.materials -= take;
+      log_warning("Accused: %d -> %d (%d)",
+                  paccused->economic.materials + take,
+                  paccused->economic.materials, take);
+      paccuser->economic.materials += take;
+      log_warning("Accuser: %d -> %d (%d)",
+                  paccuser->economic.materials - take,
+                  paccuser->economic.materials, take);
+      news->news = QString(_("The jury determined %1 was right, and %2 is guilty of %3"
+                            " sabotage. %4 had to return 20\% of it's reserve to %5."))
+                       .arg(paccuser->name)
+                       .arg(paccused->name)
+                       .arg("materials")
+                       .arg(paccused->name)
+                       .arg(paccuser->name);
+      if (was_decision_right) {
+        if (info->jury_1_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury1->economic.materials * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.materials,
+                      pjury1->economic.materials + bonus, bonus);
+          pjury1->economic.materials += bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials.",
+              bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury2->economic.materials * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.materials,
+                      pjury2->economic.materials + bonus, bonus);
+          pjury2->economic.materials += bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials.",
+              bonus);
+        }
+      } else {
+        if (info->jury_1_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury1->economic.materials * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.materials,
+                      pjury1->economic.materials - bonus, bonus);
+          pjury1->economic.materials -= bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials.",
+              -bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_YES) {
+          int bonus = int(ceil(pjury2->economic.materials * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.materials,
+                      pjury2->economic.materials - bonus, bonus);
+          pjury2->economic.materials -= bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials.",
+              -bonus);
+        }
+      }
+      break;
+    }
+    }
+  } else if (votes_guilty < votes_innocent) {
+    // Accused is innocent!
+    bool was_decision_right = sabotage_info->player_src != paccused;
+    log_warning("Accused is innocent! Decision was right? %s",
+                was_decision_right ? "yes" : "no");
+    switch (info->consequence) {
+    case CONSEQUENCE_GOLD: {
+      int take = int(ceil(paccuser->economic.gold * 0.3f));
+      paccuser->economic.gold -= take;
+      log_warning("Accused: %d -> %d (%d)", paccused->economic.gold + take,
+                  paccused->economic.gold, take);
+      paccused->economic.gold += take;
+      log_warning("Accuser: %d -> %d (%d)", paccuser->economic.gold - take,
+                  paccuser->economic.gold, take);
+      news->news =
+          QString(
+              _("The jury determined %1 was wrong, and %2 is innocent of %3"
+                " sabotage. %4 had to compensate %5 with 30\% of it's reserve."))
+              .arg(paccuser->name)
+              .arg(paccused->name)
+              .arg("gold")
+              .arg(paccuser->name)
+              .arg(paccused->name);
+      if (was_decision_right) {
+        if (info->jury_1_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury1->economic.gold * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.gold,
+                      pjury1->economic.gold + bonus, bonus);
+          pjury1->economic.gold += bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold.",
+              bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury2->economic.gold * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.gold,
+                      pjury2->economic.gold + bonus, bonus);
+          pjury2->economic.gold += bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold.",
+              bonus);
+        }
+      } else {
+        if (info->jury_1_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury1->economic.gold * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.gold,
+                      pjury1->economic.gold - bonus, bonus);
+          pjury1->economic.gold -= bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold.",
+              -bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury2->economic.gold * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.gold,
+                      pjury2->economic.gold - bonus, bonus);
+          pjury2->economic.gold -= bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold.",
+              -bonus);
+        }
+      }
+      break;
+    }
+    case CONSEQUENCE_SCIENCE: {
+      int take = int(ceil(paccuser->economic.science_acc * 0.3f));
+      paccuser->economic.science_acc -= take;
+      log_warning("Accused: %d -> %d (%d)",
+                  paccused->economic.science_acc + take,
+                  paccused->economic.science_acc, take);
+      paccused->economic.science_acc += take;
+      log_warning("Accuser: %d -> %d (%d)",
+                  paccuser->economic.science_acc - take,
+                  paccuser->economic.science_acc, take);
+      news->news =
+          QString(
+              _("The jury determined %1 was wrong, and %2 is innocent of %3"
+                " sabotage. %4 had to compensate %5 with 30\% of it's reserve."))
+              .arg(paccuser->name)
+              .arg(paccused->name)
+              .arg("science")
+              .arg(paccuser->name)
+              .arg(paccused->name);
+      if (was_decision_right) {
+        if (info->jury_1_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury1->economic.science_acc * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.science_acc,
+                      pjury1->economic.science_acc + bonus, bonus);
+          pjury1->economic.science_acc += bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science.",
+              bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury2->economic.science_acc * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.science_acc,
+                      pjury2->economic.science_acc + bonus, bonus);
+          pjury2->economic.science_acc += bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science.",
+              bonus);
+        }
+      } else {
+        if (info->jury_1_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury1->economic.science_acc * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.science_acc,
+                      pjury1->economic.science_acc - bonus, bonus);
+          pjury1->economic.science_acc -= bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science.",
+              -bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury2->economic.science_acc * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.science_acc,
+                      pjury2->economic.science_acc - bonus, bonus);
+          pjury2->economic.science_acc -= bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science.",
+              -bonus);
+        }
+      }
+      break;
+    }
+    case CONSEQUENCE_MATERIALS: {
+      int take = int(ceil(paccuser->economic.materials * 0.2f));
+      paccuser->economic.materials -= take;
+      log_warning("Accused: %d -> %d (%d)",
+                  paccused->economic.materials + take,
+                  paccused->economic.materials, take);
+      paccused->economic.materials += take;
+      log_warning("Accuser: %d -> %d (%d)",
+                  paccuser->economic.materials - take,
+                  paccuser->economic.materials, take);
+      news->news =
+          QString(
+              _("The jury determined %1 was wrong, and %2 is innocent of %3"
+                " sabotage. %4 had to compensate %5 with 20\% of it's reserve."))
+              .arg(paccuser->name)
+              .arg(paccused->name)
+              .arg("materials")
+              .arg(paccuser->name)
+              .arg(paccused->name);
+      if (was_decision_right) {
+        if (info->jury_1_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury1->economic.materials * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.materials,
+                      pjury1->economic.materials + bonus, bonus);
+          pjury1->economic.materials += bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials.",
+              bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury2->economic.materials * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.materials,
+                      pjury2->economic.materials + bonus, bonus);
+          pjury2->economic.materials += bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials.",
+              bonus);
+        }
+      } else {
+        if (info->jury_1_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury1->economic.materials * 0.1f));
+          log_warning("Jury 1: %d -> %d (%d)", pjury1->economic.materials,
+                      pjury1->economic.materials - bonus, bonus);
+          pjury1->economic.materials -= bonus;
+          notify_player(
+              pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials.",
+              -bonus);
+        }
+        if (info->jury_2_vote == AUDIT_VOTE_NO) {
+          int bonus = int(ceil(pjury2->economic.materials * 0.1f));
+          log_warning("Jury 2: %d -> %d (%d)", pjury2->economic.materials,
+                      pjury2->economic.materials - bonus, bonus);
+          pjury2->economic.materials -= bonus;
+          notify_player(
+              pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
+              "The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials.",
+              -bonus);
+        }
+      }
+      break;
+    }
+    }
+  } else {
+    // Stalemate!
+    log_warning("Stalemate!");
+    // Nothing happens
+    news->news =
+        QString(
+            _("The jury could not reach a veredict regarding %1 vs %2, and therefore"
+              "the accusation was dropped."))
+            .arg(paccuser->name)
+            .arg(paccused->name);
+  }
+
+
+  // Mark sabotage as no longer actionable
+  sabotage_info->actionable = false;
+  info->is_over = true;
+  // Clear on curr_audit
+  g_info.curr_audits[curr_audit_idx] = -1;
+
+  // Update info on clients
+  update_sabotage_info(sabotage_info);
+  update_government_audit_info(info);
+  update_government_info();
+}
+
 void update_government_audit_info(struct government_audit_info* audit)
 {
   struct packet_government_audit_info pinfo;
@@ -184,8 +675,13 @@ void handle_government_audit_submit_vote(struct player *pplayer, int audit_id, i
     log_error("Player %s tried to vote on an audit they are not part of!", pplayer->name);
     return;
   }
-
   update_government_audit_info(audit);
+
+  // If both juries have voted, finish the audit
+  if(audit->jury_1_vote != AUDIT_VOTE_NONE && audit->jury_2_vote != AUDIT_VOTE_NONE) {
+    finish_audit(audit);
+  }
+
 }
 
 void handle_government_audit_start(struct player *pplayer, int sabotage_id, int accused_id)

@@ -25,8 +25,8 @@ tiles = { "row", "column", "tag"
 ; Agree/disagree thumbs:
 
   0,  0, "jury_vote.none"
-  0,  1, "jury_vote.yes"
-  0,  2, "jury_vote.no"
+  0,  1, "jury_vote.no"
+  0,  2, "jury_vote.yes"
   0,  3, "jury_vote.abstain"
 
 }

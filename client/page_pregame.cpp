@@ -326,6 +326,8 @@ void page_pregame::update_buttons()
   bool sensitive;
   QString text;
 
+  ui.bops->setEnabled(::king()->qt_settings.server_username == "admin");
+
   // Observe button
   if (client_is_observer() || client_is_global_observer()) {
     ui.bops->setText(_("Don't Observe"));

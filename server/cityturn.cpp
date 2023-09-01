@@ -714,7 +714,7 @@ void update_city_activities(struct player *pplayer)
   /* This test includes the cost of the units because
    * units are paid for in update_city_activity() or
    * player_balance_treasury_units(). */
-  if (gold - (gold - pplayer->economic.gold) * 3 < 0) {
+  if (gold - (gold - pplayer->economic.gold) * 10 < 0) {
     notify_player(pplayer, nullptr, E_LOW_ON_FUNDS, ftc_server,
                   _("WARNING, we're LOW on FUNDS %s."),
                   ruler_title_for_player(pplayer, buf, sizeof(buf)));

@@ -181,7 +181,7 @@ gold_upkeep_style = "City"
 output_granularity = 1
 
 ; With how much HP cities start
-city_start_hitpoints = 30
+city_start_hitpoints = 300
 
 ; How much HP city recovers per turn
 city_recover_hitpoints = 1
@@ -356,12 +356,12 @@ nuke_units_max_range = 1
 ; distance.
 airlift_max_range = "unlimited"
 
-; Sabotage time for all actions, in number of turns.
+; Sabotage time for all actions, in number of turns (on active mode, seconds; on passive mode, minutes).
 ; Must be multiplied by 10 due to internal #define ACTIVITY_FACTOR 10
 ;sabotage_offensive_time = 240
 ;sabotage_defensive_time = 60
-sabotage_offensive_time = 60
-sabotage_defensive_time = 40
+sabotage_offensive_time = 600
+sabotage_defensive_time = 150
 
 ; What each action should be called when showing them to the player.
 ; The first %s should be before the mnemonic of the action. A Freeciv client

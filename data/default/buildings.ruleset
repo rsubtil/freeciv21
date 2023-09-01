@@ -219,7 +219,7 @@ build_cost = 3
 upkeep		= 0
 sabotage	= 0
 helptext	= _("\
-Establishes a Bank inside your base, \
+Establishes a Stock Exchange inside your base, \
  improving your base's gold production by 3.\
 ")
 
