@@ -177,7 +177,7 @@ function user_verify(conn, plaintext)
 
   res:close()
 
-  return row.password == md5.sum(plaintext)
+  return row.password == md5.sumhexa(plaintext)
 end
 
 -- save a user to the database
@@ -194,7 +194,7 @@ function user_save(conn, password)
   -- insert the user
   local query = string.format([[INSERT INTO %s VALUES (NULL, '%s', '%s',
                                 NULL, %s, %s, '%s', '%s', 0)]],
-                              table_user, username, md5.sum(password),
+                              table_user, username, md5.sumhexa(password),
                               sql_time(), sql_time(),
                               ipaddr, ipaddr)
   assert(dbh:execute(query))
