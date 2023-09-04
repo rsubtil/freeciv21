@@ -47,8 +47,10 @@ client/page_main.cpp
 client/page_network.cpp
 client/page_pregame.cpp
 client/page_scenario.cpp
+client/views/view_government.cpp
 client/views/view_nations.cpp
 client/views/view_nations_data.cpp
+client/views/view_sabotages.cpp
 client/pregameoptions.cpp
 client/ratesdlg.cpp
 client/repodlgs_common.cpp
@@ -148,6 +150,7 @@ server/diplomats.cpp
 server/edithand.cpp
 server/fcdb.cpp
 server/gamehand.cpp
+server/govhand.cpp
 server/generator/mapgen.cpp
 server/generator/mapgen_topology.cpp
 server/generator/startpos.cpp
