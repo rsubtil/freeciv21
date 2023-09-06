@@ -1435,12 +1435,15 @@ void spy_steal_gold(struct player *act_player, struct player* tgt_player, float 
   act_player->server.sabotage_count++;
 
   // Record sabotage ocurred
+  char buffer[MAX_LEN_CONTENT];
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
   info_src->consequence = CONSEQUENCE_GOLD;
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
   info_src->player_send_to = act_player;
-  info_src->info = "You stole " + std::to_string(gold_take) + " of gold from " + std::string(tgt_player->name);
+  char* base_str_src = _("You stole %d of gold from %s");
+  snprintf(buffer, sizeof(buffer), base_str_src, gold_take, tgt_player->name);
+  info_src->info = buffer;
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info* info_tgt = s_info.new_sabotage_info(true);
@@ -1448,7 +1451,9 @@ void spy_steal_gold(struct player *act_player, struct player* tgt_player, float 
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
-  info_tgt->info = "Someone stole " + std::to_string(gold_take) + " of gold from you!";
+  char* base_str_tgt = _("Someone stole %d of gold from you!");
+  snprintf(buffer, sizeof(buffer), base_str_tgt, gold_take);
+  info_tgt->info = buffer;
   s_info.send_sabotage_info_tgt(info_tgt);
 
   // Update the players' gold in the client
@@ -1532,12 +1537,15 @@ void spy_steal_science(struct player *act_player, struct player* tgt_player, flo
   act_player->server.sabotage_count++;
 
   // Record sabotage ocurred
+  char buffer[MAX_LEN_CONTENT];
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
   info_src->consequence = CONSEQUENCE_SCIENCE;
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
   info_src->player_send_to = act_player;
-  info_src->info = "You stole " + std::to_string(science_take) + " of science from " + std::string(tgt_player->name);
+  char* base_str_src = _("You stole %d of science from %s");
+  snprintf(buffer, sizeof(buffer), base_str_src, science_take, tgt_player->name);
+  info_src->info = buffer;
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info* info_tgt = s_info.new_sabotage_info(true);
@@ -1545,7 +1553,9 @@ void spy_steal_science(struct player *act_player, struct player* tgt_player, flo
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
-  info_tgt->info = "Someone stole " + std::to_string(science_take) + " of science from you!";
+  char* base_str_tgt = _("Someone stole %d of science from you!");
+  snprintf(buffer, sizeof(buffer), base_str_tgt, science_take);
+  info_tgt->info = buffer;
   s_info.send_sabotage_info_tgt(info_tgt);
 
   // Update the players' science in the client
@@ -1617,12 +1627,15 @@ void spy_steal_materials(struct player *act_player, struct player* tgt_player, f
   act_player->server.sabotage_count++;
 
   // Record sabotage ocurred
+  char buffer[MAX_LEN_CONTENT];
   struct sabotage_info* info_src = s_info.new_sabotage_info(false);
   info_src->consequence = CONSEQUENCE_MATERIALS;
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
   info_src->player_send_to = act_player;
-  info_src->info = "You stole " + std::to_string(materials_take) + " of materials from " + std::string(tgt_player->name);
+  char* base_str_src = _("You stole %d of materials from %s");
+  snprintf(buffer, sizeof(buffer), base_str_src, materials_take, tgt_player->name);
+  info_src->info = buffer;
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info* info_tgt = s_info.new_sabotage_info(true);
@@ -1630,7 +1643,9 @@ void spy_steal_materials(struct player *act_player, struct player* tgt_player, f
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
-  info_tgt->info = "Someone stole " + std::to_string(materials_take) + " of materials from you!";
+  char* base_str_tgt = _("Someone stole %d of materials from you!");
+  snprintf(buffer, sizeof(buffer), base_str_tgt, materials_take);
+  info_tgt->info = buffer;
   s_info.send_sabotage_info_tgt(info_tgt);
 
   // Update the players' materials in the client
@@ -1686,6 +1701,7 @@ bool spy_steal_materials_city(struct player *act_player, struct unit *act_unit,
 void spy_investigate_gold(struct player *act_player, struct player* tgt_player)
 {
   // Record sabotage ocurred
+  char buffer[MAX_LEN_CONTENT];
   struct sabotage_info *info_src = s_info.new_sabotage_info(false);
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
@@ -1701,22 +1717,26 @@ void spy_investigate_gold(struct player *act_player, struct player* tgt_player)
       accum = 0;
     }
   }
-  info_src->info = "Gold report for player " + std::string(tgt_player->name) + ": \n"
-               + "Total gold: " + std::to_string(tgt_player->economic.gold) + "\n"
-               + "Gains: \n"
-               + "\tLast hour: +" + std::to_string(data[0]) + "\n"
-               + "\tLast 2 hours: +" + std::to_string(data[1]) + "\n"
-               + "\tLast 3 hours: +" + std::to_string(data[2]) + "\n"
-               + "\tLast 4 hours: +" + std::to_string(data[3]) + "\n"
-               + "\tLast 5 hours: +" + std::to_string(data[4]) + "\n"
-               + "\tLast 6 hours: +" + std::to_string(data[5]);
+  char *base_str_src = _("Gold report for player %s: \n"
+               "Total gold: %d \n"
+               "Gains: \n"
+               "\tLast hour: +%d \n"
+               "\tLast 2 hours: +%d \n"
+               "\tLast 3 hours: +%d \n"
+               "\tLast 4 hours: +%d \n"
+               "\tLast 5 hours: +%d \n"
+               "\tLast 6 hours: +%d");
+  snprintf(buffer, sizeof(buffer), base_str_src, tgt_player->name,
+          tgt_player->economic.gold, data[0], data[1],
+          data[2], data[3], data[4], data[5]);
+  info_src->info = buffer;
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info *info_tgt = s_info.new_sabotage_info(false);
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
-  info_tgt->info = "Someone obtained a detailed report of your gold gains in the last 6 hours!";
+  info_tgt->info = _("Someone obtained a detailed report of your gold gains in the last 6 hours!");
   s_info.send_sabotage_info_tgt(info_tgt);
 }
 
@@ -1760,6 +1780,7 @@ bool spy_investigate_gold_city(struct player *act_player, struct unit *act_unit,
 void spy_investigate_science(struct player *act_player, struct player* tgt_player)
 {
   // Record sabotage ocurred
+  char buffer[MAX_LEN_CONTENT];
   struct sabotage_info *info_src = s_info.new_sabotage_info(false);
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
@@ -1775,22 +1796,26 @@ void spy_investigate_science(struct player *act_player, struct player* tgt_playe
       accum = 0;
     }
   }
-  info_src->info = "Science report for player " + std::string(tgt_player->name) + ": \n"
-               + "Total science: " + std::to_string(tgt_player->economic.science_acc) + "\n"
-               + "Gains: \n"
-               + "\tLast hour: +" + std::to_string(data[0]) + "\n"
-               + "\tLast 2 hours: +" + std::to_string(data[1]) + "\n"
-               + "\tLast 3 hours: +" + std::to_string(data[2]) + "\n"
-               + "\tLast 4 hours: +" + std::to_string(data[3]) + "\n"
-               + "\tLast 5 hours: +" + std::to_string(data[4]) + "\n"
-               + "\tLast 6 hours: +" + std::to_string(data[5]);
+  char *base_str_src = _("Science report for player %s: \n"
+               "Total science: %d \n"
+               "Gains: \n"
+               "\tLast hour: +%d \n"
+               "\tLast 2 hours: +%d \n"
+               "\tLast 3 hours: +%d \n"
+               "\tLast 4 hours: +%d \n"
+               "\tLast 5 hours: +%d \n"
+               "\tLast 6 hours: +%d");
+  snprintf(buffer, sizeof(buffer), base_str_src, tgt_player->name,
+          tgt_player->economic.science_acc, data[0], data[1],
+          data[2], data[3], data[4], data[5]);
+  info_src->info = buffer;
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info *info_tgt = s_info.new_sabotage_info(false);
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
-  info_tgt->info = "Someone obtained a detailed report of your science gains in the last 6 hours!";
+  info_tgt->info = _("Someone obtained a detailed report of your science gains in the last 6 hours!");
   s_info.send_sabotage_info_tgt(info_tgt);
 }
 
@@ -1834,6 +1859,7 @@ bool spy_investigate_science_city(struct player *act_player, struct unit *act_un
 void spy_investigate_materials(struct player *act_player, struct player* tgt_player)
 {
   // Record sabotage ocurred
+  char buffer[MAX_LEN_CONTENT];
   struct sabotage_info *info_src = s_info.new_sabotage_info(false);
   info_src->player_src = act_player;
   info_src->player_tgt = tgt_player;
@@ -1849,22 +1875,26 @@ void spy_investigate_materials(struct player *act_player, struct player* tgt_pla
       accum = 0;
     }
   }
-  info_src->info = "Materials report for player " + std::string(tgt_player->name) + ": \n"
-               + "Total materials: " + std::to_string(tgt_player->economic.materials) + "\n"
-               + "Gains: \n"
-               + "\tLast hour: +" + std::to_string(data[0]) + "\n"
-               + "\tLast 2 hours: +" + std::to_string(data[1]) + "\n"
-               + "\tLast 3 hours: +" + std::to_string(data[2]) + "\n"
-               + "\tLast 4 hours: +" + std::to_string(data[3]) + "\n"
-               + "\tLast 5 hours: +" + std::to_string(data[4]) + "\n"
-               + "\tLast 6 hours: +" + std::to_string(data[5]);
+  char *base_str_src = _("Materials report for player %s: \n"
+               "Total materials: %d \n"
+               "Gains: \n"
+               "\tLast hour: +%d \n"
+               "\tLast 2 hours: +%d \n"
+               "\tLast 3 hours: +%d \n"
+               "\tLast 4 hours: +%d \n"
+               "\tLast 5 hours: +%d \n"
+               "\tLast 6 hours: +%d");
+  snprintf(buffer, sizeof(buffer), base_str_src, tgt_player->name,
+          tgt_player->economic.materials, data[0], data[1],
+          data[2], data[3], data[4], data[5]);
+  info_src->info = buffer;
   s_info.send_sabotage_info_src(info_src);
 
   struct sabotage_info *info_tgt = s_info.new_sabotage_info(false);
   info_tgt->player_src = act_player;
   info_tgt->player_tgt = tgt_player;
   info_tgt->player_send_to = tgt_player;
-  info_tgt->info = "Someone obtained a detailed report of your materials gains in the last 6 hours!";
+  info_tgt->info = _("Someone obtained a detailed report of your materials gains in the last 6 hours!");
   s_info.send_sabotage_info_tgt(info_tgt);
 }
 
@@ -2170,8 +2200,11 @@ bool spy_investigate_transport(struct player *act_player, struct unit *act_unit,
   }
 
   // Send info as sabotage report
+  char buffer[MAX_LEN_CONTENT];
+  char *base_str_src = _("Transport report for station %s (last 10 movements):\n");
+  snprintf(buffer, sizeof(buffer), base_str_src, s_transport_to.toStdString().c_str());
   std::ostringstream sstr;
-  sstr << "Transport report for station " << s_transport_to.toStdString() << " (last 10 movements):\n";
+  sstr << buffer;
   for(int i = transport_info.size() - 1; i > -1; i--) {
     // Iterate in reverse, to get the most recent data on top
     struct transport_report* record = transport_info[i];

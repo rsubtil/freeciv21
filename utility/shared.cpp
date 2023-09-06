@@ -934,8 +934,8 @@ void init_nls()
 #endif              // FREECIV_MSWINDOWS
 
   (void) setlocale(LC_ALL, "");
-  (void) bindtextdomain("freeciv21-core", get_locale_dir());
-  (void) textdomain("freeciv21-core");
+  (void) bindtextdomain("lunar_gambit-core", get_locale_dir());
+  (void) textdomain("lunar_gambit-core");
 
   /* Don't touch the defaults when LC_NUMERIC == "C".
      This is intended to cater to the common case where:

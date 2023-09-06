@@ -156,7 +156,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: translations@longturn.net\n"
-"POT-Creation-Date: 2022-02-12 20:49+0100\n"
+"POT-Creation-Date: 2023-09-04 22:54+0100\n"
 "PO-Revision-Date: 2018-07-15 21:47+0900\n"
 "Last-Translator: \n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -535,7 +535,8 @@ msgstr "スルターナ %s"
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/siberian.ruleset:24 data/nation/texan.ruleset:37
+#: data/nation/texan.ruleset:38 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
@@ -548,7 +549,8 @@ msgstr "%s総督"
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/siberian.ruleset:24 data/nation/texan.ruleset:37
+#: data/nation/texan.ruleset:38 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
@@ -2783,7 +2785,7 @@ msgstr "%s将軍"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "%s師"
@@ -2793,7 +2795,7 @@ msgstr "%s師"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "%s師"
@@ -3404,13 +3406,13 @@ msgstr ""
 "シュに伴い，大量の移住者がカリフォルニアに訪れました。20世紀にはこの州は世界"
 "のエンターテインメントおよびハイテク産業の中心地となりました。"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:39
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "シェリフ %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:39
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
@@ -12334,12 +12336,17 @@ msgid "?plural:Texans"
 msgstr "テクサン"
 
 #: data/nation/texan.ruleset:6
+#, fuzzy
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
-"mentality. During its history, Texas has been ruled in full or in part by "
-"six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-"and the USA - as expressed in the slogan \"six flags over Texas\"."
+"culture and Spanish heritage. After the famous Battle of the Alamo de Bexar, "
+"The \"Texians\" defeated the Mexicans at San Jacinto and declared "
+"independence. The Republic of Texas lasted from 1836 to 1846, after which it "
+"became the 28th state of the United States. Historically, Texas was ruled in "
+"full or in part by six nations: France, Spain, Mexico, the Republic of "
+"Texas, the Confederacy, and the USA, as expressed in the slogan \"six flags "
+"over Texas\"."
 msgstr ""
 "アメリカ合衆国テキサス州は，面積・人口・経済力において全米第2位の規模を誇りま"
 "す。\"ローン・スター・ステイト\"の愛称を持ち，これは白い1つ星があしらわれた州"
@@ -12348,6 +12355,26 @@ msgstr ""
 "スペイン・メキシコ・テキサス共和国・アメリカ連合国・アメリカ合衆国)。19世紀後"
 "半に活躍したカウボーイたちは今や「古き良きアメリカ」の象徴です。テキサス州民"
 "(テクサン)は南部訛りの英語を話し，保守的で，愛州心が高いことで知られます。"
+
+#: data/nation/texan.ruleset:36
+#, fuzzy, c-format
+msgid "President %s"
+msgstr " %s大統領"
+
+#: data/nation/texan.ruleset:36
+#, fuzzy, c-format
+msgid "?female:President %s"
+msgstr " %s大統領"
+
+#: data/nation/texan.ruleset:40
+#, fuzzy, c-format
+msgid "Preacher %s"
+msgstr "%s首相"
+
+#: data/nation/texan.ruleset:40
+#, fuzzy, c-format
+msgid "?female:Preacher %s"
+msgstr "指導者 %s"
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"

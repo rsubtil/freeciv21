@@ -173,7 +173,7 @@ cost = 800
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-helptext = _("Allows you to trade resources with any other player (provided they have researched this too).")
+helptext = _("Allows you to trade resources and bases with any other player (provided they have researched this too).")
 
 [advance_venture_capital]
 name = _("Venture Capital")
@@ -313,7 +313,7 @@ cost = 13500
 flags = ""
 graphic = "a.alphabet"
 graphic_alt = "-"
-helptext = _("Increases spies' view range by 2 tile.")
+helptext = _("Increases all units' view range by 2 tiles.")
 
 [advance_inflation]
 name = _("Inflation")

@@ -97,7 +97,7 @@ page_network::page_network(QWidget *parent, fc_client *gui)
   header->setSectionResizeMode(0, QHeaderView::Stretch);
   header->setStretchLastSection(true);
 
-  ui.lhost->setText(_("Connect"));
+  ui.lhost->setText(_("Address"));
   ui.lport->setText(_("Port"));
   ui.lname->setText(_("Username"));
   ui.lpass->setText(_("Password"));

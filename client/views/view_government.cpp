@@ -101,18 +101,18 @@ void audit_button::set_audit_info(struct government_audit_info *info)
   std::string type;
   switch (info->consequence) {
   case CONSEQUENCE_GOLD:
-    type = "gold";
+    type = _("gold");
     break;
   case CONSEQUENCE_SCIENCE:
-    type = "science";
+    type = _("science");
     break;
   case CONSEQUENCE_MATERIALS:
-    type = "materials";
+    type = _("materials");
     break;
   }
   char timestr[64];
   time_t now = info->timestamp;
-  strftime(timestr, sizeof(timestr), "%d/%m at %H:%M:%S", localtime(&now));
+  strftime(timestr, sizeof(timestr), _("%d/%m at %H:%M:%S"), localtime(&now));
   setText(QString(_("%1 vs %2\n%3 stolen\n[%4]"))
               .arg(accuser_name.c_str())
               .arg(accused_name.c_str())
@@ -499,7 +499,7 @@ void government_report::confirm_audit_sabotage_selected(
   a_audit_confirm->setStandardButtons(QMessageBox::Cancel | QMessageBox::Yes);
   a_audit_confirm->setDefaultButton(QMessageBox::Cancel);
   a_audit_confirm->set_text_title(
-    QString("Are you sure you want to accuse %1?\nYou'll need to successfully convince the remaining players that you're right, or you may be penalized.\n").arg(player),
+    QString(_("Are you sure you want to accuse %1?\nYou'll need to successfully convince the remaining players that you're right, or you may be penalized.\n")).arg(player),
     _("Accusation")
   );
   QObject::connect(a_audit_confirm, &hud_message_box::finished, [=](int result) {
@@ -565,18 +565,18 @@ void government_report::update_audit_screen(int id)
   std::string type;
   switch(curr_audit->consequence) {
     case CONSEQUENCE_GOLD:
-      type = "gold";
+      type = _("gold");
       break;
     case CONSEQUENCE_SCIENCE:
-      type = "science";
+      type = _("science");
       break;
     case CONSEQUENCE_MATERIALS:
-      type = "materials";
+      type = _("materials");
       break;
   }
   char timestr[64];
   time_t now = curr_audit->timestamp;
-  strftime(timestr, sizeof(timestr), "%d/%m at %H:%M:%S", localtime(&now));
+  strftime(timestr, sizeof(timestr), _("%d/%m at %H:%M:%S"), localtime(&now));
 
   a_description->setText(QString(_("%1 vs %2\n%3 stolen on %4"))
                               .arg(accuser_name.c_str())

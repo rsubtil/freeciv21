@@ -79,7 +79,7 @@ init_buildings=""
 init_units=""
 
 [nation_blue]
-name=_("blue")
+name=_("Blue")
 plural=_("?plural:Blue")
 legend=_("The Sultanate of Aceh located on the western tip of the island of\
  Sumatra was a regional power in the 16th and 17th centuries, controlling\

@@ -3546,15 +3546,20 @@ static bool do_transport(struct player *pplayer, struct unit *punit,
   players_iterate(iter_pplayer)
   {
     if(iter_pplayer->wiretap == transport_to && unit_owner(punit) != iter_pplayer) {
+      char buffer[1024];
       struct sabotage_info* info = s_info.new_sabotage_info(false);
       info->player_src = pplayer;
       info->player_tgt = iter_pplayer;
       info->player_send_to = iter_pplayer;
-      info->info = "A " +
-        (get_player_bonus(iter_pplayer, EFT_ENABLE_WIRETAP_IDENTITY_REVEAL) > 0 ? std::string(player_name(pplayer)) + " " : std::string(""))
-        + std::string(unit_rule_name(punit))
-        + " was seen travelling to "
-        + s_transport_to.toStdString() + ".";
+      std::string player_from = (get_player_bonus(iter_pplayer, EFT_ENABLE_WIRETAP_IDENTITY_REVEAL) > 0 ? std::string(player_name(pplayer)) + " " : "");
+      char *base_str = _("A %s%s was seen travelling to %s.");
+      snprintf(buffer, sizeof(buffer), base_str,
+               player_from.c_str(),
+               unit_rule_name(punit),
+               s_transport_to.toStdString().c_str()
+      );
+
+      info->info = buffer;
       s_info.send_sabotage_info_tgt(info);
 
       // Send as a notification as well

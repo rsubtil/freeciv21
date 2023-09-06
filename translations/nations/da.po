@@ -45,7 +45,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: translations@longturn.net\n"
-"POT-Creation-Date: 2022-02-12 20:49+0100\n"
+"POT-Creation-Date: 2023-09-04 22:54+0100\n"
 "PO-Revision-Date: 2011-01-30 14:56+0100\n"
 "Last-Translator: Ask Hjorth Larsen <asklarsen@gmail.com>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -400,7 +400,8 @@ msgstr "Sultana %s"
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/siberian.ruleset:24 data/nation/texan.ruleset:37
+#: data/nation/texan.ruleset:38 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
@@ -411,7 +412,8 @@ msgstr "Guvernør %s"
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/siberian.ruleset:24 data/nation/texan.ruleset:37
+#: data/nation/texan.ruleset:38 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
@@ -2457,7 +2459,7 @@ msgstr "?female:General %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Pastor %s"
@@ -2466,7 +2468,7 @@ msgstr "Pastor %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "?female:Pastorinde %s"
@@ -3053,13 +3055,13 @@ msgstr ""
 "Californien. I det 20. århundrede blev staten et af verdens centre for "
 "teknologi og underholdningsindustri."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:39
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Sherif %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:39
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
@@ -11255,10 +11257,34 @@ msgstr "?plural:Texanerne"
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
-"mentality. During its history, Texas has been ruled in full or in part by "
-"six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-"and the USA - as expressed in the slogan \"six flags over Texas\"."
+"culture and Spanish heritage. After the famous Battle of the Alamo de Bexar, "
+"The \"Texians\" defeated the Mexicans at San Jacinto and declared "
+"independence. The Republic of Texas lasted from 1836 to 1846, after which it "
+"became the 28th state of the United States. Historically, Texas was ruled in "
+"full or in part by six nations: France, Spain, Mexico, the Republic of "
+"Texas, the Confederacy, and the USA, as expressed in the slogan \"six flags "
+"over Texas\"."
 msgstr ""
+
+#: data/nation/texan.ruleset:36
+#, fuzzy, c-format
+msgid "President %s"
+msgstr "Præsident %s"
+
+#: data/nation/texan.ruleset:36
+#, fuzzy, c-format
+msgid "?female:President %s"
+msgstr "?female:Præsident %s"
+
+#: data/nation/texan.ruleset:40
+#, fuzzy, c-format
+msgid "Preacher %s"
+msgstr "Premier %s"
+
+#: data/nation/texan.ruleset:40
+#, fuzzy, c-format
+msgid "?female:Preacher %s"
+msgstr "?female:Leder %s"
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"

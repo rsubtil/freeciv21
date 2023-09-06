@@ -75,7 +75,7 @@ void init_character_encodings(const char *my_internal_encoding,
   dataCodec = QTextCodec::codecForName(data_encoding);
   internalCodec = QTextCodec::codecForName(internal_encoding);
 #ifdef FREECIV_ENABLE_NLS
-  bind_textdomain_codeset("freeciv21-core", internal_encoding);
+  bind_textdomain_codeset("lunar_gambit-core", internal_encoding);
 #endif
 
 #ifdef FREECIV_DEBUG

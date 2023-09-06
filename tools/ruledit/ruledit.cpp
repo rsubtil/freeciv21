@@ -63,12 +63,12 @@ int main(int argc, char **argv)
   init_nls();
 
 #ifdef ENABLE_NLS
-  (void) bindtextdomain("freeciv21-ruledit", get_locale_dir());
+  (void) bindtextdomain("lunar_gambit-ruledit", get_locale_dir());
 #endif
 
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, false);
 #ifdef ENABLE_NLS
-  bind_textdomain_codeset("freeciv21-ruledit", get_internal_encoding());
+  bind_textdomain_codeset("lunar_gambit-ruledit", get_internal_encoding());
 #endif
 
   // Initialize command line arguments.

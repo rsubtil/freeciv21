@@ -167,8 +167,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.gold += bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold."),
               bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_YES) {
@@ -178,8 +178,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.gold += bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold."),
               bonus);
         }
       } else {
@@ -190,8 +190,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.gold -= bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold."),
               -bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_YES) {
@@ -201,8 +201,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.gold -= bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold."),
               -bonus);
         }
       }
@@ -233,8 +233,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.science_acc += bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science."),
               bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_YES) {
@@ -244,8 +244,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.science_acc += bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science."),
               bonus);
         }
       } else {
@@ -256,8 +256,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.science_acc -= bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science."),
               -bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_YES) {
@@ -267,8 +267,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.science_acc -= bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science."),
               -bonus);
         }
       }
@@ -299,8 +299,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.materials += bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials."),
               bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_YES) {
@@ -310,8 +310,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.materials += bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials."),
               bonus);
         }
       } else {
@@ -322,8 +322,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.materials -= bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials."),
               -bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_YES) {
@@ -333,8 +333,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.materials -= bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials."),
               -bonus);
         }
       }
@@ -372,8 +372,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.gold += bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold."),
               bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_NO) {
@@ -383,8 +383,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.gold += bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d gold."),
               bonus);
         }
       } else {
@@ -395,8 +395,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.gold -= bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold."),
               -bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_NO) {
@@ -406,8 +406,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.gold -= bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_GOLD, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d gold.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d gold."),
               -bonus);
         }
       }
@@ -440,8 +440,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.science_acc += bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science."),
               bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_NO) {
@@ -451,8 +451,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.science_acc += bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d science."),
               bonus);
         }
       } else {
@@ -463,8 +463,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.science_acc -= bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science."),
               -bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_NO) {
@@ -474,8 +474,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.science_acc -= bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_SCIENCE, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d science.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d science."),
               -bonus);
         }
       }
@@ -508,8 +508,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.materials += bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials."),
               bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_NO) {
@@ -519,8 +519,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.materials += bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was accurate. You have received a bonus of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was accurate. You have received a bonus of %d materials."),
               bonus);
         }
       } else {
@@ -531,8 +531,8 @@ void finish_audit(struct government_audit_info* info)
           pjury1->economic.materials -= bonus;
           notify_player(
               pjury1, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials."),
               -bonus);
         }
         if (info->jury_2_vote == AUDIT_VOTE_NO) {
@@ -542,8 +542,8 @@ void finish_audit(struct government_audit_info* info)
           pjury2->economic.materials -= bonus;
           notify_player(
               pjury2, nullptr, E_MY_SPY_STEAL_MATERIALS, ftc_server,
-              "The government's internal audit found that your recent "
-              "decision was wrong. You have been fined the sum of %d materials.",
+              _("The government's internal audit found that your recent "
+              "decision was wrong. You have been fined the sum of %d materials."),
               -bonus);
         }
       }
@@ -556,7 +556,7 @@ void finish_audit(struct government_audit_info* info)
     // Nothing happens
     news->news =
         QString(
-            _("The jury could not reach a veredict regarding %1 vs %2, and therefore"
+            _("The jury could not reach a veredict regarding %1 vs %2, and therefore "
               "the accusation was dropped."))
             .arg(paccuser->name)
             .arg(paccused->name);

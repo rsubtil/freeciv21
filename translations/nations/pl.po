@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv S3_0 (nations)\n"
 "Report-Msgid-Bugs-To: translations@longturn.net\n"
-"POT-Creation-Date: 2022-02-12 20:49+0100\n"
+"POT-Creation-Date: 2023-09-04 22:54+0100\n"
 "PO-Revision-Date: 2020-02-10 17:55+0100\n"
 "Last-Translator: Hubert Kowalewski <hubkow@users.sourceforge.net>\n"
 "Language-Team: polski <hubkow@users.sourceforge.net>\n"
@@ -370,7 +370,8 @@ msgstr "Sułtan %s"
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/siberian.ruleset:24 data/nation/texan.ruleset:37
+#: data/nation/texan.ruleset:38 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
 #, c-format
 msgid "Governor %s"
@@ -381,7 +382,8 @@ msgstr "Gubernator %s"
 #: data/nation/filipino.ruleset:23 data/nation/greenlander.ruleset:27
 #: data/nation/kuna.ruleset:23 data/nation/miskito.ruleset:35
 #: data/nation/puertorican.ruleset:30 data/nation/quebecois.ruleset:22
-#: data/nation/siberian.ruleset:24 data/nation/vermont.ruleset:26
+#: data/nation/siberian.ruleset:24 data/nation/texan.ruleset:37
+#: data/nation/texan.ruleset:38 data/nation/vermont.ruleset:26
 #: data/nation/westindian.ruleset:25
 #, c-format
 msgid "?female:Governor %s"
@@ -2516,7 +2518,7 @@ msgstr "?female:Generał %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "Reverend %s"
 msgstr "Wielebny %s"
@@ -2525,7 +2527,7 @@ msgstr "Wielebny %s"
 #: data/nation/guatemalan.ruleset:33 data/nation/guyanese.ruleset:26
 #: data/nation/liberian.ruleset:31 data/nation/miskito.ruleset:34
 #: data/nation/moluccan.ruleset:31 data/nation/surinamese.ruleset:29
-#: data/nation/texan.ruleset:29 data/nation/vermont.ruleset:27
+#: data/nation/vermont.ruleset:27
 #, c-format
 msgid "?female:Reverend %s"
 msgstr "?female:Wielebna %s"
@@ -3130,13 +3132,13 @@ msgstr ""
 "się w globalną stolicę rozrywki i technologii (znajdują się tu Hollywood i "
 "Dolina Krzemowa)."
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:39
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "Sheriff %s"
 msgstr "Szeryf %s"
 
-#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:28
+#: data/nation/californian.ruleset:34 data/nation/texan.ruleset:39
 #: data/nation/vermont.ruleset:25
 #, c-format
 msgid "?female:Sheriff %s"
@@ -12264,12 +12266,17 @@ msgid "?plural:Texans"
 msgstr "?plural:Teksańczycy"
 
 #: data/nation/texan.ruleset:6
+#, fuzzy
 msgid ""
 "Texas, \"the Lone Star State\" is the second largest and second most "
 "populous state of the USA, famous for its \"larger than life\" cowboy "
-"mentality. During its history, Texas has been ruled in full or in part by "
-"six countries: France, Spain, Mexico, the Texas Republic, the Confederacy "
-"and the USA - as expressed in the slogan \"six flags over Texas\"."
+"culture and Spanish heritage. After the famous Battle of the Alamo de Bexar, "
+"The \"Texians\" defeated the Mexicans at San Jacinto and declared "
+"independence. The Republic of Texas lasted from 1836 to 1846, after which it "
+"became the 28th state of the United States. Historically, Texas was ruled in "
+"full or in part by six nations: France, Spain, Mexico, the Republic of "
+"Texas, the Confederacy, and the USA, as expressed in the slogan \"six flags "
+"over Texas\"."
 msgstr ""
 "Teksas, zwany też \"Stanem Samotnej Gwiazdy\", jest drugim największym i "
 "najludniejszym stanem USA, znanym z \"kowbojskiej\" mentalności mieszkańców. "
@@ -12277,6 +12284,26 @@ msgstr ""
 "Francję, Hiszpanię, Meksyk, Republikę Teksańską, Skonfederowane Stany "
 "Ameryki oraz USA. Ślad tej burzliwej historii zachował się w powiedzeniu "
 "\"sześć flag nad Teksasem\"."
+
+#: data/nation/texan.ruleset:36
+#, c-format
+msgid "President %s"
+msgstr "Prezydent %s"
+
+#: data/nation/texan.ruleset:36
+#, c-format
+msgid "?female:President %s"
+msgstr "?female:Prezydent %s"
+
+#: data/nation/texan.ruleset:40
+#, fuzzy, c-format
+msgid "Preacher %s"
+msgstr "Premier %s"
+
+#: data/nation/texan.ruleset:40
+#, fuzzy, c-format
+msgid "?female:Preacher %s"
+msgstr "?female:Premier %s"
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
@@ -14352,12 +14379,6 @@ msgstr ""
 #~ msgid "?female:Shaykha %s"
 #~ msgstr "?female:Szamanka  %s"
 
-#~ msgid "President %s"
-#~ msgstr "Prezydent %s"
-
-#~ msgid "?female:President %s"
-#~ msgstr "?female:Prezydent %s"
-
 #~ msgid "?nationgroup:Ancient"
 #~ msgstr "?nationgroup:Starożytne"
 
@@ -14489,9 +14510,6 @@ msgstr ""
 #~ "Francja jest od dawna znaczącą siłą w Europie. Francuscy zdobywcy, tacy "
 #~ "jak Karol Wielki i Napoleon Bonaparte, jednoczyli ogromne połacie "
 #~ "kontynentu pod francuską flagą."
-
-#~ msgid "?female:Premier %s"
-#~ msgstr "?female:Premier %s"
 
 #~ msgid "German"
 #~ msgstr "Niemiecki"
