@@ -1119,10 +1119,10 @@ void choose_tech_goal(struct research *presearch, Tech_type_id tech)
   /* It's been suggested that if the research target is empty then
    * choose_random_tech() should be called here. */
   presearch->tech_goal = tech;
-  notify_research(
-      presearch, nullptr, E_TECH_GOAL, ftc_server,
-      _("Technology goal is %s."),
-      qUtf8Printable(research_advance_name_translation(presearch, tech)));
+  //notify_research(
+  //    presearch, nullptr, E_TECH_GOAL, ftc_server,
+  //    _("Technology goal is %s."),
+  //    qUtf8Printable(research_advance_name_translation(presearch, tech)));
 }
 
 /**

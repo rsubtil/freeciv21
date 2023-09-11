@@ -4910,16 +4910,16 @@ bool execute_orders(struct unit *punit, const bool fresh)
         return true;
       }
 
-      if (order.order != ORDER_ACTION_MOVE
-          && maybe_cancel_goto_due_to_enemy(punit, dst_tile)) {
-        // Plain move required: no attack, trade route etc.
-        cancel_orders(punit, "  orders canceled because of enemy");
-        notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
-                      _("Orders for %s aborted as there "
-                        "are units in the way."),
-                      unit_link(punit));
-        return true;
-      }
+      //if (order.order != ORDER_ACTION_MOVE
+      //    && maybe_cancel_goto_due_to_enemy(punit, dst_tile)) {
+      //  // Plain move required: no attack, trade route etc.
+      //  cancel_orders(punit, "  orders canceled because of enemy");
+      //  notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
+      //                _("Orders for %s aborted as there "
+      //                  "are units in the way."),
+      //                unit_link(punit));
+      //  return true;
+      //}
 
       log_debug("  moving to %d,%d", TILE_XY(dst_tile));
       if (punit->move_subdivisions > 1) {

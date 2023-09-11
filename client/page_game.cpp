@@ -158,7 +158,7 @@ pageGame::pageGame(QWidget *parent)
 
           // change icon to default if icon is notify
           const auto sw_message = queen()->sw_message;
-          if (sw_message) {
+          if (checked && sw_message) {
             queen()->sw_message->setIcon(
                 fcIcons::instance()->getIcon(QStringLiteral("messages")));
           }
@@ -169,7 +169,7 @@ pageGame::pageGame(QWidget *parent)
   connect(
       message, &message_widget::add_msg, +[] {
         const auto message = queen()->message;
-        if (message && !message->isVisible()) {
+        if (message) {
           queen()->sw_message->setIcon(
               fcIcons::instance()->getIcon(QStringLiteral("notify")));
         }
@@ -262,8 +262,8 @@ void pageGame::reloadSidebarIcons()
       fcIcons::instance()->getIcon(QStringLiteral("research")));
   sw_economy->setIcon(
       fcIcons::instance()->getIcon(QStringLiteral("economy")));
-  sw_message->setIcon(
-      fcIcons::instance()->getIcon(QStringLiteral("messages")));
+  //sw_message->setIcon(
+  //    fcIcons::instance()->getIcon(QStringLiteral("messages")));
 }
 
 /**

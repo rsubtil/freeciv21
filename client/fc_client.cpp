@@ -236,9 +236,10 @@ void fc_client::switch_page(int new_pg)
     queen()->chat->set_chat_visible(qt_settings.show_chat);
     queen()->mapview_wdg->setFocus();
     queen()->sw_message->setChecked(qt_settings.show_messages);
-    queen()->sw_message->setIcon(
-        fcIcons::instance()->getIcon(QStringLiteral("messages")));
-    //queen()->message->clr();
+    if(queen()->sw_message->isChecked()) {
+      queen()->sw_message->setIcon(
+          fcIcons::instance()->getIcon(QStringLiteral("messages")));
+    }
     center_on_something();
     voteinfo_gui_update();
     update_info_label();
@@ -326,6 +327,7 @@ void fc_client::slot_disconnect()
     disconnect_from_server();
   }
   switch_page(PAGE_MAIN);
+  queen()->message->clr();
 }
 
 /**

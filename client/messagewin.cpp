@@ -155,7 +155,9 @@ void message_widget::msg(const struct message *pmsg)
   if (icon != nullptr) {
     item->setIcon(QIcon(*icon));
   }
-  emit add_msg();
+  if(pmsg->timestamp > king()->qt_settings.server_timestamp) {
+    emit add_msg();
+  }
 }
 
 /**

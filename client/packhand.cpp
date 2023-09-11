@@ -87,6 +87,7 @@
 #include "editor.h"
 #include "goto.h" // client_goto_init()
 #include "governor.h"
+#include "messagewin.h"
 #include "messagewin_common.h"
 #include "music.h"
 #include "options.h"

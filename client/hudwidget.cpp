@@ -746,7 +746,6 @@ void hud_units::update_actions()
   QPainter p;
   QPixmap pix, pix2;
   QRect crop, bounding_rect;
-  QString mp;
   QString snum;
   QString fraction1, fraction2;
   QString text_str, move_pt_text;
@@ -806,18 +805,30 @@ void hud_units::update_actions()
                      .arg(city_name_get(pcity));
     }
   }
-  text_str = text_str + " ";
-  mp = QString(move_points_text(punit->moves_left, false));
-  if (utype_fuel(unit_type_get(punit))) {
-    // TRANS: T for turns
-    mp += " " + QString(_("(%1T)")).arg(punit->fuel - 1);
+  if (punit->activity != ACTIVITY_IDLE) {
+    if (punit->activity == ACTIVITY_GOTO)
+      text_str = text_str + " Moving...";
+    else {
+      text_str = text_str + " Remaining time to complete: ";
+      int left = (tile_activity_time(punit->activity, punit->tile,
+                                     punit->activity_target)
+                  - punit->activity_count)
+                 / ACTIVITY_FACTOR;
+      text_str += QString::number(left) + " turns";
+    }
   }
-  // TRANS: MP = Movement points
-  mp = QString(_("MP: ")) + mp;
-  text_str = text_str + mp + " ";
-  text_str += QString(_("HP:%1/%2"))
-                  .arg(QString::number(punit->hp),
-                       QString::number(unit_type_get(punit)->hp));
+  // text_str = text_str + " ";
+  // mp = QString(move_points_text(punit->moves_left, false));
+  // if (utype_fuel(unit_type_get(punit))) {
+  //   // TRANS: T for turns
+  //   mp += " " + QString(_("(%1T)")).arg(punit->fuel - 1);
+  // }
+  //// TRANS: MP = Movement points
+  // mp = QString(_("MP: ")) + mp;
+  // text_str = text_str + mp + " ";
+  // text_str += QString(_("HP:%1/%2"))
+  //                 .arg(QString::number(punit->hp),
+  //                      QString::number(unit_type_get(punit)->hp));
   num = unit_list_size(punit->tile->units);
   snum = QString::number(unit_list_size(punit->tile->units) - 1);
   if (const auto n = get_units_in_focus().size(); n > 1) {
