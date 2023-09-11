@@ -1261,7 +1261,7 @@ static void sg_load_savefile(struct loaddata *loading)
 
   ruleset_datafile = game.scenario.datafile[0] == '\0';
 
-  if (!game.scenario.is_scenario || game.scenario.ruleset_locked) {
+  if (false && (!game.scenario.is_scenario || game.scenario.ruleset_locked)) {
     const char *ruleset, *alt_dir;
 
     ruleset = secfile_lookup_str_default(

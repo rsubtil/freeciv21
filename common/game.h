@@ -645,7 +645,7 @@ extern struct world wld;
 
 #define GAME_DEFAULT_AUTOATTACK false
 
-#define GAME_DEFAULT_RULESETDIR "classic"
+#define GAME_DEFAULT_RULESETDIR "default"
 #define GAME_DEFAULT_SAVE_NAME "freeciv"
 #define GAME_DEFAULT_SAVETURNS 1
 #define GAME_MIN_SAVETURNS 1

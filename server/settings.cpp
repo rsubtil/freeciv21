@@ -3197,7 +3197,6 @@ static bool setting_is_free_to_change(const struct setting *pset,
   case SSET_MAP_ADD:
   case SSET_PLAYERS:
   case SSET_GAME_INIT:
-  case SSET_RULES:
     /* Only change start params and most rules if we don't yet have a map, or
      * if we do have a map but its a scenario one (ie, the game has never
      * actually been started).
@@ -3212,6 +3211,7 @@ static bool setting_is_free_to_change(const struct setting *pset,
         setting_name(pset));
     return false;
 
+  case SSET_RULES:
   case SSET_RULES_FLEXIBLE:
   case SSET_META:
     // These can always be changed:

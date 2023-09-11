@@ -4369,12 +4369,12 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
                 "see what is the current ruleset."));
     return false;
   }
-  if (game_was_started() || !map_is_empty()) {
+  /*if (game_was_started() || !map_is_empty()) {
     cmd_reply(
         CMD_RULESETDIR, caller, C_FAIL,
         _("This setting can't be modified after the game has started."));
     return false;
-  }
+  }*/
 
   if (strcmp(str, game.server.rulesetdir) == 0) {
     cmd_reply(CMD_RULESETDIR, caller, C_COMMENT,
