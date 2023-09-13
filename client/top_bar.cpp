@@ -400,6 +400,12 @@ void top_bar_left_click_gov()
   if (!queen()->isRepoDlgOpen(QStringLiteral("GOV"))) {
     government_report::instance()->init(true);
   } else {
+    int i = queen()->gimmeIndexOf(QStringLiteral("GOV"));
+    QWidget *w = queen()->game_tab_widget->widget(i);
+    if (w->isVisible()) {
+      top_bar_show_map();
+      return;
+    }
     queen()->game_tab_widget->setCurrentWidget(government_report::instance());
   }
 }
@@ -409,6 +415,12 @@ void top_bar_left_click_sabotages()
   if (!queen()->isRepoDlgOpen(QStringLiteral("SAB"))) {
     sabotages_report::instance()->init(true);
   } else {
+    int i = queen()->gimmeIndexOf(QStringLiteral("SAB"));
+    QWidget *w = queen()->game_tab_widget->widget(i);
+    if (w->isVisible()) {
+      top_bar_show_map();
+      return;
+    }
     queen()->game_tab_widget->setCurrentWidget(sabotages_report::instance());
   }
 }
