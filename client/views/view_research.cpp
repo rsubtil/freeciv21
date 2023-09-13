@@ -401,6 +401,9 @@ void real_science_report_dialog_update(void *unused)
 
   if (nullptr != client.conn.playing) {
     struct research *research = research_get(client_player());
+    str = QString(_("%1 (+%2)"))
+              .arg(client_player()->economic.science_acc)
+              .arg(get_bulbs_per_turn(nullptr, nullptr, nullptr));
     if (research->researching == A_UNSET) {
       str = QString(_("%1 (+%2)"))
                 .arg(client_player()->economic.science_acc)
@@ -428,8 +431,6 @@ void real_science_report_dialog_update(void *unused)
                    .arg(per_turn);
       }
     }
-  } else {
-    str = QStringLiteral(" ");
   }
 
   if (blk) {
