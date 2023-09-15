@@ -900,7 +900,7 @@ void handle_gamemode_change()
     case GM_ACTIVE:
       break;
     case GM_PASSIVE: {
-      // Forcibly set all city production to nothing
+      // Forcibly set city production to nothing if producing units
       improvement_iterate(pimprove)
       {
         if (improvement_has_flag(pimprove, IF_NOTHING)) {
@@ -908,8 +908,10 @@ void handle_gamemode_change()
           {
             city_list_iterate(pplayer->cities, pcity)
             {
-              pcity->production.kind = VUT_IMPROVEMENT;
-              pcity->production.value.building = pimprove;
+              if (pcity->production.kind == VUT_UTYPE) {
+                pcity->production.kind = VUT_IMPROVEMENT;
+                pcity->production.value.building = pimprove;
+              }
             }
             city_list_iterate_end;
             // Since we're iterating players already, reset it's sabotage counter
