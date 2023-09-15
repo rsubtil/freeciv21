@@ -1411,10 +1411,14 @@ void bounce_unit(struct unit *punit, bool verbose, bounce_reason reason,
     return;
   }
 
+  // Screw bouncing
+  return;
+
   // Don't bounce spies
   if (utype_has_flag(unit_type_get(punit), UTYF_SPY)) {
     return;
   }
+
 
   const auto pplayer = unit_owner(punit);
   const auto punit_tile = unit_tile(punit);
